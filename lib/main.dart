@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'routes/app_router.gr.dart';
+
 import 'helper/utils/custom_theme.dart';
-import 'routes/router.gr.dart';
 
 void main() {
   runApp(MyApp());
