@@ -1,8 +1,7 @@
-import 'package:ez_ticketz_app/helper/utils/custom_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'helper/utils/custom_theme.dart';
 import 'routes/router.gr.dart';
-import 'package:auto_route/auto_route.dart';
 
 void main() {
   runApp(MyApp());
