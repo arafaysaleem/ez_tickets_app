@@ -6,37 +6,48 @@
 
 import 'package:auto_route/auto_route.dart' as _i1;
 
-import '../views/screens/auth_screen.dart' as _i3;
-import '../views/screens/welcome_screen.dart' as _i2;
+import '../views/screens/home_screen.dart' as _i2;
+import '../views/screens/login_screen.dart' as _i4;
+import '../views/screens/register_screen.dart' as _i3;
 
-class Router extends _i1.RootStackRouter {
-  Router();
+class AppRouter extends _i1.RootStackRouter {
+  AppRouter();
 
   @override
   final Map<String, _i1.PageFactory> pagesMap = {
-    WelcomeScreenRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i2.WelcomeScreen());
+    HomeScreenRoute.name: (entry) {
+      return _i1.MaterialPageX(entry: entry, child: _i2.HomeScreen());
     },
-    AuthScreenRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i3.AuthScreen());
+    RegisterScreenRoute.name: (entry) {
+      return _i1.MaterialPageX(entry: entry, child: _i3.RegisterScreen());
+    },
+    LoginScreenRoute.name: (entry) {
+      return _i1.MaterialPageX(entry: entry, child: _i4.LoginScreen());
     }
   };
 
   @override
   List<_i1.RouteConfig> get routes => [
-        _i1.RouteConfig(WelcomeScreenRoute.name, path: '/'),
-        _i1.RouteConfig(AuthScreenRoute.name, path: '/auth-screen')
+        _i1.RouteConfig(HomeScreenRoute.name, path: '/'),
+        _i1.RouteConfig(RegisterScreenRoute.name, path: '/register-screen'),
+        _i1.RouteConfig(LoginScreenRoute.name, path: '/login-screen')
       ];
 }
 
-class WelcomeScreenRoute extends _i1.PageRouteInfo {
-  const WelcomeScreenRoute() : super(name, path: '/');
+class HomeScreenRoute extends _i1.PageRouteInfo {
+  const HomeScreenRoute() : super(name, path: '/');
 
-  static const String name = 'WelcomeScreenRoute';
+  static const String name = 'HomeScreenRoute';
 }
 
-class AuthScreenRoute extends _i1.PageRouteInfo {
-  const AuthScreenRoute() : super(name, path: '/auth-screen');
+class RegisterScreenRoute extends _i1.PageRouteInfo {
+  const RegisterScreenRoute() : super(name, path: '/register-screen');
 
-  static const String name = 'AuthScreenRoute';
+  static const String name = 'RegisterScreenRoute';
+}
+
+class LoginScreenRoute extends _i1.PageRouteInfo {
+  const LoginScreenRoute() : super(name, path: '/login-screen');
+
+  static const String name = 'LoginScreenRoute';
 }

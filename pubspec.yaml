@@ -10,10 +10,11 @@ dependencies:
     sdk: flutter
   auto_route: ^1.0.2
   cupertino_icons: ^1.0.2
-  riverpod: ^0.13.1
   time: ^2.0.0
   cached_network_image: ^2.5.1
   google_fonts: ^2.0.0
+  flutter_hooks: ^0.16.0
+  hooks_riverpod: ^0.13.1+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
