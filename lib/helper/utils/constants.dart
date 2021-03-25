@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Constants {
-  static Color get primaryColor => Color(0xFFf02c00);
+  static Color get primaryColor => Color(0xFFf03400);
 
-  static Color get secondaryColor => Color(0xFFed1d04);
+  static Color get secondaryColor => Color(0xFFed0000);
 
   static Color get tertiaryColor => Color(0xFFf76540);
+
+  static Gradient get buttonGradient =>
+      LinearGradient(colors: [primaryColor, secondaryColor]);
 
   static Color get buttonGreyColor => Color(0xFF1c1c1c);
 
@@ -21,4 +24,6 @@ class Constants {
 
   static TextStyle get poppinsFont =>
       GoogleFonts.poppins().copyWith(color: Colors.white);
+
+  static TextStyle get robotoFont => GoogleFonts.roboto();
 }

@@ -7,44 +7,53 @@ class CustomTheme {
     return ThemeData(
       primaryColor: Constants.primaryColor,
       scaffoldBackgroundColor: Constants.scaffoldColor,
-      fontFamily: Constants.latoFont.fontFamily,
+      fontFamily: Constants.poppinsFont.fontFamily,
       textTheme: TextTheme(
-        headline1: Constants.latoFont.copyWith(
+        headline1: Constants.poppinsFont.copyWith(
           fontWeight: FontWeight.bold,
-          fontSize: 30,
+          fontSize: 50,
+          height: 1.15,
         ),
         headline2: Constants.latoFont.copyWith(
-          fontWeight: FontWeight.w600,
-          fontSize: 26,
+          fontWeight: FontWeight.bold,
+          fontSize: 50,
+          height: 1.15,
         ),
-        headline3: Constants.latoFont.copyWith(
+        headline3: Constants.poppinsFont.copyWith(
           fontWeight: FontWeight.w500,
-          fontSize: 22,
+          fontSize: 26,
+          height: 1.15,
         ),
         headline4: Constants.latoFont.copyWith(
-          fontWeight: FontWeight.w400,
-          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          fontSize: 26,
+          height: 1.15,
         ),
-        headline5: Constants.latoFont.copyWith(
-          fontWeight: FontWeight.w400,
-          fontSize: 15,
+        headline5: Constants.poppinsFont.copyWith(
+          fontWeight: FontWeight.w300,
+          fontSize: 20,
+          height: 1.15,
         ),
         headline6: Constants.latoFont.copyWith(
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w300,
+          fontSize: 20,
+          height: 1.15,
+        ),
+        subtitle1: Constants.poppinsFont.copyWith(
+          fontWeight: FontWeight.w200,
+        ),
+        subtitle2: Constants.latoFont.copyWith(
+          fontWeight: FontWeight.w200,
         ),
         bodyText1: Constants.poppinsFont.copyWith(
           fontWeight: FontWeight.w400,
-          fontSize: 15,
         ),
-        bodyText2: Constants.poppinsFont.copyWith(
-          fontWeight: FontWeight.w300,
+        bodyText2: Constants.latoFont.copyWith(
+          fontWeight: FontWeight.w400,
         ),
       ),
-      buttonTheme: ButtonThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        buttonColor: Constants.buttonGreyColor,
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(padding: const EdgeInsets.all(0))
       ),
     );
   }
