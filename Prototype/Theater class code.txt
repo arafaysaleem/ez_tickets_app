@@ -1,0 +1,83 @@
+void main() {
+  Map<String,Hall> halls = {};
+  final jsonA = {
+    "num_rows": 3,
+    "num_cols": 4,
+    "name":"A",
+    "missing_seats": <String,List<int>>{
+      "A": [1, 2],
+      "B": [],
+      "C": [0,3],
+    }
+  };
+  halls["A"]=Hall.fromJson(jsonA);
+  halls["A"]?.printHall();
+  print("");
+  final List<String> bookedSeats = ["A0","B0","B1","B2","B3","C2"];
+  halls["A"]?.forShow(bookedSeats).printHall();
+}
+
+class Hall {
+  final numRows;
+  final numCols;
+  final name;
+  final Map<String, List<Seat>> seats;
+
+  Hall({
+    required this.numRows,
+    required this.numCols,
+    required this.seats,
+    required this.name,
+  });
+
+  factory Hall.fromJson(Map<String, dynamic> json) {
+    return Hall(
+      numRows: json["num_rows"] as int,
+      numCols: json["num_cols"] as int,
+      name: json["name"],
+      seats: parseMissingSeats(json["num_cols"],json["missing_seats"]),
+    );
+  }
+
+  Hall forShow(List<String> booked) {
+    return this.copyWith(seats: parseBookedSeats(booked));
+  }
+
+  Hall copyWith({numRows, numCols, seats, name}) {
+    return Hall(
+      numRows: numRows ?? this.numRows,
+      numCols: numCols ?? this.numCols,
+      name: name ?? this.name,
+      seats: seats ?? this.seats,
+    );
+  }
+
+  static parseMissingSeats(numSeats,customSeats) {
+    Map<String, List<Seat>> arrangedSeats = {};
+    for (String row in customSeats.keys) {
+      List<Seat> rowSeats = List.filled(numSeats, Seat.AVAILABLE);
+      customSeats[row].forEach((i)=>rowSeats[i]=Seat.MISSING);
+      arrangedSeats[row] = rowSeats;
+    }
+    return arrangedSeats;
+  }
+
+  Map<String, List<Seat>> parseBookedSeats(List<String> booked) {
+    final bookedSeats = Map.fromEntries(this.seats.entries);
+    for (String seat in booked) {
+      String row = seat[0];
+      int seatNumber = int.tryParse(seat[1])!;
+      bookedSeats[row]?[seatNumber] = Seat.TAKEN;
+    }
+    return bookedSeats;
+  }
+  
+  printHall(){
+    print("Hall$name");
+    for(var r in seats.keys){
+      print("$r: ${seats[r]}");
+    }
+  }
+}
+
+enum Seat { MISSING, TAKEN, AVAILABLE, SELECTED }
