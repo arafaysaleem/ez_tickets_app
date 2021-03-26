@@ -9,6 +9,7 @@ import '../views/screens/home_screen.dart';
       AutoRoute(page: HomeScreen, initial: true),
       AutoRoute(page: RegisterScreen),
       AutoRoute(page: LoginScreen),
-    ]
+    ],
+    generateNavigationHelperExtension: true
 )
 class $AppRouter{}
