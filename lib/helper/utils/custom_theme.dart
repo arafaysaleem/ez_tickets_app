@@ -20,7 +20,7 @@ class CustomTheme {
           height: 1.15,
         ),
         headline3: Constants.poppinsFont.copyWith(
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w400,
           fontSize: 26,
           height: 1.15,
         ),

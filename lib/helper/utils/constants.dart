@@ -4,12 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 class Constants {
   static Color get primaryColor => Color(0xFFf03400);
 
-  static Color get secondaryColor => Color(0xFFed0000);
+  static Color get redColor => Color(0xFFed0000);
 
-  static Color get tertiaryColor => Color(0xFFf76540);
+  static Color get orangeColor => Color(0xFFf04f00);
 
-  static Gradient get buttonGradient =>
-      LinearGradient(colors: [primaryColor, secondaryColor]);
+  static Color get starsColor => Color(0xFFf76540);
+
+  static Gradient get buttonGradientRed =>
+      LinearGradient(colors: [primaryColor, redColor]);
+
+  static Gradient get buttonGradientOrange =>
+      LinearGradient(colors: [orangeColor, redColor]);
 
   static Color get buttonGreyColor => Color(0xFF1c1c1c);
 
@@ -19,11 +24,13 @@ class Constants {
 
   static Color get textGreyColor => Color(0xFF949494);
 
+  static Color get textWhite80Color => Color(0xFFf2f2f2);
+
   static TextStyle get latoFont =>
       GoogleFonts.lato().copyWith(color: Colors.black);
 
   static TextStyle get poppinsFont =>
-      GoogleFonts.poppins().copyWith(color: Colors.white);
+      GoogleFonts.poppins().copyWith(color: textWhite80Color);
 
   static TextStyle get robotoFont => GoogleFonts.roboto();
 }
