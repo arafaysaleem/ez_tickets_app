@@ -113,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 20,
                 40,
                 20,
-                Constants.bottomInsets(context),
+                Constants.bottomInsets,
               ),
               child: AnimatedSwitcher(
                 duration: Constants.defaultAnimationDuration,

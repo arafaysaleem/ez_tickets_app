@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                 20,
                 40,
                 20,
-                Constants.bottomInsets(context),
+                Constants.bottomInsets,
               ),
               child: CustomTextButton.gradient(
                 width: double.infinity,

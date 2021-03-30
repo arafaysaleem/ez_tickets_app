@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
           20,
           125,
           20,
-          Constants.bottomInsets(context),
+          Constants.bottomInsets,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
