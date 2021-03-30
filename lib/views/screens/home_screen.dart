@@ -15,7 +15,12 @@ class HomeScreen extends StatelessWidget {
     final textTheme = theme.textTheme;
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.fromLTRB(20, 125, 20, 65),
+        padding: EdgeInsets.fromLTRB(
+          20,
+          125,
+          20,
+          Constants.bottomInsets(context),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

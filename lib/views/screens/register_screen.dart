@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../helper/utils/constants.dart';
-
 import '../widgets/custom_text_button.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/rounded_bottom_container.dart';
@@ -16,7 +15,7 @@ class RegisterScreen extends StatefulHookWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isState1 = true;
 
-  List<Widget> getState1Fields(){
+  List<Widget> getState1Fields() {
     return [
       //Full name
       const CustomTextField(
@@ -58,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ];
   }
 
-  List<Widget> getState2Fields(){
+  List<Widget> getState2Fields() {
     return [
       //Password
       const CustomTextField(
@@ -103,18 +102,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 20),
 
-                if(isState1) ...getState1Fields()
-                else ...getState2Fields(),
+                if (isState1) ...getState1Fields() else ...getState2Fields(),
               ],
             ),
 
             const Spacer(),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 40, 20, 65),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                40,
+                20,
+                Constants.bottomInsets(context),
+              ),
               child: AnimatedSwitcher(
                 duration: Constants.defaultAnimationDuration,
-                switchOutCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeInBack,
                 child: isState1
 
                     //Next Button

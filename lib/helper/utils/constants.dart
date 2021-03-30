@@ -35,4 +35,7 @@ class Constants {
   static TextStyle get robotoFont => GoogleFonts.roboto();
 
   static Duration get defaultAnimationDuration => Duration(milliseconds: 550);
+
+  static double bottomInsets(BuildContext context) =>
+      MediaQuery.of(context).viewInsets.bottom - 10;
 }

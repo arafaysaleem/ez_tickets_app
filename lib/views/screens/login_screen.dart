@@ -54,7 +54,12 @@ class LoginScreen extends StatelessWidget {
             const Spacer(),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 40, 20, 65),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                40,
+                20,
+                Constants.bottomInsets(context),
+              ),
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () {},
