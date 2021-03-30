@@ -12,10 +12,6 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent
-  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +25,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'EZ Tickets',
       theme: CustomTheme.mainTheme,
-      builder: (_, router) => router!,
     );
   }
 }
