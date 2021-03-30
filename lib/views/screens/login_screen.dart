@@ -13,7 +13,6 @@ class LoginScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: ScrollableColumn(
@@ -55,7 +54,7 @@ class LoginScreen extends StatelessWidget {
             const Spacer(),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 40, 20, 80),
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 65),
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () {},
