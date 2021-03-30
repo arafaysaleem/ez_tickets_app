@@ -13,9 +13,8 @@ class RoundedBottomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final padding = 25.0;
-    return AnimatedContainer(
+    return Container(
       width: double.infinity,
-      duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         color: Constants.scaffoldGreyColor,
         borderRadius: BorderRadius.only(

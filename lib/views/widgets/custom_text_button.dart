@@ -5,6 +5,7 @@ class CustomTextButton extends StatelessWidget {
   final double? width;
   final VoidCallback onPressed;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
   final Border? border;
   final Gradient? gradient;
   final double borderRadius;
@@ -18,6 +19,7 @@ class CustomTextButton extends StatelessWidget {
     this.gradient,
     this.border,
     this.color,
+    this.padding,
     required this.child,
     required this.onPressed,
   })   : borderRadius = borderRadius ?? 7,
@@ -29,6 +31,7 @@ class CustomTextButton extends StatelessWidget {
     double? height,
     double? width,
     double? borderRadius,
+    EdgeInsetsGeometry? padding,
     required Widget child,
     required VoidCallback onPressed,
     required Gradient gradient,
@@ -39,6 +42,7 @@ class CustomTextButton extends StatelessWidget {
     double? height,
     double? width,
     double? borderRadius,
+    EdgeInsetsGeometry? padding,
     required Border border,
     required Widget child,
     required VoidCallback onPressed,
@@ -56,6 +60,7 @@ class CustomTextButton extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
+        padding: padding,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
           border: border,
@@ -74,6 +79,7 @@ class _CustomTextButtonWithGradient extends CustomTextButton {
     double? height,
     double? width,
     double? borderRadius,
+    EdgeInsetsGeometry? padding,
     required Widget child,
     required VoidCallback onPressed,
     required Gradient gradient,
@@ -81,6 +87,7 @@ class _CustomTextButtonWithGradient extends CustomTextButton {
           key: key,
           height: height,
           width: width,
+          padding: padding,
           borderRadius: borderRadius,
           child: child,
           onPressed: onPressed,
@@ -94,6 +101,7 @@ class _CustomTextButtonOutlined extends CustomTextButton {
     double? height,
     double? width,
     double? borderRadius,
+    EdgeInsetsGeometry? padding,
     required Border border,
     required Widget child,
     required VoidCallback onPressed,
@@ -101,6 +109,7 @@ class _CustomTextButtonOutlined extends CustomTextButton {
           key: key,
           height: height,
           width: width,
+          padding: padding,
           borderRadius: borderRadius,
           border: border,
           child: child,

@@ -33,4 +33,6 @@ class Constants {
       GoogleFonts.poppins().copyWith(color: textWhite80Color);
 
   static TextStyle get robotoFont => GoogleFonts.roboto();
+
+  static Duration get defaultAnimationDuration => Duration(milliseconds: 550);
 }

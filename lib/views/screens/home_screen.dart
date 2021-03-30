@@ -95,7 +95,9 @@ class HomeScreen extends StatelessWidget {
             //Register button
             CustomTextButton.outlined(
               width: double.infinity,
-              onPressed: () {},
+              onPressed: () {
+                AutoRouter.of(context).push(RegisterScreenRoute());
+              },
               border: Border.all(color: theme.primaryColor, width: 4),
               child: Center(
                 child: Text(
