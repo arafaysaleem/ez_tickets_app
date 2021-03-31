@@ -8,6 +8,7 @@ import 'package:auto_route/auto_route.dart' as _i1;
 
 import '../views/screens/home_screen.dart' as _i2;
 import '../views/screens/login_screen.dart' as _i4;
+import '../views/screens/movies_screen.dart' as _i5;
 import '../views/screens/register_screen.dart' as _i3;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -23,6 +24,9 @@ class AppRouter extends _i1.RootStackRouter {
     },
     LoginScreenRoute.name: (entry) {
       return _i1.MaterialPageX(entry: entry, child: _i4.LoginScreen());
+    },
+    MoviesScreenRoute.name: (entry) {
+      return _i1.MaterialPageX(entry: entry, child: _i5.MoviesScreen());
     }
   };
 
@@ -30,7 +34,8 @@ class AppRouter extends _i1.RootStackRouter {
   List<_i1.RouteConfig> get routes => [
         _i1.RouteConfig(HomeScreenRoute.name, path: '/'),
         _i1.RouteConfig(RegisterScreenRoute.name, path: '/register-screen'),
-        _i1.RouteConfig(LoginScreenRoute.name, path: '/login-screen')
+        _i1.RouteConfig(LoginScreenRoute.name, path: '/login-screen'),
+        _i1.RouteConfig(MoviesScreenRoute.name, path: '/movies-screen')
       ];
 }
 
@@ -50,4 +55,10 @@ class LoginScreenRoute extends _i1.PageRouteInfo {
   const LoginScreenRoute() : super(name, path: '/login-screen');
 
   static const String name = 'LoginScreenRoute';
+}
+
+class MoviesScreenRoute extends _i1.PageRouteInfo {
+  const MoviesScreenRoute() : super(name, path: '/movies-screen');
+
+  static const String name = 'MoviesScreenRoute';
 }

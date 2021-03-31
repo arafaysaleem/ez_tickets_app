@@ -55,6 +55,7 @@ class CustomTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(padding: const EdgeInsets.all(0))
       ),
+      iconTheme: IconThemeData(color: Colors.white),
     );
   }
 }

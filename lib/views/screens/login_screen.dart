@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 
 import '../../helper/utils/constants.dart';
+
+import '../../routes/app_router.gr.dart';
 
 import '../widgets/scrollable_column.dart';
 import '../widgets/custom_text_button.dart';
@@ -62,7 +65,9 @@ class LoginScreen extends StatelessWidget {
               ),
               child: CustomTextButton.gradient(
                 width: double.infinity,
-                onPressed: () {},
+                onPressed: () {
+                  context.router.push(MoviesScreenRoute());
+                },
                 gradient: Constants.buttonGradientOrange,
                 child: const Center(
                   child: const Text(
