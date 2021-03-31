@@ -8,13 +8,36 @@ class Constants {
 
   static Color get orangeColor => Color(0xFFf04f00);
 
-  static Color get starsColor => Color(0xFFf76540);
+  static Color get starsColor => Color(0xFFf78040);
 
   static Gradient get buttonGradientRed =>
       LinearGradient(colors: [primaryColor, redColor]);
 
   static Gradient get buttonGradientOrange =>
       LinearGradient(colors: [orangeColor, redColor]);
+
+  static Gradient get movieCarouselGradient => LinearGradient(
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
+        stops: const [0.3, 0.6, 1],
+        colors: [
+          Colors.white.withOpacity(0.95),
+          Colors.white70,
+          Colors.transparent,
+        ],
+      );
+
+  static Gradient get blackOverlayGradient => LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: const [0.2,0.5,0.7,1],
+    colors: [
+      Colors.black.withOpacity(0.6),
+      Colors.black.withOpacity(0.45),
+      Colors.black.withOpacity(0.3),
+      Colors.transparent,
+    ],
+  );
 
   static Color get buttonGreyColor => Color(0xFF1c1c1c);
 
