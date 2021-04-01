@@ -90,6 +90,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             //Input card
             RoundedBottomContainer(
+              onBackTap: !isState1
+                  ? () {
+                      setState(() {
+                        isState1 = true;
+                      });
+                    }
+                  : null,
               children: [
                 //Page name
                 Text(

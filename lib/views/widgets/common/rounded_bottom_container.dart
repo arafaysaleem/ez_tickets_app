@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../../../helper/utils/constants.dart';
 
 class RoundedBottomContainer extends StatelessWidget {
   final List<Widget> children;
-  final VoidCallback? onTap;
+  final VoidCallback? onBackTap;
 
-  const RoundedBottomContainer({Key? key, required this.children, this.onTap})
+  const RoundedBottomContainer({Key? key, required this.children, this.onBackTap})
       : super(key: key);
 
   @override
@@ -28,15 +28,15 @@ class RoundedBottomContainer extends StatelessWidget {
         children: [
           //back arrow
           InkWell(
-              child: Padding(
-                padding: EdgeInsets.only(left: padding-5,top: 40),
-                child: Icon(
-                  Icons.arrow_back_sharp,
-                  size: 32,
-                  color: Colors.white,
-                ),
+            child: Padding(
+              padding: EdgeInsets.only(left: padding - 5, top: 40),
+              child: Icon(
+                Icons.arrow_back_sharp,
+                size: 32,
+                color: Colors.white,
               ),
-              onTap: onTap ?? () => context.router.pop(),
+            ),
+            onTap: onBackTap ?? () => context.router.pop(),
           ),
 
           Padding(
