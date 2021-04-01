@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                   child: CustomTextButton.gradient(
                     width: double.infinity,
                     onPressed: () {
-                      AutoRouter.of(context).push(LoginScreenRoute());
+                      context.router.push(const LoginScreenRoute());
                     },
                     gradient: Constants.buttonGradientRed,
                     child: const Center(
@@ -101,7 +101,7 @@ class HomeScreen extends StatelessWidget {
             CustomTextButton.outlined(
               width: double.infinity,
               onPressed: () {
-                AutoRouter.of(context).push(RegisterScreenRoute());
+                context.router.push(const RegisterScreenRoute());
               },
               border: Border.all(color: theme.primaryColor, width: 4),
               child: Center(

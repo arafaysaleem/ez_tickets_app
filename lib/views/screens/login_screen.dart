@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () {
-                  context.router.push(MoviesScreenRoute());
+                  context.router.push(const MoviesScreenRoute());
                 },
                 gradient: Constants.buttonGradientOrange,
                 child: const Center(
