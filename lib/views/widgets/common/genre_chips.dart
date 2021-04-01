@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../helper/utils/constants.dart';
+import '../../../helper/utils/constants.dart';
 
 class GenreChips extends StatelessWidget {
   final List<String> genres;

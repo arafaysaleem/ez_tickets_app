@@ -6,7 +6,7 @@ import '../../helper/utils/assets_helper.dart';
 
 import '../../routes/app_router.gr.dart';
 
-import '../widgets/custom_text_button.dart';
+import '../widgets/common/custom_text_button.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

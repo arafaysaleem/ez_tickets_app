@@ -5,9 +5,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../helper/utils/constants.dart';
 
-import '../widgets/custom_text_button.dart';
-import '../widgets/genre_chips.dart';
-import '../widgets/ratings.dart';
+import '../widgets/common/custom_text_button.dart';
+import '../widgets/common/genre_chips.dart';
+import '../widgets/common/ratings.dart';
+
+import '../../routes/app_router.gr.dart';
 
 final List<Map<String, dynamic>> nowShowing = const [
   {
@@ -248,7 +250,9 @@ class _MovieContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.router.push(const MoviesScreenRoute());
+                },
               )
             ]
           ],

@@ -1,9 +1,10 @@
 import 'package:auto_route/annotations.dart';
-import 'package:ez_ticketz_app/views/screens/movies_screen.dart';
 
+import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen.dart';
 import '../views/screens/register_screen.dart';
-import '../views/screens/home_screen.dart';
+import '../views/screens/movies_screen.dart';
+import '../views/screens/movie_details_screen.dart';
 
 @MaterialAutoRouter(
     routes: <AutoRoute>[
@@ -11,7 +12,7 @@ import '../views/screens/home_screen.dart';
       AutoRoute(page: RegisterScreen),
       AutoRoute(page: LoginScreen),
       AutoRoute(page: MoviesScreen),
+      AutoRoute(page: MovieDetailsScreen),
     ],
-    generateNavigationHelperExtension: true
 )
 class $AppRouter{}

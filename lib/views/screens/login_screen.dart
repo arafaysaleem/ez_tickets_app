@@ -5,10 +5,10 @@ import '../../helper/utils/constants.dart';
 
 import '../../routes/app_router.gr.dart';
 
-import '../widgets/scrollable_column.dart';
-import '../widgets/custom_text_button.dart';
-import '../widgets/rounded_bottom_container.dart';
-import '../widgets/custom_textfield.dart';
+import '../widgets/common/scrollable_column.dart';
+import '../widgets/common/custom_text_button.dart';
+import '../widgets/common/rounded_bottom_container.dart';
+import '../widgets/common/custom_textfield.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
