@@ -7,6 +7,7 @@ class ScrollableColumn extends StatelessWidget {
   final VerticalDirection verticalDirection;
   final TextDirection? textDirection;
   final TextBaseline? textBaseline;
+  final ScrollPhysics? physics;
   final EdgeInsetsGeometry padding;
 
   const ScrollableColumn({
@@ -17,6 +18,7 @@ class ScrollableColumn extends StatelessWidget {
     EdgeInsetsGeometry? padding,
     this.textBaseline,
     this.textDirection,
+    this.physics,
     required this.children,
   })  : crossAxisAlignment = crossAxisAlignment ?? CrossAxisAlignment.center,
         mainAxisAlignment = mainAxisAlignment ?? MainAxisAlignment.start,
@@ -37,6 +39,7 @@ class ScrollableColumn extends StatelessWidget {
             return false;
           },
           child: SingleChildScrollView(
+            physics: physics,
             child: Padding(
               padding: padding,
               child: ConstrainedBox(

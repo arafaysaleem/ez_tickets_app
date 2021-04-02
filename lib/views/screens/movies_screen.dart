@@ -158,7 +158,7 @@ class __MoviesCarouselState extends State<_MoviesCarousel> {
       scrollPhysics: const BouncingScrollPhysics(),
       enableInfiniteScroll: false,
       viewportFraction: 0.62,
-      aspectRatio: 0.69,
+      aspectRatio: 0.68,
       enlargeCenterPage: true,
       enlargeStrategy: CenterPageEnlargeStrategy.height,
       initialPage: _currentIndex,
@@ -207,7 +207,7 @@ class _MovieContainer extends StatelessWidget {
         ),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 45),
+      padding: EdgeInsets.fromLTRB(10, 20, 10, Constants.bottomInsetsLow),
       child: LayoutBuilder(
         builder: (ctx, constraints) => Column(
           children: [
@@ -251,7 +251,7 @@ class _MovieContainer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  context.router.push(const MoviesScreenRoute());
+                  context.router.push(const MovieDetailsScreenRoute());
                 },
               )
             ]

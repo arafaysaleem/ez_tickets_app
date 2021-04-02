@@ -60,4 +60,6 @@ class Constants {
   static Duration get defaultAnimationDuration => Duration(milliseconds: 550);
 
   static double get bottomInsets => 65;
+
+  static double get bottomInsetsLow => 45;
 }
