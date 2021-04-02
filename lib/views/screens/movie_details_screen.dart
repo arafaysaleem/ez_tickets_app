@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ez_ticketz_app/helper/utils/constants.dart';
-import 'package:ez_ticketz_app/views/widgets/common/custom_text_button.dart';
-import 'package:ez_ticketz_app/views/widgets/common/scrollable_column.dart';
 import 'package:flutter/material.dart';
 
+import '../../helper/utils/constants.dart';
+
+import '../widgets/common/custom_text_button.dart';
+import '../widgets/common/scrollable_column.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
 
@@ -297,10 +298,7 @@ class _MovieDetailsSheet extends StatelessWidget {
           child: Text(
             movie["summary"],
             style: textTheme.bodyText2!.copyWith(
-              fontSize: 13,
-              height: 1.4,
-              color: Constants.textGreyColor
-            ),
+                fontSize: 13, height: 1.4, color: Constants.textGreyColor),
           ),
         ),
       ),
