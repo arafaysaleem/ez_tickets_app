@@ -1,119 +1,53 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../skeletons/image_placeholder.dart';
-
 class CustomNetworkImage extends StatelessWidget {
   final String imageUrl;
-
-  final Widget Function(
-    BuildContext context,
-    ImageProvider imageProvider,
-  )? imageBuilder;
-
+  final double? height;
+  final double width;
+  final double borderRadius;
+  final BoxFit? fit;
+  final EdgeInsetsGeometry? margin;
   final Widget Function(
     BuildContext context,
     String url,
   )? placeholder;
-
   final Widget Function(
     BuildContext context,
     String url,
     dynamic error,
   )? errorWidget;
 
-  final double height, width;
-
-  final EdgeInsetsGeometry? padding, margin;
-
-  factory CustomNetworkImage.container({
-    required String imageUrl,
-    required double height,
+  CustomNetworkImage({
     double? width,
-    EdgeInsetsGeometry? padding,
-    EdgeInsetsGeometry? margin,
-    final Widget Function(
-      BuildContext context,
-      String url,
-    )?
-        placeholder,
-    final Widget Function(
-      BuildContext context,
-      String url,
-      dynamic error,
-    )?
-        errorWidget,
-  }) = _CustomNetworkImageWithContainer;
-
-  const CustomNetworkImage({
-    Key? key,
-    EdgeInsetsGeometry? padding,
-    double? width,
+    double? borderRadius,
     this.margin,
-    this.imageBuilder,
+    this.fit,
+    this.height,
     this.placeholder,
     this.errorWidget,
     required this.imageUrl,
-    required this.height,
-  })   : this.padding = padding ?? const EdgeInsets.all(20),
-        this.width = width ?? double.infinity,
-        super(key: key);
+  })   : this.width = width ?? double.infinity,
+        this.borderRadius = borderRadius ?? 20;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      imageBuilder: imageBuilder,
       height: height,
       width: width,
-      placeholder: placeholder ??
-          (ctx, url) => ImagePlaceholder.skeleton(
-                padding: padding,
-                margin: margin,
-              ),
-      errorWidget: errorWidget ??
-          (ctx, url, errors) => ImagePlaceholder.error(
-                padding: padding,
-                margin: margin,
-              ),
+      placeholder: placeholder,
+      errorWidget: errorWidget,
+      imageBuilder: (ctx, imageProvider) => Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: imageProvider,
+            fit: fit,
+          ),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        margin: margin,
+      ),
     );
   }
-}
-
-class _CustomNetworkImageWithContainer extends CustomNetworkImage {
-  _CustomNetworkImageWithContainer({
-    required String imageUrl,
-    required double height,
-    double? width,
-    EdgeInsetsGeometry? padding,
-    EdgeInsetsGeometry? margin,
-    final Widget Function(
-      BuildContext context,
-      String url,
-    )?
-        placeholder,
-    final Widget Function(
-      BuildContext context,
-      String url,
-      dynamic error,
-    )?
-        errorWidget,
-  }) : super(
-            imageUrl: imageUrl,
-            height: height,
-            width: width,
-            padding: padding,
-            margin: margin,
-            placeholder: placeholder,
-            errorWidget: errorWidget,
-            imageBuilder: (ctx, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.fill,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  margin: margin,
-                ));
 }

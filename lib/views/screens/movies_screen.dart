@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ez_ticketz_app/views/widgets/common/custom_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -9,6 +9,7 @@ import '../../routes/app_router.gr.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
+import '../widgets/common/custom_network_image.dart';
 
 final List<Map<String, dynamic>> nowShowing = const [
   {
@@ -98,7 +99,7 @@ class MoviesScreen extends HookWidget {
   }
 }
 
-class _MovieBackdropView extends StatelessWidget {
+class _MovieBackdropView extends HookWidget {
   const _MovieBackdropView({
     Key? key,
     required this.backgroundImageController,
@@ -113,8 +114,8 @@ class _MovieBackdropView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       controller: backgroundImageController,
       itemCount: nowShowing.length,
-      itemBuilder: (ctx, i) => Image.network(
-        nowShowing[i]["poster_url"],
+      itemBuilder: (ctx, i) => CachedNetworkImage(
+        imageUrl: nowShowing[i]["poster_url"],
         fit: BoxFit.cover,
       ),
     );
@@ -176,7 +177,7 @@ class __MoviesCarouselState extends State<_MoviesCarousel> {
   }
 }
 
-class _MovieContainer extends StatelessWidget {
+class _MovieContainer extends HookWidget {
   const _MovieContainer({
     Key? key,
     required this.isCurrent,
@@ -211,9 +212,10 @@ class _MovieContainer extends StatelessWidget {
         builder: (ctx, constraints) => Column(
           children: [
             //Poster image
-            CustomNetworkImage.container(
+            CustomNetworkImage(
               imageUrl: posterUrl,
               height: constraints.minHeight * 0.58,
+              fit: BoxFit.fill,
               margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
 
@@ -291,7 +293,7 @@ class _MovieContainer extends StatelessWidget {
   }
 }
 
-class _IconsRow extends StatelessWidget {
+class _IconsRow extends HookWidget {
   const _IconsRow({
     Key? key,
   }) : super(key: key);

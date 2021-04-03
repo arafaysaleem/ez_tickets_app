@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../helper/utils/constants.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
 import '../widgets/common/scrollable_column.dart';
+import '../widgets/common/custom_network_image.dart';
 
 final Map<String, dynamic> movie = {
   "title": "The Hustle",
@@ -56,7 +58,7 @@ final leftMoviePoster =
 final rightMoviePoster =
     "https://talenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg";
 
-class MovieDetailsScreen extends StatelessWidget {
+class MovieDetailsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final topGap = 230.0;
@@ -71,14 +73,10 @@ class MovieDetailsScreen extends StatelessWidget {
             left: 0,
             height: 250,
             width: 150,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(leftMoviePoster),
-                  fit: BoxFit.fill,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
+            child: CustomNetworkImage(
+              imageUrl: leftMoviePoster,
+              borderRadius: 20,
+              fit: BoxFit.fill,
             ),
           ),
 
@@ -88,14 +86,10 @@ class MovieDetailsScreen extends StatelessWidget {
             right: 0,
             height: 250,
             width: 150,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(rightMoviePoster),
-                  fit: BoxFit.fill,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
+            child: CustomNetworkImage(
+              imageUrl: rightMoviePoster,
+              fit: BoxFit.fill,
+              borderRadius: 20,
             ),
           ),
 
@@ -115,14 +109,10 @@ class MovieDetailsScreen extends StatelessWidget {
             top: 80,
             height: 250,
             width: 190,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(movie["poster_url"]),
-                  fit: BoxFit.fill,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
+            child: CustomNetworkImage(
+              imageUrl: movie["poster_url"],
+              borderRadius: 10,
+              fit: BoxFit.fill,
               margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
           ),
@@ -339,16 +329,12 @@ class _MovieDetailsSheet extends StatelessWidget {
             child: Column(
               children: [
                 //Image
-                Container(
+                CustomNetworkImage(
+                  imageUrl: movie["roles"][i]["picture_url"],
                   height: 100,
                   width: 100,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(movie["roles"][i]["picture_url"]),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                  fit: BoxFit.cover,
+                  borderRadius: 5,
                 ),
 
                 const SizedBox(height: 5),
