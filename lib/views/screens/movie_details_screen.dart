@@ -2,11 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../helper/utils/constants.dart';
-
 import '../widgets/common/custom_text_button.dart';
-import '../widgets/common/scrollable_column.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
+import '../widgets/common/scrollable_column.dart';
 
 final Map<String, dynamic> movie = {
   "title": "The Hustle",

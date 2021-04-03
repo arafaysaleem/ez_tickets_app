@@ -1,15 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ez_ticketz_app/views/widgets/common/custom_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../helper/utils/constants.dart';
-
+import '../../routes/app_router.gr.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
-
-import '../../routes/app_router.gr.dart';
 
 final List<Map<String, dynamic>> nowShowing = const [
   {
@@ -212,16 +211,10 @@ class _MovieContainer extends StatelessWidget {
         builder: (ctx, constraints) => Column(
           children: [
             //Poster image
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(posterUrl),
-                  fit: BoxFit.fill
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+            CustomNetworkImage.container(
+              imageUrl: posterUrl,
               height: constraints.minHeight * 0.58,
+              margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
 
             const SizedBox(height: 10),
