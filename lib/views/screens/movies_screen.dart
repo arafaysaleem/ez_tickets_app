@@ -279,9 +279,10 @@ class _MovieContainer extends HookWidget {
         Ratings(rating: rating),
 
         //Elipses
-        Text(
+        const Text(
           "...",
-          style: textTheme.headline2!.copyWith(
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
             fontSize: 22,
             height: 1,
