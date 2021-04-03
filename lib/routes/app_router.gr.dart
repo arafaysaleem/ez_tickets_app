@@ -11,6 +11,7 @@ import '../views/screens/login_screen.dart' as _i4;
 import '../views/screens/movie_details_screen.dart' as _i6;
 import '../views/screens/movies_screen.dart' as _i5;
 import '../views/screens/register_screen.dart' as _i3;
+import '../views/screens/shows_screen.dart' as _i7;
 
 class AppRouter extends _i1.RootStackRouter {
   AppRouter();
@@ -31,6 +32,9 @@ class AppRouter extends _i1.RootStackRouter {
     },
     MovieDetailsScreenRoute.name: (entry) {
       return _i1.MaterialPageX(entry: entry, child: _i6.MovieDetailsScreen());
+    },
+    ShowsScreenRoute.name: (entry) {
+      return _i1.MaterialPageX(entry: entry, child: _i7.ShowsScreen());
     }
   };
 
@@ -41,7 +45,8 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(LoginScreenRoute.name, path: '/login-screen'),
         _i1.RouteConfig(MoviesScreenRoute.name, path: '/movies-screen'),
         _i1.RouteConfig(MovieDetailsScreenRoute.name,
-            path: '/movie-details-screen')
+            path: '/movie-details-screen'),
+        _i1.RouteConfig(ShowsScreenRoute.name, path: '/shows-screen')
       ];
 }
 
@@ -73,4 +78,10 @@ class MovieDetailsScreenRoute extends _i1.PageRouteInfo {
   const MovieDetailsScreenRoute() : super(name, path: '/movie-details-screen');
 
   static const String name = 'MovieDetailsScreenRoute';
+}
+
+class ShowsScreenRoute extends _i1.PageRouteInfo {
+  const ShowsScreenRoute() : super(name, path: '/shows-screen');
+
+  static const String name = 'ShowsScreenRoute';
 }
