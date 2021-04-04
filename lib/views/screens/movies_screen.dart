@@ -233,7 +233,6 @@ class _MovieContainer extends HookWidget {
               //View Details Button
               CustomTextButton(
                 color: Constants.scaffoldColor,
-                height: 54,
                 child: const Center(
                   child: const Text(
                     "VIEW DETAILS",

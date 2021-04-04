@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ez_ticketz_app/routes/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../helper/utils/constants.dart';
+
+import '../../routes/app_router.gr.dart';
+
+import '../widgets/common/custom_network_image.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
 import '../widgets/common/scrollable_column.dart';
-import '../widgets/common/custom_network_image.dart';
 
 final Map<String, dynamic> movie = {
   "title": "The Hustle",
@@ -156,7 +158,6 @@ class MovieDetailsScreen extends HookWidget {
             right: 20,
             child: CustomTextButton(
               color: Constants.scaffoldColor,
-              height: 54,
               child: Center(
                 child: Text(
                   "VIEW SHOWS",

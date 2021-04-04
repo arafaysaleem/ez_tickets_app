@@ -23,7 +23,7 @@ class CustomTextButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
   })   : borderRadius = borderRadius ?? 7,
-        height = height ?? 60,
+        height = height ?? 55,
         super(key: key);
 
   const factory CustomTextButton.gradient({
