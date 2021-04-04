@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../helper/utils/constants.dart';
 import '../widgets/common/custom_text_button.dart';
+import '../widgets/show_times/show_dates_list.dart';
+import '../widgets/show_times/show_times_list.dart';
 
 final Map<String, dynamic> movie = {
   "title": "The Hustle",
@@ -48,249 +49,126 @@ final Map<String, dynamic> movie = {
     },
   ],
 };
-List<String> showDates = [
-  "14\nSun",
-  "15\nMon",
-  "16\nTue",
-  "17\nWed",
-  "18\nThu"
-];
-List<String> showTimes = ["3:30", "4:30", "5:30", "6:30"];
 
 class ShowsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      body: Stack(
-        children: [
-          //Movie Image
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: screenHeight * 0.55,
-            child: ShaderMask(
-              shaderCallback: (bounds) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [
-                    0.3,
-                    1,
-                  ],
-                  colors: [Colors.transparent, Colors.red],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstOut,
-              child: CachedNetworkImage(
-                imageUrl: movie["poster_url"],
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(height: 20),
 
-          //Top black overlay
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 110,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: Constants.blackOverlayGradient,
-              ),
-            ),
-          ),
-
-          //Back Icon
-          Positioned(
-            top: 40,
-            left: 15,
-            child: InkWell(
-              child: const Icon(
-                Icons.arrow_back_sharp,
-                size: 32,
-                color: Colors.white,
-              ),
-              onTap: () => context.router.pop(),
-            ),
-          ),
-
-          //Show date and times
-          Positioned(
-            top: screenHeight * 0.60,
-            right: 0,
-            left: 0,
-            height: screenHeight * 0.40,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //Back and title
+            Row(
               children: [
-                //Dates list
-                const SizedBox(
-                  height: 90,
-                  child: _ShowDatesList(),
-                ),
-
-                const Spacer(),
-
-                //Show times list
-                SizedBox(
-                  height: 45,
-                  child: _ShowTimesList(),
-                ),
-
-                const Spacer(),
-
-                //Continue button
-                Padding(
-                  padding:
-                      EdgeInsets.fromLTRB(20, 0, 20, Constants.bottomInsetsLow),
-                  child: CustomTextButton.gradient(
-                    width: double.infinity,
-                    onPressed: () {},
-                    gradient: Constants.buttonGradientOrange,
-                    child: const Center(
-                      child: Text(
-                        "CONTINUE",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          letterSpacing: 0.7,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                const SizedBox(width: 15),
+                GestureDetector(
+                  child: const Icon(
+                    Icons.arrow_back_sharp,
+                    size: 32,
                   ),
-                )
+                  onTap: () {
+                    context.router.pop();
+                  },
+                ),
+                const SizedBox(width: 70),
+                Text(
+                  movie["title"],
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(fontSize: 30),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class _ShowDatesList extends StatefulWidget {
-  const _ShowDatesList() : super();
+            const SizedBox(height: 40),
 
-  @override
-  __ShowDatesListState createState() => __ShowDatesListState();
-}
-
-class __ShowDatesListState extends State<_ShowDatesList> {
-  int selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: showDates.length,
-      separatorBuilder: (ctx, i) => const SizedBox(width: 20),
-      itemBuilder: (ctx, i) => AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.fastOutSlowIn,
-        margin: getItemPadding(i),
-        width: 65,
-        decoration: BoxDecoration(
-          gradient: i == selectedIndex ? Constants.buttonGradientOrange : null,
-          border: i == selectedIndex
-              ? null
-              : Border.all(color: Constants.primaryColor),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              selectedIndex = i;
-            });
-          },
-          borderRadius: BorderRadius.circular(8),
-          child: Center(
-            child: Text(
-              showDates[i],
-              textAlign: TextAlign.center,
-              style: textTheme.headline3!.copyWith(
-                color: Colors.white,
-                fontSize: 17,
+            //Date Title
+            Text(
+              "Select a date",
+              style: textTheme.headline5!.copyWith(
+                height: 1,
+                color: Constants.textGreyColor,
+                fontSize: 20,
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  EdgeInsets getItemPadding(i) {
-    if (i == 0) {
-      return const EdgeInsets.only(left: 20);
-    } else if (i == (showDates.length - 1)) {
-      return const EdgeInsets.only(right: 20);
-    }
-    return const EdgeInsets.all(0);
-  }
-}
+            const SizedBox(height: 10),
 
-class _ShowTimesList extends StatefulWidget {
-  const _ShowTimesList() : super();
+            //Dates list
+            Container(
+              decoration: BoxDecoration(
+                color: Constants.scaffoldGreyColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
+              ),
+              height: 130,
+              margin: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+              child: const ShowDatesList(),
+            ),
 
-  @override
-  __ShowTimesListState createState() => __ShowTimesListState();
-}
+            const SizedBox(height: 40),
 
-class __ShowTimesListState extends State<_ShowTimesList> {
-  int selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: showTimes.length,
-      separatorBuilder: (ctx, i) => const SizedBox(width: 20),
-      itemBuilder: (ctx, i) => AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.fastOutSlowIn,
-        width: 110,
-        margin: getItemPadding(i),
-        decoration: BoxDecoration(
-          gradient: i == selectedIndex ? Constants.buttonGradientOrange : null,
-          border: i == selectedIndex
-              ? null
-              : Border.all(color: Constants.primaryColor),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              selectedIndex = i;
-            });
-          },
-          borderRadius: BorderRadius.circular(30),
-          child: Center(
-            child: Text(
-              showTimes[i],
-              style: textTheme.headline3!.copyWith(
-                color: Colors.white,
-                fontSize: 14,
+            //Time Title
+            Text(
+              "Select a time",
+              style: textTheme.headline5!.copyWith(
+                height: 1,
+                color: Constants.textGreyColor,
+                fontSize: 20,
               ),
             ),
-          ),
+
+            const SizedBox(height: 10),
+
+            //Show times list
+            Container(
+              decoration: BoxDecoration(
+                color: Constants.scaffoldGreyColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
+              ),
+              height: 85,
+              margin: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+              child: const ShowTimesList(),
+            ),
+
+            const Spacer(),
+
+            //Continue button
+            Padding(
+              padding:
+                  EdgeInsets.fromLTRB(20, 0, 20, Constants.bottomInsetsLow),
+              child: CustomTextButton.gradient(
+                width: double.infinity,
+                onPressed: () {},
+                gradient: Constants.buttonGradientOrange,
+                child: const Center(
+                  child: Text(
+                    "CONTINUE",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      letterSpacing: 0.7,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
-  }
-
-  EdgeInsets getItemPadding(i) {
-    if (i == 0) {
-      return const EdgeInsets.only(left: 20);
-    } else if (i == (showTimes.length - 1)) {
-      return const EdgeInsets.only(right: 20);
-    }
-    return const EdgeInsets.all(0);
   }
 }
