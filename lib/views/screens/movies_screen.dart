@@ -201,9 +201,9 @@ class _MovieContainer extends HookWidget {
       curve: Curves.fastOutSlowIn,
       decoration: BoxDecoration(
         color: isCurrent ? Colors.white : Colors.white54,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(30),
-          topRight: const Radius.circular(30),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -234,9 +234,9 @@ class _MovieContainer extends HookWidget {
               CustomTextButton(
                 color: Constants.scaffoldColor,
                 child: const Center(
-                  child: const Text(
+                  child: Text(
                     "VIEW DETAILS",
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                       letterSpacing: 0.7,

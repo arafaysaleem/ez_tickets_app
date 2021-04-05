@@ -67,9 +67,9 @@ class HomeScreen extends StatelessWidget {
                     },
                     gradient: Constants.buttonGradientRed,
                     child: const Center(
-                      child: const Text(
+                      child: Text(
                         "LOGIN",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
                           letterSpacing: 0.7,

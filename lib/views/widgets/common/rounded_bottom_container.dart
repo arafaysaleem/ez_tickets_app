@@ -12,7 +12,6 @@ class RoundedBottomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final padding = 25.0;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -28,8 +27,8 @@ class RoundedBottomContainer extends StatelessWidget {
         children: [
           //back arrow
           InkWell(
-            child: Padding(
-              padding: EdgeInsets.only(left: padding - 5, top: 40),
+            child: const Padding(
+              padding: EdgeInsets.only(left: 25.0 - 5, top: 40),
               child: Icon(
                 Icons.arrow_back_sharp,
                 size: 32,
@@ -40,7 +39,7 @@ class RoundedBottomContainer extends StatelessWidget {
           ),
 
           Padding(
-            padding: EdgeInsets.fromLTRB(padding, 28, padding, 27),
+            padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 27),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: children,
