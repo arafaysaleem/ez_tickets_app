@@ -4,12 +4,20 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+//Helper
 import '../../helper/utils/constants.dart';
+
+//Routes
 import '../../routes/app_router.gr.dart';
+
+//Placeholders
+import '../skeletons/movie_poster_placeholder.dart';
+
+//Widgets
+import '../widgets/common/custom_network_image.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
-import '../widgets/common/custom_network_image.dart';
 
 final List<Map<String, dynamic>> nowShowing = const [
   {
@@ -117,6 +125,14 @@ class _MovieBackdropView extends HookWidget {
       itemBuilder: (ctx, i) => CachedNetworkImage(
         imageUrl: nowShowing[i]["poster_url"],
         fit: BoxFit.cover,
+        placeholder: (_, __) => const MoviePosterPlaceholder(
+          childAlign: Alignment.topCenter,
+          padding: EdgeInsets.only(top: 40),
+        ),
+        errorWidget: (_, __, ___) => const MoviePosterPlaceholder(
+          childAlign: Alignment.topCenter,
+          padding: EdgeInsets.only(top: 40),
+        ),
       ),
     );
   }
@@ -143,13 +159,8 @@ class __MoviesCarouselState extends State<_MoviesCarousel> {
       carouselController: CarouselController(),
       options: getCarouselOptions(),
       itemCount: nowShowing.length,
-      itemBuilder: (ctx, i, _) => _MovieContainer(
-        isCurrent: _currentIndex == i,
-        title: nowShowing[i]["title"],
-        genres: nowShowing[i]["genres"],
-        rating: nowShowing[i]["rating"],
-        posterUrl: nowShowing[i]["poster_url"],
-      ),
+      itemBuilder: (ctx, i, _) =>
+          _MovieContainer(isCurrent: _currentIndex == i, movie: nowShowing[i]),
     );
   }
 
@@ -181,21 +192,14 @@ class _MovieContainer extends HookWidget {
   const _MovieContainer({
     Key? key,
     required this.isCurrent,
-    required this.posterUrl,
-    required this.genres,
-    required this.title,
-    required this.rating,
+    required this.movie,
   }) : super(key: key);
 
+  final Map<String, dynamic> movie;
   final bool isCurrent;
-  final String posterUrl;
-  final String title;
-  final List<String> genres;
-  final double rating;
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
@@ -213,10 +217,14 @@ class _MovieContainer extends HookWidget {
           children: [
             //Poster image
             CustomNetworkImage(
-              imageUrl: posterUrl,
+              imageUrl: movie["poster_url"],
               height: constraints.minHeight * 0.58,
               fit: BoxFit.fill,
               margin: const EdgeInsets.symmetric(horizontal: 10),
+              placeholder: (_, __) =>
+                  MoviePosterPlaceholder(height: constraints.minHeight * 0.58),
+              errorWidget: (_, __, ___) =>
+                  MoviePosterPlaceholder(height: constraints.minHeight * 0.58),
             ),
 
             const SizedBox(height: 10),
@@ -225,7 +233,7 @@ class _MovieContainer extends HookWidget {
             if (isCurrent) ...[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: buildMovieDetailsColumn(textTheme),
+                child: _MovieOverviewColumn(movie: movie),
               ),
 
               const Spacer(),
@@ -254,13 +262,24 @@ class _MovieContainer extends HookWidget {
       ),
     );
   }
+}
 
-  Column buildMovieDetailsColumn(TextTheme textTheme) {
+class _MovieOverviewColumn extends StatelessWidget {
+  const _MovieOverviewColumn({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
+
+  final Map<String, dynamic> movie;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
         //Title
         Text(
-          title,
+          movie["title"],
           style: textTheme.headline2!.copyWith(
             color: Colors.black,
             fontSize: 26,
@@ -270,17 +289,17 @@ class _MovieContainer extends HookWidget {
         const SizedBox(height: 10),
 
         //Genres
-        GenreChips(genres: genres),
+        GenreChips(genres: movie["genres"]),
 
         const SizedBox(height: 12),
 
         //Ratings
-        Ratings(rating: rating),
+        Ratings(rating: movie["rating"]),
 
         //Elipses
         const Text(
           "...",
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
             fontSize: 22,

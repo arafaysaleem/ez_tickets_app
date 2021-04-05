@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../skeletons/actor_picture_placeholder.dart';
+
 import '../common/custom_network_image.dart';
 
 final Map<String, dynamic> movie = {
@@ -123,6 +125,8 @@ class _ActorListItem extends StatelessWidget {
           width: 100,
           fit: BoxFit.cover,
           borderRadius: 5,
+          placeholder: (_,__) => const ActorPicturePlaceholder(),
+          errorWidget: (_,__,___) => const ActorPicturePlaceholder(),
         ),
 
         const SizedBox(height: 5),
