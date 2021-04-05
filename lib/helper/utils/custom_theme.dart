@@ -56,8 +56,6 @@ class CustomTheme {
         style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      splashColor: Constants.primaryColor,
-      highlightColor: Constants.primaryColor,
     );
   }
 }

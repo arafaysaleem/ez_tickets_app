@@ -50,6 +50,8 @@ final Map<String, dynamic> movie = {
   ],
 };
 
+final String showStatus = "Almost full";
+
 class ShowsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class ShowsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             //Back and title
             Row(
@@ -85,7 +87,7 @@ class ShowsScreen extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 42),
 
             //Date Title
             Text(
@@ -114,7 +116,7 @@ class ShowsScreen extends StatelessWidget {
               child: const ShowDatesList(),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 42),
 
             //Time Title
             Text(
@@ -133,14 +135,49 @@ class ShowsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Constants.scaffoldGreyColor,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 ),
               ),
               height: 85,
-              margin: const EdgeInsets.only(left: 20),
-              padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+              margin: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
               child: const ShowTimesList(),
+            ),
+
+            const SizedBox(height: 42),
+
+            //Seats status title
+            Text(
+              "Show status",
+              style: textTheme.headline5!.copyWith(
+                height: 1,
+                color: Constants.textGreyColor,
+                fontSize: 20,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            //Show status
+            Container(
+              decoration: BoxDecoration(
+                color: Constants.scaffoldGreyColor,
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                border: Border.all(color: Constants.primaryColor)
+              ),
+              height: 65,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                child: Text(
+                  showStatus,
+                  style: textTheme.headline3!.copyWith(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
             ),
 
             const Spacer(),

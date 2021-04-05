@@ -22,19 +22,38 @@ class _ShowDatesListState extends State<ShowDatesList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: showDates.length,
-      separatorBuilder: (ctx, i) => const SizedBox(width: 20),
-      itemBuilder: (ctx, i) => _ShowDateItem(
-        isActive: i == selectedIndex,
-        onTap: () {
-          setState(() {
-            selectedIndex = i;
-          });
-        },
-        date: showDates[i],
+    return ShaderMask(
+      shaderCallback: (bounds) {
+        return LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          stops: [
+            0.95,
+            1,
+          ],
+          colors: [Colors.transparent, Colors.black87],
+        ).createShader(bounds);
+      },
+      blendMode: BlendMode.dstOut,
+      child: ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: showDates.length,
+        separatorBuilder: (ctx, i) => const SizedBox(width: 20),
+        itemBuilder: (ctx, i) => Padding(
+          padding: i == showDates.length - 1
+              ? const EdgeInsets.only(right: 20)
+              : const EdgeInsets.all(0),
+          child: _ShowDateItem(
+            isActive: i == selectedIndex,
+            onTap: () {
+              setState(() {
+                selectedIndex = i;
+              });
+            },
+            date: showDates[i],
+          ),
+        ),
       ),
     );
   }
@@ -55,18 +74,17 @@ class _ShowDateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.fastOutSlowIn,
-      width: 60,
-      decoration: BoxDecoration(
-        gradient: isActive ? Constants.buttonGradientOrange : null,
-        border: isActive ? null : Border.all(color: Constants.primaryColor),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn,
+        width: 60,
+        decoration: BoxDecoration(
+          gradient: isActive ? Constants.buttonGradientOrange : null,
+          border: isActive ? null : Border.all(color: Constants.primaryColor),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
         child: Center(
           child: Text(
             date,
