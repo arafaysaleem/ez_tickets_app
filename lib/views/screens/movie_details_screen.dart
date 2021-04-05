@@ -6,11 +6,10 @@ import '../../helper/utils/constants.dart';
 
 import '../../routes/app_router.gr.dart';
 
+
+import '../widgets/movie_details/movie_details_sheet.dart';
 import '../widgets/common/custom_network_image.dart';
 import '../widgets/common/custom_text_button.dart';
-import '../widgets/common/genre_chips.dart';
-import '../widgets/common/ratings.dart';
-import '../widgets/common/scrollable_column.dart';
 
 final Map<String, dynamic> movie = {
   "title": "The Hustle",
@@ -126,7 +125,7 @@ class MovieDetailsScreen extends HookWidget {
             bottom: 0,
             right: 0,
             left: 0,
-            child: const _MovieDetailsSheet(),
+            child: const MovieDetailsSheet(),
           ),
 
           //play button
@@ -193,209 +192,5 @@ class MovieDetailsScreen extends HookWidget {
         ],
       ),
     );
-  }
-}
-
-class _MovieDetailsSheet extends StatelessWidget {
-  const _MovieDetailsSheet({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(30),
-          topRight: const Radius.circular(30),
-        ),
-      ),
-      padding: const EdgeInsets.only(top: 35),
-      child: Column(
-        children: [
-          //Movie details
-          ...getMovieDetails(textTheme),
-
-          const SizedBox(height: 20),
-
-          Flexible(
-            child: ShaderMask(
-              shaderCallback: (bounds) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [
-                    0.9,
-                    1,
-                  ],
-                  colors: [Colors.transparent, Colors.red],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstOut,
-              child: ScrollableColumn(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  //Actors
-                  ...getActors(textTheme),
-
-                  const SizedBox(height: 30),
-
-                  //Summary
-                  ...getSummary(textTheme)
-                ],
-              ),
-            ),
-          ),
-
-          SizedBox(height: Constants.bottomInsetsLow + 54),
-        ],
-      ),
-    );
-  }
-
-  EdgeInsets getImagePadding(i) {
-    if (i == 0) {
-      return const EdgeInsets.only(left: 20);
-    } else if (i == (movie["roles"].length - 1)) {
-      return const EdgeInsets.only(right: 20);
-    }
-    return const EdgeInsets.all(0);
-  }
-
-  List<Widget> getSummary(TextTheme textTheme) {
-    return [
-      //Introduction title
-      Padding(
-        padding: const EdgeInsets.only(left: 20),
-        child: Row(
-          children: [
-            Text(
-              "Introduction",
-              style: textTheme.headline2!.copyWith(
-                color: Colors.black,
-                fontSize: 17,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 7),
-
-      //Summary text
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            movie["summary"],
-            style: textTheme.bodyText2!.copyWith(
-                fontSize: 13, height: 1.4, color: Constants.textGreyColor),
-          ),
-        ),
-      ),
-
-      const SizedBox(height: 15),
-    ];
-  }
-
-  List<Widget> getActors(TextTheme textTheme) {
-    return [
-      //Actors title
-      Padding(
-        padding: const EdgeInsets.only(left: 20),
-        child: Row(
-          children: [
-            Text(
-              "Actors",
-              style: textTheme.headline2!.copyWith(
-                color: Colors.black,
-                fontSize: 17,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 10),
-
-      //Actors list
-      SizedBox(
-        height: 120,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          separatorBuilder: (ctx, i) => const SizedBox(width: 15),
-          itemCount: movie["roles"].length,
-          itemBuilder: (ctx, i) => Padding(
-            padding: getImagePadding(i),
-            child: Column(
-              children: [
-                //Image
-                CustomNetworkImage(
-                  imageUrl: movie["roles"][i]["picture_url"],
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.cover,
-                  borderRadius: 5,
-                ),
-
-                const SizedBox(height: 5),
-
-                //Name
-                Expanded(
-                  child: Text(
-                    movie["roles"][i]["full_name"],
-                    style: textTheme.headline4!.copyWith(
-                      color: Colors.black,
-                      fontSize: 13,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    ];
-  }
-
-  List<Widget> getMovieDetails(TextTheme textTheme) {
-    return [
-      //Title
-      Text(
-        movie["title"],
-        style: textTheme.headline2!.copyWith(
-          color: Colors.black,
-          fontSize: 26,
-        ),
-      ),
-
-      const SizedBox(height: 15),
-
-      //Genres
-      SizedBox(
-        width: 200,
-        child: GenreChips(genres: movie["genres"]),
-      ),
-
-      const SizedBox(height: 15),
-
-      //Ratings
-      Ratings(rating: movie["rating"]),
-
-      const SizedBox(height: 15),
-
-      //Director
-      Text(
-        "Director / ${movie["roles"][0]["full_name"]}",
-        style: textTheme.headline4!.copyWith(
-          color: Colors.black,
-          fontSize: 14,
-        ),
-      ),
-    ];
   }
 }
