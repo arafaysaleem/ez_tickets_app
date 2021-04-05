@@ -14,20 +14,22 @@ class ShowTimesList extends StatefulWidget {
 class _ShowTimesListState extends State<ShowTimesList> {
   int selectedIndex = 0;
 
+  Shader getShader(bounds) {
+    return const LinearGradient(
+      begin: Alignment.centerRight,
+      end: Alignment.centerLeft,
+      stops: [
+        0.95,
+        1,
+      ],
+      colors: [Colors.transparent, Colors.black87],
+    ).createShader(bounds);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (bounds) {
-        return LinearGradient(
-          begin: Alignment.centerRight,
-          end: Alignment.centerLeft,
-          stops: [
-            0.95,
-            1,
-          ],
-          colors: [Colors.transparent, Colors.black87],
-        ).createShader(bounds);
-      },
+      shaderCallback: getShader,
       blendMode: BlendMode.dstOut,
       child: ListView.separated(
         physics: const BouncingScrollPhysics(),

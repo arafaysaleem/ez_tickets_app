@@ -2,14 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+//Helper
 import '../../helper/utils/constants.dart';
 
+//Routes
 import '../../routes/app_router.gr.dart';
 
+//Placeholders
+import '../skeletons/movie_poster_placeholder.dart';
 
-import '../widgets/movie_details/movie_details_sheet.dart';
+//Widgets
 import '../widgets/common/custom_network_image.dart';
 import '../widgets/common/custom_text_button.dart';
+import '../widgets/movie_details/movie_details_sheet.dart';
 
 final Map<String, dynamic> movie = {
   "title": "The Hustle",
@@ -77,8 +82,9 @@ class MovieDetailsScreen extends HookWidget {
             width: 150,
             child: CustomNetworkImage(
               imageUrl: leftMoviePoster,
-              borderRadius: 20,
               fit: BoxFit.fill,
+              placeholder: (_, __) => const MoviePosterPlaceholder(),
+              errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
             ),
           ),
 
@@ -91,7 +97,8 @@ class MovieDetailsScreen extends HookWidget {
             child: CustomNetworkImage(
               imageUrl: rightMoviePoster,
               fit: BoxFit.fill,
-              borderRadius: 20,
+              placeholder: (_, __) => const MoviePosterPlaceholder(),
+              errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
             ),
           ),
 
@@ -114,8 +121,10 @@ class MovieDetailsScreen extends HookWidget {
             child: CustomNetworkImage(
               imageUrl: movie["poster_url"],
               borderRadius: 10,
+              placeholder: (_, __) => const MoviePosterPlaceholder(),
+              errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
               fit: BoxFit.fill,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              // TODO: margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
           ),
 
@@ -169,7 +178,7 @@ class MovieDetailsScreen extends HookWidget {
                 ),
               ),
               onPressed: () {
-                context.router.push(ShowsScreenRoute());
+                context.router.push(const ShowsScreenRoute());
               },
             ),
           ),

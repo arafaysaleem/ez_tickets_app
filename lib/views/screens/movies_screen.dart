@@ -128,9 +128,11 @@ class _MovieBackdropView extends HookWidget {
         placeholder: (_, __) => const MoviePosterPlaceholder(
           childAlign: Alignment.topCenter,
           padding: EdgeInsets.only(top: 40),
+          borderRadius: 0,
         ),
         errorWidget: (_, __, ___) => const MoviePosterPlaceholder(
           childAlign: Alignment.topCenter,
+          borderRadius: 0,
           padding: EdgeInsets.only(top: 40),
         ),
       ),

@@ -7,9 +7,12 @@ class MoviePosterPlaceholder extends StatelessWidget {
     this.height,
     this.padding,
     Alignment? childAlign,
-  }) : this.childAlign = childAlign ?? Alignment.center;
+    double? borderRadius,
+  })  : this.childAlign = childAlign ?? Alignment.center,
+        this.borderRadius = borderRadius ?? 20;
 
   final double? height;
+  final double borderRadius;
   final AlignmentGeometry childAlign;
   final EdgeInsets? padding;
 
@@ -21,7 +24,7 @@ class MoviePosterPlaceholder extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: Constants.scaffoldColor,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Align(
         alignment: childAlign,
