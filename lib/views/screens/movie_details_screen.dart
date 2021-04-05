@@ -139,8 +139,8 @@ class MovieDetailsScreen extends HookWidget {
                 minimumSize: const Size(57, 57),
                 primary: Colors.white,
                 padding: const EdgeInsets.all(0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 ),
               ),
               child: const Icon(

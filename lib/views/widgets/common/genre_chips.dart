@@ -20,7 +20,7 @@ class GenreChips extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               border: Border.all(
                 color: Constants.textGreyColor,
                 width: 1,
