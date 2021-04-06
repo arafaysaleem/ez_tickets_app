@@ -1,89 +1,130 @@
 import 'package:dio/dio.dart';
 
-import 'http_service.dart';
+import 'dio_service.dart';
+
+//TODO: get from riverpod
+String token = "debug-token-xxx";
 
 class ApiService {
-  final String _baseUrl = "https://ez-tickets-backend.herokuapp.com/";
-  final HttpService _httpService = HttpService();
+  late final DioService _dioService;
 
-  ApiService._();
-
-  /// Singleton instance of a ApiService class.
-  /// TODO: Expose with riverpod
-  static final instance = ApiService._();
-
-  Uri getUri(String path, Map<String, dynamic>? queryParameters) => Uri.https(_baseUrl, path, queryParameters);
-
-  Future<List<T>> collection<T>({
-    required String path,
-    Map<String, dynamic>? queryParameters,
-    required T Function(Map<String, dynamic> data) builder,
-  }) async {
-    final Uri uri = getUri(path, queryParameters);
-
-    //Entire map of response
-    final data = await _httpService.get(uri);
-
-    //Items of table as json
-    final List<dynamic> items = data['items'];
-
-    //Streaming the deserialized objects
-    return items.map((dataMap) => builder(dataMap)).toList();
+  ApiService() {
+    final options = BaseOptions(
+      baseUrl: "https://ez-tickets-backend.herokuapp.com/",
+    );
+    _dioService = DioService(
+      baseOptions: options,
+      onRequest: requestInterceptor,
+    );
   }
 
-  Future<T> documentFuture<T>({
+  // TODO: Expose with riverpod
+  // TODO: Implement error handling
+
+  // TODO: Move to custom interceptor
+  RequestOptions requestInterceptor(RequestOptions options) {
+    if (options.headers.containsKey("requiresAuthToken")) {
+      options.headers.remove("requiresAuthToken");
+
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // var header = prefs.get("Header");
+
+      options.headers.addAll({'Authorization': 'Bearer $token'});
+    }
+    return options;
+  }
+
+  Future<List<T>> getCollectionData<T>({
     required String path,
-    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? queryParams,
+    CancelToken? cancelToken,
+    bool requiresAuthToken = true,
     required T Function(Map<String, dynamic> data) builder,
   }) async {
-    final Uri uri = getUri(path, queryParameters);
-    //Table item map
-    final data = await _httpService.get(uri);
+    //Entire map of response
+    final data = await _dioService.get(
+      endpoint: path,
+      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      queryParams: queryParams,
+      cancelToken: cancelToken,
+    );
 
     //Items of table as json
-    final List<dynamic> items = data['items'];
+    final List<dynamic> body = data['body'];
 
-    //Returning the promise of the deserialized objects
-    return builder(items[0]);
+    //Returning the deserialized objects
+    return body.map((dataMap) => builder(dataMap)).toList();
+  }
+
+  Future<T> getDocumentData<T>({
+    required String path,
+    Map<String, dynamic>? queryParams,
+    CancelToken? cancelToken,
+    bool requiresAuthToken = true,
+    required T Function(Map<String, dynamic> data) builder,
+  }) async {
+    //Entire map of response
+    final data = await _dioService.get(
+      endpoint: path,
+      queryParams: queryParams,
+      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      cancelToken: cancelToken,
+    );
+
+    //Returning the deserialized object
+    return builder(data['body']);
   }
 
   Future<T> setData<T>({
     required String path,
-    Map<String, dynamic>? queryParameters,
     required Map<String, dynamic> data,
+    CancelToken? cancelToken,
+    bool requiresAuthToken = true,
     required T Function(Map<String, dynamic> response) builder,
   }) async {
-    final Uri uri = getUri(path, queryParameters);
-
     //Entire map of response
-    final dataMap = await _httpService.post(uri, data);
+    final dataMap = await _dioService.post(
+      endpoint: path,
+      data: data,
+      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      cancelToken: cancelToken,
+    );
 
     return builder(dataMap);
   }
 
   Future<T> updateData<T>({
     required String path,
-    Map<String, dynamic>? queryParameters,
     required Map<String, dynamic> data,
+    CancelToken? cancelToken,
+    bool requiresAuthToken = true,
     required T Function(Map<String, dynamic> response) builder,
   }) async {
-    final Uri uri = getUri(path, queryParameters);
-
     //Entire map of response
-    final dataMap = await _httpService.put(uri, data);
+    final dataMap = await _dioService.patch(
+      endpoint: path,
+      data: data,
+      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      cancelToken: cancelToken,
+    );
 
     return builder(dataMap);
   }
 
   Future<T> deleteData<T>({
     required String path,
-    Map<String, dynamic>? queryParameters,
+    required Map<String, dynamic> data,
+    CancelToken? cancelToken,
+    bool requiresAuthToken = true,
     required T Function(Map<String, dynamic> response) builder,
   }) async {
-    final Uri uri = getUri(path, queryParameters);
-
     //Entire map of response
-    final dataMap = await _httpService.delete(uri);
+    final dataMap = await _dioService.patch(
+      endpoint: path,
+      data: data,
+      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      cancelToken: cancelToken,
+    );
 
     return builder(dataMap);
   }
