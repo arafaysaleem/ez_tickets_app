@@ -13,6 +13,13 @@ import '../services/networking/api_service.dart';
 //providers
 import 'all_providers.dart';
 
+//TODO: Change to state notifier
+//TODO: Generate auth states with freezed
+//TODO: Set relevant state based on login/register
+//TODO: Create logout method
+//TODO: Create auth_notifier_provider
+//TODO: Read auth status in login_screen and show relevant page widget
+
 class AuthProvider {
   String token = "";
 
