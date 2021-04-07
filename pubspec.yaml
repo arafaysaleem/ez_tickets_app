@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   time: ^2.0.0
   cached_network_image: ^3.0.0
+  freezed_annotation: ^0.14.1
   google_fonts: ^2.0.0
   flutter_hooks: ^0.16.0
   hooks_riverpod: ^0.13.1+1
@@ -22,6 +23,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^1.0.2
+  freezed: ^0.14.1+2
+  json_serializable: ^4.0.0
   build_runner: null
 flutter:
   uses-material-design: true
