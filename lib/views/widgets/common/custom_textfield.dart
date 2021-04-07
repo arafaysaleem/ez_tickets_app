@@ -6,13 +6,19 @@ class CustomTextField extends StatelessWidget {
   final String floatingText, hintText;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
+  final TextEditingController controller;
+  final String? Function(String? value) validator;
+  final void Function(String? value)? onSaved;
 
   const CustomTextField({
     Key? key,
+    this.onSaved,
     required this.floatingText,
     required this.hintText,
     required this.keyboardType,
     required this.textInputAction,
+    required this.validator,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -22,7 +28,6 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         //Floating text
         Text(
           floatingText,
@@ -37,11 +42,20 @@ class CustomTextField extends StatelessWidget {
         //TextField
         SizedBox(
           height: 47,
-          child: TextField(
+          child: TextFormField(
+            controller: controller,
             textAlignVertical: TextAlignVertical.center,
-            keyboardType: keyboardType,
+            showCursor: true,
             cursorColor: Colors.white,
             maxLines: 1,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) => validator(value!.trim()),
+            onSaved: (value) {
+              value = value!.trim();
+              controller.text = value;
+              if(onSaved != null) onSaved!(value);
+            },
+            keyboardType: keyboardType,
             textInputAction: textInputAction,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(horizontal: 17),

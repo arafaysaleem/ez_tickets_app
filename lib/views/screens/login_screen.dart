@@ -1,18 +1,31 @@
-import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Providers
+import '../../providers/all_providers.dart';
+
+//Helpers
+import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/constants.dart';
 
+//Routes
 import '../../routes/app_router.gr.dart';
-
-import '../widgets/common/scrollable_column.dart';
 import '../widgets/common/custom_text_button.dart';
-import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/custom_textfield.dart';
+import '../widgets/common/rounded_bottom_container.dart';
 
-class LoginScreen extends StatelessWidget {
+//Widgets
+import '../widgets/common/scrollable_column.dart';
+
+class LoginScreen extends HookWidget {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final emailController = useTextEditingController(text: "");
+    final passwordController = useTextEditingController(text: "");
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     return Scaffold(
@@ -21,37 +34,50 @@ class LoginScreen extends StatelessWidget {
         child: ScrollableColumn(
           children: [
             //Input card
-            RoundedBottomContainer(
-              children: [
-                //Page name
-                Text(
-                  "Login",
-                  style: textTheme.headline3!.copyWith(
-                    color: Colors.white,
-                    fontSize: 32,
+            Form(
+              key: formKey,
+              child: RoundedBottomContainer(
+                children: [
+                  //Page name
+                  Text(
+                    "Login",
+                    style: textTheme.headline3!.copyWith(
+                      color: Colors.white,
+                      fontSize: 32,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                //Email
-                const CustomTextField(
-                  floatingText: "Email",
-                  hintText: "Type your email address",
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                ),
+                  //Email
+                  CustomTextField(
+                    controller: emailController,
+                    floatingText: "Email",
+                    hintText: "Type your email address",
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    validator: (email) {
+                      if (email != null && email.isValidEmail) return null;
+                      return "Please enter a valid email address";
+                    },
+                  ),
 
-                const SizedBox(height: 25),
+                  const SizedBox(height: 25),
 
-                //Password
-                const CustomTextField(
-                  floatingText: "Password",
-                  hintText: "Type your password",
-                  keyboardType: TextInputType.visiblePassword,
-                  textInputAction: TextInputAction.done,
-                ),
-              ],
+                  //Password
+                  CustomTextField(
+                    controller: passwordController,
+                    floatingText: "Password",
+                    hintText: "Type your password",
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
+                    validator: (password) {
+                      if (password!.isEmpty) return "Please enter a password";
+                      return null;
+                    },
+                  ),
+                ],
+              ),
             ),
 
             const Spacer(),
@@ -66,7 +92,14 @@ class LoginScreen extends StatelessWidget {
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () {
-                  context.router.push(const MoviesScreenRoute());
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    context.read(authProvider).login(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                  }
+                  // context.router.push(const MoviesScreenRoute());
                 },
                 gradient: Constants.buttonGradientOrange,
                 child: const Center(

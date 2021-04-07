@@ -28,16 +28,16 @@ class Constants {
       );
 
   static Gradient get blackOverlayGradient => LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: const [0.2,0.5,0.7,1],
-    colors: [
-      Colors.black.withOpacity(0.6),
-      Colors.black.withOpacity(0.45),
-      Colors.black.withOpacity(0.3),
-      Colors.transparent,
-    ],
-  );
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        stops: const [0.2, 0.5, 0.7, 1],
+        colors: [
+          Colors.black.withOpacity(0.6),
+          Colors.black.withOpacity(0.45),
+          Colors.black.withOpacity(0.3),
+          Colors.transparent,
+        ],
+      );
 
   static Color get buttonGreyColor => Color(0xFF1c1c1c);
 
@@ -62,4 +62,7 @@ class Constants {
   static double get bottomInsets => 65;
 
   static double get bottomInsetsLow => 45;
+
+  static RegExp get emailRegex => RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 }

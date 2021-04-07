@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Providers
+import '../../providers/all_providers.dart';
+
+//Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/string_extension.dart';
+
+//Widgets
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
@@ -14,45 +22,63 @@ class RegisterScreen extends StatefulHookWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isState1 = true;
+  final formKey = GlobalKey<FormState>();
+  final emailController = useTextEditingController(text: "");
+  final passwordController = useTextEditingController(text: "");
+  final cPasswordController = useTextEditingController(text: "");
+  final fullNameController = useTextEditingController(text: "");
+  final addressController = useTextEditingController(text: "");
+  final contactController = useTextEditingController(text: "");
 
   List<Widget> getState1Fields() {
     return [
       //Full name
-      const CustomTextField(
+      CustomTextField(
+        controller: fullNameController,
         floatingText: "Full name",
         hintText: "Type your full name",
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
+        validator: (fullName){},
       ),
 
       const SizedBox(height: 25),
 
       //Email
-      const CustomTextField(
+      CustomTextField(
+        controller: emailController,
         floatingText: "Email",
         hintText: "Type your email address",
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
+        validator: (email) {
+          if (email != null && email.isValidEmail) return null;
+          return "Please enter a valid email address";
+        },
       ),
 
       const SizedBox(height: 25),
 
       //Address
-      const CustomTextField(
+      CustomTextField(
+        controller: addressController,
         floatingText: "Address",
         hintText: "Type your full address",
         keyboardType: TextInputType.streetAddress,
         textInputAction: TextInputAction.next,
+        validator: (address){},
       ),
 
       const SizedBox(height: 25),
 
       //Contact
-      const CustomTextField(
+      CustomTextField(
+        controller: contactController,
         floatingText: "Contact",
         hintText: "Type your contact number",
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.done,
+        validator: (contact){},
       ),
     ];
   }
@@ -60,21 +86,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
   List<Widget> getState2Fields() {
     return [
       //Password
-      const CustomTextField(
+      CustomTextField(
+        controller: passwordController,
         floatingText: "Password",
         hintText: "Type your password",
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.next,
+        validator: (password) {
+          if (password!.isEmpty) return "Please enter a password";
+          return null;
+        },
       ),
 
       const SizedBox(height: 25),
 
       //Confirm Password
-      const CustomTextField(
+      CustomTextField(
+        controller: cPasswordController,
         floatingText: "Confirm Password",
         hintText: "Retype your password",
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
+        validator: (cPassword){
+          if(passwordController.text.trim() == cPassword) return null;
+          return "Passwords don't match";
+        },
       ),
     ];
   }
@@ -89,28 +125,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: ScrollableColumn(
           children: [
             //Input card
-            RoundedBottomContainer(
-              onBackTap: !isState1
-                  ? () {
-                      setState(() {
-                        isState1 = true;
-                      });
-                    }
-                  : null,
-              children: [
-                //Page name
-                Text(
-                  "Register",
-                  style: textTheme.headline3!.copyWith(
-                    color: Colors.white,
-                    fontSize: 32,
+            Form(
+              key: formKey,
+              child: RoundedBottomContainer(
+                onBackTap: !isState1
+                    ? () {
+                        setState(() {
+                          isState1 = true;
+                        });
+                      }
+                    : null,
+                children: [
+                  //Page name
+                  Text(
+                    "Register",
+                    style: textTheme.headline3!.copyWith(
+                      color: Colors.white,
+                      fontSize: 32,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                if (isState1) ...getState1Fields() else ...getState2Fields(),
-              ],
+                  if (isState1) ...getState1Fields() else ...getState2Fields(),
+                ],
+              ),
             ),
 
             const Spacer(),
@@ -164,9 +203,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     : CustomTextButton.gradient(
                         width: double.infinity,
                         onPressed: () {
-                          setState(() {
-                            isState1 = true;
-                          });
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            context.read(authProvider).login(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                          }
+                          // setState(() {
+                          //   isState1 = true;
+                          // });
                         },
                         gradient: Constants.buttonGradientOrange,
                         child: const Center(
