@@ -1,8 +1,10 @@
-import 'package:ez_ticketz_app/providers/all_providers.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'dio_service.dart';
+
+//providers
+import '../../providers/all_providers.dart';
 
 class ApiService {
   late final DioService _dioService;
@@ -14,15 +16,14 @@ class ApiService {
     );
     _dioService = DioService(
       baseOptions: options,
-      onRequest: requestInterceptor,
+      onRequest: _requestInterceptor,
     );
   }
 
-  // TODO: Expose with riverpod
   // TODO: Implement error handling
 
   // TODO: Move to custom interceptor
-  RequestOptions requestInterceptor(RequestOptions options) {
+  RequestOptions _requestInterceptor(RequestOptions options) {
     if (options.headers.containsKey("requiresAuthToken")) {
       options.headers.remove("requiresAuthToken");
 
@@ -35,15 +36,15 @@ class ApiService {
   }
 
   Future<List<T>> getCollectionData<T>({
-    required String path,
+    required String endpoint,
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> data) builder,
+    required T Function(Map<String, dynamic> body) builder,
   }) async {
     //Entire map of response
     final data = await _dioService.get(
-      endpoint: path,
+      endpoint: endpoint,
       options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
       queryParams: queryParams,
       cancelToken: cancelToken,
@@ -57,15 +58,15 @@ class ApiService {
   }
 
   Future<T> getDocumentData<T>({
-    required String path,
+    required String endpoint,
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> data) builder,
+    required T Function(Map<String, dynamic> body) builder,
   }) async {
     //Entire map of response
     final data = await _dioService.get(
-      endpoint: path,
+      endpoint: endpoint,
       queryParams: queryParams,
       options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
       cancelToken: cancelToken,
@@ -76,7 +77,7 @@ class ApiService {
   }
 
   Future<T> setData<T>({
-    required String path,
+    required String endpoint,
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
@@ -84,7 +85,7 @@ class ApiService {
   }) async {
     //Entire map of response
     final dataMap = await _dioService.post(
-      endpoint: path,
+      endpoint: endpoint,
       data: data,
       options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
       cancelToken: cancelToken,
@@ -94,7 +95,7 @@ class ApiService {
   }
 
   Future<T> updateData<T>({
-    required String path,
+    required String endpoint,
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
@@ -102,7 +103,7 @@ class ApiService {
   }) async {
     //Entire map of response
     final dataMap = await _dioService.patch(
-      endpoint: path,
+      endpoint: endpoint,
       data: data,
       options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
       cancelToken: cancelToken,
@@ -112,7 +113,7 @@ class ApiService {
   }
 
   Future<T> deleteData<T>({
-    required String path,
+    required String endpoint,
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
@@ -120,7 +121,7 @@ class ApiService {
   }) async {
     //Entire map of response
     final dataMap = await _dioService.patch(
-      endpoint: path,
+      endpoint: endpoint,
       data: data,
       options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
       cancelToken: cancelToken,
