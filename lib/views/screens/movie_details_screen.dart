@@ -83,8 +83,8 @@ class MovieDetailsScreen extends HookWidget {
             child: CustomNetworkImage(
               imageUrl: leftMoviePoster,
               fit: BoxFit.fill,
-              placeholder: (_, __) => const MoviePosterPlaceholder(),
-              errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
+              placeholder: const MoviePosterPlaceholder(),
+              errorWidget: const MoviePosterPlaceholder(),
             ),
           ),
 
@@ -97,8 +97,8 @@ class MovieDetailsScreen extends HookWidget {
             child: CustomNetworkImage(
               imageUrl: rightMoviePoster,
               fit: BoxFit.fill,
-              placeholder: (_, __) => const MoviePosterPlaceholder(),
-              errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
+              placeholder: const MoviePosterPlaceholder(),
+              errorWidget: const MoviePosterPlaceholder(),
             ),
           ),
 
@@ -121,8 +121,8 @@ class MovieDetailsScreen extends HookWidget {
             child: CustomNetworkImage(
               imageUrl: movie["poster_url"],
               borderRadius: 10,
-              placeholder: (_, __) => const MoviePosterPlaceholder(),
-              errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
+              placeholder: const MoviePosterPlaceholder(),
+              errorWidget: const MoviePosterPlaceholder(),
               fit: BoxFit.fill,
               margin: const EdgeInsets.symmetric(horizontal: 10),
             ),

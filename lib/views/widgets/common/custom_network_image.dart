@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomNetworkImage extends StatelessWidget {
@@ -8,15 +9,8 @@ class CustomNetworkImage extends StatelessWidget {
   final double borderRadius;
   final BoxFit? fit;
   final EdgeInsetsGeometry? margin;
-  final Widget Function(
-    BuildContext context,
-    String url,
-  )? placeholder;
-  final Widget Function(
-    BuildContext context,
-    String url,
-    dynamic error,
-  )? errorWidget;
+  final Widget? placeholder;
+  final Widget? errorWidget;
 
   CustomNetworkImage({
     double? width,
@@ -36,8 +30,14 @@ class CustomNetworkImage extends StatelessWidget {
       imageUrl: imageUrl,
       height: height,
       width: width,
-      placeholder: placeholder,
-      errorWidget: errorWidget,
+      placeholder: (_,__) => Padding(
+        padding: margin ?? EdgeInsets.zero,
+        child: placeholder ?? const SizedBox.shrink(),
+      ),
+      errorWidget: (_,__,___) => Padding(
+        padding: margin ?? EdgeInsets.zero,
+        child: errorWidget ?? const SizedBox.shrink(),
+      ),
       imageBuilder: (ctx, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(

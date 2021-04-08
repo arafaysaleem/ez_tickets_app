@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
 import '../../helper/utils/constants.dart';
@@ -29,21 +29,21 @@ final List<Map<String, dynamic>> nowShowing = const [
     "genres": ["Action", "Drama", "History"],
     "rating": 9.0,
     "poster_url":
-        "https://talenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg"
+        "https://atalenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg"
   },
   {
     "title": "Good Boys",
     "genres": ["Action", "Drama", "Comedy"],
     "rating": 6.7,
     "poster_url":
-        "https://m.media-amazon.com/images/M/MV5BMTc1NjIzODAxMF5BMl5BanBnXkFtZTgwMTgzNzk1NzM@._V1_.jpg"
+        "https://am.media-amazon.com/images/M/MV5BMTc1NjIzODAxMF5BMl5BanBnXkFtZTgwMTgzNzk1NzM@._V1_.jpg"
   },
   {
     "title": "The Hustle",
     "genres": ["Action", "Drama", "Comedy"],
     "rating": 5.4,
     "poster_url":
-        "https://m.media-amazon.com/images/M/MV5BMTc3MDcyNzE5N15BMl5BanBnXkFtZTgwNzE2MDE0NzM@._V1_.jpg"
+        "https://am.media-amazon.com/images/M/MV5BMTc3MDcyNzE5N15BMl5BanBnXkFtZTgwNzE2MDE0NzM@._V1_.jpg"
   },
 ];
 
@@ -130,14 +130,16 @@ class _MovieBackdropView extends HookWidget {
         imageUrl: nowShowing[i]["poster_url"],
         fit: BoxFit.cover,
         placeholder: (_, __) => const MoviePosterPlaceholder(
-          childAlign: Alignment.topCenter,
-          padding: EdgeInsets.only(top: 40),
+          childXAlign: Alignment.topCenter,
+          padding: EdgeInsets.only(top: 100),
+          iconSize: 75,
           borderRadius: 0,
         ),
         errorWidget: (_, __, ___) => const MoviePosterPlaceholder(
-          childAlign: Alignment.topCenter,
+          childXAlign: Alignment.topCenter,
           borderRadius: 0,
-          padding: EdgeInsets.only(top: 40),
+          iconSize: 75,
+          padding: EdgeInsets.only(top: 100),
         ),
       ),
     );
@@ -227,10 +229,12 @@ class _MovieContainer extends HookWidget {
               height: constraints.minHeight * 0.58,
               fit: BoxFit.fill,
               margin: const EdgeInsets.symmetric(horizontal: 10),
-              placeholder: (_, __) =>
-                  MoviePosterPlaceholder(height: constraints.minHeight * 0.58),
-              errorWidget: (_, __, ___) =>
-                  MoviePosterPlaceholder(height: constraints.minHeight * 0.58),
+              placeholder: MoviePosterPlaceholder(
+                height: constraints.minHeight * 0.58,
+              ),
+              errorWidget: MoviePosterPlaceholder(
+                height: constraints.minHeight * 0.58,
+              ),
             ),
 
             const SizedBox(height: 10),

@@ -125,8 +125,8 @@ class _ActorListItem extends StatelessWidget {
           width: 100,
           fit: BoxFit.cover,
           borderRadius: 5,
-          placeholder: (_,__) => const ActorPicturePlaceholder(),
-          errorWidget: (_,__,___) => const ActorPicturePlaceholder(),
+          placeholder: const ActorPicturePlaceholder(),
+          errorWidget: const ActorPicturePlaceholder(),
         ),
 
         const SizedBox(height: 5),
