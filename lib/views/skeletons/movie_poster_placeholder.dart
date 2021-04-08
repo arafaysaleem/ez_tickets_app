@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import '../../helper/utils/constants.dart';
 
 class MoviePosterPlaceholder extends StatelessWidget {
+  final double? height;
+  final double borderRadius, iconSize;
+  final AlignmentGeometry childXAlign;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsets? padding;
+
   const MoviePosterPlaceholder({
     this.height,
     this.padding,
-    Alignment? childAlign,
+    this.margin,
+    Alignment? childXAlign,
+    MainAxisAlignment? childYAlign,
     double? borderRadius,
-  })  : this.childAlign = childAlign ?? Alignment.center,
-        this.borderRadius = borderRadius ?? 20;
-
-  final double? height;
-  final double borderRadius;
-  final AlignmentGeometry childAlign;
-  final EdgeInsets? padding;
+    double? iconSize,
+    double? fontSize,
+  })  : this.childXAlign = childXAlign ?? Alignment.center,
+        this.borderRadius = borderRadius ?? 20,
+        this.iconSize = iconSize ?? 55;
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +28,17 @@ class MoviePosterPlaceholder extends StatelessWidget {
       width: double.infinity,
       height: height,
       padding: padding,
+      margin: margin,
       decoration: BoxDecoration(
         color: Constants.scaffoldColor,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Align(
-        alignment: childAlign,
+        alignment: childXAlign,
         child: Icon(
           Icons.movie_creation_rounded,
           color: Constants.primaryColor,
-          size: 45,
+          size: iconSize,
         ),
       ),
     );
