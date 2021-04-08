@@ -49,6 +49,8 @@ class Constants {
 
   static Color get textWhite80Color => Color(0xFFf2f2f2);
 
+  static Color get barrierColor => Colors.black87;
+
   static TextStyle get latoFont =>
       GoogleFonts.lato().copyWith(color: Colors.black);
 
