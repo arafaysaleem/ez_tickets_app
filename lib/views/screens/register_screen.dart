@@ -243,8 +243,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       address: addressController.text,
                                       contact: contactController.text,
                                     );
-                            if (registered)
+                            if (registered) {
+                              emailController.clear();
+                              passwordController.clear();
+                              fullNameController.clear();
+                              addressController.clear();
+                              contactController.clear();
+                              cPasswordController.clear();
+                              _formHasData = false;
                               context.router.push(const MoviesScreenRoute());
+                            }
                           }
                         },
                         gradient: Constants.buttonGradientOrange,
