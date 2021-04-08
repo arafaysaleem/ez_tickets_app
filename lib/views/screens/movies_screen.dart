@@ -29,21 +29,21 @@ final List<Map<String, dynamic>> nowShowing = const [
     "genres": ["Action", "Drama", "History"],
     "rating": 9.0,
     "poster_url":
-        "https://atalenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg"
+        "https://talenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg"
   },
   {
     "title": "Good Boys",
     "genres": ["Action", "Drama", "Comedy"],
     "rating": 6.7,
     "poster_url":
-        "https://am.media-amazon.com/images/M/MV5BMTc1NjIzODAxMF5BMl5BanBnXkFtZTgwMTgzNzk1NzM@._V1_.jpg"
+        "https://m.media-amazon.com/images/M/MV5BMTc1NjIzODAxMF5BMl5BanBnXkFtZTgwMTgzNzk1NzM@._V1_.jpg"
   },
   {
     "title": "The Hustle",
     "genres": ["Action", "Drama", "Comedy"],
     "rating": 5.4,
     "poster_url":
-        "https://am.media-amazon.com/images/M/MV5BMTc3MDcyNzE5N15BMl5BanBnXkFtZTgwNzE2MDE0NzM@._V1_.jpg"
+        "https://m.media-amazon.com/images/M/MV5BMTc3MDcyNzE5N15BMl5BanBnXkFtZTgwNzE2MDE0NzM@._V1_.jpg"
   },
 ];
 
@@ -131,15 +131,15 @@ class _MovieBackdropView extends HookWidget {
         fit: BoxFit.cover,
         placeholder: (_, __) => const MoviePosterPlaceholder(
           childXAlign: Alignment.topCenter,
-          padding: EdgeInsets.only(top: 100),
-          iconSize: 75,
+          padding: EdgeInsets.only(top: 110),
+          iconSize: 85,
           borderRadius: 0,
         ),
         errorWidget: (_, __, ___) => const MoviePosterPlaceholder(
           childXAlign: Alignment.topCenter,
           borderRadius: 0,
-          iconSize: 75,
-          padding: EdgeInsets.only(top: 100),
+          iconSize: 85,
+          padding: EdgeInsets.only(top: 110),
         ),
       ),
     );
@@ -167,8 +167,10 @@ class __MoviesCarouselState extends State<_MoviesCarousel> {
       carouselController: CarouselController(),
       options: getCarouselOptions(),
       itemCount: nowShowing.length,
-      itemBuilder: (ctx, i, _) =>
-          _MovieContainer(isCurrent: _currentIndex == i, movie: nowShowing[i]),
+      itemBuilder: (ctx, i, _) => _MovieContainer(
+        isCurrent: _currentIndex == i,
+        movie: nowShowing[i],
+      ),
     );
   }
 
@@ -219,7 +221,7 @@ class _MovieContainer extends HookWidget {
         ),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: EdgeInsets.fromLTRB(10, 20, 10, Constants.bottomInsetsLow),
+      padding: EdgeInsets.fromLTRB(20,20,20,Constants.bottomInsetsLow),
       child: LayoutBuilder(
         builder: (ctx, constraints) => Column(
           children: [
@@ -228,7 +230,6 @@ class _MovieContainer extends HookWidget {
               imageUrl: movie["poster_url"],
               height: constraints.minHeight * 0.58,
               fit: BoxFit.fill,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
               placeholder: MoviePosterPlaceholder(
                 height: constraints.minHeight * 0.58,
               ),
@@ -241,10 +242,7 @@ class _MovieContainer extends HookWidget {
 
             //Movie details and button
             if (isCurrent) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: _MovieOverviewColumn(movie: movie),
-              ),
+              _MovieOverviewColumn(movie: movie),
 
               const Spacer(),
 
@@ -265,7 +263,7 @@ class _MovieContainer extends HookWidget {
                 onPressed: () {
                   context.router.push(const MovieDetailsScreenRoute());
                 },
-              )
+              ),
             ]
           ],
         ),

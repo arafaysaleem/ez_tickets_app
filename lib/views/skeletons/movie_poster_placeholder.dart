@@ -20,7 +20,7 @@ class MoviePosterPlaceholder extends StatelessWidget {
     double? fontSize,
   })  : this.childXAlign = childXAlign ?? Alignment.center,
         this.borderRadius = borderRadius ?? 20,
-        this.iconSize = iconSize ?? 55;
+        this.iconSize = iconSize ?? 65;
 
   @override
   Widget build(BuildContext context) {
