@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../helper/extensions/string_extension.dart';
@@ -234,16 +234,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            print("valid");
                             formKey.currentState!.save();
-                            final registered = await context.read(authProvider).register(
-                              email: emailController.text,
-                              password: passwordController.text,
-                              fullName: fullNameController.text,
-                              address: addressController.text,
-                              contact: contactController.text,
-                            );
-                            if(registered) context.router.push(const MoviesScreenRoute());
+                            final registered =
+                                await context.read(authProvider).register(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      fullName: fullNameController.text,
+                                      address: addressController.text,
+                                      contact: contactController.text,
+                                    );
+                            if (registered)
+                              context.router.push(const MoviesScreenRoute());
                           }
                         },
                         gradient: Constants.buttonGradientOrange,

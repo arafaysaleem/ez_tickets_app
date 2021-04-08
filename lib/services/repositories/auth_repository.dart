@@ -69,4 +69,8 @@ class AuthRepository {
       builder: (response) => response["headers"]["message"],
     );
   }
+
+  void eraseToken() async {
+    _apiService.token = "";
+  }
 }

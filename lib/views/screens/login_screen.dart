@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//Providers
-import '../../providers/all_providers.dart';
-
 //Helpers
 import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/constants.dart';
+
+//Providers
+import '../../providers/all_providers.dart';
 
 //Routes
 import '../../routes/app_router.gr.dart';
@@ -92,14 +92,17 @@ class LoginScreen extends HookWidget {
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () async {
-                  print("onPressed");
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
                     final loggedIn = await context.read(authProvider).login(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    if(loggedIn) context.router.push(const MoviesScreenRoute());
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                    if (loggedIn) {
+                      emailController.clear();
+                      passwordController.clear();
+                      context.router.push(const MoviesScreenRoute());
+                    }
                   }
                 },
                 gradient: Constants.buttonGradientOrange,

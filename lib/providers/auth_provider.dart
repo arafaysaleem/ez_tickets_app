@@ -10,17 +10,16 @@ import '../models/user_model.dart';
 //TODO: Change to state notifier
 //TODO: Generate auth states with freezed
 //TODO: Set relevant state based on login/register
-//TODO: Create logout method
 //TODO: Create auth_notifier_provider
 //TODO: Read auth status in login_screen and show relevant page widget
 
 class AuthProvider {
-  late UserModel _currentUser;
+  late UserModel? _currentUser;
   final AuthRepository _authRepository;
 
   AuthProvider(this._authRepository);
 
-  int get currentUserId => _currentUser.userId;
+  int get currentUserId => _currentUser!.userId;
 
   Future<bool> login({
     required String email,
@@ -85,5 +84,10 @@ class AuthProvider {
       "OTP": otp,
     };
     return await _authRepository.sendOtpData(data: data);
+  }
+
+  void logout(){
+    _authRepository.eraseToken();
+    _currentUser = null;
   }
 }
