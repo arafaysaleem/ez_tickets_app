@@ -8,7 +8,7 @@ class ApiService {
 
   ApiService() {
     final options = BaseOptions(
-      baseUrl: "https://ez-tickets-backend.herokuapp.com/",
+      baseUrl: "https://ez-tickets-backend.herokuapp.com/api/v1",
     );
     _dioService = DioService(
       baseOptions: options,

@@ -67,6 +67,7 @@ class DioService {
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
+      print("URL: $endpoint");
       return response.data;
     } on SocketException {
       throw FetchDataException('No Internet connection');
