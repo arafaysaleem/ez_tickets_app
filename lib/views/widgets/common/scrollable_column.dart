@@ -20,7 +20,7 @@ class ScrollableColumn extends StatelessWidget {
     this.textDirection,
     this.physics,
     required this.children,
-  })  : crossAxisAlignment = crossAxisAlignment ?? CrossAxisAlignment.center,
+  })   : crossAxisAlignment = crossAxisAlignment ?? CrossAxisAlignment.center,
         mainAxisAlignment = mainAxisAlignment ?? MainAxisAlignment.start,
         verticalDirection = verticalDirection ?? VerticalDirection.down,
         padding = padding ?? EdgeInsets.zero,
