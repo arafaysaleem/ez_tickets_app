@@ -15,7 +15,7 @@ dependencies:
   freezed_annotation: ^0.14.1
   google_fonts: ^2.0.0
   flutter_hooks: ^0.16.0
-  hooks_riverpod: ^0.13.1+1
+  hooks_riverpod: ^0.14.0+1
   flutter_launcher_icons: ^0.9.0
   carousel_slider: ^4.0.0-nullsafety.0
   dio: ^4.0.0
@@ -24,7 +24,7 @@ dev_dependencies:
     sdk: flutter
   auto_route_generator: ^1.0.2
   freezed: ^0.14.1+2
-  json_serializable: ^4.0.0
+  json_serializable: ^4.1.0
   build_runner: null
 flutter:
   uses-material-design: true
