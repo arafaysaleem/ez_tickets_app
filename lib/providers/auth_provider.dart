@@ -28,6 +28,7 @@ class AuthProvider {
   }) async {
     final data = {"email": email, "password": password};
     _currentUser = await _authRepository.sendLoginData(data: data);
+    print(_currentUser);
     return true;
   }
 
@@ -37,7 +38,7 @@ class AuthProvider {
     required String fullName,
     required String contact,
     required String address,
-    required UserRole role,
+    UserRole role = UserRole.API_USER,
   }) async {
     final Map<String, dynamic> data = {
       "email": email,
@@ -48,6 +49,7 @@ class AuthProvider {
       "role": role.toJson,
     };
     _currentUser = await _authRepository.sendRegisterData(data: data);
+    print(_currentUser);
     return true;
   }
 
