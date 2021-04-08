@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//Providers
-import '../../providers/all_providers.dart';
+import '../../helper/extensions/string_extension.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
-import '../../helper/extensions/string_extension.dart';
+
+//Providers
+import '../../providers/all_providers.dart';
 
 //Widgets
 import '../widgets/common/custom_text_button.dart';
@@ -15,7 +15,7 @@ import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
-class RegisterScreen extends StatefulHookWidget {
+class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -23,12 +23,12 @@ class RegisterScreen extends StatefulHookWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isState1 = true;
   final formKey = GlobalKey<FormState>();
-  final emailController = useTextEditingController(text: "");
-  final passwordController = useTextEditingController(text: "");
-  final cPasswordController = useTextEditingController(text: "");
-  final fullNameController = useTextEditingController(text: "");
-  final addressController = useTextEditingController(text: "");
-  final contactController = useTextEditingController(text: "");
+  final emailController = TextEditingController(text: "");
+  final passwordController = TextEditingController(text: "");
+  final cPasswordController = TextEditingController(text: "");
+  final fullNameController = TextEditingController(text: "");
+  final addressController = TextEditingController(text: "");
+  final contactController = TextEditingController(text: "");
 
   List<Widget> getState1Fields() {
     return [
@@ -39,7 +39,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: "Type your full name",
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
-        validator: (fullName){},
+        validator: (fullName) {
+          if (fullName!.isEmpty) return "Please enter a full name";
+          return null;
+        },
       ),
 
       const SizedBox(height: 25),
@@ -66,7 +69,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: "Type your full address",
         keyboardType: TextInputType.streetAddress,
         textInputAction: TextInputAction.next,
-        validator: (address){},
+        validator: (address) {
+          if (address!.isEmpty) return "Please enter a address";
+          return null;
+        },
       ),
 
       const SizedBox(height: 25),
@@ -78,7 +84,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: "Type your contact number",
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.done,
-        validator: (contact){},
+        validator: (contact) {
+          if (contact!.isEmpty) return "Please enter a contact";
+          return null;
+        },
       ),
     ];
   }
@@ -107,8 +116,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: "Retype your password",
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
-        validator: (cPassword){
-          if(passwordController.text.trim() == cPassword) return null;
+        validator: (cPassword) {
+          if (passwordController.text.trim() == cPassword) return null;
           return "Passwords don't match";
         },
       ),
@@ -170,9 +179,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ? CustomTextButton.outlined(
                         width: double.infinity,
                         onPressed: () {
-                          setState(() {
-                            isState1 = false;
-                          });
+                          if (formKey.currentState!.validate()) {
+                            setState(() {
+                              isState1 = false;
+                            });
+                          }
                         },
                         padding: const EdgeInsets.only(left: 20, right: 15),
                         border: Border.all(color: theme.primaryColor, width: 4),
@@ -205,10 +216,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
-                            context.read(authProvider).login(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
+                            context.read(authProvider).register(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  fullName: fullNameController.text,
+                                  address: addressController.text,
+                                  contact: contactController.text,
+                                );
                           }
                           // setState(() {
                           //   isState1 = true;
@@ -233,5 +247,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    cPasswordController.dispose();
+    fullNameController.dispose();
+    addressController.dispose();
+    contactController.dispose();
+    super.dispose();
   }
 }

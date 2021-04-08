@@ -91,10 +91,10 @@ class LoginScreen extends HookWidget {
               ),
               child: CustomTextButton.gradient(
                 width: double.infinity,
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    context.read(authProvider).login(
+                    await context.read(authProvider).login(
                       email: emailController.text,
                       password: passwordController.text,
                     );
