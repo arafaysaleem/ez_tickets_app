@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'routes/app_router.gr.dart';
 
@@ -19,12 +20,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
-      debugShowCheckedModeBanner: false,
-      title: 'EZ Tickets',
-      theme: CustomTheme.mainTheme,
+    return ProviderScope(
+      child: MaterialApp.router(
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        debugShowCheckedModeBanner: false,
+        title: 'EZ Tickets',
+        theme: CustomTheme.mainTheme,
+      ),
     );
   }
 }
