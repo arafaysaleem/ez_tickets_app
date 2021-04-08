@@ -70,16 +70,14 @@ class MovieSummaryBox extends StatelessWidget {
         ),
 
         //Summary text
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: Text(
-              movie["summary"],
-              style: textTheme.bodyText2!.copyWith(
-                fontSize: 13,
-                height: 1.4,
-                color: Constants.textGreyColor,
-              ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: Text(
+            movie["summary"],
+            style: textTheme.bodyText2!.copyWith(
+              fontSize: 13,
+              height: 1.4,
+              color: Constants.textGreyColor,
             ),
           ),
         ),
