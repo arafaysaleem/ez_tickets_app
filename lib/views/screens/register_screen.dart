@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../helper/extensions/string_extension.dart';
@@ -9,7 +10,11 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //Widgets
+import '../widgets/common/custom_alert_dialog.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
@@ -21,7 +26,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  bool isState1 = true;
+  bool isState1 = true, _formHasData = false;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController(text: "");
   final passwordController = TextEditingController(text: "");
@@ -136,6 +141,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
             //Input card
             Form(
               key: formKey,
+              onChanged: () {
+                _formHasData = true;
+              },
+              onWillPop: () async {
+                if (_formHasData) {
+                  final doPop = await showDialog<bool>(
+                    context: context,
+                    barrierColor: Constants.barrierColor,
+                    builder: (ctx) => const CustomAlertDialog(),
+                  );
+                  if (doPop == null || !doPop) return Future<bool>.value(false);
+                }
+                return Future<bool>.value(true);
+              },
               child: RoundedBottomContainer(
                 onBackTap: !isState1
                     ? () {
@@ -213,20 +232,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     //Confirm button
                     : CustomTextButton.gradient(
                         width: double.infinity,
-                        onPressed: () {
+                        onPressed: () async {
                           if (formKey.currentState!.validate()) {
+                            print("valid");
                             formKey.currentState!.save();
-                            context.read(authProvider).register(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  fullName: fullNameController.text,
-                                  address: addressController.text,
-                                  contact: contactController.text,
-                                );
+                            final registered = await context.read(authProvider).register(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              fullName: fullNameController.text,
+                              address: addressController.text,
+                              contact: contactController.text,
+                            );
+                            if(registered) context.router.push(const MoviesScreenRoute());
                           }
-                          // setState(() {
-                          //   isState1 = true;
-                          // });
                         },
                         gradient: Constants.buttonGradientOrange,
                         child: const Center(

@@ -12,11 +12,11 @@ import '../../helper/utils/constants.dart';
 
 //Routes
 import '../../routes/app_router.gr.dart';
+
+//Widgets
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
-
-//Widgets
 import '../widgets/common/scrollable_column.dart';
 
 class LoginScreen extends HookWidget {
@@ -92,14 +92,15 @@ class LoginScreen extends HookWidget {
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () async {
+                  print("onPressed");
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    await context.read(authProvider).login(
+                    final loggedIn = await context.read(authProvider).login(
                       email: emailController.text,
                       password: passwordController.text,
                     );
+                    if(loggedIn) context.router.push(const MoviesScreenRoute());
                   }
-                  // context.router.push(const MoviesScreenRoute());
                 },
                 gradient: Constants.buttonGradientOrange,
                 child: const Center(
