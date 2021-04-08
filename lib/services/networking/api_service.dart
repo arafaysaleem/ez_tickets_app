@@ -1,16 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'dio_service.dart';
 
-//providers
-import '../../providers/all_providers.dart';
-
 class ApiService {
   late final DioService _dioService;
-  final Reader _read;
+  String token = "";
 
-  ApiService(this._read) {
+  ApiService() {
     final options = BaseOptions(
       baseUrl: "https://ez-tickets-backend.herokuapp.com/",
     );
@@ -29,7 +25,6 @@ class ApiService {
 
       // SharedPreferences prefs = await SharedPreferences.getInstance();
       // var header = prefs.get("Header");
-      final token = _read(authProvider).token;
       options.headers.addAll({'Authorization': 'Bearer $token'});
     }
     return options;

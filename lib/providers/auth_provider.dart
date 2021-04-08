@@ -1,17 +1,11 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+//repositories
+import '../services/repositories/auth_repository.dart';
 
 //enums
 import '../enums/user_role_enum.dart';
 
 //models
 import '../models/user_model.dart';
-
-//services
-import '../services/networking/api_endpoint.dart';
-import '../services/networking/api_service.dart';
-
-//providers
-import 'all_providers.dart';
 
 //TODO: Change to state notifier
 //TODO: Generate auth states with freezed
@@ -21,34 +15,23 @@ import 'all_providers.dart';
 //TODO: Read auth status in login_screen and show relevant page widget
 
 class AuthProvider {
-  String token = "";
+  late UserModel _currentUser;
+  final AuthRepository _authRepository;
 
-  late int _currentUserId;
-  final Reader _read;
-  late final ApiService _apiService;
+  AuthProvider(this._authRepository);
 
-  AuthProvider(this._read) {
-    _apiService = _read(apiServiceProvider);
-  }
+  int get currentUserId => _currentUser.userId;
 
-  int get currentUserId => _currentUserId;
-
-  Future<UserModel> login(
-      {required String email, required String password}) async {
+  Future<bool> login({
+    required String email,
+    required String password,
+  }) async {
     final data = {"email": email, "password": password};
-    final currentUser = await _apiService.setData<UserModel>(
-      endpoint: ApiEndpoint.auth(login: true),
-      data: data,
-      builder: (response) {
-        token = response["body"]["token"];
-        return UserModel.fromJson(response["body"]);
-      },
-    );
-    _currentUserId = currentUser.userId;
-    return currentUser;
+    _currentUser = await _authRepository.sendLoginData(data: data);
+    return true;
   }
 
-  Future<String> register({
+  Future<bool> register({
     required String email,
     required String password,
     required String fullName,
@@ -56,7 +39,7 @@ class AuthProvider {
     required String address,
     required UserRole role,
   }) async {
-    final data = {
+    final Map<String, dynamic> data = {
       "email": email,
       "password": password,
       "full_name": fullName,
@@ -64,26 +47,13 @@ class AuthProvider {
       "address": address,
       "role": role.toJson,
     };
-    final message = await _apiService.setData<String>(
-      endpoint: ApiEndpoint.auth(login: true),
-      data: data,
-      builder: (response) {
-        token = response["body"]["token"];
-        _currentUserId = response["body"]["user_id"];
-        return response["headers"]["message"];
-      },
-    );
-    return message;
+    _currentUser = await _authRepository.sendRegisterData(data: data);
+    return true;
   }
 
   Future<String> forgotPassword(String email) async {
     final data = {"email": email};
-    final message = await _apiService.setData(
-      endpoint: ApiEndpoint.auth(forgotPassword: true),
-      data: data,
-      builder: (response) => response["headers"]["message"],
-    );
-    return message;
+    return await _authRepository.sendForgotPasswordData(data: data);
   }
 
   Future<String> resetPassword({
@@ -91,12 +61,7 @@ class AuthProvider {
     required String password,
   }) async {
     final data = {"email": email, "password": password};
-    final message = await _apiService.setData(
-      endpoint: ApiEndpoint.auth(resetPassword: true),
-      data: data,
-      builder: (response) => response["headers"]["message"],
-    );
-    return message;
+    return await _authRepository.sendResetPasswordData(data: data);
   }
 
   Future<String> changePassword({
@@ -109,12 +74,7 @@ class AuthProvider {
       "password": oldPassword,
       "new_password": newPassword,
     };
-    final message = await _apiService.setData(
-      endpoint: ApiEndpoint.auth(changePassword: true),
-      data: data,
-      builder: (response) => response["headers"]["message"],
-    );
-    return message;
+    return await _authRepository.sendChangePasswordData(data: data);
   }
 
   Future<String> verifyOtp({required String email, required int otp}) async {
@@ -122,13 +82,6 @@ class AuthProvider {
       "email": email,
       "OTP": otp,
     };
-    final message = await _apiService.setData(
-      endpoint: ApiEndpoint.auth(changePassword: true),
-      data: data,
-      builder: (response) => response["headers"]["message"],
-    );
-    return message;
+    return await _authRepository.sendOtpData(data: data);
   }
-
-  void refreshToken({required String oldToken}) {}
 }
