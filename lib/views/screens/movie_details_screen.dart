@@ -124,7 +124,7 @@ class MovieDetailsScreen extends HookWidget {
               placeholder: (_, __) => const MoviePosterPlaceholder(),
               errorWidget: (_, __, ___) => const MoviePosterPlaceholder(),
               fit: BoxFit.fill,
-              // TODO: margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
             ),
           ),
 
