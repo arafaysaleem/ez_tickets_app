@@ -46,5 +46,5 @@ app.*.map.json
 /android/app/release
 
 # Generated model files
-lib/models/*.g.dart
-lib/models/*.freezed.dart
+*.g.dart
+*.freezed.dart
