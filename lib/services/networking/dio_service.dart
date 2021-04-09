@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import 'custom_exception.dart';
+import 'network_exception.dart';
 import 'interceptors/api_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
 import 'interceptors/network_error_interceptor.dart';
@@ -47,8 +46,8 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
+    } catch(ex) {
+      throw NetworkException.getDioException(ex);
     }
   }
 
@@ -66,8 +65,8 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
+    } catch(ex) {
+      throw NetworkException.getDioException(ex);
     }
   }
 
@@ -85,8 +84,8 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
+    } catch(ex) {
+      throw NetworkException.getDioException(ex);
     }
   }
 
@@ -104,8 +103,8 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
+    } catch(ex) {
+      throw NetworkException.getDioException(ex);
     }
   }
 }
