@@ -2,33 +2,29 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:ez_ticketz_app/services/networking/interceptors/logging_interceptor.dart';
+import 'package:flutter/foundation.dart';
 
 import 'custom_exception.dart';
+import 'interceptors/api_interceptor.dart';
+import 'interceptors/logging_interceptor.dart';
+import 'interceptors/network_error_interceptor.dart';
 
 class DioService {
   late final Dio _dio;
   late final CancelToken _cancelToken;
 
-  DioService({
-    required BaseOptions baseOptions,
-    required RequestOptions Function(RequestOptions options) onRequest,
-  }) {
-    createDio(baseOptions, onRequest);
+  DioService({required BaseOptions baseOptions}) {
+    createDio(baseOptions);
   }
 
-  void createDio(
-    BaseOptions baseOptions,
-      RequestOptions Function(RequestOptions options) onRequest,
-  ) {
+  void createDio(BaseOptions baseOptions) {
     this._cancelToken = CancelToken();
     _dio = Dio(baseOptions);
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) => handler.next(onRequest(options)),
-      ),
-    );
-    _dio.interceptors.add(LoggingInterceptor());
+    _dio.interceptors.add(ApiInterceptor());
+    if (kDebugMode) {
+      _dio.interceptors.add(LoggingInterceptor());
+    }
+    _dio.interceptors.add(NetworkErrorInterceptor());
   }
 
   void cancelRequests({CancelToken? cancelToken}) {
