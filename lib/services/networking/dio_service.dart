@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:ez_ticketz_app/services/networking/interceptors/logging_interceptor.dart';
 
 import 'custom_exception.dart';
 
@@ -27,6 +28,7 @@ class DioService {
         onRequest: (options, handler) => handler.next(onRequest(options)),
       ),
     );
+    _dio.interceptors.add(LoggingInterceptor());
   }
 
   void cancelRequests({CancelToken? cancelToken}) {
@@ -67,7 +69,6 @@ class DioService {
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      print("URL: $endpoint");
       return response.data;
     } on SocketException {
       throw FetchDataException('No Internet connection');

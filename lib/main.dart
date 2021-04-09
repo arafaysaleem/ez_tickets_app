@@ -1,18 +1,30 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'routes/app_router.gr.dart';
-
 import 'helper/utils/custom_theme.dart';
+import 'routes/app_router.gr.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  debugPrint = setDebugPrint;
   runApp(MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+}
+
+void setDebugPrint (String? message, {int? wrapWidth}) {
+  final date = DateTime.now();
+  message = "${date.year}/${date.month}/${date.day}";
+  message += " ${date.hour}:${date.minute}:${date.second}";
+  message += " $message";
+  debugPrintSynchronously(
+    message,
+    wrapWidth: wrapWidth,
+  );
 }
 
 class MyApp extends StatelessWidget {
