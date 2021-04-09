@@ -12,22 +12,7 @@ class ApiService {
     );
     _dioService = DioService(
       baseOptions: options,
-      onRequest: _requestInterceptor,
     );
-  }
-
-  // TODO: Implement error handling
-
-  // TODO: Move to custom interceptor
-  RequestOptions _requestInterceptor(RequestOptions options) {
-    if (options.headers.containsKey("requiresAuthToken")) {
-      options.headers.remove("requiresAuthToken");
-
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // var header = prefs.get("Header");
-      options.headers.addAll({'Authorization': 'Bearer $token'});
-    }
-    return options;
   }
 
   Future<List<T>> getCollectionData<T>({

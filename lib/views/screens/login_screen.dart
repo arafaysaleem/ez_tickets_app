@@ -92,6 +92,7 @@ class LoginScreen extends HookWidget {
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () async {
+                  print("ON_PRESSED");
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
                     final loggedIn = await context.read(authProvider).login(
