@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 
 import 'package:dio/dio.dart';
@@ -7,7 +5,7 @@ import 'package:dio/dio.dart';
 class LoggingInterceptor extends Interceptor {
 
   @override
-  FutureOr<dynamic> onRequest(
+  void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
@@ -16,56 +14,61 @@ class LoggingInterceptor extends Interceptor {
 
     debugPrint("--> $httpMethod $url"); //GET www.example.com/mock_path/all
 
-    debugPrint("Headers:");
-    options.headers.forEach((k, v) => debugPrint('\t$k: $v'));
+    debugPrint("\tHeaders:");
+    options.headers.forEach((k, v) => debugPrint('\t\t$k: $v'));
 
-    debugPrint("queryParams:");
-    options.queryParameters.forEach((k, v) => debugPrint('\t$k: $v'));
+    if(options.queryParameters.isNotEmpty){
+      debugPrint("\tqueryParams:");
+      options.queryParameters.forEach((k, v) => debugPrint('\t\t$k: $v'));
+    }
 
     if (options.data != null) {
-      debugPrint("Body: ${options.data}");
+      debugPrint("\tBody: ${options.data}");
     }
 
     debugPrint("--> END $httpMethod");
 
-    return options;
+    return super.onRequest(options, handler);
   }
 
   @override
-  FutureOr<dynamic> onResponse(
+  void onResponse(
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    final statusCode = response.statusCode;
-    final url = response.requestOptions.baseUrl + response.requestOptions.path;
 
-    debugPrint("<-- $statusCode $url"); //GET www.example.com/mock_path/all
+    debugPrint("<-- RESPONSE");
 
-    debugPrint("Headers:");
-    response.headers.forEach((k, v) => debugPrint('\t$k: $v'));
+    debugPrint("\tStatus code:${response.statusCode}");
 
-    debugPrint("Response: ${response.data}");
+    debugPrint("\tResponse: ${response.data}");
 
     debugPrint("<-- END HTTP");
+
+    return super.onResponse(response, handler);
   }
 
   @override
-  FutureOr<dynamic> onError(
+  void onError(
     DioError dioError,
     ErrorInterceptorHandler handler,
   ) {
-    final message = dioError.message;
-    String? url;
+    debugPrint("--> ERROR");
 
-    if (dioError.response != null) {
-      url = dioError.response!.requestOptions.baseUrl +
-          dioError.response!.requestOptions.path;
+    if(dioError.response != null){
+      debugPrint("\tStatus code: ${dioError.response!.statusCode}");
+      if(dioError.response!.data != null){
+        String message = dioError.response!.data["headers"]["message"];
+        String error = dioError.response!.data["headers"]["error"];
+        debugPrint("\tException: $error");
+        debugPrint("\tMessage: $message");
+      }
+      else debugPrint("${dioError.response?.data}");
     }
+    else debugPrint("\tUnknown Error");
 
-    debugPrint("<-- $message ${url ?? "URL"}");
+    debugPrint("<-- END ERROR");
 
-    debugPrint("${dioError.response?.data ?? 'Unknown Error'}");
-
-    debugPrint("<-- End error");
+    return super.onError(dioError, handler);
   }
 }

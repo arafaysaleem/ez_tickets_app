@@ -18,11 +18,11 @@ void main() {
 
 void setDebugPrint (String? message, {int? wrapWidth}) {
   final date = DateTime.now();
-  message = "${date.year}/${date.month}/${date.day}";
-  message += " ${date.hour}:${date.minute}:${date.second}";
-  message += " $message";
+  String msg = "${date.year}/${date.month}/${date.day}";
+  msg += " ${date.hour}:${date.minute}:${date.second}";
+  msg += " $message";
   debugPrintSynchronously(
-    message,
+    msg,
     wrapWidth: wrapWidth,
   );
 }
