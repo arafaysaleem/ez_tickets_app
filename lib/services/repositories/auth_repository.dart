@@ -11,6 +11,7 @@ class AuthRepository {
     return await _apiService.setData<UserModel>(
       endpoint: ApiEndpoint.auth(login: true),
       data: data,
+      requiresAuthToken: false,
       builder: (response) {
         _apiService.token = response["body"]["token"];
         return UserModel.fromJson(response["body"]);
@@ -24,6 +25,7 @@ class AuthRepository {
     return await _apiService.setData<UserModel>(
       endpoint: ApiEndpoint.auth(register: true),
       data: data,
+      requiresAuthToken: false,
       builder: (response) {
         _apiService.token = response["body"]["token"];
         data["user_id"] = response["body"]["user_id"];
@@ -38,6 +40,7 @@ class AuthRepository {
     return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(forgotPassword: true),
       data: data,
+      requiresAuthToken: false,
       builder: (response) => response["headers"]["message"],
     );
   }
@@ -48,6 +51,7 @@ class AuthRepository {
     return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(resetPassword: true),
       data: data,
+      requiresAuthToken: false,
       builder: (response) => response["headers"]["message"],
     );
   }
@@ -58,6 +62,7 @@ class AuthRepository {
     return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(changePassword: true),
       data: data,
+      requiresAuthToken: false,
       builder: (response) => response["headers"]["message"],
     );
   }
@@ -66,6 +71,7 @@ class AuthRepository {
     return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(verifyOtp: true),
       data: data,
+      requiresAuthToken: false,
       builder: (response) => response["headers"]["message"],
     );
   }
