@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'network_exception.dart';
 import 'interceptors/api_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
-import 'interceptors/network_error_interceptor.dart';
 
 class DioService {
   late final Dio _dio;
@@ -23,7 +22,6 @@ class DioService {
     if (kDebugMode) {
       _dio.interceptors.add(LoggingInterceptor());
     }
-    _dio.interceptors.add(NetworkErrorInterceptor());
   }
 
   void cancelRequests({CancelToken? cancelToken}) {
