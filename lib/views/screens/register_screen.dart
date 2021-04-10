@@ -1,5 +1,3 @@
-import 'package:ez_ticketz_app/states/auth_state.dart';
-import 'package:ez_ticketz_app/views/widgets/common/welcome_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +10,11 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//States
+import '../../states/auth_state.dart';
+
 //Widgets
+import '../widgets/common/welcome_widget.dart';
 import '../widgets/common/custom_alert_dialog.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
