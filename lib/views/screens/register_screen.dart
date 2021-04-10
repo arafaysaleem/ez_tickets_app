@@ -156,6 +156,82 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ];
   }
 
+  CustomTextButton getButton(ThemeData theme, authStatus) {
+    //Next Button
+    if (isState1) {
+      return CustomTextButton.outlined(
+        width: double.infinity,
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
+            setState(() {
+              isState1 = false;
+            });
+          }
+        },
+        padding: const EdgeInsets.only(left: 20, right: 15),
+        border: Border.all(
+          color: theme.primaryColor,
+          width: 4,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Next",
+              style: TextStyle(
+                color: theme.primaryColor,
+                fontSize: 15,
+                letterSpacing: 0.7,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
+            //Arrow
+            Icon(
+              Icons.arrow_forward_sharp,
+              size: 26,
+              color: theme.primaryColor,
+            )
+          ],
+        ),
+      );
+    }
+    //Confirm button
+    return CustomTextButton.gradient(
+      width: double.infinity,
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          formKey.currentState!.save();
+          context.read(authProvider.notifier).register(
+                email: emailController.text,
+                password: passwordController.text,
+                fullName: fullNameController.text,
+                address: addressController.text,
+                contact: contactController.text,
+              );
+        }
+      },
+      gradient: Constants.buttonGradientOrange,
+      child: authStatus.maybeWhen(
+        authenticating: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        orElse: () => const Center(
+          child: Text(
+            "CONFIRM",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              letterSpacing: 0.7,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<bool> showConfirmDialog(BuildContext context) async {
     if (_formHasData) {
       final doPop = await showDialog<bool>(
@@ -198,11 +274,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onWillPop: () => showConfirmDialog(context),
                 child: RoundedBottomContainer(
                   onBackTap: !isState1
-                      ? () {
-                          setState(() {
+                      ? () => setState(() {
                             isState1 = true;
-                          });
-                        }
+                          })
                       : null,
                   children: [
                     //Page name
@@ -241,6 +315,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               const Spacer(),
 
+              //Button
               Padding(
                 padding: EdgeInsets.fromLTRB(
                   20,
@@ -249,83 +324,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Constants.bottomInsets,
                 ),
                 child: AnimatedSwitcher(
-                  duration: Constants.defaultAnimationDuration,
-                  switchOutCurve: Curves.easeInBack,
-                  child: isState1
-
-                      //Next Button
-                      ? CustomTextButton.outlined(
-                          width: double.infinity,
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              formKey.currentState!.save();
-                              setState(() {
-                                isState1 = false;
-                              });
-                            }
-                          },
-                          padding: const EdgeInsets.only(left: 20, right: 15),
-                          border: Border.all(
-                            color: theme.primaryColor,
-                            width: 4,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Next",
-                                style: TextStyle(
-                                  color: theme.primaryColor,
-                                  fontSize: 15,
-                                  letterSpacing: 0.7,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-
-                              //Arrow
-                              Icon(
-                                Icons.arrow_forward_sharp,
-                                size: 26,
-                                color: theme.primaryColor,
-                              )
-                            ],
-                          ),
-                        )
-
-                      //Confirm button
-                      : CustomTextButton.gradient(
-                          width: double.infinity,
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              formKey.currentState!.save();
-                              context.read(authProvider.notifier).register(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    fullName: fullNameController.text,
-                                    address: addressController.text,
-                                    contact: contactController.text,
-                                  );
-                            }
-                          },
-                          gradient: Constants.buttonGradientOrange,
-                          child: authStatus.maybeWhen(
-                            authenticating: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            orElse: () => const Center(
-                              child: Text(
-                                "CONFIRM",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  letterSpacing: 0.7,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
+                    duration: Constants.defaultAnimationDuration,
+                    switchOutCurve: Curves.easeInBack,
+                    child: getButton(theme, authStatus)),
               )
             ],
           ),
