@@ -9,6 +9,9 @@ import '../services/repositories/auth_repository.dart';
 //provider imports
 import 'auth_provider.dart';
 
+//states
+import '../states/auth_state.dart';
+
 //service providers
 final apiServiceProvider = Provider<ApiService>((ref) => ApiService());
 
@@ -19,7 +22,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 });
 
 //notifier providers
-final authProvider = Provider<AuthProvider>((ref) {
+final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final authRepository = ref.read(authRepositoryProvider);
   return AuthProvider(authRepository);
 });
