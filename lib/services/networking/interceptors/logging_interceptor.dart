@@ -60,8 +60,12 @@ class LoggingInterceptor extends Interceptor {
       if(dioError.response!.data != null){
         String message = dioError.response!.data["headers"]["message"];
         String error = dioError.response!.data["headers"]["error"];
+        List<dynamic> data = dioError.response!.data["headers"]["data"];
         debugPrint("\tException: $error");
         debugPrint("\tMessage: $message");
+        if(data.isNotEmpty) {
+          debugPrint("\tData: $data");
+        }
       }
       else debugPrint("${dioError.response?.data}");
     }
