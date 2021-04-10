@@ -339,8 +339,8 @@ class _IconsRow extends HookWidget {
               icon: const Icon(Icons.logout),
               padding: const EdgeInsets.all(0),
               onPressed: () {
-                context.read(authProvider).logout();
-                context.router.pop();
+                context.read(authProvider.notifier).logout();
+                context.router.popUntilRoot();
               },
             ),
           ),
