@@ -51,6 +51,8 @@ class AuthProvider extends StateNotifier<AuthState>{
     required String address,
     UserRole role = UserRole.API_USER,
   }) async {
+    if (contact.startsWith("0")) contact = contact.substring(1);
+    contact = "+92$contact";
     final Map<String, dynamic> data = {
       "email": email,
       "password": password,

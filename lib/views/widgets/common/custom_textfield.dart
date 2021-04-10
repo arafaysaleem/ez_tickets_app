@@ -11,10 +11,12 @@ class CustomTextField extends StatefulWidget {
   final String? Function(String? value) validator;
   final void Function(String? value)? onSaved;
   final AlignmentGeometry errorTextAlign;
+  final Widget? prefix;
 
   const CustomTextField({
     Key? key,
     this.onSaved,
+    this.prefix,
     this.errorTextAlign = Alignment.centerRight,
     required this.controller,
     required this.floatingText,
@@ -126,6 +128,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               focusedErrorBorder: _focusedBorder(),
               fillColor: theme.scaffoldBackgroundColor,
               filled: true,
+              prefixIcon: widget.prefix,
               suffixIcon: isPasswordField
                   ? InkWell(
                     onTap: (){
@@ -139,7 +142,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         size: 22,
                       ),
                   )
-                  : const SizedBox.shrink(),
+                  : null,
             ),
           ),
         ),

@@ -66,5 +66,10 @@ class Constants {
   static double get bottomInsetsLow => 45;
 
   static RegExp get emailRegex => RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.(com|pk)+");
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z\.]+\.(com|pk)+");
+
+  static RegExp get contactRegex => RegExp(r"^(03|3)\d{9}$");
+
+  static RegExp get fullNameRegex => RegExp(r"^[a-zA-Z ]+$");
+
 }

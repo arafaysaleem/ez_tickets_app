@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../helper/extensions/string_extension.dart';
-
 //Helpers
+import '../../helper/extensions/string_extension.dart';
+import '../../helper/utils/assets_helper.dart';
 import '../../helper/utils/constants.dart';
 
 //Providers
@@ -14,12 +14,12 @@ import '../../providers/all_providers.dart';
 import '../../states/auth_state.dart';
 
 //Widgets
-import '../widgets/common/welcome_widget.dart';
 import '../widgets/common/custom_alert_dialog.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
+import '../widgets/common/welcome_widget.dart';
 
 class RegisterScreen extends StatefulHookWidget {
   @override
@@ -46,8 +46,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         validator: (fullName) {
-          if (fullName!.isEmpty) return "Please enter a full name";
-          return null;
+          if (fullName != null && fullName.isValidFullName) return null;
+          return "Please enter a valid full name";
         },
       ),
 
@@ -87,12 +87,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
       CustomTextField(
         controller: contactController,
         floatingText: "Contact",
-        hintText: "Type your contact number",
+        hintText: "Type your mobile #",
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.done,
+        prefix: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(17, 0, 5, 0),
+              child: Image.asset(
+                AssetsHelper.pkFlag,
+                width: 25,
+              ),
+            ),
+            Text(
+              "+92",
+              style: TextStyle(
+                fontSize: 18,
+                color: Constants.textWhite80Color,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: VerticalDivider(
+                thickness: 1.1,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
         validator: (contact) {
-          if (contact!.isEmpty) return "Please enter a contact";
-          return null;
+          if (contact != null && contact.isValidContact) return null;
+          return "Please enter a valid contact";
         },
       ),
     ];
@@ -137,8 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         barrierColor: Constants.barrierColor,
         builder: (ctx) => const CustomAlertDialog(),
       );
-      if (doPop == null || !doPop)
-        return Future<bool>.value(false);
+      if (doPop == null || !doPop) return Future<bool>.value(false);
     }
     return Future<bool>.value(true);
   }
@@ -233,6 +258,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: double.infinity,
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
                               setState(() {
                                 isState1 = false;
                               });
