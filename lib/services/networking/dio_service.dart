@@ -46,7 +46,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } catch(ex) {
+    } on Exception catch(ex) {
       throw NetworkException.getDioException(ex);
     }
   }
@@ -65,7 +65,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } catch(ex) {
+    } on Exception catch(ex) {
       throw NetworkException.getDioException(ex);
     }
   }
@@ -84,7 +84,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } catch(ex) {
+    } on Exception catch(ex) {
       throw NetworkException.getDioException(ex);
     }
   }
@@ -103,7 +103,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } catch(ex) {
+    } on Exception catch(ex) {
       throw NetworkException.getDioException(ex);
     }
   }

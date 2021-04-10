@@ -7,52 +7,62 @@ part 'network_exception.freezed.dart';
 
 @freezed
 abstract class NetworkException with _$NetworkException {
+
+  // ignore: non_constant_identifier_names
   const factory NetworkException.FormatException({
     required String name,
     required String message,
-  }) = FormatException;
+  }) = _FormatException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.FetchDataException({
     required String name,
     required String message,
-  }) = FetchDataException;
+  }) = _FetchDataException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.ApiException({
     required String name,
     required String message,
-  }) = ApiException;
+  }) = _ApiException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.TokenExpiredException({
     required String name,
     required String message,
-  }) = TokenExpiredException;
+  }) = _TokenExpiredException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.UnrecognizedException({
     required String name,
     required String message,
-  }) = UnrecognizedException;
+  }) = _UnrecognizedException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.CancelException({
     required String name,
     required String message,
-  }) = CancelException;
+  }) = _CancelException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.ConnectTimeoutException({
     required String name,
     required String message,
-  }) = ConnectTimeoutException;
+  }) = _ConnectTimeoutException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.ReceiveTimeoutException({
     required String name,
     required String message,
-  }) = ReceiveTimeoutException;
+  }) = _ReceiveTimeoutException;
 
+  // ignore: non_constant_identifier_names
   const factory NetworkException.SendTimeoutException({
     required String name,
     required String message,
-  }) = SendTimeoutException;
+  }) = _SendTimeoutException;
 
-  static NetworkException getDioException(error) {
+  static NetworkException getDioException(Exception error) {
     try {
       if (error is DioError) {
         switch (error.type) {
