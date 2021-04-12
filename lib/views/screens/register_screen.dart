@@ -215,7 +215,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       gradient: Constants.buttonGradientOrange,
       child: authStatus.maybeWhen(
         authenticating: () => const Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
         ),
         orElse: () => const Center(
           child: Text(
@@ -324,9 +326,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Constants.bottomInsets,
                 ),
                 child: AnimatedSwitcher(
-                    duration: Constants.defaultAnimationDuration,
-                    switchOutCurve: Curves.easeInBack,
-                    child: getButton(theme, authStatus)),
+                  duration: Constants.defaultAnimationDuration,
+                  switchOutCurve: Curves.easeInBack,
+                  child: getButton(theme, authStatus),
+                ),
               )
             ],
           ),

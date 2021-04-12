@@ -126,7 +126,9 @@ class LoginScreen extends HookWidget {
                   gradient: Constants.buttonGradientOrange,
                   child: authStatus.maybeWhen(
                     authenticating: () => const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
                     ),
                     orElse: () => const Center(
                       child: Text(
