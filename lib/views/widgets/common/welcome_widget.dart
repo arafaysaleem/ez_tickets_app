@@ -26,9 +26,8 @@ class WelcomeWidget extends StatelessWidget {
           //Welcome
           Text(
             "Welcome $fullName",
-            style: textTheme.bodyText1!.copyWith(
-              fontSize: 18,
-              color: Constants.textWhite80Color,
+            style: textTheme.headline1!.copyWith(
+              color: theme.primaryColor,
             ),
           ),
 
