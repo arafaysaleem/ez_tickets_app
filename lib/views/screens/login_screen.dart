@@ -15,7 +15,7 @@ import '../../states/auth_state.dart';
 //Widgets
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
-import '../widgets/common/welcome_widget.dart';
+import 'welcome_screen.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
@@ -34,7 +34,7 @@ class LoginScreen extends HookWidget {
         authenticated: (fullName) {
           emailController.clear();
           passwordController.clear();
-          return WelcomeWidget(fullName: fullName);
+          return WelcomeScreen(fullName: fullName);
         },
         orElse: () => GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

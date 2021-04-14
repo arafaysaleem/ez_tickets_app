@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 
 //Helpers
-import '../../../helper/utils/constants.dart';
+import '../../helper/utils/constants.dart';
 
 //Routes
-import '../../../routes/app_router.gr.dart';
+import '../../routes/app_router.gr.dart';
 
-import 'custom_text_button.dart';
+import '../widgets/common/custom_text_button.dart';
 
-class WelcomeWidget extends StatelessWidget {
+class WelcomeScreen extends StatelessWidget {
   final String fullName;
 
-  const WelcomeWidget({Key? key, required this.fullName}) : super(key: key);
+  const WelcomeScreen({Key? key, required this.fullName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

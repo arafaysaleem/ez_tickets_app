@@ -19,7 +19,7 @@ import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
-import '../widgets/common/welcome_widget.dart';
+import 'welcome_screen.dart';
 
 class RegisterScreen extends StatefulHookWidget {
   @override
@@ -261,7 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           cPasswordController.clear();
           contactController.clear();
           _formHasData = false;
-          return WelcomeWidget(fullName: fullName);
+          return WelcomeScreen(fullName: fullName);
         },
         orElse: () => GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
