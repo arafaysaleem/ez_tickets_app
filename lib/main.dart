@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Helper
 import 'helper/utils/custom_theme.dart';
+
+//Router
 import 'routes/app_router.gr.dart';
 
-void main() {
+//Services
+import 'services/local_storage/prefs.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   debugPrint = setDebugPrint;
+  await Prefs.init();
   runApp(MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
