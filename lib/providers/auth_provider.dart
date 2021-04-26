@@ -1,31 +1,29 @@
-//repositories
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../services/repositories/auth_repository.dart';
 
 //enums
 import '../enums/user_role_enum.dart';
 
 //models
 import '../models/user_model.dart';
+import '../services/networking/network_exception.dart';
+
+//services
+import '../services/repositories/auth_repository.dart';
 
 //states
 import '../states/auth_state.dart';
 
-//services
-import '../services/networking/network_exception.dart';
+//providers
+import 'prefs_provider.dart';
 
-//TODO: Change to state notifier
-//TODO: Generate auth states with freezed
-//TODO: Set relevant state based on login/register
-//TODO: Create auth_notifier_provider
-//TODO: Read auth status in login_screen and show relevant page widget
-
-class AuthProvider extends StateNotifier<AuthState>{
+class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
   final AuthRepository _authRepository;
+  final PrefsProvider _prefsProvider;
+  String token = "";
 
-  AuthProvider(this._authRepository) : super(AuthState.unauthenticated());
+  AuthProvider(this._authRepository, this._prefsProvider)
+      : super(AuthState.unauthenticated());
 
   int get currentUserId => _currentUser!.userId;
 
@@ -38,7 +36,11 @@ class AuthProvider extends StateNotifier<AuthState>{
     try {
       _currentUser = await _authRepository.sendLoginData(data: data);
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
-    } on NetworkException catch(e) {
+      _prefsProvider.setAuthFullName(_currentUser!.fullName);
+      _prefsProvider.setAuthEmail(_currentUser!.email);
+      _prefsProvider.setAuthId(_currentUser!.userId);
+      _prefsProvider.setAuthPassword(password);
+    } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
     }
   }
@@ -65,7 +67,11 @@ class AuthProvider extends StateNotifier<AuthState>{
     try {
       _currentUser = await _authRepository.sendRegisterData(data: data);
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
-    } on NetworkException catch(e) {
+      _prefsProvider.setAuthFullName(fullName);
+      _prefsProvider.setAuthEmail(email);
+      _prefsProvider.setAuthId(_currentUser!.userId);
+      _prefsProvider.setAuthPassword(password);
+    } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
     }
   }
@@ -75,6 +81,7 @@ class AuthProvider extends StateNotifier<AuthState>{
     return await _authRepository.sendForgotPasswordData(data: data);
   }
 
+  //TODO: Change local prefs password
   Future<String> resetPassword({
     required String email,
     required String password,
@@ -83,6 +90,7 @@ class AuthProvider extends StateNotifier<AuthState>{
     return await _authRepository.sendResetPasswordData(data: data);
   }
 
+  //TODO: Change local prefs password
   Future<String> changePassword({
     required String email,
     required String oldPassword,
@@ -104,9 +112,10 @@ class AuthProvider extends StateNotifier<AuthState>{
     return await _authRepository.sendOtpData(data: data);
   }
 
-  void logout(){
+  void logout() {
     _authRepository.eraseToken();
     _currentUser = null;
     state = AuthState.unauthenticated();
+    _prefsProvider.resetPrefs();
   }
 }

@@ -1,11 +1,23 @@
-import '../../models/user_model.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+//services
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//models
+import '../../models/user_model.dart';
+
+//providers
+import '../../providers/all_providers.dart';
+
 class AuthRepository {
   final ApiService _apiService;
+  final Reader _read;
 
-  AuthRepository({required ApiService apiService}) : _apiService = apiService;
+  AuthRepository({
+    required ApiService apiService,
+    required Reader reader,
+  }) : _apiService = apiService, _read = reader;
 
   Future<UserModel> sendLoginData({required Map<String, dynamic> data}) async {
     return await _apiService.setData<UserModel>(
@@ -13,7 +25,7 @@ class AuthRepository {
       data: data,
       requiresAuthToken: false,
       builder: (response) {
-        _apiService.token = response["body"]["token"];
+        _read(authProvider.notifier).token = response["body"]["token"];
         return UserModel.fromJson(response["body"]);
       },
     );
@@ -27,7 +39,7 @@ class AuthRepository {
       data: data,
       requiresAuthToken: false,
       builder: (response) {
-        _apiService.token = response["body"]["token"];
+        _read(authProvider.notifier).token = response["body"]["token"];
         data["user_id"] = response["body"]["user_id"];
         return UserModel.fromJson(data);
       },
@@ -77,6 +89,6 @@ class AuthRepository {
   }
 
   void eraseToken() async {
-    _apiService.token = "";
+    _read(authProvider.notifier).token = "";
   }
 }

@@ -4,7 +4,6 @@ import 'dio_service.dart';
 
 class ApiService {
   late final DioService _dioService;
-  String token = "";
 
   ApiService() {
     final options = BaseOptions(
