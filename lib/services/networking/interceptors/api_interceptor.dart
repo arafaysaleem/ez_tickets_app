@@ -10,10 +10,12 @@ class ApiInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) {
     if (options.headers.containsKey("requiresAuthToken")) {
-      options.headers.remove("requiresAuthToken");
+      if(options.headers["requiresAuthToken"]){
+        final token = ProviderContainer().read(authProvider.notifier).token;
+        options.headers.addAll({'Authorization': 'Bearer $token'});
+      }
 
-      final token = ProviderContainer().read(authProvider.notifier).token;
-      options.headers.addAll({'Authorization': 'Bearer $token'});
+      options.headers.remove("requiresAuthToken");
     }
     return handler.next(options);
   }

@@ -54,20 +54,22 @@ class LoggingInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) {
     debugPrint("--> ERROR");
-
     if(dioError.response != null){
       debugPrint("\tStatus code: ${dioError.response!.statusCode}");
       if(dioError.response!.data != null){
-        String message = dioError.response!.data["headers"]["message"];
-        String error = dioError.response!.data["headers"]["error"];
-        List<dynamic> data = dioError.response!.data["headers"]["data"];
+        final Map<String,dynamic> headers = dioError.response!.data["headers"];
+        String message = headers["message"];
+        String error = headers["error"];
         debugPrint("\tException: $error");
         debugPrint("\tMessage: $message");
-        if(data.isNotEmpty) {
-          debugPrint("\tData: $data");
+        if(headers.containsKey("data")){
+          List<dynamic> data = headers["data"];
+          if(data.isNotEmpty) {
+            debugPrint("\tData: $data");
+          }
         }
       }
-      else debugPrint("${dioError.response?.data}");
+      else debugPrint("${dioError.response!.data}");
     }
     else debugPrint("\tUnknown Error");
 
