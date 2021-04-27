@@ -10,9 +10,6 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
-
 //States
 import '../../states/auth_state.dart';
 import '../widgets/common/custom_dialog.dart';
@@ -39,7 +36,7 @@ class LoginScreen extends HookWidget {
           if (authState is AUTHENTICATED) {
             emailController.clear();
             passwordController.clear();
-            context.router.push(WelcomeScreenRoute());
+            context.router.popUntilRoot();
           } else if (authState is FAILED) {
             await showDialog<bool>(
               context: context,

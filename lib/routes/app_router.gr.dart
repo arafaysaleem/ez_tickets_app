@@ -6,21 +6,20 @@
 
 import 'package:auto_route/auto_route.dart' as _i1;
 
-import '../views/screens/home_screen.dart' as _i2;
+import '../views/screens/app_startup_screen.dart' as _i2;
 import '../views/screens/login_screen.dart' as _i4;
 import '../views/screens/movie_details_screen.dart' as _i6;
 import '../views/screens/movies_screen.dart' as _i5;
 import '../views/screens/register_screen.dart' as _i3;
 import '../views/screens/shows_screen.dart' as _i7;
-import '../views/screens/welcome_screen.dart' as _i8;
 
 class AppRouter extends _i1.RootStackRouter {
   AppRouter();
 
   @override
   final Map<String, _i1.PageFactory> pagesMap = {
-    HomeScreenRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i2.HomeScreen());
+    AppStartupScreenRoute.name: (entry) {
+      return _i1.MaterialPageX(entry: entry, child: _i2.AppStartupScreen());
     },
     RegisterScreenRoute.name: (entry) {
       return _i1.MaterialPageX(entry: entry, child: _i3.RegisterScreen());
@@ -36,29 +35,25 @@ class AppRouter extends _i1.RootStackRouter {
     },
     ShowsScreenRoute.name: (entry) {
       return _i1.MaterialPageX(entry: entry, child: _i7.ShowsScreen());
-    },
-    WelcomeScreenRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i8.WelcomeScreen());
     }
   };
 
   @override
   List<_i1.RouteConfig> get routes => [
-        _i1.RouteConfig(HomeScreenRoute.name, path: '/'),
+        _i1.RouteConfig(AppStartupScreenRoute.name, path: '/'),
         _i1.RouteConfig(RegisterScreenRoute.name, path: '/register-screen'),
         _i1.RouteConfig(LoginScreenRoute.name, path: '/login-screen'),
         _i1.RouteConfig(MoviesScreenRoute.name, path: '/movies-screen'),
         _i1.RouteConfig(MovieDetailsScreenRoute.name,
             path: '/movie-details-screen'),
-        _i1.RouteConfig(ShowsScreenRoute.name, path: '/shows-screen'),
-        _i1.RouteConfig(WelcomeScreenRoute.name, path: '/welcome-screen')
+        _i1.RouteConfig(ShowsScreenRoute.name, path: '/shows-screen')
       ];
 }
 
-class HomeScreenRoute extends _i1.PageRouteInfo {
-  const HomeScreenRoute() : super(name, path: '/');
+class AppStartupScreenRoute extends _i1.PageRouteInfo {
+  const AppStartupScreenRoute() : super(name, path: '/');
 
-  static const String name = 'HomeScreenRoute';
+  static const String name = 'AppStartupScreenRoute';
 }
 
 class RegisterScreenRoute extends _i1.PageRouteInfo {
@@ -89,10 +84,4 @@ class ShowsScreenRoute extends _i1.PageRouteInfo {
   const ShowsScreenRoute() : super(name, path: '/shows-screen');
 
   static const String name = 'ShowsScreenRoute';
-}
-
-class WelcomeScreenRoute extends _i1.PageRouteInfo {
-  const WelcomeScreenRoute() : super(name, path: '/welcome-screen');
-
-  static const String name = 'WelcomeScreenRoute';
 }

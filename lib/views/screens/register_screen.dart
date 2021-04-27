@@ -11,9 +11,6 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
-
 //States
 import '../../states/auth_state.dart';
 
@@ -25,6 +22,8 @@ import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
 class RegisterScreen extends StatefulHookWidget {
+  const RegisterScreen();
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -276,7 +275,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             cPasswordController.clear();
             contactController.clear();
             _formHasData = false;
-            context.router.push(WelcomeScreenRoute());
+            context.router.popUntilRoot();
           } else if (authState is FAILED) {
             await showDialog<bool>(
               context: context,

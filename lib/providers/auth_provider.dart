@@ -23,7 +23,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   String token = "";
 
   AuthProvider(this._authRepository, this._prefsProvider)
-      : super(AuthState.initial()) {
+      : super(AuthState.unauthenticated()) {
     init();
   }
 
@@ -41,8 +41,6 @@ class AuthProvider extends StateNotifier<AuthState> {
     } else {
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
     }
-    print("Authenticated: $authenticated, currentUser: $_currentUser");
-    print(state);
   }
 
   void login({
