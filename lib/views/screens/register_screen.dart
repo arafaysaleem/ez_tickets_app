@@ -280,7 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               context: context,
               barrierColor: Constants.barrierColor,
               builder: (ctx) => CustomAlertDialog(
-                title: "Login Failed",
+                title: "Register Failed",
                 body: authState.reason,
               ),
             );
