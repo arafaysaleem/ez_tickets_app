@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +11,9 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //States
 import '../../states/auth_state.dart';
 
@@ -19,7 +23,6 @@ import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
-import 'welcome_screen.dart';
 
 class RegisterScreen extends StatefulHookWidget {
   @override
@@ -156,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ];
   }
 
-  CustomTextButton getButton(ThemeData theme, authStatus) {
+  CustomTextButton getButton(ThemeData theme) {
     //Next Button
     if (isState1) {
       return CustomTextButton.outlined(
@@ -213,13 +216,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       },
       gradient: Constants.buttonGradientOrange,
-      child: authStatus.maybeWhen(
-        authenticating: () => const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
-        ),
-        orElse: () => const Center(
+      child: Consumer(
+        builder: (context, watch, child) {
+          final authState = watch(authProvider);
+          if (authState is AUTHENTICATING) {
+            return const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            );
+          }
+          return child!;
+        },
+        child: const Center(
           child: Text(
             "CONFIRM",
             style: TextStyle(
@@ -239,7 +248,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final doPop = await showDialog<bool>(
         context: context,
         barrierColor: Constants.barrierColor,
-        builder: (ctx) => const CustomAlertDialog(),
+        builder: (ctx) => const CustomAlertDialog(
+          title: "Do you want to go back without saving your form data?",
+          body: "Are you sure?",
+        ),
       );
       if (doPop == null || !doPop) return Future<bool>.value(false);
     }
@@ -250,20 +262,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final authStatus = useProvider(authProvider);
     return Scaffold(
-      body: authStatus.maybeWhen(
-        authenticated: (fullName) {
-          emailController.clear();
-          passwordController.clear();
-          fullNameController.clear();
-          addressController.clear();
-          cPasswordController.clear();
-          contactController.clear();
-          _formHasData = false;
-          return WelcomeScreen(fullName: fullName);
+      body: ProviderListener(
+        provider: authProvider,
+        onChange: (context, AuthState authState) async {
+          if (authState is AUTHENTICATED) {
+            emailController.clear();
+            passwordController.clear();
+            fullNameController.clear();
+            addressController.clear();
+            cPasswordController.clear();
+            contactController.clear();
+            _formHasData = false;
+            context.router.push(WelcomeScreenRoute());
+          } else if (authState is FAILED) {
+            await showDialog<bool>(
+              context: context,
+              barrierColor: Constants.barrierColor,
+              builder: (ctx) => CustomAlertDialog(
+                title: "Login Failed",
+                body: authState.reason,
+              ),
+            );
+          }
         },
-        orElse: () => GestureDetector(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ScrollableColumn(
             children: [
@@ -296,21 +319,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ...getState1Fields()
                     else
                       ...getState2Fields(),
-
-                    //Failure reason
-                    if (authStatus is FAILED)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Center(
-                          child: Text(
-                            authStatus.reason,
-                            style: textTheme.bodyText1!.copyWith(
-                              fontSize: 18,
-                              color: Constants.primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
                   ],
                 ),
               ),
@@ -328,7 +336,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: AnimatedSwitcher(
                   duration: Constants.defaultAnimationDuration,
                   switchOutCurve: Curves.easeInBack,
-                  child: getButton(theme, authStatus),
+                  child: getButton(theme),
                 ),
               )
             ],

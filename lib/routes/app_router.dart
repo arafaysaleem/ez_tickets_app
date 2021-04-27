@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:ez_ticketz_app/views/screens/welcome_screen.dart';
 
 import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen.dart';
@@ -15,6 +16,7 @@ import '../views/screens/shows_screen.dart';
       AutoRoute(page: MoviesScreen),
       AutoRoute(page: MovieDetailsScreen),
       AutoRoute(page: ShowsScreen),
+      AutoRoute(page: WelcomeScreen),
     ],
 )
 class $AppRouter{}

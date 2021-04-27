@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../../helper/utils/constants.dart';
-
 import 'custom_text_button.dart';
 
 class CustomAlertDialog extends StatelessWidget {
-  const CustomAlertDialog();
+  final String title, body;
+
+  const CustomAlertDialog({
+    required this.title,
+    required this.body,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,21 +17,19 @@ class CustomAlertDialog extends StatelessWidget {
     final textTheme = theme.textTheme;
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10))
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       insetPadding: const EdgeInsets.symmetric(horizontal: 19),
       titlePadding: const EdgeInsets.fromLTRB(17, 13, 17, 0),
       contentPadding: const EdgeInsets.fromLTRB(17, 9, 17, 9),
-      actionsPadding: const EdgeInsets.fromLTRB(0,0,7,7),
+      actionsPadding: const EdgeInsets.fromLTRB(0, 0, 7, 7),
       backgroundColor: Constants.scaffoldGreyColor,
-      content: const Text(
-        "Do you want to go back without saving your form data?",
-      ),
+      title: Text(title),
+      content: Text(body),
       contentTextStyle: textTheme.bodyText1!.copyWith(
         color: Constants.textGreyColor,
         fontSize: 16,
       ),
-      title: const Text("Are you sure?"),
       titleTextStyle: textTheme.bodyText1!.copyWith(
         color: Constants.textWhite80Color,
         fontSize: 19,
@@ -65,4 +67,3 @@ class CustomAlertDialog extends StatelessWidget {
     );
   }
 }
-

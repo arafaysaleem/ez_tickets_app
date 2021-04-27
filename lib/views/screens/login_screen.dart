@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,13 +10,16 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //States
 import '../../states/auth_state.dart';
+import '../widgets/common/custom_alert_dialog.dart';
 
 //Widgets
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
-import 'welcome_screen.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
@@ -26,17 +30,28 @@ class LoginScreen extends HookWidget {
   Widget build(BuildContext context) {
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
-    final authStatus = useProvider(authProvider);
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     return Scaffold(
-      body: authStatus.maybeWhen(
-        authenticated: (fullName) {
-          emailController.clear();
-          passwordController.clear();
-          return WelcomeScreen(fullName: fullName);
+      body: ProviderListener(
+        provider: authProvider,
+        onChange: (context, AuthState authState) async {
+          if (authState is AUTHENTICATED) {
+            emailController.clear();
+            passwordController.clear();
+            context.router.push(WelcomeScreenRoute());
+          } else if (authState is FAILED) {
+            await showDialog<bool>(
+              context: context,
+              barrierColor: Constants.barrierColor,
+              builder: (ctx) => CustomAlertDialog(
+                title: "Login Failed",
+                body: authState.reason,
+              ),
+            );
+          }
         },
-        orElse: () => GestureDetector(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ScrollableColumn(
             children: [
@@ -83,20 +98,6 @@ class LoginScreen extends HookWidget {
                         return null;
                       },
                     ),
-
-                    //Failure reason
-                    if(authStatus is FAILED) Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Center(
-                        child: Text(
-                          authStatus.reason,
-                          style: textTheme.bodyText1!.copyWith(
-                            fontSize: 18,
-                            color: Constants.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -118,19 +119,26 @@ class LoginScreen extends HookWidget {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       context.read(authProvider.notifier).login(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
                     }
                   },
                   gradient: Constants.buttonGradientOrange,
-                  child: authStatus.maybeWhen(
-                    authenticating: () => const Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    ),
-                    orElse: () => const Center(
+                  child: Consumer(
+                    builder: (context, watch, child) {
+                      final authState = watch(authProvider);
+                      if (authState is AUTHENTICATING) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        );
+                      }
+                      return child!;
+                    },
+                    child: const Center(
                       child: Text(
                         "LOGIN",
                         style: TextStyle(
@@ -146,7 +154,7 @@ class LoginScreen extends HookWidget {
               )
             ],
           ),
-        )
+        ),
       ),
     );
   }
