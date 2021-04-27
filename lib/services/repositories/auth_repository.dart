@@ -57,38 +57,34 @@ class AuthRepository {
     );
   }
 
-  Future<String> sendResetPasswordData({
+  Future<bool> sendResetPasswordData({
     required Map<String, dynamic> data,
   }) async {
-    return await _apiService.setData<String>(
+    return await _apiService.setData<bool>(
       endpoint: ApiEndpoint.auth(resetPassword: true),
       data: data,
       requiresAuthToken: false,
-      builder: (response) => response["headers"]["message"],
+      builder: (response) => response["headers"]["success"] == 1,
     );
   }
 
-  Future<String> sendChangePasswordData({
+  Future<bool> sendChangePasswordData({
     required Map<String, dynamic> data,
   }) async {
-    return await _apiService.setData<String>(
+    return await _apiService.setData<bool>(
       endpoint: ApiEndpoint.auth(changePassword: true),
       data: data,
       requiresAuthToken: false,
-      builder: (response) => response["headers"]["message"],
+      builder: (response) => response["headers"]["success"] == 1,
     );
   }
 
-  Future<String> sendOtpData({required Map<String, dynamic> data}) async {
-    return await _apiService.setData<String>(
+  Future<bool> sendOtpData({required Map<String, dynamic> data}) async {
+    return await _apiService.setData<bool>(
       endpoint: ApiEndpoint.auth(verifyOtp: true),
       data: data,
       requiresAuthToken: false,
-      builder: (response) => response["headers"]["message"],
+      builder: (response) => response["headers"]["success"] == 1,
     );
-  }
-
-  void eraseToken() async {
-    _read(authProvider.notifier).token = "";
   }
 }

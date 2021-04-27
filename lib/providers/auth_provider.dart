@@ -23,9 +23,27 @@ class AuthProvider extends StateNotifier<AuthState> {
   String token = "";
 
   AuthProvider(this._authRepository, this._prefsProvider)
-      : super(AuthState.unauthenticated());
+      : super(AuthState.initial()) {
+    init();
+  }
 
   int get currentUserId => _currentUser!.userId;
+
+  String get currentUserFullName => _currentUser!.fullName;
+
+  String get currentUserEmail => _currentUser!.email;
+
+  void init() {
+    final authenticated = _prefsProvider.getAuthState();
+    _currentUser = _prefsProvider.getAuthUser();
+    if (!authenticated || _currentUser == null) {
+      logout();
+    } else {
+      state = AuthState.authenticated(fullName: _currentUser!.fullName);
+    }
+    print("Authenticated: $authenticated, currentUser: $_currentUser");
+    print(state);
+  }
 
   void login({
     required String email,
@@ -36,10 +54,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     try {
       _currentUser = await _authRepository.sendLoginData(data: data);
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
-      _prefsProvider.setAuthFullName(_currentUser!.fullName);
-      _prefsProvider.setAuthEmail(_currentUser!.email);
-      _prefsProvider.setAuthId(_currentUser!.userId);
-      _prefsProvider.setAuthPassword(password);
+      _updatePreferences(password);
     } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
     }
@@ -67,10 +82,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     try {
       _currentUser = await _authRepository.sendRegisterData(data: data);
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
-      _prefsProvider.setAuthFullName(fullName);
-      _prefsProvider.setAuthEmail(email);
-      _prefsProvider.setAuthId(_currentUser!.userId);
-      _prefsProvider.setAuthPassword(password);
+      _updatePreferences(password);
     } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
     }
@@ -81,17 +93,17 @@ class AuthProvider extends StateNotifier<AuthState> {
     return await _authRepository.sendForgotPasswordData(data: data);
   }
 
-  //TODO: Change local prefs password
-  Future<String> resetPassword({
+  Future<bool> resetPassword({
     required String email,
     required String password,
   }) async {
     final data = {"email": email, "password": password};
-    return await _authRepository.sendResetPasswordData(data: data);
+    final result = await _authRepository.sendResetPasswordData(data: data);
+    if (result) _prefsProvider.setAuthPassword(password);
+    return result;
   }
 
-  //TODO: Change local prefs password
-  Future<String> changePassword({
+  Future<bool> changePassword({
     required String email,
     required String oldPassword,
     required String newPassword,
@@ -101,10 +113,12 @@ class AuthProvider extends StateNotifier<AuthState> {
       "password": oldPassword,
       "new_password": newPassword,
     };
-    return await _authRepository.sendChangePasswordData(data: data);
+    final result = await _authRepository.sendChangePasswordData(data: data);
+    if (result) _prefsProvider.setAuthPassword(newPassword);
+    return result;
   }
 
-  Future<String> verifyOtp({required String email, required int otp}) async {
+  Future<bool> verifyOtp({required String email, required int otp}) async {
     final data = {
       "email": email,
       "OTP": otp,
@@ -112,8 +126,15 @@ class AuthProvider extends StateNotifier<AuthState> {
     return await _authRepository.sendOtpData(data: data);
   }
 
+  void _updatePreferences(String password) {
+    _prefsProvider.setAuthState(state);
+    _prefsProvider.setAuthUser(_currentUser!);
+    _prefsProvider.setAuthToken(token);
+    _prefsProvider.setAuthPassword(password);
+  }
+
   void logout() {
-    _authRepository.eraseToken();
+    token = "";
     _currentUser = null;
     state = AuthState.unauthenticated();
     _prefsProvider.resetPrefs();

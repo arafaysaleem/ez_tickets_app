@@ -27,11 +27,11 @@ class Prefs{
   ///Loads value for the key from preferences
   T? get<T>(String key) {
     switch(T){
-      case String: return _sharedPrefs!.getString(key) as T;
-      case int: return _sharedPrefs!.getInt(key)  as T;
-      case bool: return _sharedPrefs!.getBool(key)  as T;
-      case double: return _sharedPrefs!.getDouble(key)  as T;
-      default: return _sharedPrefs!.getString(key)  as T;
+      case String: return _sharedPrefs!.getString(key) as T?;
+      case int: return _sharedPrefs!.getInt(key)  as T?;
+      case bool: return _sharedPrefs!.getBool(key)  as T?;
+      case double: return _sharedPrefs!.getDouble(key)  as T?;
+      default: return _sharedPrefs!.getString(key)  as T?;
     }
   }
 
