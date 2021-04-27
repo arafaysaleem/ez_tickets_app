@@ -18,7 +18,7 @@ import '../../routes/app_router.gr.dart';
 import '../../states/auth_state.dart';
 
 //Widgets
-import '../widgets/common/custom_alert_dialog.dart';
+import '../widgets/common/custom_dialog.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
@@ -248,9 +248,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final doPop = await showDialog<bool>(
         context: context,
         barrierColor: Constants.barrierColor,
-        builder: (ctx) => const CustomAlertDialog(
-          title: "Do you want to go back without saving your form data?",
-          body: "Are you sure?",
+        builder: (ctx) => const CustomDialog.confirm(
+          title: "Are you sure?",
+          body: "Do you want to go back without saving your form data?",
+          trueButtonText: "Yes",
+          falseButtonText: "No",
         ),
       );
       if (doPop == null || !doPop) return Future<bool>.value(false);
@@ -278,10 +280,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           } else if (authState is FAILED) {
             await showDialog<bool>(
               context: context,
-              barrierColor: Constants.barrierColor,
-              builder: (ctx) => CustomAlertDialog(
+              barrierColor: Constants.barrierColor.withOpacity(0.75),
+              builder: (ctx) => CustomDialog.alert(
                 title: "Register Failed",
                 body: authState.reason,
+                buttonText: "Retry",
               ),
             );
           }

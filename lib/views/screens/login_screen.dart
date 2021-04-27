@@ -15,7 +15,7 @@ import '../../routes/app_router.gr.dart';
 
 //States
 import '../../states/auth_state.dart';
-import '../widgets/common/custom_alert_dialog.dart';
+import '../widgets/common/custom_dialog.dart';
 
 //Widgets
 import '../widgets/common/custom_text_button.dart';
@@ -43,10 +43,11 @@ class LoginScreen extends HookWidget {
           } else if (authState is FAILED) {
             await showDialog<bool>(
               context: context,
-              barrierColor: Constants.barrierColor,
-              builder: (ctx) => CustomAlertDialog(
+              barrierColor: Constants.barrierColor.withOpacity(0.75),
+              builder: (ctx) => CustomDialog.alert(
                 title: "Login Failed",
                 body: authState.reason,
+                buttonText: "Retry",
               ),
             );
           }
