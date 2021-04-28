@@ -20,12 +20,12 @@ final prefsProvider = Provider<PrefsProvider>((ref) => PrefsProvider());
 //repositories providers
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final apiService = ref.watch(apiServiceProvider);
-  return AuthRepository(apiService: apiService, reader: ref.read);
+  return AuthRepository(apiService: apiService);
 });
 
 //notifier providers
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
+  final authRepository = ref.read(authRepositoryProvider);
   final _prefsProvider = ref.watch(prefsProvider);
   return AuthProvider(authRepository,_prefsProvider);
 });

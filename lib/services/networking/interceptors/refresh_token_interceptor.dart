@@ -50,7 +50,7 @@ class RefreshTokenInterceptor extends Interceptor {
           );
 
           //Update auth and unlock old dio
-          authProv.token = newToken;
+          authProv.updateToken(newToken);
           _dio.unlock();
           _dio.clear();
 
