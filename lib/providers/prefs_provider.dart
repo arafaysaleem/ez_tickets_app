@@ -20,7 +20,7 @@ class PrefsProvider {
 
   ///Returns logged in user password
   String getAuthPassword() {
-    return _prefs.get<String>(authPasswordKey)!;
+    return _prefs.get<String>(authPasswordKey) ?? '';
   }
 
   ///Returns last authentication status
