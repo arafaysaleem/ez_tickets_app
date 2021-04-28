@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import 'network_exception.dart';
+//Interceptors
 import 'interceptors/api_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
+import 'interceptors/refresh_token_interceptor.dart';
+//Exceptions
+import 'network_exception.dart';
 
 class DioService {
   late final Dio _dio;
@@ -18,16 +21,19 @@ class DioService {
   void createDio(BaseOptions baseOptions) {
     this._cancelToken = CancelToken();
     _dio = Dio(baseOptions);
-    _dio.interceptors.add(ApiInterceptor());
-    if (kDebugMode) {
-      _dio.interceptors.add(LoggingInterceptor());
-    }
+    _dio.interceptors.addAll([
+      ApiInterceptor(),
+      if (kDebugMode) LoggingInterceptor(),
+      RefreshTokenInterceptor(_dio),
+    ]);
   }
 
   void cancelRequests({CancelToken? cancelToken}) {
-    cancelToken == null
-        ? _cancelToken.cancel('Cancelled')
-        : cancelToken.cancel();
+    if (cancelToken == null) {
+      _cancelToken.cancel('Cancelled');
+    } else {
+      cancelToken.cancel();
+    }
   }
 
   Future<Map<String, dynamic>> get({
@@ -44,7 +50,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on Exception catch(ex) {
+    } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
   }
@@ -63,7 +69,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on Exception catch(ex) {
+    } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
   }
@@ -82,7 +88,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on Exception catch(ex) {
+    } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
   }
@@ -101,7 +107,7 @@ class DioService {
         cancelToken: cancelToken ?? _cancelToken,
       );
       return response.data;
-    } on Exception catch(ex) {
+    } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
   }

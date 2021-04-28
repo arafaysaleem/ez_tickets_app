@@ -6,6 +6,7 @@ class ApiEndpoint {
     bool resetPassword = false,
     bool changePassword = false,
     bool verifyOtp = false,
+    bool refreshToken = false,
   }) {
     String path = "/auth";
     if (register)
@@ -21,6 +22,7 @@ class ApiEndpoint {
       else if (changePassword)
         path = path + "/change";
       else if (verifyOtp) path = path + "/otp";
+      else if (refreshToken) path = path + "/token";
     }
     return path;
   }
