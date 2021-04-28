@@ -20,7 +20,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
   final AuthRepository _authRepository;
   final PrefsProvider _prefsProvider;
-  String token = "";
+  String _token = "";
 
   AuthProvider(this._authRepository, this._prefsProvider)
       : super(AuthState.unauthenticated()) {
@@ -29,9 +29,19 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   int get currentUserId => _currentUser!.userId;
 
+  String get token => _token;
+
   String get currentUserFullName => _currentUser!.fullName;
 
   String get currentUserEmail => _currentUser!.email;
+
+  //TODO: Change to retrieve from prefs
+  String get currentUserPassword => "123";
+
+  set token(String value) {
+    _token = value;
+    _prefsProvider.setAuthToken(_token);
+  }
 
   void init() {
     final authenticated = _prefsProvider.getAuthState();
