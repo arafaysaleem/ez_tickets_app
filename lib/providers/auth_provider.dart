@@ -21,6 +21,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   final AuthRepository _authRepository;
   final PrefsProvider _prefsProvider;
   String _token = "";
+  String _password = "";
 
   AuthProvider(this._authRepository, this._prefsProvider)
       : super(AuthState.unauthenticated()) {
@@ -35,17 +36,22 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   String get currentUserEmail => _currentUser!.email;
 
-  //TODO: Change to retrieve from prefs
-  String get currentUserPassword => "123";
+  String get currentUserPassword => _password;
 
   set token(String value) {
     _token = value;
-    _prefsProvider.setAuthToken(_token);
+    _prefsProvider.setAuthToken(value);
+  }
+
+  set password(String value) {
+    _password = value;
+    _prefsProvider.setAuthPassword(value);
   }
 
   void init() {
     final authenticated = _prefsProvider.getAuthState();
     _currentUser = _prefsProvider.getAuthUser();
+    _password = _prefsProvider.getAuthPassword();
     if (!authenticated || _currentUser == null) {
       logout();
     } else {
@@ -62,6 +68,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     try {
       _currentUser = await _authRepository.sendLoginData(data: data);
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
+      _password = password;
       _updatePreferences(password);
     } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
@@ -90,6 +97,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     try {
       _currentUser = await _authRepository.sendRegisterData(data: data);
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
+      _password = password;
       _updatePreferences(password);
     } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
@@ -107,7 +115,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   }) async {
     final data = {"email": email, "password": password};
     final result = await _authRepository.sendResetPasswordData(data: data);
-    if (result) _prefsProvider.setAuthPassword(password);
+    if (result) this.password = password;
     return result;
   }
 
@@ -122,7 +130,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       "new_password": newPassword,
     };
     final result = await _authRepository.sendChangePasswordData(data: data);
-    if (result) _prefsProvider.setAuthPassword(newPassword);
+    if (result) this.password = newPassword;
     return result;
   }
 
@@ -142,8 +150,9 @@ class AuthProvider extends StateNotifier<AuthState> {
   }
 
   void logout() {
-    token = "";
+    _token = "";
     _currentUser = null;
+    _password = "";
     state = AuthState.unauthenticated();
     _prefsProvider.resetPrefs();
   }
