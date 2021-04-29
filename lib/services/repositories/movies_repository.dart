@@ -6,10 +6,10 @@ import '../../models/movie_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
-class MovieRepository {
+class MoviesRepository {
   final ApiService _apiService;
 
-  MovieRepository({required ApiService apiService}) : _apiService = apiService;
+  MoviesRepository({required ApiService apiService}) : _apiService = apiService;
 
   /// In the builder we:
   /// 1. Add the newly added movie's id
@@ -52,7 +52,7 @@ class MovieRepository {
     );
   }
 
-  Future<List<MovieModel>> getAllMovies({
+  Future<List<MovieModel>> fetchAllMovies({
     Map<String, dynamic>? queryParameters,
   }) async {
     return await _apiService.getCollectionData<MovieModel>(
@@ -62,7 +62,7 @@ class MovieRepository {
     );
   }
 
-  Future<MovieModel> getMovie({
+  Future<MovieModel> fetchSingleMovie({
     required int movieId,
   }) async {
     return await _apiService.getDocumentData<MovieModel>(
@@ -86,7 +86,7 @@ class MovieRepository {
   /// 3. Parse it into MovieRoleModel
   ///
   /// TODO: Improve response type in API to contain role as Map
-  Future<List<MovieRoleModel>> getAllMovieRoles({
+  Future<List<MovieRoleModel>> fetchMovieRoles({
     required int movieId,
   }) async {
     return await _apiService.getCollectionData<MovieRoleModel>(
