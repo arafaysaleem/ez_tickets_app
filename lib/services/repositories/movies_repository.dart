@@ -15,21 +15,17 @@ class MoviesRepository {
   /// 1. Add the newly added movie's id
   /// 2. Removes roles info
   /// 3. Parse into Movie Model
-  Future<MovieModel> addAMovie({
+  Future<int> create({
     required Map<String, dynamic> data,
   }) async {
-    return await _apiService.setData<MovieModel>(
+    return await _apiService.setData<int>(
       endpoint: ApiEndpoint.movies(),
       data: data,
-      builder: (response) {
-        data["movie_id"] = response["body"]["movie_id"];
-        data.remove("roles");
-        return MovieModel.fromJson(data);
-      },
+      builder: (response) => response["body"]["movie_id"],
     );
   }
 
-  Future<String> updateAMovie({
+  Future<String> update({
     required int movieId,
     required Map<String, dynamic> data,
   }) async {
@@ -41,7 +37,7 @@ class MoviesRepository {
     );
   }
 
-  Future<String> deleteAMovie({
+  Future<String> delete({
     required int movieId,
     Map<String, dynamic>? data,
   }) async {
@@ -52,7 +48,7 @@ class MoviesRepository {
     );
   }
 
-  Future<List<MovieModel>> fetchAllMovies({
+  Future<List<MovieModel>> fetchAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     return await _apiService.getCollectionData<MovieModel>(
@@ -62,7 +58,7 @@ class MoviesRepository {
     );
   }
 
-  Future<MovieModel> fetchSingleMovie({
+  Future<MovieModel> fetchOne({
     required int movieId,
   }) async {
     return await _apiService.getDocumentData<MovieModel>(
