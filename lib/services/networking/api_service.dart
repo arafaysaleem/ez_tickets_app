@@ -19,7 +19,7 @@ class ApiService {
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> body) builder,
+    required T Function(Map<String, dynamic> responseBody) builder,
   }) async {
     //Entire map of response
     final data = await _dioService.get(
@@ -41,7 +41,7 @@ class ApiService {
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> body) builder,
+    required T Function(Map<String, dynamic> responseBody) builder,
   }) async {
     //Entire map of response
     final data = await _dioService.get(
