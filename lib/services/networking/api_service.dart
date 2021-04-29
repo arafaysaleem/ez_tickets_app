@@ -93,13 +93,13 @@ class ApiService {
 
   Future<T> deleteData<T>({
     required String endpoint,
-    required Map<String, dynamic> data,
+    Map<String, dynamic>? data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
     required T Function(Map<String, dynamic> response) builder,
   }) async {
     //Entire map of response
-    final dataMap = await _dioService.patch(
+    final dataMap = await _dioService.delete(
       endpoint: endpoint,
       data: data,
       options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
