@@ -29,26 +29,26 @@ class MoviesRepository {
     );
   }
 
-  Future<bool> updateAMovie({
+  Future<String> updateAMovie({
     required int movieId,
     required Map<String, dynamic> data,
   }) async {
-    return await _apiService.updateData<bool>(
+    return await _apiService.updateData<String>(
       endpoint: ApiEndpoint.movies(id: movieId),
       data: data,
       requiresAuthToken: true,
-      builder: (response) => response["headers"]["success"] == 1,
+      builder: (response) => response["headers"]["message"],
     );
   }
 
-  Future<bool> deleteAMovie({
+  Future<String> deleteAMovie({
     required int movieId,
     Map<String, dynamic>? data,
   }) async {
-    return await _apiService.deleteData<bool>(
+    return await _apiService.deleteData<String>(
       endpoint: ApiEndpoint.movies(id: movieId),
       data: data,
-      builder: (response) => response["headers"]["success"] == 1,
+      builder: (response) => response["headers"]["message"],
     );
   }
 
@@ -58,7 +58,7 @@ class MoviesRepository {
     return await _apiService.getCollectionData<MovieModel>(
       endpoint: ApiEndpoint.movies(),
       queryParams: queryParameters,
-      builder: (response) => MovieModel.fromJson(response),
+      builder: (responseBody) => MovieModel.fromJson(responseBody),
     );
   }
 
@@ -67,7 +67,7 @@ class MoviesRepository {
   }) async {
     return await _apiService.getDocumentData<MovieModel>(
       endpoint: ApiEndpoint.movies(id: movieId),
-      builder: (response) => MovieModel.fromJson(response),
+      builder: (responseBody) => MovieModel.fromJson(responseBody),
     );
   }
 
@@ -91,11 +91,11 @@ class MoviesRepository {
   }) async {
     return await _apiService.getCollectionData<MovieRoleModel>(
       endpoint: ApiEndpoint.movies(id: movieId, searchRoles: true),
-      builder: (response) {
-        final String roleType = response["role_type"];
-        response.remove("role_type");
+      builder: (responseBody) {
+        final String roleType = responseBody["role_type"];
+        responseBody.remove("role_type");
         final Map<String,dynamic> movieRole = {
-          "role": response,
+          "role": responseBody,
           "role_type" : roleType,
         };
         return MovieRoleModel.fromJson(movieRole);
