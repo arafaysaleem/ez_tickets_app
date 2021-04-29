@@ -10,15 +10,15 @@ part 'movie_model.g.dart';
 @freezed
 abstract class MovieModel with _$MovieModel {
 
-  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory MovieModel({
     required int movieId,
+    required String title,
     required String year,
     required String summary,
     required String trailerUrl,
     required String posterUrl,
     required double rating,
-    required List<MovieRoleModel> roles,
     required MovieType movieType,
   }) = _MovieModel;
 
