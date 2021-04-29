@@ -2,18 +2,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ///Internal class for shared preferences methods
 ///This class provides low level preferences methods
-class Prefs{
+class PrefsBase{
   ///Instance of shared preferences
   static SharedPreferences? _sharedPrefs;
 
   ///Singleton instance of Preferences Helper
-  static Prefs? _instance;
+  static PrefsBase? _instance;
 
   ///Private constructor
-  const Prefs._();
+  const PrefsBase._();
 
   ///Get instance of this class
-  static Prefs get instance =>  _instance ?? const Prefs._();
+  static PrefsBase get instance =>  _instance ?? const PrefsBase._();
 
   ///Initializer for shared prefs
   ///Should be called in main before runApp and

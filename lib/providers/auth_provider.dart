@@ -9,21 +9,19 @@ import '../services/networking/network_exception.dart';
 
 //services
 import '../services/repositories/auth_repository.dart';
+import '../services/local_storage/prefs_service.dart';
 
 //states
 import '../states/auth_state.dart';
 
-//providers
-import 'prefs_provider.dart';
-
 class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
   final AuthRepository _authRepository;
-  final PrefsProvider _prefsProvider;
+  final PrefsService _prefsService;
   String _token = "";
   String _password = "";
 
-  AuthProvider(this._authRepository, this._prefsProvider)
+  AuthProvider(this._authRepository, this._prefsService)
       : super(AuthState.unauthenticated()) {
     init();
   }
@@ -40,19 +38,19 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   void updateToken(String value) {
     _token = value;
-    _prefsProvider.setAuthToken(value);
+    _prefsService.setAuthToken(value);
   }
 
   void _updatePassword(String value) {
     _password = value;
-    _prefsProvider.setAuthPassword(value);
+    _prefsService.setAuthPassword(value);
   }
 
   void init() {
-    final authenticated = _prefsProvider.getAuthState();
-    _currentUser = _prefsProvider.getAuthUser();
-    _password = _prefsProvider.getAuthPassword();
-    _token = _prefsProvider.getAuthToken();
+    final authenticated = _prefsService.getAuthState();
+    _currentUser = _prefsService.getAuthUser();
+    _password = _prefsService.getAuthPassword();
+    _token = _prefsService.getAuthToken();
     if (!authenticated || _currentUser == null) {
       logout();
     } else {
@@ -150,9 +148,9 @@ class AuthProvider extends StateNotifier<AuthState> {
   }
 
   void _updatePreferences() {
-    _prefsProvider.setAuthState(state);
-    _prefsProvider.setAuthUser(_currentUser!);
-    _prefsProvider.setAuthToken(token);
+    _prefsService.setAuthState(state);
+    _prefsService.setAuthUser(_currentUser!);
+    _prefsService.setAuthToken(token);
   }
 
   void logout() {
@@ -160,6 +158,6 @@ class AuthProvider extends StateNotifier<AuthState> {
     _currentUser = null;
     _password = "";
     state = AuthState.unauthenticated();
-    _prefsProvider.resetPrefs();
+    _prefsService.resetPrefs();
   }
 }

@@ -1,22 +1,22 @@
 import 'dart:convert';
 
 //services
-import '../services/local_storage/prefs.dart';
+import 'prefs_base.dart';
 
 //models
-import '../models/user_model.dart';
+import '../../models/user_model.dart';
 
 //states
-import '../states/auth_state.dart';
+import '../../states/auth_state.dart';
 
-class PrefsProvider {
+class PrefsService {
   final authTokenKey = "authToken";
   final authStateKey = "authStateKey";
   final authPasswordKey = "authPasswordKey";
   final authUserKey = "authUserKey";
 
   ///Instance of prefs class
-  final _prefs = Prefs.instance;
+  final _prefs = PrefsBase.instance;
 
   ///Returns logged in user password
   String getAuthPassword() {

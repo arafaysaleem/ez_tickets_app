@@ -10,12 +10,12 @@ import 'helper/utils/custom_theme.dart';
 import 'routes/app_router.gr.dart';
 
 //Services
-import 'services/local_storage/prefs.dart';
+import 'services/local_storage/prefs_base.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   debugPrint = setDebugPrint;
-  await Prefs.init();
+  await PrefsBase.init();
   runApp(MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
