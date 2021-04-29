@@ -2,16 +2,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/movie_type_enum.dart';
 
-import 'movie_role_model.dart';
-
 part 'movie_model.freezed.dart';
 part 'movie_model.g.dart';
 
+T? toNull<T>(_) => null;
+
 @freezed
-abstract class MovieModel with _$MovieModel {
+class MovieModel with _$MovieModel {
 
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory MovieModel({
+  factory MovieModel({
+    @JsonKey(toJson: toNull, includeIfNull: false)
     required int movieId,
     required String title,
     required String year,
