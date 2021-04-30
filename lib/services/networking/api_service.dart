@@ -108,4 +108,8 @@ class ApiService {
 
     return builder(dataMap);
   }
+
+  void cancelRequests({CancelToken? cancelToken}){
+    _dioService.cancelRequests(cancelToken: cancelToken);
+  }
 }

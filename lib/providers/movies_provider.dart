@@ -92,4 +92,8 @@ class MoviesProvider {
   }) async {
     return await _moviesRepository.delete(movieId: movieId);
   }
+
+  void cancelNetworkRequest(){
+    _moviesRepository.cancelRequests();
+  }
 }
