@@ -1,15 +1,18 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+//Services
+import '../../services/networking/network_exception.dart';
+
 //Enums
-import 'package:ez_ticketz_app/enums/movie_type_enum.dart';
+import '../../enums/movie_type_enum.dart';
 
 //Models
-import 'package:ez_ticketz_app/models/movie_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../models/movie_model.dart';
 
 //Helper
 import '../../helper/utils/constants.dart';
@@ -104,8 +107,56 @@ class MoviesScreen extends HookWidget {
         },
         //TODO: Add skeleton loader
         loading: () => Center(child: CircularProgressIndicator()),
-        //TODO: Add custom error
         error: (error, st) {
+          if (error is NetworkException) {
+            return Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Constants.scaffoldGreyColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                height: 350,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 30,
+                  horizontal: 20,
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "Oops",
+                        style: Theme.of(context).textTheme.headline1!.copyWith(
+                              color: Constants.primaryColor,
+                            ),
+                      ),
+                      Text(
+                        error.message,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      CustomTextButton.gradient(
+                        width: 200,
+                        child: Center(
+                          child: Text(
+                            "RETRY",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              letterSpacing: 0.7,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        onPressed: () {},
+                        gradient: Constants.buttonGradientRed,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
           context.read(authProvider.notifier).logout();
           context.router.popUntilRoot();
           print(error);
