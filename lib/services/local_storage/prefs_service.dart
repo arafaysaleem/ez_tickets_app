@@ -7,7 +7,7 @@ import 'prefs_base.dart';
 import '../../models/user_model.dart';
 
 //states
-import '../../states/auth_state.dart';
+import '../../providers/states/auth_state.dart';
 
 class PrefsService {
   final authTokenKey = "authToken";

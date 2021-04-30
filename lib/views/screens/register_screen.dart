@@ -12,7 +12,7 @@ import '../../helper/utils/constants.dart';
 import '../../providers/all_providers.dart';
 
 //States
-import '../../states/auth_state.dart';
+import '../../providers/states/auth_state.dart';
 
 //Widgets
 import '../widgets/common/custom_dialog.dart';

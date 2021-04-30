@@ -13,7 +13,7 @@ import 'auth_provider.dart';
 import 'movies_provider.dart';
 
 //states
-import '../states/auth_state.dart';
+import 'states/auth_state.dart';
 
 //service providers
 final apiServiceProvider = Provider<ApiService>((ref) => ApiService());

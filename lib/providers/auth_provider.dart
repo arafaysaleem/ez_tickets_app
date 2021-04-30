@@ -12,7 +12,7 @@ import '../services/repositories/auth_repository.dart';
 import '../services/local_storage/prefs_service.dart';
 
 //states
-import '../states/auth_state.dart';
+import 'states/auth_state.dart';
 
 class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
