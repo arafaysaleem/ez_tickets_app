@@ -1,4 +1,3 @@
-import 'package:ez_ticketz_app/views/widgets/common/custom_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,7 +19,7 @@ import '../../helper/utils/constants.dart';
 import '../../providers/all_providers.dart';
 
 //Widgets
-import '../widgets/common/custom_text_button.dart';
+import '../widgets/common/custom_error_widget.dart';
 import '../widgets/movies/movie_carousel.dart';
 import '../widgets/movies/movie_backdrop_view.dart';
 import '../widgets/movies/movie_icons_row.dart';
@@ -101,7 +100,7 @@ class MoviesScreen extends HookWidget {
         //TODO: Add skeleton loader
         loading: () => Center(child: CircularProgressIndicator()),
         error: (error, st) {
-          if (error is NetworkException) return CustomErrorWidget(error);
+          if (error is NetworkException) return CustomErrorWidget.dark(error);
           context.read(authProvider.notifier).logout();
           context.router.popUntilRoot();
           print(error);

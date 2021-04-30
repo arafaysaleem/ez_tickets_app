@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Constants
@@ -12,8 +11,17 @@ import 'custom_text_button.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final NetworkException error;
+  final Color backgroundColor;
 
-  const CustomErrorWidget(this.error, {Key? key}) : super(key: key);
+  const CustomErrorWidget._(this.error, this.backgroundColor);
+
+  factory CustomErrorWidget.dark(
+    NetworkException error,
+  ) = _CustomErrorWidgetDark;
+
+  factory CustomErrorWidget.light(
+    NetworkException error,
+  ) = _CustomErrorWidgetLight;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,7 @@ class CustomErrorWidget extends StatelessWidget {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          color: Constants.scaffoldGreyColor,
+          color: backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
         height: 350,
@@ -34,7 +42,7 @@ class CustomErrorWidget extends StatelessWidget {
                 "Oops",
                 style: textTheme.headline1!.copyWith(
                   color: Constants.primaryColor,
-                  fontSize: 40,
+                  fontSize: 45,
                 ),
               ),
               const SizedBox(height: 30),
@@ -51,10 +59,11 @@ class CustomErrorWidget extends StatelessWidget {
                   child: Text(
                     "RETRY",
                     style: textTheme.bodyText2!.copyWith(
-                        color: Colors.white,
-                        fontSize: 16,
-                        letterSpacing: 1.1,
-                        fontWeight: FontWeight.w600),
+                      color: Colors.white,
+                      fontSize: 16,
+                      letterSpacing: 1.1,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 onPressed: () {},
@@ -66,4 +75,15 @@ class CustomErrorWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class _CustomErrorWidgetDark extends CustomErrorWidget {
+  _CustomErrorWidgetDark(NetworkException error)
+      : super._(error, Constants.scaffoldGreyColor);
+}
+
+class _CustomErrorWidgetLight extends CustomErrorWidget {
+  _CustomErrorWidgetLight(
+    NetworkException error,
+  ) : super._(error, Colors.red[200]!);
 }
