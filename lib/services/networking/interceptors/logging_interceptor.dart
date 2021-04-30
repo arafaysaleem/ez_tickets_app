@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:dio/dio.dart';
@@ -70,6 +72,11 @@ class LoggingInterceptor extends Interceptor {
         }
       }
       else debugPrint("${dioError.response!.data}");
+    }
+    else if(dioError.error is SocketException){
+      final message = "No internet connectivity";
+      debugPrint("\tException: FetchDataException");
+      debugPrint("\tMessage: $message");
     }
     else debugPrint("\tUnknown Error");
 

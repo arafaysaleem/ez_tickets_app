@@ -7,7 +7,6 @@ part 'network_exception.freezed.dart';
 
 @freezed
 abstract class NetworkException with _$NetworkException {
-
   // ignore: non_constant_identifier_names
   const factory NetworkException.FormatException({
     required String name,
@@ -88,6 +87,12 @@ abstract class NetworkException with _$NetworkException {
             );
           case DioErrorType.response:
           case DioErrorType.other:
+            if(error.message.contains("SocketException")) {
+              return NetworkException.FetchDataException(
+                name: "FetchDataException",
+                message: "No internet connectivity",
+              );
+            }
             final name = error.response?.data["headers"]["error"];
             final message = error.response?.data["headers"]["message"];
             switch (name) {
@@ -103,11 +108,6 @@ abstract class NetworkException with _$NetworkException {
                 );
             }
         }
-      } else if (error is SocketException) {
-        return NetworkException.FetchDataException(
-          name: "FetchDataException",
-          message: "No internet connectivity",
-        );
       } else {
         return NetworkException.UnrecognizedException(
           name: "UnrecognizedException",
