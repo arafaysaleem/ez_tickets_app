@@ -1,6 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+//Enums
+import 'package:ez_ticketz_app/enums/movie_type_enum.dart';
+
+//Models
+import 'package:ez_ticketz_app/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,89 +29,88 @@ import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/genre_chips.dart';
 import '../widgets/common/ratings.dart';
 
-final List<Map<String, dynamic>> nowShowing = const [
-  {
-    "title": "Joker",
-    "genres": ["Action", "Drama", "History"],
-    "rating": 9.0,
-    "poster_url":
-        "https://talenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg"
-  },
-  {
-    "title": "Good Boys",
-    "genres": ["Action", "Drama", "Comedy"],
-    "rating": 6.7,
-    "poster_url":
-        "https://m.media-amazon.com/images/M/MV5BMTc1NjIzODAxMF5BMl5BanBnXkFtZTgwMTgzNzk1NzM@._V1_.jpg"
-  },
-  {
-    "title": "The Hustle",
-    "genres": ["Action", "Drama", "Comedy"],
-    "rating": 5.4,
-    "poster_url":
-        "https://m.media-amazon.com/images/M/MV5BMTc3MDcyNzE5N15BMl5BanBnXkFtZTgwNzE2MDE0NzM@._V1_.jpg"
-  },
-];
+final moviesFuture =
+    FutureProvider.family<List<MovieModel>, MovieType?>((ref, movieType) async {
+  return await ref.watch(moviesProvider).getAllMovies(movieType: movieType);
+});
 
 class MoviesScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final backgroundImageController = usePageController(
-      initialPage: nowShowing.length ~/ 2,
-    );
     final screenHeight = MediaQuery.of(context).size.height;
+    final movies = useProvider(moviesFuture(null));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SizedBox.expand(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            //page controller bg
-            Positioned.fill(
-              child: _MovieBackdropView(
-                backgroundImageController: backgroundImageController,
-              ),
-            ),
-
-            //Top black overlay
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 110,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: Constants.blackOverlayGradient,
+      body: movies.when(
+        data: (movies) {
+          final backgroundImageController = usePageController(
+            initialPage: movies.length ~/ 2,
+          );
+          return SizedBox.expand(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                //page controller bg
+                Positioned.fill(
+                  child: _MovieBackdropView(
+                    backgroundImageController: backgroundImageController,
+                    movies: movies,
+                  ),
                 ),
-              ),
-            ),
 
-            //White gradient
-            Positioned.fill(
-              top: screenHeight * 0.40,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: Constants.movieCarouselGradient,
+                //Top black overlay
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 110,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: Constants.blackOverlayGradient,
+                    ),
+                  ),
                 ),
-              ),
-            ),
 
-            //Movies Carousel
-            Positioned(
-              bottom: -50,
-              top: screenHeight * 0.27,
-              child: _MoviesCarousel(backgroundImageController),
-            ),
+                //White gradient
+                Positioned.fill(
+                  top: screenHeight * 0.40,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: Constants.movieCarouselGradient,
+                    ),
+                  ),
+                ),
 
-            //Icons row
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: const _IconsRow(),
-            )
-          ],
-        ),
+                //Movies Carousel
+                Positioned(
+                  bottom: -50,
+                  top: screenHeight * 0.27,
+                  child: _MoviesCarousel(
+                    backgroundImageController: backgroundImageController,
+                    movies: movies,
+                  ),
+                ),
+
+                //Icons row
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: const _IconsRow(),
+                )
+              ],
+            ),
+          );
+        },
+        //TODO: Add skeleton loader
+        loading: () => Center(child: CircularProgressIndicator()),
+        //TODO: Add custom error
+        error: (error, st) {
+          context.read(authProvider.notifier).logout();
+          context.router.popUntilRoot();
+          print(error);
+          print(st);
+        },
       ),
     );
   }
@@ -115,9 +120,11 @@ class _MovieBackdropView extends HookWidget {
   const _MovieBackdropView({
     Key? key,
     required this.backgroundImageController,
+    required this.movies,
   }) : super(key: key);
 
   final PageController backgroundImageController;
+  final List<MovieModel> movies;
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +132,9 @@ class _MovieBackdropView extends HookWidget {
       reverse: true,
       physics: const NeverScrollableScrollPhysics(),
       controller: backgroundImageController,
-      itemCount: nowShowing.length,
+      itemCount: movies.length,
       itemBuilder: (ctx, i) => CachedNetworkImage(
-        imageUrl: nowShowing[i]["poster_url"],
+        imageUrl: movies[i].posterUrl,
         fit: BoxFit.cover,
         placeholder: (_, __) => const MoviePosterPlaceholder(
           childXAlign: Alignment.topCenter,
@@ -148,8 +155,12 @@ class _MovieBackdropView extends HookWidget {
 
 class _MoviesCarousel extends StatefulHookWidget {
   final backgroundImageController;
+  final List<MovieModel> movies;
 
-  const _MoviesCarousel(this.backgroundImageController);
+  const _MoviesCarousel({
+    required this.backgroundImageController,
+    required this.movies,
+  });
 
   @override
   __MoviesCarouselState createState() => __MoviesCarouselState();
@@ -158,18 +169,20 @@ class _MoviesCarousel extends StatefulHookWidget {
 class __MoviesCarouselState extends State<_MoviesCarousel> {
   late int _currentIndex;
 
+  List<MovieModel> get movies => widget.movies;
+
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      _currentIndex = nowShowing.length ~/ 2;
+      _currentIndex = movies.length ~/ 2;
     }, const []);
     return CarouselSlider.builder(
       carouselController: CarouselController(),
       options: getCarouselOptions(),
-      itemCount: nowShowing.length,
+      itemCount: movies.length,
       itemBuilder: (ctx, i, _) => _MovieContainer(
         isCurrent: _currentIndex == i,
-        movie: nowShowing[i],
+        movie: movies[i],
       ),
     );
   }
@@ -205,7 +218,7 @@ class _MovieContainer extends HookWidget {
     required this.movie,
   }) : super(key: key);
 
-  final Map<String, dynamic> movie;
+  final MovieModel movie;
   final bool isCurrent;
 
   @override
@@ -221,13 +234,13 @@ class _MovieContainer extends HookWidget {
         ),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: EdgeInsets.fromLTRB(20,20,20,Constants.bottomInsetsLow),
+      padding: EdgeInsets.fromLTRB(20, 20, 20, Constants.bottomInsetsLow),
       child: LayoutBuilder(
         builder: (ctx, constraints) => Column(
           children: [
             //Poster image
             CustomNetworkImage(
-              imageUrl: movie["poster_url"],
+              imageUrl: movie.posterUrl,
               height: constraints.minHeight * 0.58,
               fit: BoxFit.fill,
               placeholder: MoviePosterPlaceholder(
@@ -278,7 +291,7 @@ class _MovieOverviewColumn extends StatelessWidget {
     required this.movie,
   }) : super(key: key);
 
-  final Map<String, dynamic> movie;
+  final MovieModel movie;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +300,7 @@ class _MovieOverviewColumn extends StatelessWidget {
       children: [
         //Title
         Text(
-          movie["title"],
+          movie.title,
           style: textTheme.headline2!.copyWith(
             color: Colors.black,
             fontSize: 26,
@@ -297,12 +310,13 @@ class _MovieOverviewColumn extends StatelessWidget {
         const SizedBox(height: 10),
 
         //Genres
-        GenreChips(genres: movie["genres"]),
+        //TODO: Implement movie genres
+        GenreChips(genres: ["Action", "Horror", "Comedy"]),
 
         const SizedBox(height: 12),
 
         //Ratings
-        Ratings(rating: movie["rating"]),
+        if (movie.rating != null) Ratings(rating: movie.rating!),
 
         //Elipses
         const Text(

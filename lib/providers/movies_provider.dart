@@ -36,7 +36,7 @@ class MoviesProvider {
 
   Future<MovieModel> uploadNewMovie({
     required String title,
-    required String year,
+    required int year,
     required String summary,
     required String trailerUrl,
     required String posterUrl,

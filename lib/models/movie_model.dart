@@ -6,6 +6,7 @@ part 'movie_model.freezed.dart';
 part 'movie_model.g.dart';
 
 T? toNull<T>(_) => null;
+double? ratingFromJson(String rating) => double.tryParse(rating);
 
 @freezed
 class MovieModel with _$MovieModel {
@@ -14,12 +15,13 @@ class MovieModel with _$MovieModel {
   factory MovieModel({
     @JsonKey(toJson: toNull, includeIfNull: false)
     required int movieId,
+    required int year,
     required String title,
-    required String year,
     required String summary,
     required String trailerUrl,
     required String posterUrl,
-    required double rating,
+    @JsonKey(fromJson: ratingFromJson)
+    required double? rating,
     required MovieType movieType,
   }) = _MovieModel;
 
