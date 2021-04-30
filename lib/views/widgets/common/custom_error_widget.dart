@@ -12,16 +12,27 @@ import 'custom_text_button.dart';
 class CustomErrorWidget extends StatelessWidget {
   final NetworkException error;
   final Color backgroundColor;
+  final double height;
+  final VoidCallback retryCallback;
 
-  const CustomErrorWidget._(this.error, this.backgroundColor);
+  const CustomErrorWidget._({
+    required this.error,
+    required this.backgroundColor,
+    required this.retryCallback,
+    required this.height,
+  });
 
-  factory CustomErrorWidget.dark(
-    NetworkException error,
-  ) = _CustomErrorWidgetDark;
+  factory CustomErrorWidget.dark({
+    required NetworkException error,
+    required VoidCallback retryCallback,
+    double? height,
+  }) = _CustomErrorWidgetDark;
 
-  factory CustomErrorWidget.light(
-    NetworkException error,
-  ) = _CustomErrorWidgetLight;
+  factory CustomErrorWidget.light({
+    required NetworkException error,
+    required VoidCallback retryCallback,
+    double? height,
+  }) = _CustomErrorWidgetLight;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,7 @@ class CustomErrorWidget extends StatelessWidget {
           color: backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        height: 350,
+        height: height,
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.fromLTRB(30, 25, 30, 35),
         child: Center(
@@ -66,7 +77,7 @@ class CustomErrorWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: retryCallback,
                 gradient: Constants.buttonGradientRed,
               ),
             ],
@@ -78,12 +89,27 @@ class CustomErrorWidget extends StatelessWidget {
 }
 
 class _CustomErrorWidgetDark extends CustomErrorWidget {
-  _CustomErrorWidgetDark(NetworkException error)
-      : super._(error, Constants.scaffoldGreyColor);
+  _CustomErrorWidgetDark({
+    required NetworkException error,
+    required VoidCallback retryCallback,
+    double? height,
+  }) : super._(
+          error: error,
+          backgroundColor: Constants.scaffoldGreyColor,
+          retryCallback: retryCallback,
+          height: height ?? double.infinity,
+        );
 }
 
 class _CustomErrorWidgetLight extends CustomErrorWidget {
-  _CustomErrorWidgetLight(
-    NetworkException error,
-  ) : super._(error, Colors.red[200]!);
+  _CustomErrorWidgetLight({
+    required NetworkException error,
+    required VoidCallback retryCallback,
+    double? height,
+  }) : super._(
+          error: error,
+          backgroundColor: Colors.red[200]!,
+          retryCallback: retryCallback,
+          height: height ?? double.infinity,
+        );
 }

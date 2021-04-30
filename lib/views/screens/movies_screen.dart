@@ -1,33 +1,41 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:auto_route/auto_route.dart';
-
-//Services
-import '../../services/networking/network_exception.dart';
 
 //Enums
 import '../../enums/movie_type_enum.dart';
 
-//Models
-import '../../models/movie_model.dart';
-
 //Helper
 import '../../helper/utils/constants.dart';
+
+//Models
+import '../../models/movie_model.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
 
+//Services
+import '../../services/networking/network_exception.dart';
+
 //Widgets
 import '../widgets/common/custom_error_widget.dart';
-import '../widgets/movies/movie_carousel.dart';
 import '../widgets/movies/movie_backdrop_view.dart';
+import '../widgets/movies/movie_carousel.dart';
 import '../widgets/movies/movie_icons_row.dart';
 
 final moviesFuture =
-    FutureProvider.family<List<MovieModel>, MovieType?>((ref, movieType) async {
-  return await ref.watch(moviesProvider).getAllMovies(movieType: movieType);
-});
+    FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
+  (ref, movieType) async {
+    final _moviesProvider = ref.watch(moviesProvider);
+
+    final moviesList = await _moviesProvider.getAllMovies(
+      movieType: movieType,
+    );
+
+    return moviesList;
+  },
+);
 
 class MoviesScreen extends HookWidget {
   @override
@@ -98,13 +106,25 @@ class MoviesScreen extends HookWidget {
           );
         },
         //TODO: Add skeleton loader
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading: () => Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
+          ),
+        ),
         error: (error, st) {
-          if (error is NetworkException) return CustomErrorWidget.dark(error);
+          if (error is NetworkException) {
+            return CustomErrorWidget.dark(
+              error: error,
+              retryCallback: () {
+                context.refresh(moviesFuture(null));
+              },
+              height: screenHeight * 0.5,
+            );
+          }
           context.read(authProvider.notifier).logout();
           context.router.popUntilRoot();
-          print(error);
-          print(st);
+          debugPrint(error.toString());
+          debugPrint(st.toString());
         },
       ),
     );
