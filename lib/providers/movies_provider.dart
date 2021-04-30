@@ -1,12 +1,12 @@
 //Services
 import '../services/repositories/movies_repository.dart';
 
+//Enums
+import '../enums/movie_type_enum.dart';
+
 //Models
 import '../models/movie_model.dart';
 import '../models/movie_role_model.dart';
-
-//Enums
-import '../enums/movie_type_enum.dart';
 
 class MoviesProvider {
   final MoviesRepository _moviesRepository;
@@ -28,7 +28,7 @@ class MoviesProvider {
     return await _moviesRepository.fetchOne(movieId: movieId);
   }
 
-  Future<List<MovieRoleModel>> getMovieCast({
+  Future<List<MovieRoleModel>> getMovieRoles({
     required int movieId,
   }) async {
     return await _moviesRepository.fetchMovieRoles(movieId: movieId);
@@ -42,7 +42,7 @@ class MoviesProvider {
     required String posterUrl,
     required double rating,
     required MovieType movieType,
-    required List<Map<String, dynamic>> roles,
+    required List<MovieRoleModel> movieRoles,
   }) async {
     final movie = MovieModel(
       movieId: -1,
@@ -54,6 +54,8 @@ class MoviesProvider {
       rating: rating,
       movieType: movieType,
     );
+    final roles =
+        movieRoles.map((movieRole) => movieRole.toCustomJson()).toList();
     final Map<String, dynamic> data = {
       ...movie.toJson(),
       "roles": roles,
@@ -85,7 +87,9 @@ class MoviesProvider {
     return await _moviesRepository.update(movieId: movieId, data: data);
   }
 
-  Future<String> removeMovie({ required int movieId, }) async {
+  Future<String> removeMovie({
+    required int movieId,
+  }) async {
     return await _moviesRepository.delete(movieId: movieId);
   }
 }

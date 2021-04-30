@@ -67,35 +67,12 @@ class MoviesRepository {
     );
   }
 
-  /// Response is of type:
-  /// {
-  ///   role_id: 1,
-  ///   full_name: ...,
-  ///   ...,
-  ///   role_type: "director"
-  /// }
-  ///
-  /// In the builder we:
-  /// 1. Separate the role type
-  /// 2. Make new map with role key having response map and
-  ///    role_type key having roleType String.
-  /// 3. Parse it into MovieRoleModel
-  ///
-  /// TODO: Improve response type in API to contain role as Map
   Future<List<MovieRoleModel>> fetchMovieRoles({
     required int movieId,
   }) async {
     return await _apiService.getCollectionData<MovieRoleModel>(
       endpoint: ApiEndpoint.movies(id: movieId, searchRoles: true),
-      builder: (responseBody) {
-        final String roleType = responseBody["role_type"];
-        responseBody.remove("role_type");
-        final Map<String,dynamic> movieRole = {
-          "role": responseBody,
-          "role_type" : roleType,
-        };
-        return MovieRoleModel.fromJson(movieRole);
-      },
+      builder: (responseBody) => MovieRoleModel.fromJsonCustom(responseBody),
     );
   }
 }
