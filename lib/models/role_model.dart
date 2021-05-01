@@ -4,7 +4,7 @@ part 'role_model.freezed.dart';
 part 'role_model.g.dart';
 
 @freezed
-abstract class RoleModel with _$RoleModel {
+class RoleModel with _$RoleModel {
 
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory RoleModel({
