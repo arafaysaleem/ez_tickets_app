@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+//Helper
 import '../../helper/utils/constants.dart';
+
+//Widgets
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/show_times/show_dates_list.dart';
 import '../widgets/show_times/show_times_list.dart';
@@ -147,9 +150,9 @@ class ShowsScreen extends StatelessWidget {
 
             const SizedBox(height: 42),
 
-            //Seats status title
+            //Seats details title
             Text(
-              "Show status",
+              "Show details",
               style: textTheme.headline5!.copyWith(
                 height: 1,
                 color: Constants.textGreyColor,
@@ -159,24 +162,74 @@ class ShowsScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            //Show status
+            //Show details box
             Container(
               decoration: BoxDecoration(
-                color: Constants.scaffoldGreyColor,
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: Constants.primaryColor)
-              ),
+                  color: Constants.scaffoldGreyColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  border: Border.all(color: Constants.primaryColor)),
               height: 65,
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              child: Center(
-                child: Text(
-                  showStatus,
-                  style: textTheme.headline3!.copyWith(
-                    color: Colors.white,
-                    fontSize: 14,
+              padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 35),
+              child: Row(
+                children: [
+                  Text(
+                    "3D",
+                    style: textTheme.headline3!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      height: 1.4,
+                      fontSize: 19,
+                    ),
                   ),
-                ),
+
+                  //Divider line
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 35),
+                    child: VerticalDivider(
+                      thickness: 1.1,
+                      width: 0,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+
+                        //Status
+                        Text(
+                          showStatus.toUpperCase(),
+                          style: textTheme.headline3!.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+
+                        //Seating level icon
+                        if (showStatus != "Almost full")
+                          const Icon(
+                            Icons.error_rounded,
+                            size: 25,
+                            color: Colors.amber,
+                          )
+                        else if (showStatus != "Full")
+                          const Icon(
+                            Icons.warning_rounded,
+                            size: 25,
+                            color: Colors.red,
+                          )
+                        else if (showStatus == "Free")
+                          Icon(
+                            Icons.check_circle_sharp,
+                            size: 25,
+                            color: Colors.lightGreenAccent[700],
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
 
@@ -184,8 +237,12 @@ class ShowsScreen extends StatelessWidget {
 
             //Continue button
             Padding(
-              padding:
-                  EdgeInsets.fromLTRB(20, 0, 20, Constants.bottomInsetsLow),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                0,
+                20,
+                Constants.bottomInsetsLow,
+              ),
               child: CustomTextButton.gradient(
                 width: double.infinity,
                 onPressed: () {},
