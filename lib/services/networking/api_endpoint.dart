@@ -13,6 +13,8 @@ class ApiEndpoint {
       path = path + "/register";
     else if (login)
       path = path + "/login";
+    else if (refreshToken)
+      path = path + "/token";
     else {
       path = path + "/password";
       if (forgotPassword)
@@ -22,7 +24,6 @@ class ApiEndpoint {
       else if (changePassword)
         path = path + "/change";
       else if (verifyOtp) path = path + "/otp";
-      else if (refreshToken) path = path + "/token";
     }
     return path;
   }
@@ -68,9 +69,12 @@ class ApiEndpoint {
     bool searchShows = false,
   }) {
     String path = "/bookings";
-    if (searchUsers) path = path + "/users/$id";
-    else if(searchShows) path = path + "/shows/$id";
-    else if (filters) path = path + "/filters";
+    if (searchUsers)
+      path = path + "/users/$id";
+    else if (searchShows)
+      path = path + "/shows/$id";
+    else if (filters)
+      path = path + "/filters";
     else if (id != null) path = path + "/id/$id";
     return path;
   }
@@ -82,7 +86,8 @@ class ApiEndpoint {
     bool searchShows = false,
   }) {
     String path = "/payments";
-    if (searchUsers) path = path + "/users/$id";
+    if (searchUsers)
+      path = path + "/users/$id";
     else if (id != null) path = path + "/id/$id";
     return path;
   }
