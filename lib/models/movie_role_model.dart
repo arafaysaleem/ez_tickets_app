@@ -15,20 +15,13 @@ class MovieRoleModel with _$MovieRoleModel {
 
   @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory MovieRoleModel({
+    required int movieId,
     required RoleModel role,
     required RoleType roleType,
   }) = _MovieRoleModel;
 
   factory MovieRoleModel.fromJson(Map<String, dynamic> json) =>
       _$MovieRoleModelFromJson(json);
-
-  factory MovieRoleModel.fromJsonCustom(Map<String, dynamic> json) {
-    final Map<String,dynamic> movieRole = {
-      "role": json,
-      "role_type" : json["role_type"],
-    };
-    return MovieRoleModel.fromJson(movieRole);
-  }
 
   Map<String, dynamic> toCustomJson() {
     return {

@@ -45,7 +45,7 @@ class MoviesProvider {
     required List<MovieRoleModel> movieRoles,
   }) async {
     final movie = MovieModel(
-      movieId: -1,
+      movieId: null,
       title: title,
       year: year,
       summary: summary,

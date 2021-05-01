@@ -18,10 +18,6 @@ class MoviesRepository {
   })  : _apiService = apiService,
         _cancelToken = cancelToken;
 
-  /// In the builder we:
-  /// 1. Add the newly added movie's id
-  /// 2. Removes roles info
-  /// 3. Parse into Movie Model
   Future<int> create({
     required Map<String, dynamic> data,
   }) async {
@@ -84,7 +80,7 @@ class MoviesRepository {
     return await _apiService.getCollectionData<MovieRoleModel>(
       endpoint: ApiEndpoint.movies(id: movieId, searchRoles: true),
       cancelToken: _cancelToken,
-      builder: (responseBody) => MovieRoleModel.fromJsonCustom(responseBody),
+      builder: (responseBody) => MovieRoleModel.fromJson(responseBody),
     );
   }
 
