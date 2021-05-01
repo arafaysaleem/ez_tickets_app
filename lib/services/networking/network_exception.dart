@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'network_exception.freezed.dart';
 
 @freezed
-abstract class NetworkException with _$NetworkException {
+class NetworkException with _$NetworkException {
   // ignore: non_constant_identifier_names
   const factory NetworkException.FormatException({
     required String name,
