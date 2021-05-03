@@ -1,4 +1,6 @@
 //Services
+import 'package:ez_ticketz_app/models/genre_model.dart';
+
 import '../services/repositories/movies_repository.dart';
 
 //Enums
@@ -43,6 +45,7 @@ class MoviesProvider {
     required double rating,
     required MovieType movieType,
     required List<MovieRoleModel> movieRoles,
+    required List<GenreModel> movieGenres,
   }) async {
     final movie = MovieModel(
       movieId: null,
@@ -52,6 +55,7 @@ class MoviesProvider {
       trailerUrl: trailerUrl,
       posterUrl: posterUrl,
       rating: rating,
+      genres: movieGenres,
       movieType: movieType,
     );
     final roles =

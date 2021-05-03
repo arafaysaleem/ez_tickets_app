@@ -32,8 +32,7 @@ class MovieOverviewColumn extends StatelessWidget {
         const SizedBox(height: 10),
 
         //Genres
-        //TODO: Implement movie genres
-        GenreChips(genres: ["Action", "Horror", "Comedy"]),
+        GenreChips(genres: movie.genreNames),
 
         const SizedBox(height: 12),
 
