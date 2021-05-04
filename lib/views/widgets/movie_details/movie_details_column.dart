@@ -42,10 +42,9 @@ class MovieDetailsColumn extends HookWidget {
 
         const SizedBox(height: 15),
 
-        //Director
-        //TODO: Add movie director name in Movies API
+        //Year
         Text(
-          "Director / Todd Phillips",
+          "${movie.year}",
           style: textTheme.headline4!.copyWith(
             color: Colors.black,
             fontSize: 14,
