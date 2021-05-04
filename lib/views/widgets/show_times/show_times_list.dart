@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
 
+//Providers
+import '../../../providers/shows_provider.dart';
+
+//Helpers
 import '../../../helper/utils/constants.dart';
 
-List<String> showTimes = ["3:30", "4:30", "5:30", "6:30"];
-
-class ShowTimesList extends StatefulWidget {
-  const ShowTimesList() : super();
+class ShowTimesList extends StatefulHookWidget {
+  const ShowTimesList();
 
   @override
   _ShowTimesListState createState() => _ShowTimesListState();
@@ -28,6 +33,7 @@ class _ShowTimesListState extends State<ShowTimesList> {
 
   @override
   Widget build(BuildContext context) {
+    final showTimes = useProvider(selectedShowDate).state.showTimes;
     return ShaderMask(
       shaderCallback: getShader,
       blendMode: BlendMode.dstOut,
@@ -45,10 +51,11 @@ class _ShowTimesListState extends State<ShowTimesList> {
             isActive: i == selectedIndex,
             onTap: () {
               setState(() {
+                context.read(selectedShowTime).state = showTimes[i];
                 selectedIndex = i;
               });
             },
-            time: showTimes[i],
+            time: DateFormat.jm().format(showTimes[i].startTime),
           ),
         ),
       ),

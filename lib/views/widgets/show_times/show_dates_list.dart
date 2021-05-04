@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
+//Helpers
 import '../../../helper/utils/constants.dart';
 
-List<String> showDates = [
-  "14\nSun",
-  "15\nMon",
-  "16\nTue",
-  "17\nWed",
-  "18\nThu"
-];
+//Models
+import '../../../models/show_model.dart';
+
+//Providers
+import '../../../providers/shows_provider.dart';
 
 class ShowDatesList extends StatefulWidget {
-  const ShowDatesList() : super();
+  final List<ShowModel> shows;
+
+  const ShowDatesList(this.shows);
 
   @override
   _ShowDatesListState createState() => _ShowDatesListState();
@@ -32,6 +35,8 @@ class _ShowDatesListState extends State<ShowDatesList> {
     ).createShader(bounds);
   }
 
+  List<ShowModel> get shows => widget.shows;
+
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
@@ -40,20 +45,22 @@ class _ShowDatesListState extends State<ShowDatesList> {
       child: ListView.separated(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: showDates.length,
+        itemCount: shows.length,
         separatorBuilder: (ctx, i) => const SizedBox(width: 20),
         itemBuilder: (ctx, i) => Padding(
-          padding: i == showDates.length - 1
+          padding: i == shows.length - 1
               ? const EdgeInsets.only(right: 20)
               : const EdgeInsets.all(0),
           child: _ShowDateItem(
             isActive: i == selectedIndex,
             onTap: () {
+              context.read(selectedShowDate).state = shows[i];
               setState(() {
                 selectedIndex = i;
               });
             },
-            date: showDates[i],
+            date: DateFormat.d().format(shows[i].date),
+            weekDay: DateFormat.E().format(shows[i].date),
           ),
         ),
       ),
@@ -64,13 +71,14 @@ class _ShowDatesListState extends State<ShowDatesList> {
 class _ShowDateItem extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
-  final String date;
+  final String weekDay, date;
 
   const _ShowDateItem({
     Key? key,
     required this.isActive,
     required this.onTap,
     required this.date,
+    required this.weekDay,
   }) : super(key: key);
 
   @override
@@ -87,15 +95,31 @@ class _ShowDateItem extends StatelessWidget {
           border: isActive ? null : Border.all(color: Constants.primaryColor),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
-        child: Center(
-          child: Text(
-            date,
-            textAlign: TextAlign.center,
-            style: textTheme.headline3!.copyWith(
-              color: Colors.white,
-              fontSize: 17,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            //Weekday
+            Text(
+              weekDay,
+              textAlign: TextAlign.center,
+              style: textTheme.headline3!.copyWith(
+                color: Colors.white,
+                fontSize: 17,
+              ),
             ),
-          ),
+
+            const SizedBox(height: 5),
+
+            //date
+            Text(
+              date,
+              textAlign: TextAlign.center,
+              style: textTheme.headline3!.copyWith(
+                color: Colors.white,
+                fontSize: 17,
+              ),
+            ),
+          ],
         ),
       ),
     );

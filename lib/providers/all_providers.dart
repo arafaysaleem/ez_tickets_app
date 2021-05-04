@@ -1,5 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../models/movie_model.dart';
+
 //services imports
 import '../services/local_storage/prefs_service.dart';
 import '../services/networking/api_service.dart';
@@ -16,10 +18,6 @@ import 'shows_provider.dart';
 
 //states
 import 'states/auth_state.dart';
-
-//Models
-import '../models/show_model.dart';
-import '../models/movie_model.dart';
 
 //service providers
 final apiServiceProvider = Provider<ApiService>((ref) => ApiService());
@@ -61,8 +59,4 @@ final showsProvider = Provider<ShowsProvider>((ref) {
 
 final selectedMovie = StateProvider<MovieModel>((ref) {
   return MovieModel.initial();
-});
-
-final selectedShow = StateProvider<ShowModel>((ref) {
-  return ShowModel.initial();
 });

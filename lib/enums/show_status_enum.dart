@@ -12,7 +12,7 @@ enum ShowStatus {
 extension ExtShowStatus on ShowStatus{
   String get name => describeEnum(this);
   String get toJson => this.name.toLowerCase();
-  String get inString => name.removeUnderScore.capitalize;
+  String get inString => name.removeUnderScore.toUpperCase();
 }
 
 

@@ -1,12 +1,42 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 //Services
 import '../services/repositories/shows_repository.dart';
 
 //Enums
-import '../enums/show_type_enum.dart';
 import '../enums/show_status_enum.dart';
+import '../enums/show_type_enum.dart';
 
 //Models
+import '../models/show_time_model.dart';
 import '../models/show_model.dart';
+
+//Providers
+import 'all_providers.dart';
+
+final showsFuture = FutureProvider<List<ShowModel>>(
+      (ref) async {
+    final _movieId = ref.watch(selectedMovie).state.movieId;
+    final _showsProvider = ref.watch(showsProvider);
+    final _showDates = await _showsProvider.getAllShows(movieId: _movieId!);
+    return _showDates;
+  },
+);
+
+final selectedShowDate = StateProvider<ShowModel>((ref) {
+  return ref.watch(showsFuture).maybeWhen(
+    data: (showDates) => showDates[0],
+    orElse: () => ShowModel.initial(),
+  );
+});
+
+final selectedShowTime = StateProvider<ShowTimeModel>(
+      (ref) {
+    final _selectedShowDate = ref.watch(selectedShowDate).state;
+    if (_selectedShowDate.showTimes.isEmpty) return ShowTimeModel.initial();
+    return _selectedShowDate.showTimes[0];
+  },
+);
 
 class ShowsProvider {
   final ShowsRepository _showsRepository;
@@ -37,17 +67,31 @@ class ShowsProvider {
     required ShowType showType,
     required ShowStatus showStatus,
   }) async {
-    final show = ShowModel(
-      date: date,
+    final Map<String,dynamic> data = {
+      "movie_id": movieId,
+      "theater_id": theaterId,
+      "start_time": startTime,
+      "end_time": endTime,
+      "date": date,
+      "show_type": showType.toJson,
+      "show_status": showStatus.toJson,
+    };
+    final showId = await _showsRepository.create(data: data);
+    final showTime = ShowTimeModel(
+      showId: showId,
       startTime: startTime,
       endTime: endTime,
       showStatus: showStatus,
       showType: showType,
-      movieId: movieId,
       theaterId: theaterId,
     );
-    final showId = await _showsRepository.create(data: show.toJson());
-    return show.copyWith(showId: showId);
+
+    final show = ShowModel(
+        date: date,
+        movieId: movieId,
+        showTimes: [showTime]
+    );
+    return show;
   }
 
   Future<String> editShow({
