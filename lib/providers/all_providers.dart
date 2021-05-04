@@ -45,7 +45,6 @@ final moviesProvider = Provider<MoviesProvider>((ref){
   return MoviesProvider(_moviesRepository);
 });
 
-//TODO: Add a movie model default constructor
 final selectedMovie = StateProvider<MovieModel>(
       (ref) => MovieModel.initial(),
 );
