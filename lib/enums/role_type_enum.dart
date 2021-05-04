@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ez_ticketz_app/helper/extensions/string_extension.dart';
 
 enum RoleType {
   @JsonValue("director") DIRECTOR,
@@ -11,5 +12,6 @@ extension ExtRoleType on RoleType{
   String get name => describeEnum(this);
 
   String get toJson => this.name.toLowerCase();
+  String get inString => name.capitalize;
 }
 
