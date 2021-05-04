@@ -1,12 +1,11 @@
 //Services
-import 'package:ez_ticketz_app/models/genre_model.dart';
-
 import '../services/repositories/movies_repository.dart';
 
 //Enums
 import '../enums/movie_type_enum.dart';
 
 //Models
+import '../models/genre_model.dart';
 import '../models/movie_model.dart';
 import '../models/movie_role_model.dart';
 
