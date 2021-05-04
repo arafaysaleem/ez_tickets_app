@@ -1,3 +1,5 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 //Services
 import '../services/repositories/movies_repository.dart';
 
@@ -8,6 +10,10 @@ import '../enums/movie_type_enum.dart';
 import '../models/genre_model.dart';
 import '../models/movie_model.dart';
 import '../models/movie_role_model.dart';
+
+final selectedMovieProvider = StateProvider<MovieModel>((ref) {
+  return MovieModel.initial();
+});
 
 class MoviesProvider {
   final MoviesRepository _moviesRepository;

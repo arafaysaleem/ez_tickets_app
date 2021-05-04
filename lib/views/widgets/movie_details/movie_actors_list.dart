@@ -12,6 +12,7 @@ import '../../../helper/utils/constants.dart';
 import '../../../models/movie_role_model.dart';
 
 //Providers
+import '../../../providers/movies_provider.dart';
 import '../../../providers/all_providers.dart';
 
 //Services
@@ -51,7 +52,7 @@ class MovieActorsList extends HookWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final movieId =
-        useProvider(selectedMovie.select((value) => value.state.movieId));
+        useProvider(selectedMovieProvider.select((value) => value.state.movieId));
     final movieRoles = useProvider(movieRolesFuture(movieId!));
     return movieRoles.when(
       data: (movieRoles) => Column(

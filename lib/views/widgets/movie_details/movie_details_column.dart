@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Providers
-import '../../../providers/all_providers.dart';
+import '../../../providers/movies_provider.dart';
 
 //Widgets
 import '../common/genre_chips.dart';
@@ -15,7 +15,7 @@ class MovieDetailsColumn extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final movie = useProvider(selectedMovie).state;
+    final movie = useProvider(selectedMovieProvider).state;
     return Column(
       children: [
         //Title

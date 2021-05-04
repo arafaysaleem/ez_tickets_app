@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../helper/utils/constants.dart';
 
 //Providers
-import '../../../providers/all_providers.dart';
+import '../../../providers/movies_provider.dart';
 
 class MovieSummaryBox extends HookWidget {
   const MovieSummaryBox();
@@ -14,7 +14,7 @@ class MovieSummaryBox extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final movie = useProvider(selectedMovie).state;
+    final movie = useProvider(selectedMovieProvider).state;
     return Column(
       children: [
         //Introduction title

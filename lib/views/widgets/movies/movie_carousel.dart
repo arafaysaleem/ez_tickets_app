@@ -11,7 +11,7 @@ import '../../../helper/utils/constants.dart';
 import '../../../models/movie_model.dart';
 
 //Providers
-import '../../../providers/all_providers.dart';
+import '../../../providers/movies_provider.dart';
 
 //Router
 import '../../../routes/app_router.gr.dart';
@@ -145,7 +145,7 @@ class _MovieContainer extends HookWidget {
                   ),
                 ),
                 onPressed: () {
-                  context.read(selectedMovie).state = movie;
+                  context.read(selectedMovieProvider).state = movie;
                   context.router.push(const MovieDetailsScreenRoute());
                 },
               ),

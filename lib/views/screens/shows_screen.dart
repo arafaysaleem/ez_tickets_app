@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../helper/utils/constants.dart';
 
 //Providers
-import '../../providers/all_providers.dart';
+import '../../providers/movies_provider.dart';
 import '../../providers/shows_provider.dart';
 
 //Services
@@ -50,7 +50,7 @@ class ShowsScreen extends HookWidget {
                 //Movie Title
                 Consumer(
                   builder: (_, watch, __) {
-                    final title = watch(selectedMovie).state.title;
+                    final title = watch(selectedMovieProvider).state.title;
                     return Text(
                       title,
                       style: Theme.of(context)

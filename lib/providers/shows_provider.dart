@@ -13,10 +13,11 @@ import '../models/show_model.dart';
 
 //Providers
 import 'all_providers.dart';
+import 'movies_provider.dart';
 
 final showsFutureProvider = FutureProvider<List<ShowModel>>(
       (ref) async {
-    final _movieId = ref.watch(selectedMovie).state.movieId;
+    final _movieId = ref.watch(selectedMovieProvider).state.movieId;
     final _showsProvider = ref.watch(showsProvider);
     final _showDates = await _showsProvider.getAllShows(movieId: _movieId!);
     return _showDates;
