@@ -1,60 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Enums
+import '../../../enums/role_type_enum.dart';
+
+//Helpers
+import '../../../helper/utils/constants.dart';
+
+//Models
+import '../../../models/movie_role_model.dart';
+
+//Providers
+import '../../../providers/all_providers.dart';
+
+//Services
+import '../../../services/networking/network_exception.dart';
+
+//Placeholders
 import '../../skeletons/actor_picture_placeholder.dart';
 
+//Widgets
 import '../common/custom_network_image.dart';
 
-final Map<String, dynamic> movie = {
-  "title": "The Hustle",
-  "genres": ["Action", "Drama", "Comedy"],
-  "rating": 5.4,
-  "summary":
-      "Forever alone in a crowd, failed comedian Arthur Fleck seeks connection as he walks the streets of Gotham City. Arthur wears two masks -- the one he paints for his day job as a clown, and the guise he projects in a futile attempt to feel like he's part of the world around him. Isolated, bullied and disregarded by society, Fleck begins a slow descent into madness as he transforms into the criminal mastermind known as the Joker.",
-  "poster_url":
-      "https://m.media-amazon.com/images/M/MV5BMTc3MDcyNzE5N15BMl5BanBnXkFtZTgwNzE2MDE0NzM@._V1_.jpg",
-  "roles": [
-    {
-      "role_id": 1,
-      "full_name": "Todd Phillips",
-      "age": 29,
-      "picture_url":
-          "https://i.pinimg.com/236x/35/b6/22/35b6221b30d6b7d9cc2d1be2112783d2.jpg",
-      "role_type": "director"
-    },
-    {
-      "role_id": 2,
-      "full_name": "Joaquin Pheonix",
-      "age": 29,
-      "picture_url":
-          "https://resizing.flixster.com/_2uaAm0Gi1CSRRYDH0WNs5puAd0=/506x652/v2/https://flxt.tmsimg.com/v9/AllPhotos/69768/69768_v9_bc.jpg",
-      "role_type": "cast"
-    },
-    {
-      "role_id": 3,
-      "full_name": "Robert De Niro",
-      "age": 29,
-      "picture_url":
-          "https://cps-static.rovicorp.com/2/Open/Getty/Robert%20De%20Niro/_derived_jpg_q90_310x470_m0/186243299.jpg",
-      "role_type": "cast"
-    },
-    {
-      "role_id": 4,
-      "full_name": "Zazie Beets",
-      "age": 29,
-      "picture_url":
-          "https://resizing.flixster.com/t3iiAgmwNQpbDsiVNvNc8s3Zuug=/506x652/v2/https://flxt.tmsimg.com/v9/AllPhotos/981946/981946_v9_bb.jpg",
-      "role_type": "cast"
-    },
-  ],
-};
+final movieRolesFuture = FutureProvider.family<List<MovieRoleModel>, int>(
+  (ref, movieId) async {
+    final _moviesProvider = ref.watch(moviesProvider);
 
-class MovieActorsList extends StatelessWidget {
+    final movieRolesList = await _moviesProvider.getMovieRoles(
+      movieId: movieId,
+    );
+
+    return movieRolesList;
+  },
+);
+
+class MovieActorsList extends HookWidget {
   const MovieActorsList();
 
-  EdgeInsets getImagePadding(i) {
-    if (i == 0) {
+  EdgeInsets getImagePadding(bool isFirst, bool isLast) {
+    if (isFirst) {
       return const EdgeInsets.only(left: 20);
-    } else if (i == (movie["roles"].length - 1)) {
+    } else if (isLast) {
       return const EdgeInsets.only(right: 20);
     }
     return const EdgeInsets.all(0);
@@ -63,43 +50,67 @@ class MovieActorsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Column(
-      children: [
-        //Actors title
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Actors",
-              style: textTheme.headline2!.copyWith(
-                color: Colors.black,
-                fontSize: 17,
+    final movieId =
+        useProvider(selectedMovie.select((value) => value.state.movieId));
+    final movieRoles = useProvider(movieRolesFuture(movieId!));
+    return movieRoles.when(
+      data: (movieRoles) => Column(
+        children: [
+          //Actors title
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Cast And Crew",
+                style: textTheme.headline2!.copyWith(
+                  color: Colors.black,
+                  fontSize: 17,
+                ),
               ),
             ),
           ),
-        ),
 
-        const SizedBox(height: 10),
+          const SizedBox(height: 10),
 
-        //Actors list
-        SizedBox(
-          height: 120,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            separatorBuilder: (ctx, i) => const SizedBox(width: 15),
-            itemCount: movie["roles"].length,
-            itemBuilder: (ctx, i) => Padding(
-              padding: getImagePadding(i),
-              child: _ActorListItem(
-                pictureUrl: movie["roles"][i]["picture_url"],
-                fullName: movie["roles"][i]["full_name"],
-              ),
+          //Actors list
+          SizedBox(
+            height: 140,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              separatorBuilder: (ctx, i) => const SizedBox(width: 15),
+              itemCount: movieRoles.length,
+              itemBuilder: (ctx, i) {
+                final mRole = movieRoles[i].role;
+                final isLast = i == (movieRoles.length - 1);
+                final isFirst = i == 0;
+                return Padding(
+                  padding: getImagePadding(isFirst, isLast),
+                  child: _ActorListItem(
+                    pictureUrl: mRole.pictureUrl,
+                    fullName: mRole.fullName,
+                    roleType: movieRoles[i].roleType.inString,
+                  ),
+                );
+              },
             ),
           ),
+        ],
+      ),
+      loading: () => Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Constants.buttonGreyColor),
         ),
-      ],
+      ),
+      error: (error, st) {
+        if (error is NetworkException) {
+          return Text(error.message);
+        }
+        debugPrint(error.toString());
+        debugPrint(st.toString());
+        return Text(error.toString());
+      },
     );
   }
 }
@@ -108,10 +119,11 @@ class _ActorListItem extends StatelessWidget {
   const _ActorListItem({
     Key? key,
     required this.pictureUrl,
+    required this.roleType,
     required this.fullName,
   }) : super(key: key);
 
-  final String pictureUrl, fullName;
+  final String pictureUrl, fullName, roleType;
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +149,25 @@ class _ActorListItem extends StatelessWidget {
             fullName,
             style: textTheme.headline4!.copyWith(
               color: Colors.black,
-              fontSize: 13,
+              fontSize: 14,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.fade,
+          ),
+        ),
+
+        const SizedBox(height: 3),
+
+        //Role type
+        Expanded(
+          child: Text(
+            roleType,
+            style: textTheme.headline4!.copyWith(
+              color: Constants.textGreyColor,
+              fontSize: 12,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.fade,
           ),
         )
       ],

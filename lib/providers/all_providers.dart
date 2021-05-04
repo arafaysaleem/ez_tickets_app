@@ -1,5 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../models/movie_model.dart';
+
 //services imports
 import '../services/networking/api_service.dart';
 import '../services/local_storage/prefs_service.dart';
@@ -42,3 +44,8 @@ final moviesProvider = Provider<MoviesProvider>((ref){
   final _moviesRepository = ref.watch(moviesRepositoryProvider);
   return MoviesProvider(_moviesRepository);
 });
+
+//TODO: Add a movie model default constructor
+final selectedMovie = StateProvider<MovieModel>(
+      (ref) => MovieModel.initial(),
+);

@@ -1,16 +1,20 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:auto_route/auto_route.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+//Helper
+import '../../../helper/utils/constants.dart';
 
 //Models
 import '../../../models/movie_model.dart';
 
+//Providers
+import '../../../providers/all_providers.dart';
+
 //Router
 import '../../../routes/app_router.gr.dart';
-
-//Helper
-import '../../../helper/utils/constants.dart';
 
 //Placeholders
 import '../../skeletons/movie_poster_placeholder.dart';
@@ -141,6 +145,7 @@ class _MovieContainer extends HookWidget {
                   ),
                 ),
                 onPressed: () {
+                  context.read(selectedMovie).state = movie;
                   context.router.push(const MovieDetailsScreenRoute());
                 },
               ),
@@ -151,5 +156,3 @@ class _MovieContainer extends HookWidget {
     );
   }
 }
-
-

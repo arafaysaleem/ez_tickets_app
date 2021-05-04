@@ -30,6 +30,20 @@ class MovieModel with _$MovieModel {
     required MovieType movieType,
   }) = _MovieModel;
 
+  factory MovieModel.initial(){
+    return MovieModel(
+      movieId: null,
+      year: 0,
+      title: "",
+      summary: "",
+      trailerUrl: "",
+      posterUrl: "",
+      rating: null,
+      genres: [],
+      movieType: MovieType.COMING_SOON,
+    );
+  }
+
   factory MovieModel.fromJson(Map<String, dynamic> json) =>
       _$MovieModelFromJson(json);
 
