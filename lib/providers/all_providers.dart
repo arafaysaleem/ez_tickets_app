@@ -1,21 +1,25 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../models/movie_model.dart';
-import '../services/local_storage/prefs_service.dart';
-
 //services imports
+import '../services/local_storage/prefs_service.dart';
 import '../services/networking/api_service.dart';
 import '../services/repositories/auth_repository.dart';
 
 //repository imports
 import '../services/repositories/movies_repository.dart';
+import '../services/repositories/shows_repository.dart';
 
 //provider imports
 import 'auth_provider.dart';
 import 'movies_provider.dart';
+import 'shows_provider.dart';
 
 //states
 import 'states/auth_state.dart';
+
+//Models
+import '../models/show_model.dart';
+import '../models/movie_model.dart';
 
 //service providers
 final apiServiceProvider = Provider<ApiService>((ref) => ApiService());
@@ -32,6 +36,11 @@ final moviesRepositoryProvider = Provider<MoviesRepository>((ref) {
   return MoviesRepository(apiService: _apiService);
 });
 
+final showsRepositoryProvider = Provider<ShowsRepository>((ref) {
+  final _apiService = ref.watch(apiServiceProvider);
+  return ShowsRepository(apiService: _apiService);
+});
+
 //notifier providers
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final _authRepository = ref.watch(authRepositoryProvider);
@@ -45,6 +54,15 @@ final moviesProvider = Provider<MoviesProvider>((ref) {
   return MoviesProvider(_moviesRepository);
 });
 
+final showsProvider = Provider<ShowsProvider>((ref) {
+  final _showsRepository = ref.watch(showsRepositoryProvider);
+  return ShowsProvider(_showsRepository);
+});
+
 final selectedMovie = StateProvider<MovieModel>((ref) {
   return MovieModel.initial();
+});
+
+final selectedShow = StateProvider<ShowModel>((ref) {
+  return ShowModel.initial();
 });
