@@ -33,7 +33,7 @@ class _ShowTimesListState extends State<ShowTimesList> {
 
   @override
   Widget build(BuildContext context) {
-    final showTimes = useProvider(selectedShowDate).state.showTimes;
+    final showTimes = useProvider(selectedShowProvider).state.showTimes;
     return ShaderMask(
       shaderCallback: getShader,
       blendMode: BlendMode.dstOut,
@@ -51,7 +51,7 @@ class _ShowTimesListState extends State<ShowTimesList> {
             isActive: i == selectedIndex,
             onTap: () {
               setState(() {
-                context.read(selectedShowTime).state = showTimes[i];
+                context.read(selectedShowTimeProvider).state = showTimes[i];
                 selectedIndex = i;
               });
             },

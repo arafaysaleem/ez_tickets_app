@@ -24,7 +24,7 @@ class ShowsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final showList = useProvider(showsFuture);
+    final showList = useProvider(showsFutureProvider);
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SafeArea(
@@ -184,7 +184,7 @@ class ShowsScreen extends HookWidget {
                   return CustomErrorWidget.dark(
                     error: error,
                     retryCallback: () {
-                      context.refresh(showsFuture);
+                      context.refresh(showsFutureProvider);
                     },
                     height: screenHeight * 0.5,
                   );

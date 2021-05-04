@@ -54,7 +54,7 @@ class _ShowDatesListState extends State<ShowDatesList> {
           child: _ShowDateItem(
             isActive: i == selectedIndex,
             onTap: () {
-              context.read(selectedShowDate).state = shows[i];
+              context.read(selectedShowProvider).state = shows[i];
               setState(() {
                 selectedIndex = i;
               });

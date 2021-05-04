@@ -18,7 +18,7 @@ class ShowDetailsBox extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final showTime = useProvider(selectedShowTime).state;
+    final showTime = useProvider(selectedShowTimeProvider).state;
     return Container(
       decoration: BoxDecoration(
         color: Constants.scaffoldGreyColor,

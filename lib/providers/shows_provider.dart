@@ -14,7 +14,7 @@ import '../models/show_model.dart';
 //Providers
 import 'all_providers.dart';
 
-final showsFuture = FutureProvider<List<ShowModel>>(
+final showsFutureProvider = FutureProvider<List<ShowModel>>(
       (ref) async {
     final _movieId = ref.watch(selectedMovie).state.movieId;
     final _showsProvider = ref.watch(showsProvider);
@@ -23,18 +23,18 @@ final showsFuture = FutureProvider<List<ShowModel>>(
   },
 );
 
-final selectedShowDate = StateProvider<ShowModel>((ref) {
-  return ref.watch(showsFuture).maybeWhen(
-    data: (showDates) => showDates[0],
+final selectedShowProvider = StateProvider<ShowModel>((ref) {
+  return ref.watch(showsFutureProvider).maybeWhen(
+    data: (shows) => shows[0],
     orElse: () => ShowModel.initial(),
   );
 });
 
-final selectedShowTime = StateProvider<ShowTimeModel>(
+final selectedShowTimeProvider = StateProvider<ShowTimeModel>(
       (ref) {
-    final _selectedShowDate = ref.watch(selectedShowDate).state;
-    if (_selectedShowDate.showTimes.isEmpty) return ShowTimeModel.initial();
-    return _selectedShowDate.showTimes[0];
+    final _selectedShow = ref.watch(selectedShowProvider).state;
+    if (_selectedShow.showTimes.isEmpty) return ShowTimeModel.initial();
+    return _selectedShow.showTimes[0];
   },
 );
 
