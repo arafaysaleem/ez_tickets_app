@@ -1,14 +1,14 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../models/movie_model.dart';
+import '../services/local_storage/prefs_service.dart';
 
 //services imports
 import '../services/networking/api_service.dart';
-import '../services/local_storage/prefs_service.dart';
+import '../services/repositories/auth_repository.dart';
 
 //repository imports
 import '../services/repositories/movies_repository.dart';
-import '../services/repositories/auth_repository.dart';
 
 //provider imports
 import 'auth_provider.dart';
@@ -36,15 +36,15 @@ final moviesRepositoryProvider = Provider<MoviesRepository>((ref) {
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final _authRepository = ref.watch(authRepositoryProvider);
   final _prefsService = ref.watch(prefsServiceProvider);
-  return AuthProvider(_authRepository,_prefsService);
+  return AuthProvider(_authRepository, _prefsService);
 });
 
 //data providers
-final moviesProvider = Provider<MoviesProvider>((ref){
+final moviesProvider = Provider<MoviesProvider>((ref) {
   final _moviesRepository = ref.watch(moviesRepositoryProvider);
   return MoviesProvider(_moviesRepository);
 });
 
-final selectedMovie = StateProvider<MovieModel>(
-      (ref) => MovieModel.initial(),
-);
+final selectedMovie = StateProvider<MovieModel>((ref) {
+  return MovieModel.initial();
+});
