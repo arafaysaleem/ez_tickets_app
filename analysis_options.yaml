@@ -1,0 +1,13 @@
+include: package:effective_dart/analysis_options.yaml
+
+linter:
+  rules:
+    directives_ordering: false
+    public_member_api_docs: false #Enable at the end
+analyzer:
+  exclude:
+    - lib/models/*.freezed.dart
+    - lib/models/*.g.dart
+  errors:
+    missing_required_param: error
+    missing_return: error
