@@ -65,7 +65,7 @@ class MoviesProvider {
     );
     final roles =
         movieRoles.map((movieRole) => movieRole.toCustomJson()).toList();
-    final Map<String, dynamic> data = {
+    final data = <String, dynamic>{
       ...movie.toJson(),
       "roles": roles,
     };
@@ -83,7 +83,7 @@ class MoviesProvider {
     double? rating,
     MovieType? movieType,
   }) async {
-    final Map<String, dynamic> data = {
+    final data = <String,dynamic>{
       if (title != null) "title": title,
       if (year != null) "year": year,
       if (summary != null) "summary": summary,
