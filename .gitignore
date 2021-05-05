@@ -48,3 +48,4 @@ app.*.map.json
 # Generated model files
 *.g.dart
 *.freezed.dart
+*.gr.dart
