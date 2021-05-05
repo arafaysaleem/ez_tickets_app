@@ -5,9 +5,9 @@ import '../enums/user_role_enum.dart';
 
 //models
 import '../models/user_model.dart';
-import '../services/networking/network_exception.dart';
 
 //services
+import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
 import '../services/local_storage/prefs_service.dart';
 
@@ -87,7 +87,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   }) async {
     if (contact.startsWith("0")) contact = contact.substring(1);
     contact = "+92$contact";
-    final Map<String, dynamic> data = {
+    final data = <String, dynamic>{
       "email": email,
       "password": password,
       "full_name": fullName,

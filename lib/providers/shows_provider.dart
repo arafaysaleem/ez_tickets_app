@@ -68,7 +68,7 @@ class ShowsProvider {
     required ShowType showType,
     required ShowStatus showStatus,
   }) async {
-    final Map<String,dynamic> data = {
+    final data = <String, dynamic>{
       "movie_id": movieId,
       "theater_id": theaterId,
       "start_time": startTime,
@@ -105,7 +105,7 @@ class ShowsProvider {
     ShowType? showType,
     ShowStatus? showStatus,
   }) async {
-    final Map<String, dynamic> data = {
+    final data = <String, dynamic>{
       if (movieId != null) "movie_id": movieId,
       if (theaterId != null) "theater_id": theaterId,
       if (startTime != null) "start_time": startTime,
