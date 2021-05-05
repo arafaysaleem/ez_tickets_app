@@ -18,7 +18,7 @@ class PrefsBase{
   ///Initializer for shared prefs
   ///Should be called in main before runApp and
   ///after WidgetsBinding.FlutterInitialized()
-  static init() async {
+  static void init() async {
     if(_sharedPrefs == null ) {
       _sharedPrefs = await SharedPreferences.getInstance();
     }
@@ -36,7 +36,7 @@ class PrefsBase{
   }
 
   ///Sets the value for the key to preferences
-  set<T>(String key, T value) {
+  Future<bool> set<T>(String key, T value) {
     switch(T){
       case String: return _sharedPrefs!.setString(key, value as String);
       case int: return _sharedPrefs!.setInt(key, value as int);
@@ -47,5 +47,5 @@ class PrefsBase{
   }
 
   ///Resets preferences
-  clear() => _sharedPrefs!.clear();
+  void clear() => _sharedPrefs!.clear();
 }
