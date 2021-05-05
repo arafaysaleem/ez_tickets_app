@@ -12,7 +12,7 @@ enum RoleType {
 
 extension ExtRoleType on RoleType{
   String get name => describeEnum(this);
-  String get toJson => this.name.toLowerCase();
+  String get toJson => name.toLowerCase();
   String get inString => name.capitalize;
 }
 
