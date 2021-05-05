@@ -266,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
-        onChange: (context, AuthState authState) async {
+        onChange: (context, authState) async {
           if (authState is AUTHENTICATED) {
             emailController.clear();
             passwordController.clear();

@@ -21,6 +21,8 @@ import '../widgets/show_times/show_details_box.dart';
 import '../widgets/show_times/show_times_list.dart';
 
 class ShowsScreen extends HookWidget {
+  const ShowsScreen();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;

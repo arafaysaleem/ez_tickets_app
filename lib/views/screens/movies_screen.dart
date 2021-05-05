@@ -38,6 +38,8 @@ final moviesFuture =
 );
 
 class MoviesScreen extends HookWidget {
+  const MoviesScreen();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -95,11 +97,11 @@ class MoviesScreen extends HookWidget {
                 ),
 
                 //Icons row
-                Positioned(
+                const Positioned(
                   top: 0,
                   left: 0,
                   right: 0,
-                  child: const MoviesIconsRow(),
+                  child: MoviesIconsRow(),
                 )
               ],
             ),

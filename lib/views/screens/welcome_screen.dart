@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
@@ -7,10 +7,10 @@ import '../../helper/utils/constants.dart';
 //Routes
 import '../../routes/app_router.gr.dart';
 
+//Widgets
 import '../widgets/common/custom_text_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
-
   const WelcomeScreen();
 
   @override
@@ -58,5 +58,3 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-
-

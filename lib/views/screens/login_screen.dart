@@ -12,19 +12,20 @@ import '../../providers/all_providers.dart';
 
 //States
 import '../../providers/states/auth_state.dart';
-import '../widgets/common/custom_dialog.dart';
 
 //Widgets
+import '../widgets/common/custom_dialog.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
 class LoginScreen extends HookWidget {
-  final formKey = GlobalKey<FormState>();
+  const LoginScreen();
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
     final theme = Theme.of(context);
@@ -32,7 +33,7 @@ class LoginScreen extends HookWidget {
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
-        onChange: (context, AuthState authState) async {
+        onChange: (context, authState) async {
           if (authState is AUTHENTICATED) {
             emailController.clear();
             passwordController.clear();
