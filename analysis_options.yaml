@@ -4,6 +4,7 @@ linter:
   rules:
     directives_ordering: false
     public_member_api_docs: false #Enable at the end
+    avoid_classes_with_only_static_members: false
 analyzer:
   exclude:
     - "**/*.freezed.dart"
