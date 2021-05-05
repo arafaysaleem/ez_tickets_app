@@ -21,7 +21,8 @@ class ShowsRepository {
     Map<String, dynamic>? queryParameters,
   }) async {
     return await _apiService.getCollectionData<ShowModel>(
-      endpoint: ApiEndpoint.shows(filters: queryParameters != null),
+      endpoint: ApiEndpoint.shows(
+          queryParameters != null ? ShowEndpoint.FILTERS : ShowEndpoint.BASE),
       queryParams: queryParameters,
       cancelToken: _cancelToken,
       builder: (responseBody) => ShowModel.fromJson(responseBody),
@@ -32,7 +33,7 @@ class ShowsRepository {
     required int showId,
   }) async {
     return await _apiService.getDocumentData<ShowModel>(
-      endpoint: ApiEndpoint.shows(id: showId),
+      endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       cancelToken: _cancelToken,
       builder: (responseBody) => ShowModel.fromJson(responseBody),
     );
@@ -42,7 +43,7 @@ class ShowsRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.setData<int>(
-      endpoint: ApiEndpoint.shows(),
+      endpoint: ApiEndpoint.shows(ShowEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
       builder: (response) => response["body"]["show_id"],
@@ -54,7 +55,7 @@ class ShowsRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.updateData<String>(
-      endpoint: ApiEndpoint.shows(id: showId),
+      endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       data: data,
       cancelToken: _cancelToken,
       builder: (response) => response["headers"]["message"],
@@ -66,7 +67,7 @@ class ShowsRepository {
     Map<String, dynamic>? data,
   }) async {
     return await _apiService.deleteData<String>(
-      endpoint: ApiEndpoint.shows(id: showId),
+      endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       data: data,
       cancelToken: _cancelToken,
       builder: (response) => response["headers"]["message"],
@@ -77,4 +78,3 @@ class ShowsRepository {
     _apiService.cancelRequests(cancelToken: _cancelToken);
   }
 }
-

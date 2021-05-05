@@ -22,7 +22,7 @@ class MoviesRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.setData<int>(
-      endpoint: ApiEndpoint.movies(),
+      endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
       builder: (response) => response["body"]["movie_id"],
@@ -34,7 +34,7 @@ class MoviesRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.updateData<String>(
-      endpoint: ApiEndpoint.movies(id: movieId),
+      endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       data: data,
       cancelToken: _cancelToken,
       builder: (response) => response["headers"]["message"],
@@ -46,7 +46,7 @@ class MoviesRepository {
     Map<String, dynamic>? data,
   }) async {
     return await _apiService.deleteData<String>(
-      endpoint: ApiEndpoint.movies(id: movieId),
+      endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       data: data,
       cancelToken: _cancelToken,
       builder: (response) => response["headers"]["message"],
@@ -57,7 +57,7 @@ class MoviesRepository {
     Map<String, dynamic>? queryParameters,
   }) async {
     return await _apiService.getCollectionData<MovieModel>(
-      endpoint: ApiEndpoint.movies(),
+      endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),
       queryParams: queryParameters,
       cancelToken: _cancelToken,
       builder: (responseBody) => MovieModel.fromJson(responseBody),
@@ -68,7 +68,7 @@ class MoviesRepository {
     required int movieId,
   }) async {
     return await _apiService.getDocumentData<MovieModel>(
-      endpoint: ApiEndpoint.movies(id: movieId),
+      endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       cancelToken: _cancelToken,
       builder: (responseBody) => MovieModel.fromJson(responseBody),
     );
@@ -78,7 +78,7 @@ class MoviesRepository {
     required int movieId,
   }) async {
     return await _apiService.getCollectionData<MovieRoleModel>(
-      endpoint: ApiEndpoint.movies(id: movieId, searchRoles: true),
+      endpoint: ApiEndpoint.movies(MovieEndpoint.ROLES, id: movieId),
       cancelToken: _cancelToken,
       builder: (responseBody) => MovieRoleModel.fromJson(responseBody),
     );

@@ -15,7 +15,7 @@ class AuthRepository {
     required void Function(String newToken) updateTokenCallback,
   }) async {
     return await _apiService.setData<UserModel>(
-      endpoint: ApiEndpoint.auth(login: true),
+      endpoint: ApiEndpoint.auth(AuthEndpoint.LOGIN),
       data: data,
       requiresAuthToken: false,
       builder: (response) {
@@ -30,7 +30,7 @@ class AuthRepository {
     required void Function(String newToken) updateTokenCallback,
   }) async {
     return await _apiService.setData<UserModel>(
-      endpoint: ApiEndpoint.auth(register: true),
+      endpoint: ApiEndpoint.auth(AuthEndpoint.REGISTER),
       data: data,
       requiresAuthToken: false,
       builder: (response) {
@@ -45,7 +45,7 @@ class AuthRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.setData<String>(
-      endpoint: ApiEndpoint.auth(forgotPassword: true),
+      endpoint: ApiEndpoint.auth(AuthEndpoint.FORGOT_PASSWORD),
       data: data,
       requiresAuthToken: false,
       builder: (response) => response["headers"]["message"],
@@ -56,7 +56,7 @@ class AuthRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.setData<bool>(
-      endpoint: ApiEndpoint.auth(resetPassword: true),
+      endpoint: ApiEndpoint.auth(AuthEndpoint.RESET_PASSWORD),
       data: data,
       requiresAuthToken: false,
       builder: (response) => response["headers"]["success"] == 1,
@@ -67,7 +67,7 @@ class AuthRepository {
     required Map<String, dynamic> data,
   }) async {
     return await _apiService.setData<bool>(
-      endpoint: ApiEndpoint.auth(changePassword: true),
+      endpoint: ApiEndpoint.auth(AuthEndpoint.CHANGE_PASSWORD),
       data: data,
       requiresAuthToken: false,
       builder: (response) => response["headers"]["success"] == 1,
@@ -76,7 +76,7 @@ class AuthRepository {
 
   Future<bool> sendOtpData({required Map<String, dynamic> data}) async {
     return await _apiService.setData<bool>(
-      endpoint: ApiEndpoint.auth(verifyOtp: true),
+      endpoint: ApiEndpoint.auth(AuthEndpoint.VERIFY_OTP),
       data: data,
       requiresAuthToken: false,
       builder: (response) => response["headers"]["success"] == 1,
