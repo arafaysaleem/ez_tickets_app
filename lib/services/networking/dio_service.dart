@@ -19,7 +19,7 @@ class DioService {
   }
 
   void createDio(BaseOptions baseOptions) {
-    this._cancelToken = CancelToken();
+    _cancelToken = CancelToken();
     _dio = Dio(baseOptions);
     _dio.interceptors.addAll([
       ApiInterceptor(),
