@@ -19,7 +19,7 @@ class ShowTimesList extends StatefulHookWidget {
 class _ShowTimesListState extends State<ShowTimesList> {
   int selectedIndex = 0;
 
-  Shader getShader(bounds) {
+  Shader getShader(Rect bounds) {
     return const LinearGradient(
       begin: Alignment.centerRight,
       end: Alignment.centerLeft,

@@ -23,14 +23,11 @@ class ShowDatesList extends StatefulWidget {
 class _ShowDatesListState extends State<ShowDatesList> {
   int selectedIndex = 0;
 
-  Shader getShader(bounds) {
+  Shader getShader(Rect bounds) {
     return const LinearGradient(
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
-      stops: [
-        0.95,
-        1,
-      ],
+      stops: [0.95, 1],
       colors: [Colors.transparent, Colors.black87],
     ).createShader(bounds);
   }
