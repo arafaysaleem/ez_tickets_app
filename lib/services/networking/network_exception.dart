@@ -64,29 +64,29 @@ class NetworkException with _$NetworkException {
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.cancel:
-            return NetworkException.CancelException(
+            return const NetworkException.CancelException(
               name: "CancelException",
               message: "Request cancelled prematurely",
             );
           case DioErrorType.connectTimeout:
-            return NetworkException.ConnectTimeoutException(
+            return const NetworkException.ConnectTimeoutException(
               name: "ConnectTimeoutException",
               message: "Connection not established",
             );
           case DioErrorType.receiveTimeout:
-            return NetworkException.SendTimeoutException(
+            return const NetworkException.SendTimeoutException(
               name: "SendTimeoutException",
               message: "Failed to send",
             );
           case DioErrorType.sendTimeout:
-            return NetworkException.ReceiveTimeoutException(
+            return const NetworkException.ReceiveTimeoutException(
               name: "ReceiveTimeoutException",
               message: "Failed to receive",
             );
           case DioErrorType.response:
           case DioErrorType.other:
             if(error.message.contains("SocketException")) {
-              return NetworkException.FetchDataException(
+              return const NetworkException.FetchDataException(
                 name: "FetchDataException",
                 message: "No internet connectivity",
               );
@@ -107,7 +107,7 @@ class NetworkException with _$NetworkException {
             }
         }
       } else {
-        return NetworkException.UnrecognizedException(
+        return const NetworkException.UnrecognizedException(
           name: "UnrecognizedException",
           message: "Error unrecognized",
         );
@@ -118,7 +118,7 @@ class NetworkException with _$NetworkException {
         message: e.message,
       );
     } on Exception catch (_) {
-      return NetworkException.UnrecognizedException(
+      return const NetworkException.UnrecognizedException(
         name: "UnrecognizedException",
         message: "Error unrecognized",
       );
