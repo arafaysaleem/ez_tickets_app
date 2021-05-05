@@ -106,7 +106,7 @@ class _MovieContainer extends HookWidget {
         ),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: EdgeInsets.fromLTRB(20, 20, 20, Constants.bottomInsetsLow),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, Constants.bottomInsetsLow),
       child: LayoutBuilder(
         builder: (ctx, constraints) => Column(
           children: [
