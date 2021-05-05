@@ -40,7 +40,7 @@ class Ratings extends StatelessWidget {
             padding: i == 0
                 ? const EdgeInsets.only(right: 1)
                 : const EdgeInsets.symmetric(horizontal: 1),
-            child: Icon(
+            child: const Icon(
               Icons.star,
               size: 19,
               color: Constants.starsColor,

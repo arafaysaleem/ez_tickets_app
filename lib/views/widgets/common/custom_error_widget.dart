@@ -22,13 +22,13 @@ class CustomErrorWidget extends StatelessWidget {
     required this.height,
   });
 
-  factory CustomErrorWidget.dark({
+  const factory CustomErrorWidget.dark({
     required NetworkException error,
     required VoidCallback retryCallback,
     double? height,
   }) = _CustomErrorWidgetDark;
 
-  factory CustomErrorWidget.light({
+  const factory CustomErrorWidget.light({
     required NetworkException error,
     required VoidCallback retryCallback,
     double? height,
@@ -89,7 +89,7 @@ class CustomErrorWidget extends StatelessWidget {
 }
 
 class _CustomErrorWidgetDark extends CustomErrorWidget {
-  _CustomErrorWidgetDark({
+  const _CustomErrorWidgetDark({
     required NetworkException error,
     required VoidCallback retryCallback,
     double? height,
@@ -102,13 +102,13 @@ class _CustomErrorWidgetDark extends CustomErrorWidget {
 }
 
 class _CustomErrorWidgetLight extends CustomErrorWidget {
-  _CustomErrorWidgetLight({
+  const _CustomErrorWidgetLight({
     required NetworkException error,
     required VoidCallback retryCallback,
     double? height,
   }) : super._(
           error: error,
-          backgroundColor: Colors.red[200]!,
+          backgroundColor: const Color(0xFFEF9A9A),
           retryCallback: retryCallback,
           height: height ?? double.infinity,
         );

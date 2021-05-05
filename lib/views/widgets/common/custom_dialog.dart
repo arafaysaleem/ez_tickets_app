@@ -77,7 +77,7 @@ class CustomDialog extends StatelessWidget {
             child: Center(
               child: Text(
                 trueButtonText!,
-                style: TextStyle(color: Constants.primaryColor),
+                style: const TextStyle(color: Constants.primaryColor),
               ),
             ),
             border: Border.all(color: Constants.primaryColor),

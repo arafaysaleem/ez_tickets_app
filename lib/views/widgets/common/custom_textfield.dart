@@ -61,8 +61,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   OutlineInputBorder _focusedBorder() {
-    return OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(9)),
+    return const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(9)),
       borderSide: BorderSide(
         color: Constants.primaryColor,
         width: 2,
@@ -110,7 +110,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             onFieldSubmitted: _onFieldSubmitted,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 17,
               color: Constants.textWhite80Color,
             ),
@@ -118,7 +118,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
               isDense: true,
               hintText: widget.hintText,
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 fontSize: 17,
                 color: Constants.textWhite80Color,
               ),
@@ -136,7 +136,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         showPassword = !showPassword;
                       });
                     },
-                    child: Icon(
+                    child: const Icon(
                         Icons.remove_red_eye_sharp,
                         color: Constants.textGreyColor,
                         size: 22,
