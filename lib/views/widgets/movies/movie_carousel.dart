@@ -26,7 +26,7 @@ import '../common/custom_text_button.dart';
 import 'movie_overview_column.dart';
 
 class MoviesCarousel extends StatefulHookWidget {
-  final backgroundImageController;
+  final PageController backgroundImageController;
   final List<MovieModel> movies;
 
   const MoviesCarousel({
