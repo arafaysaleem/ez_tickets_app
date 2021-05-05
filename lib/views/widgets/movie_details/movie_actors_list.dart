@@ -10,10 +10,10 @@ import '../../../helper/utils/constants.dart';
 
 //Models
 import '../../../models/movie_role_model.dart';
+import '../../../providers/all_providers.dart';
 
 //Providers
 import '../../../providers/movies_provider.dart';
-import '../../../providers/all_providers.dart';
 
 //Services
 import '../../../services/networking/network_exception.dart';
@@ -39,7 +39,7 @@ final movieRolesFuture = FutureProvider.family<List<MovieRoleModel>, int>(
 class MovieActorsList extends HookWidget {
   const MovieActorsList();
 
-  EdgeInsets getImagePadding(bool isFirst, bool isLast) {
+  EdgeInsets getImagePadding({required bool isFirst,required bool isLast}) {
     if (isFirst) {
       return const EdgeInsets.only(left: 20);
     } else if (isLast) {
@@ -51,8 +51,9 @@ class MovieActorsList extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final movieId =
-        useProvider(selectedMovieProvider.select((value) => value.state.movieId));
+    final movieId = useProvider(selectedMovieProvider.select((value) {
+      return value.state.movieId;
+    }));
     final movieRoles = useProvider(movieRolesFuture(movieId!));
     return movieRoles.when(
       data: (movieRoles) => Column(
@@ -87,7 +88,7 @@ class MovieActorsList extends HookWidget {
                 final isLast = i == (movieRoles.length - 1);
                 final isFirst = i == 0;
                 return Padding(
-                  padding: getImagePadding(isFirst, isLast),
+                  padding: getImagePadding(isFirst: isFirst, isLast: isLast),
                   child: _ActorListItem(
                     pictureUrl: mRole.pictureUrl,
                     fullName: mRole.fullName,

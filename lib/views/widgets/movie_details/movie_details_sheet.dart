@@ -14,14 +14,11 @@ class MovieDetailsSheet extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Shader getShader(bounds) {
+  Shader getShader(Rect bounds) {
     return const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      stops: [
-        0.9,
-        1,
-      ],
+      stops: [0.9, 1],
       colors: [Colors.transparent, Colors.red],
     ).createShader(bounds);
   }
