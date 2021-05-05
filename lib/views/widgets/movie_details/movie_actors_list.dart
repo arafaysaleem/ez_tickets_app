@@ -100,7 +100,7 @@ class MovieActorsList extends HookWidget {
           ),
         ],
       ),
-      loading: () => Center(
+      loading: () => const Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Constants.buttonGreyColor),
         ),

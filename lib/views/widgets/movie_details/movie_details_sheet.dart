@@ -60,7 +60,7 @@ class MovieDetailsSheet extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: Constants.bottomInsetsLow + 54),
+          const SizedBox(height: Constants.bottomInsetsLow + 54),
         ],
       ),
     );
