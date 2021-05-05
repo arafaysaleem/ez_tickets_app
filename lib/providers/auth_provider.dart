@@ -22,7 +22,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   String _password = "";
 
   AuthProvider(this._authRepository, this._prefsService)
-      : super(AuthState.unauthenticated()) {
+      : super(const AuthState.unauthenticated()) {
     init();
   }
 
@@ -63,7 +63,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     required String password,
   }) async {
     final data = {"email": email, "password": password};
-    state = AuthState.authenticating();
+    state = const AuthState.authenticating();
     try {
       _currentUser = await _authRepository.sendLoginData(
         data: data,
@@ -95,7 +95,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       "address": address,
       "role": role.toJson,
     };
-    state = AuthState.authenticating();
+    state = const AuthState.authenticating();
     try {
       _currentUser = await _authRepository.sendRegisterData(
         data: data,
@@ -157,7 +157,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     _token = "";
     _currentUser = null;
     _password = "";
-    state = AuthState.unauthenticated();
+    state = const AuthState.unauthenticated();
     _prefsService.resetPrefs();
   }
 }
