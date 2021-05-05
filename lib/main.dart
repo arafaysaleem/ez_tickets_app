@@ -23,9 +23,9 @@ void main() async {
   ]);
 }
 
-void setDebugPrint (String? message, {int? wrapWidth}) {
+void setDebugPrint(String? message, {int? wrapWidth}) {
   final date = DateTime.now();
-  String msg = "${date.year}/${date.month}/${date.day}";
+  var msg = "${date.year}/${date.month}/${date.day}";
   msg += " ${date.hour}:${date.minute}:${date.second}";
   msg += " $message";
   debugPrintSynchronously(
