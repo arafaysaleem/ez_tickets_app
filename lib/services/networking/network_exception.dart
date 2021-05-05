@@ -117,7 +117,7 @@ class NetworkException with _$NetworkException {
         name: "FormatException",
         message: e.message,
       );
-    } catch (_) {
+    } on Exception catch (_) {
       return NetworkException.UnrecognizedException(
         name: "UnrecognizedException",
         message: "Error unrecognized",
