@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
+@immutable
 class CustomTheme {
   static ThemeData get mainTheme {
     return ThemeData(
@@ -55,7 +56,7 @@ class CustomTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
       ),
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
     );
   }
 }
