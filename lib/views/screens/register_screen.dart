@@ -102,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: 25,
               ),
             ),
-            Text(
+            const Text(
               "+92",
               style: TextStyle(
                 fontSize: 18,
@@ -329,7 +329,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               //Button
               Padding(
-                padding: EdgeInsets.fromLTRB(
+                padding: const EdgeInsets.fromLTRB(
                   20,
                   40,
                   20,

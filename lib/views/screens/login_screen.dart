@@ -105,7 +105,7 @@ class LoginScreen extends HookWidget {
 
               //Login button
               Padding(
-                padding: EdgeInsets.fromLTRB(
+                padding: const EdgeInsets.fromLTRB(
                   20,
                   40,
                   20,
@@ -130,8 +130,9 @@ class LoginScreen extends HookWidget {
                       if (authState is AUTHENTICATING) {
                         return const Center(
                           child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
                           ),
                         );
                       }

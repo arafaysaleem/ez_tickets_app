@@ -70,7 +70,7 @@ class MoviesScreen extends HookWidget {
                   right: 0,
                   height: 110,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: Constants.blackOverlayGradient,
                     ),
                   ),
@@ -80,7 +80,7 @@ class MoviesScreen extends HookWidget {
                 Positioned.fill(
                   top: screenHeight * 0.40,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: Constants.movieCarouselGradient,
                     ),
                   ),
@@ -108,7 +108,7 @@ class MoviesScreen extends HookWidget {
           );
         },
         //TODO: Add skeleton loader
-        loading: () => Center(
+        loading: () => const Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
           ),

@@ -87,9 +87,9 @@ class ShowsScreen extends HookWidget {
                     //Dates list
                     Container(
                       height: 130,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Constants.scaffoldGreyColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           bottomLeft: Radius.circular(20),
                         ),
@@ -115,9 +115,9 @@ class ShowsScreen extends HookWidget {
 
                     //Show times list
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Constants.scaffoldGreyColor,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
@@ -149,7 +149,7 @@ class ShowsScreen extends HookWidget {
 
                     //Continue button
                     Padding(
-                      padding: EdgeInsets.fromLTRB(
+                      padding: const EdgeInsets.fromLTRB(
                         20,
                         0,
                         20,
@@ -175,10 +175,11 @@ class ShowsScreen extends HookWidget {
                   ],
                 ),
               ),
-              loading: () => Center(
+              loading: () => const Center(
                 child: CircularProgressIndicator(
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(Constants.primaryColor),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Constants.primaryColor,
+                  ),
                 ),
               ),
               error: (error, st) {
