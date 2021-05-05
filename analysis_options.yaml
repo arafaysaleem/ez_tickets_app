@@ -6,8 +6,9 @@ linter:
     public_member_api_docs: false #Enable at the end
 analyzer:
   exclude:
-    - lib/models/*.freezed.dart
-    - lib/models/*.g.dart
+    - "**/*.freezed.dart"
+    - "**/*.g.dart"
+    - "**/*.gr.dart"
   errors:
     missing_required_param: error
     missing_return: error

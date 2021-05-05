@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+// ignore_for_file: constant_identifier_names
 
 enum UserRole {
   @JsonValue("admin") ADMIN,
@@ -10,5 +11,5 @@ enum UserRole {
 extension ExtUserRole on UserRole{
   String get name => describeEnum(this);
 
-  String get toJson => this.name.toLowerCase();
+  String get toJson => name.toLowerCase();
 }
