@@ -5,6 +5,9 @@ linter:
     directives_ordering: false
     public_member_api_docs: false #Enable at the end
     avoid_classes_with_only_static_members: false
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_literals_to_create_immutables: true
 analyzer:
   exclude:
     - "**/*.freezed.dart"
