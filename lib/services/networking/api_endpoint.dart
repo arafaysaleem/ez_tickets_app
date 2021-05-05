@@ -18,7 +18,7 @@ class ApiEndpoint {
   static String users(UserEndpoint endpoint, {int? id}) {
     var path = "/users";
     switch(endpoint){
-      case UserEndpoint.ALL: return path;
+      case UserEndpoint.BASE: return path;
       case UserEndpoint.BY_ID: {
         assert(id != null, "userId is required for BY_ID endpoint");
         return "$path/id/$id";
@@ -29,7 +29,7 @@ class ApiEndpoint {
   static String movies(MovieEndpoint endpoint, {int? id}) {
     var path = "/movies";
     switch (endpoint) {
-      case MovieEndpoint.ALL: return path;
+      case MovieEndpoint.BASE: return path;
       case MovieEndpoint.BY_ID: {
         assert(id != null, "movieId is required for BY_ID endpoint");
         return "$path/id/$id";
@@ -44,7 +44,7 @@ class ApiEndpoint {
   static String roles(RoleEndpoint endpoint, {int? id}) {
     var path = "/roles";
     switch (endpoint) {
-      case RoleEndpoint.ALL: return path;
+      case RoleEndpoint.BASE: return path;
       case RoleEndpoint.BY_ID: {
         assert(id != null, "roleId is required for BY_ID endpoint");
         return "$path/id/$id";
@@ -59,7 +59,7 @@ class ApiEndpoint {
   static String shows(ShowEndpoint endpoint, {int? id}) {
     var path = "/shows";
     switch(endpoint){
-      case ShowEndpoint.ALL: return path;
+      case ShowEndpoint.BASE: return path;
       case ShowEndpoint.FILTERS: return "$path/filters";
       case ShowEndpoint.BY_ID: {
         assert(id != null, "showId is required for BY_ID endpoint");
@@ -71,7 +71,7 @@ class ApiEndpoint {
   static String theaters(TheaterEndpoint endpoint, {int? id}) {
     var path = "/theaters";
     switch(endpoint){
-      case TheaterEndpoint.ALL: return path;
+      case TheaterEndpoint.BASE: return path;
       case TheaterEndpoint.BY_ID: {
         assert(id != null, "theaterId is required for BY_ID endpoint");
         return "$path/id/$id";
@@ -82,7 +82,7 @@ class ApiEndpoint {
   static String bookings(BookingEndpoint endpoint, {int? id}) {
     var path = "/bookings";
     switch(endpoint){
-      case BookingEndpoint.ALL: return path;
+      case BookingEndpoint.BASE: return path;
       case BookingEndpoint.FILTERS: return "$path/filters";
       case BookingEndpoint.USERS: {
         assert(id != null, "bookingId is required for USERS endpoint");
@@ -102,7 +102,7 @@ class ApiEndpoint {
   static String payments(PaymentEndpoint endpoint, {int? id}) {
     var path = "/payments";
     switch(endpoint){
-      case PaymentEndpoint.ALL: return path;
+      case PaymentEndpoint.BASE: return path;
       case PaymentEndpoint.USERS: {
         assert(id != null, "paymentId is required for USERS endpoint");
         return "$path/users/$id";
@@ -120,17 +120,17 @@ enum AuthEndpoint {
   FORGOT_PASSWORD, RESET_PASSWORD, CHANGE_PASSWORD, VERIFY_OTP,
 }
 
-enum MovieEndpoint { ALL, BY_ID, ROLES }
+enum MovieEndpoint { BASE, BY_ID, ROLES }
 
-enum UserEndpoint { ALL, BY_ID }
+enum UserEndpoint { BASE, BY_ID }
 
-enum RoleEndpoint { ALL, BY_ID, MOVIES }
+enum RoleEndpoint { BASE, BY_ID, MOVIES }
 
-enum ShowEndpoint { ALL, BY_ID, FILTERS }
+enum ShowEndpoint { BASE, BY_ID, FILTERS }
 
-enum TheaterEndpoint { ALL, BY_ID }
+enum TheaterEndpoint { BASE, BY_ID }
 
-enum BookingEndpoint { ALL, BY_ID, USERS, SHOWS, FILTERS }
+enum BookingEndpoint { BASE, BY_ID, USERS, SHOWS, FILTERS }
 
-enum PaymentEndpoint { ALL, BY_ID, USERS }
+enum PaymentEndpoint { BASE, BY_ID, USERS }
 
