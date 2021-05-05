@@ -18,7 +18,7 @@ class PrefsBase{
   ///Initializer for shared prefs
   ///Should be called in main before runApp and
   ///after WidgetsBinding.FlutterInitialized()
-  static void init() async {
+  static Future<void> init() async {
     if(_sharedPrefs == null ) {
       _sharedPrefs = await SharedPreferences.getInstance();
     }
