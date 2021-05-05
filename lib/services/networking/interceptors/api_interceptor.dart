@@ -25,7 +25,7 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    bool success = response.data["headers"]["success"] == 1;
+    final success = response.data["headers"]["success"] == 1;
 
     if (success) return handler.next(response);
 

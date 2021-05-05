@@ -71,14 +71,18 @@ class LoggingInterceptor extends Interceptor {
           }
         }
       }
-      else debugPrint("${dioError.response!.data}");
+      else {
+        debugPrint("${dioError.response!.data}");
+      }
     }
     else if(dioError.error is SocketException){
       final message = "No internet connectivity";
       debugPrint("\tException: FetchDataException");
       debugPrint("\tMessage: $message");
     }
-    else debugPrint("\tUnknown Error");
+    else {
+      debugPrint("\tUnknown Error");
+    }
 
     debugPrint("<-- END ERROR");
 
