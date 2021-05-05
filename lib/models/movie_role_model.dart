@@ -25,8 +25,8 @@ class MovieRoleModel with _$MovieRoleModel {
 
   Map<String, dynamic> toCustomJson() {
     return {
-      "role_id": this.role.roleId,
-      "role_type": this.roleType.toJson,
+      "role_id": role.roleId,
+      "role_type": roleType.toJson,
     };
   }
 }
