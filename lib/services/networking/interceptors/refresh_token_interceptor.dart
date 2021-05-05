@@ -36,14 +36,14 @@ class RefreshTokenInterceptor extends Interceptor {
 
           //Get auth details for refresh token request
           final authProv = ProviderContainer().read(authProvider.notifier);
-          final Map<String, dynamic> data = {
+          final data = {
             "email": authProv.currentUserEmail,
             "password": authProv.currentUserPassword,
             "oldToken": authProv.token
           };
 
           //Make refresh request and get new token
-          final String? newToken = await _refreshTokenRequest(
+          final newToken = await _refreshTokenRequest(
             dioError: dioError,
             handler: handler,
             tokenDio: tokenDio,
@@ -86,7 +86,7 @@ class RefreshTokenInterceptor extends Interceptor {
       debugPrint("\tBody: $data");
 
       final response = await tokenDio.post(
-        ApiEndpoint.auth(refreshToken: true),
+        ApiEndpoint.auth(AuthEndpoint.REFRESH_TOKEN),
         data: data,
       );
 
