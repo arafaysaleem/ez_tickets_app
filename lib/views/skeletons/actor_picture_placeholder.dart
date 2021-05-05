@@ -10,11 +10,11 @@ class ActorPicturePlaceholder extends StatelessWidget {
     return Container(
       width: 100,
       height: 100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Constants.scaffoldColor,
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
-      child: Center(
+      child: const Center(
         child: Icon(
           Icons.person_rounded,
           color: Constants.primaryColor,
