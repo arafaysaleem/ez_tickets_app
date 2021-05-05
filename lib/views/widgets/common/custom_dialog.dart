@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../helper/utils/constants.dart';
 import 'custom_text_button.dart';
 
+// ignore: constant_identifier_names
 enum CustomDialogType { ALERT, CONFIRM, ABOUT, SIMPLE }
 
 class CustomDialog extends StatelessWidget {

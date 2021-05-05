@@ -7,8 +7,11 @@ class RoundedBottomContainer extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onBackTap;
 
-  const RoundedBottomContainer({Key? key, required this.children, this.onBackTap})
-      : super(key: key);
+  const RoundedBottomContainer({
+    Key? key,
+    required this.children,
+    this.onBackTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class RoundedBottomContainer extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Constants.scaffoldGreyColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
         ),

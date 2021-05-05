@@ -46,14 +46,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   void _onFieldSubmitted(String value) {
-    String? error = widget.validator(value.trim());
+    final error = widget.validator(value.trim());
     setState(() {
       errorText = error;
     });
   }
 
   String? _onValidate(String? value) {
-    String? error = widget.validator(value!.trim());
+    final error = widget.validator(value!.trim());
     setState(() {
       errorText = error;
     });

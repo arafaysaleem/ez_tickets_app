@@ -12,7 +12,7 @@ class CustomNetworkImage extends StatelessWidget {
   final Widget? placeholder;
   final Widget? errorWidget;
 
-  CustomNetworkImage({
+  const CustomNetworkImage({
     double? width,
     double? borderRadius,
     this.margin,
@@ -21,8 +21,8 @@ class CustomNetworkImage extends StatelessWidget {
     this.placeholder,
     this.errorWidget,
     required this.imageUrl,
-  })   : this.width = width ?? double.infinity,
-        this.borderRadius = borderRadius ?? 20;
+  })   : width = width ?? double.infinity,
+        borderRadius = borderRadius ?? 20;
 
   @override
   Widget build(BuildContext context) {
