@@ -20,41 +20,53 @@ import '../widgets/common/custom_network_image.dart';
 import '../widgets/common/custom_text_button.dart';
 import '../widgets/movie_details/movie_details_sheet.dart';
 
-final leftMoviePoster =
-    "https://m.media-amazon.com/images/M/MV5BMTc1NjIzODAxMF5BMl5BanBnXkFtZTgwMTgzNzk1NzM@._V1_.jpg";
-final rightMoviePoster =
-    "https://talenthouse-res.cloudinary.com/image/upload/c_limit,f_auto,fl_progressive,h_1280,w_1280/v1568795702/user-1024773/profile/jox3adylqftz1rzurgzz.jpg";
-
 class MovieDetailsScreen extends HookWidget {
   const MovieDetailsScreen();
 
   @override
   Widget build(BuildContext context) {
-    final topGap = 230.0;
+    const topGap = 120.0;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           //left movie poster
-          const _LeftMoviePoster(),
+          const Positioned(
+            top: topGap,
+            left: 0,
+            height: 250,
+            width: 150,
+            child: _LeftMoviePoster(),
+          ),
 
           //right movie poster
-          const _RightMoviePoster(),
+          const Positioned(
+            top: topGap,
+            right: 0,
+            height: 250,
+            width: 150,
+            child: _RightMoviePoster(),
+          ),
 
           //Top black overlay
-          Positioned(
+          const Positioned(
             top: 0,
             left: 0,
             right: 0,
-            height: topGap + 30,
-            child: Container(
+            height: 260,
+            child: ColoredBox(
               color: Colors.black54,
             ),
           ),
 
           //main movie poster
-          const _MainMoviePoster(),
+          const Positioned(
+            top: 80,
+            height: 250,
+            width: 190,
+            child: _MainMoviePoster(),
+          ),
 
           //White details sheet
           const MovieDetailsSheet(),
@@ -111,19 +123,12 @@ class _LeftMoviePoster extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Get through provider
-    // final leftMoviePic = useProvider(selectedMovieProvider).state;
-    return Positioned(
-      top: 130,
-      left: 0,
-      height: 250,
-      width: 150,
-      child: CustomNetworkImage(
-        imageUrl: leftMoviePoster,
-        fit: BoxFit.fill,
-        placeholder: const MoviePosterPlaceholder(),
-        errorWidget: const MoviePosterPlaceholder(),
-      ),
+    final leftMovie = useProvider(leftMovieProvider).state;
+    return CustomNetworkImage(
+      imageUrl: leftMovie.posterUrl,
+      fit: BoxFit.fill,
+      placeholder: const MoviePosterPlaceholder(),
+      errorWidget: const MoviePosterPlaceholder(),
     );
   }
 }
@@ -135,19 +140,12 @@ class _RightMoviePoster extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Get through provider
-    // final rightMoviePic = useProvider(selectedMovieProvider).state;
-    return Positioned(
-      top: 130,
-      right: 0,
-      height: 250,
-      width: 150,
-      child: CustomNetworkImage(
-        imageUrl: rightMoviePoster,
-        fit: BoxFit.fill,
-        placeholder: const MoviePosterPlaceholder(),
-        errorWidget: const MoviePosterPlaceholder(),
-      ),
+    final rightMovie = useProvider(rightMovieProvider).state;
+    return CustomNetworkImage(
+      imageUrl: rightMovie.posterUrl,
+      fit: BoxFit.fill,
+      placeholder: const MoviePosterPlaceholder(),
+      errorWidget: const MoviePosterPlaceholder(),
     );
   }
 }
@@ -159,13 +157,12 @@ class _MainMoviePoster extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaleRatio = useProvider(mainPosterScaleRatioProvider).state;
     final posterUrl = useProvider(selectedMovieProvider.select((value) {
       return value.state.posterUrl;
     }));
-    return Positioned(
-      top: 80,
-      height: 250,
-      width: 190,
+    return Transform.scale(
+      scale: scaleRatio,
       child: CustomNetworkImage(
         imageUrl: posterUrl,
         borderRadius: 10,

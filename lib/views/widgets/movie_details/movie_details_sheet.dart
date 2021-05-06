@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
 import '../../../helper/utils/constants.dart';
@@ -7,6 +9,8 @@ import '../../../helper/utils/constants.dart';
 import 'movie_actors_list.dart';
 import 'movie_details_column.dart';
 import 'movie_summary_box.dart';
+
+final mainPosterScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 
 class MovieDetailsSheet extends StatelessWidget {
   const MovieDetailsSheet({
@@ -22,90 +26,121 @@ class MovieDetailsSheet extends StatelessWidget {
     ).createShader(bounds);
   }
 
+  double getPlayButtonOffsetRatio(double dragExtent) {
+    // vanish the button at extent of 0.78
+    // appear the button at extent of 0.70
+    final range = 0.78 - 0.7;
+    // goes from 1.0 -> 0.0
+    return ((0.78 - dragExtent) / range).clamp(0.0, 1.0);
+  }
+
+  double getMainPosterScaleRatio(
+    double dragExtent,
+    double startScaleExtent,
+    double endScaleExtent,
+  ) {
+    if(dragExtent > startScaleExtent) return 1; //if sheet above start point
+    // change poster size between these two extents
+    final extentRange = startScaleExtent - endScaleExtent;
+    // scaleRatio goes from 1.0 -> 1.2
+    final scaleRange = 1 - 1.2;
+    final extentRatio = (dragExtent - endScaleExtent) / extentRange;
+    return extentRatio * scaleRange + 1.2;
+  }
+
   @override
   Widget build(BuildContext context) {
     var initialExtent = 0.7;
     var maxExtent = 0.96;
-    var offsetRatio = 1.0;
-    return NotificationListener<DraggableScrollableNotification>(
-      onNotification: (notification) {
-        // goes from 1.0 -> 0.0
-        // vanish the button at extent of 0.78
-        // appear the button at extent of 0.74
-        final range = 0.78 - 0.74;
-        offsetRatio = ((0.78 - notification.extent) / range).clamp(0.0, 1.0);
+    var minExtent = 0.65;
+    var btnScaleRatio = 1.0;
+    return NotificationListener<OverscrollIndicatorNotification>(
+      onNotification: (overScroll) {
+        overScroll.disallowGlow();
         return true;
       },
-      child: DraggableScrollableSheet(
-        initialChildSize: initialExtent,
-        maxChildSize: maxExtent,
-        minChildSize: 0.7,
-        builder: (ctx, controller) => DecoratedBox(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-          ),
-          child: Stack(
-            alignment: AlignmentDirectional.topCenter,
-            clipBehavior: Clip.none,
-            children: [
-              //Movie details
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: Constants.bottomInsetsLow + 54,
-                ),
-                child: ShaderMask(
-                  shaderCallback: getShader,
-                  blendMode: BlendMode.dstOut,
-                  child: ListView(
-                    controller: controller,
-                    children: const [
-                      SizedBox(height: 5),
-
-                      //Movie details
-                      MovieDetailsColumn(),
-
-                      SizedBox(height: 20),
-
-                      //Actors
-                      MovieActorsList(),
-
-                      SizedBox(height: 25),
-
-                      //Summary
-                      MovieSummaryBox(),
-                    ],
-                  ),
-                ),
+      child: NotificationListener<DraggableScrollableNotification>(
+        onNotification: (drag) {
+          final posterScaleRatio = getMainPosterScaleRatio(
+            drag.extent,
+            initialExtent,
+            minExtent,
+          );
+          context.read(mainPosterScaleRatioProvider).state = posterScaleRatio;
+          btnScaleRatio = getPlayButtonOffsetRatio(drag.extent);
+          return true;
+        },
+        child: DraggableScrollableSheet(
+          initialChildSize: initialExtent,
+          maxChildSize: maxExtent,
+          minChildSize: minExtent,
+          builder: (ctx, controller) => DecoratedBox(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
               ),
+            ),
+            child: Stack(
+              alignment: AlignmentDirectional.topCenter,
+              clipBehavior: Clip.none,
+              children: [
+                //Movie details
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: Constants.bottomInsetsLow + 54,
+                  ),
+                  // ignore: lines_longer_than_80_chars
+                  child: ShaderMask(
+                    shaderCallback: getShader,
+                    blendMode: BlendMode.dstOut,
+                    child: ListView(
+                      controller: controller,
+                      children: const [
+                        SizedBox(height: 5),
 
-              //play button
-              if(offsetRatio >= 0.1) Positioned(
-                top: -28.5,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5,
-                    minimumSize: Size.fromRadius(offsetRatio * 28.5),
-                    primary: Colors.white,
-                    padding: const EdgeInsets.all(0),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        //Movie details
+                        MovieDetailsColumn(),
+
+                        SizedBox(height: 20),
+
+                        //Actors
+                        MovieActorsList(),
+
+                        SizedBox(height: 25),
+
+                        //Summary
+                        MovieSummaryBox(),
+                      ],
                     ),
                   ),
-                  child: offsetRatio <= 0.7
-                      ? const SizedBox.shrink()
-                      : const Icon(
-                          Icons.play_arrow_sharp,
-                          size: 35,
-                          color: Colors.black,
-                        ),
                 ),
-              ),
-            ],
+
+                //play button
+                if (btnScaleRatio >= 0.1)
+                  Positioned(
+                    top: -28.5,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        minimumSize: Size.fromRadius(btnScaleRatio * 28.5),
+                        primary: Colors.white,
+                        padding: const EdgeInsets.all(0),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.play_arrow_sharp,
+                        size: btnScaleRatio * 35,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
