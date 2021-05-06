@@ -57,35 +57,7 @@ class MovieDetailsScreen extends HookWidget {
           const _MainMoviePoster(),
 
           //White details sheet
-          Positioned(
-            top: topGap,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: const MovieDetailsSheet(),
-          ),
-
-          //play button
-          Positioned(
-            top: topGap - 30,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                minimumSize: const Size(57, 57),
-                primary: Colors.white,
-                padding: const EdgeInsets.all(0),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                ),
-              ),
-              child: const Icon(
-                Icons.play_arrow_sharp,
-                size: 35,
-                color: Colors.black,
-              ),
-            ),
-          ),
+          const MovieDetailsSheet(),
 
           //View shows button
           Positioned(
