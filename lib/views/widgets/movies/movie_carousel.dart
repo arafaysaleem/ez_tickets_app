@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -55,6 +54,14 @@ class __MoviesCarouselState extends State<MoviesCarousel> {
       itemBuilder: (ctx, i, _) => _MovieContainer(
         isCurrent: _currentIndex == i,
         movie: movies[i],
+        onViewDetails: () {
+          final leftIndex = (i-1) % movies.length;
+          final rightIndex = (i+1) % movies.length;
+          context.read(selectedMovieProvider).state = movies[i];
+          context.read(leftMovieProvider).state = movies[leftIndex];
+          context.read(rightMovieProvider).state = movies[rightIndex];
+          context.router.push(const MovieDetailsScreenRoute());
+        },
       ),
     );
   }
@@ -88,10 +95,12 @@ class _MovieContainer extends HookWidget {
     Key? key,
     required this.isCurrent,
     required this.movie,
+    required this.onViewDetails,
   }) : super(key: key);
 
   final MovieModel movie;
   final bool isCurrent;
+  final VoidCallback onViewDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +154,7 @@ class _MovieContainer extends HookWidget {
                     ),
                   ),
                 ),
-                onPressed: () {
-                  context.read(selectedMovieProvider).state = movie;
-                  context.router.push(const MovieDetailsScreenRoute());
-                },
+                onPressed: onViewDetails,
               ),
             ]
           ],

@@ -15,6 +15,14 @@ final selectedMovieProvider = StateProvider<MovieModel>((ref) {
   return MovieModel.initial();
 });
 
+final leftMovieProvider = StateProvider<MovieModel>((ref) {
+  return MovieModel.initial();
+});
+
+final rightMovieProvider = StateProvider<MovieModel>((ref) {
+  return MovieModel.initial();
+});
+
 class MoviesProvider {
   final MoviesRepository _moviesRepository;
 
