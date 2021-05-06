@@ -157,12 +157,18 @@ class _MainMoviePoster extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaleRatio = useProvider(mainPosterScaleRatioProvider).state;
     final posterUrl = useProvider(selectedMovieProvider.select((value) {
       return value.state.posterUrl;
     }));
-    return Transform.scale(
-      scale: scaleRatio,
+    return Consumer(
+      builder: (ctx, watch, child) {
+        final scaleRatio = watch(mainPosterScaleRatioProvider).state;
+        if (scaleRatio == 1.0) return child!;
+        return Transform.scale(
+          scale: scaleRatio,
+          child: child,
+        );
+      },
       child: CustomNetworkImage(
         imageUrl: posterUrl,
         borderRadius: 10,
