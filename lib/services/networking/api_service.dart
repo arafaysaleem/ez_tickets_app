@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 
+import 'api_interface.dart';
 import 'dio_service.dart';
 
-class ApiService {
+class ApiService implements ApiInterface{
   late final DioService _dioService;
 
   ApiService() {
@@ -14,6 +15,7 @@ class ApiService {
     );
   }
 
+  @override
   Future<List<T>> getCollectionData<T>({
     required String endpoint,
     Map<String, dynamic>? queryParams,
@@ -36,6 +38,7 @@ class ApiService {
     return body.map((dataMap) => builder(dataMap)).toList();
   }
 
+  @override
   Future<T> getDocumentData<T>({
     required String endpoint,
     Map<String, dynamic>? queryParams,
@@ -55,6 +58,7 @@ class ApiService {
     return builder(data['body']);
   }
 
+  @override
   Future<T> setData<T>({
     required String endpoint,
     required Map<String, dynamic> data,
@@ -73,6 +77,7 @@ class ApiService {
     return builder(dataMap);
   }
 
+  @override
   Future<T> updateData<T>({
     required String endpoint,
     required Map<String, dynamic> data,
@@ -91,6 +96,7 @@ class ApiService {
     return builder(dataMap);
   }
 
+  @override
   Future<T> deleteData<T>({
     required String endpoint,
     Map<String, dynamic>? data,
@@ -109,6 +115,7 @@ class ApiService {
     return builder(dataMap);
   }
 
+  @override
   void cancelRequests({CancelToken? cancelToken}){
     _dioService.cancelRequests(cancelToken: cancelToken);
   }
