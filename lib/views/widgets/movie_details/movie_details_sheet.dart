@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 //Helper
 import '../../../helper/utils/constants.dart';
@@ -14,120 +15,126 @@ import 'movie_summary_box.dart';
 final mainPosterScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 final _btnScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 
-class MovieDetailsSheet extends StatelessWidget {
+class MovieDetailsSheet extends StatefulWidget {
   const MovieDetailsSheet({
     Key? key,
   }) : super(key: key);
 
-  Shader getShader(Rect bounds) {
-    return const LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0.9, 1],
-      colors: [Colors.transparent, Colors.red],
-    ).createShader(bounds);
+  @override
+  _MovieDetailsSheetState createState() => _MovieDetailsSheetState();
+}
+
+class _MovieDetailsSheetState extends State<MovieDetailsSheet>
+    with SingleTickerProviderStateMixin {
+  late final PanelController panelController;
+  late final AnimationController _animationController;
+  final snapPoint = 0.2;
+
+  void initState() {
+    super.initState();
+    panelController = PanelController();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 0),
+    );
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      panelController.animatePanelToPosition(
+        snapPoint,
+        duration: const Duration(milliseconds: 0),
+      );
+    });
   }
 
-  double getPlayButtonScaleRatio(double dragExtent) {
-    // vanish the button at extent of 0.78
-    // appear the button at extent of 0.70
-    final range = 0.78 - 0.7;
+  double _playBtnPos(minHeight, maxHeight, panelPosition) {
+    return minHeight - 28.5 + panelPosition * (maxHeight - minHeight);
+  }
+
+  double getPlayBtnScaleRatio(double slide) {
+    // vanish the button at extent of 0.65
+    // appear the button at extent of 0.50
+    final range = 0.65 - 0.50;
     // goes from 1.0 -> 0.0
-    return ((0.78 - dragExtent) / range).clamp(0.0, 1.0);
+    return ((0.65 - slide) / range).clamp(0.0, 1.0);
   }
 
-  double getMainPosterScaleRatio(
-    double dragExtent,
-    double startScaleExtent,
-    double endScaleExtent,
-  ) {
-    if (dragExtent > startScaleExtent) return 1; //if sheet above start point
+  double getPosterScaleRatio(double slide, double startExtent) {
+    if (slide > startExtent) return 1; //if sheet above start point
     // change poster size between these two extents
-    final extentRange = startScaleExtent - endScaleExtent;
+    var endExtent = 0.0;
+    final extentRange = startExtent - endExtent;
     // scaleRatio goes from 1.0 -> 1.2
     final scaleRange = 1 - 1.2;
-    final extentRatio = (dragExtent - endScaleExtent) / extentRange;
+    final extentRatio = (slide - endExtent) / extentRange;
     return extentRatio * scaleRange + 1.2;
+  }
+
+  void _onPanelSlide(double slide) {
+    //Update animation controller for play button position
+    _animationController.value = slide;
+
+    //Calculate and store main poster scale ratio
+    final posterScaleRatio = getPosterScaleRatio(slide, snapPoint);
+    context.read(mainPosterScaleRatioProvider).state = posterScaleRatio;
+
+    //Animate playButton
+    final btnScaleRatio = getPlayBtnScaleRatio(slide);
+    context.read(_btnScaleRatioProvider).state = btnScaleRatio;
+
+    //Bounce sheet if necessary
+    if (slide < snapPoint && !panelController.isPanelAnimating) {
+      panelController.animatePanelToPosition(
+        snapPoint,
+        duration: const Duration(
+          milliseconds: 300,
+        ),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var initialExtent = 0.7;
-    var maxExtent = 0.96;
-    var minExtent = 0.65;
+    var screenHeight = MediaQuery.of(context).size.height;
+    var maxHeight = 0.96 * screenHeight;
+    var minHeight = 0.65 * screenHeight;
     var child;
-    return NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (overScroll) {
-        overScroll.disallowGlow();
-        return true;
-      },
-      child: NotificationListener<DraggableScrollableNotification>(
-        onNotification: (drag) {
-          final posterScaleRatio = getMainPosterScaleRatio(
-            drag.extent,
-            initialExtent,
-            minExtent,
-          );
-          context.read(mainPosterScaleRatioProvider).state = posterScaleRatio;
-
-          final btnScaleRatio = getPlayButtonScaleRatio(drag.extent);
-          context.read(_btnScaleRatioProvider).state = btnScaleRatio;
-          return true;
-        },
-        child: DraggableScrollableSheet(
-          initialChildSize: initialExtent,
-          maxChildSize: maxExtent,
-          minChildSize: minExtent,
-          builder: (ctx, controller) {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
+      children: [
+        //Movie details sheet
+        SlidingUpPanel(
+          controller: panelController,
+          maxHeight: maxHeight,
+          minHeight: minHeight,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          onPanelSlide: _onPanelSlide,
+          panelBuilder: (controller) {
             if (child == null) {
-              child = DecoratedBox(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
+              child = Padding(
+                padding: const EdgeInsets.only(
+                  bottom: Constants.bottomInsetsLow + 54,
                 ),
-                child: Stack(
-                  alignment: AlignmentDirectional.topCenter,
-                  clipBehavior: Clip.none,
-                  children: [
+                child: ListView(
+                  controller: controller,
+                  children: const [
+                    SizedBox(height: 5),
+
                     //Movie details
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: Constants.bottomInsetsLow + 54,
-                      ),
-                      // ignore: lines_longer_than_80_chars
-                      child: ShaderMask(
-                        shaderCallback: getShader,
-                        blendMode: BlendMode.dstOut,
-                        child: ListView(
-                          controller: controller,
-                          children: const [
-                            SizedBox(height: 5),
+                    MovieDetailsColumn(),
 
-                            //Movie details
-                            MovieDetailsColumn(),
+                    SizedBox(height: 20),
 
-                            SizedBox(height: 20),
+                    //Actors
+                    MovieActorsList(),
 
-                            //Actors
-                            MovieActorsList(),
+                    SizedBox(height: 25),
 
-                            SizedBox(height: 25),
-
-                            //Summary
-                            MovieSummaryBox(),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    //play button
-                    const Positioned(
-                      top: -28.5,
-                      child: _PlayButtonWidget(),
-                    ),
+                    //Summary
+                    MovieSummaryBox(),
                   ],
                 ),
               );
@@ -135,7 +142,39 @@ class MovieDetailsSheet extends StatelessWidget {
             return child;
           },
         ),
-      ),
+
+        const Positioned(
+          bottom: 0,
+          right: 20,
+          left: 20,
+          height: Constants.bottomInsetsLow + 90,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0, 0.3, 1],
+                colors: [Colors.white24, Colors.white, Colors.white],
+              ),
+            ),
+          ),
+        ),
+
+        //Play button
+        AnimatedBuilder(
+          animation: _animationController,
+          builder: (ctx, child) => AnimatedPositioned(
+            duration: const Duration(milliseconds: 0),
+            bottom: _playBtnPos(
+              minHeight,
+              maxHeight,
+              panelController.panelPosition,
+            ),
+            child: child!,
+          ),
+          child: const _PlayButtonWidget(),
+        )
+      ],
     );
   }
 }

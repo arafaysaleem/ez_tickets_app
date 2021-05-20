@@ -54,7 +54,7 @@ class MovieDetailsScreen extends HookWidget {
             top: 0,
             left: 0,
             right: 0,
-            height: 260,
+            height: 300,
             child: ColoredBox(
               color: Colors.black54,
             ),
@@ -62,7 +62,7 @@ class MovieDetailsScreen extends HookWidget {
 
           //main movie poster
           const Positioned(
-            top: 80,
+            top: 55,
             height: 250,
             width: 190,
             child: _MainMoviePoster(),
