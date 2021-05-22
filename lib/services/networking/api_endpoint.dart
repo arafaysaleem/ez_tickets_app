@@ -1,7 +1,12 @@
 // ignore_for_file: constant_identifier_names
-/// DO NOT USE 'dartfmt' on this file for formatting
+// DO NOT USE 'dartfmt' on this file for formatting
 
+/// A utility class for getting paths for API endpoints.
+/// This class has no constructor and all methods are `static`.
 class ApiEndpoint {
+  ApiEndpoint._();
+
+  /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
     var path = "/auth";
     switch (endpoint) {
@@ -15,6 +20,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a user [endpoint].
+  ///
+  /// Specify user [id] to get the path for a specific user.
   static String users(UserEndpoint endpoint, {int? id}) {
     var path = "/users";
     switch(endpoint){
@@ -26,6 +34,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a movie [endpoint].
+  ///
+  /// Specify movie [id] for any endpoints involving a specific movie.
   static String movies(MovieEndpoint endpoint, {int? id}) {
     var path = "/movies";
     switch (endpoint) {
@@ -41,6 +52,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a role [endpoint].
+  ///
+  /// Specify role [id] for any endpoints involving a specific role.
   static String roles(RoleEndpoint endpoint, {int? id}) {
     var path = "/roles";
     switch (endpoint) {
@@ -56,6 +70,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a show [endpoint].
+  ///
+  /// Specify show [id] for any endpoints involving an individual show.
   static String shows(ShowEndpoint endpoint, {int? id}) {
     var path = "/shows";
     switch(endpoint){
@@ -68,6 +85,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a theater [endpoint].
+  ///
+  /// Specify theater [id] for any endpoints involving an individual theater.
   static String theaters(TheaterEndpoint endpoint, {int? id}) {
     var path = "/theaters";
     switch(endpoint){
@@ -79,6 +99,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a booking [endpoint].
+  ///
+  /// Specify booking [id] for any endpoints involving an individual booking.
   static String bookings(BookingEndpoint endpoint, {int? id}) {
     var path = "/bookings";
     switch(endpoint){
@@ -99,6 +122,9 @@ class ApiEndpoint {
     }
   }
 
+  /// Returns the path for a payment [endpoint].
+  ///
+  /// Specify payment [id] for any endpoints involving an individual payment.
   static String payments(PaymentEndpoint endpoint, {int? id}) {
     var path = "/payments";
     switch(endpoint){
@@ -115,22 +141,91 @@ class ApiEndpoint {
   }
 }
 
+/// A collection of endpoints used for authentication purposes.
 enum AuthEndpoint {
-  REGISTER, LOGIN, REFRESH_TOKEN,
-  FORGOT_PASSWORD, RESET_PASSWORD, CHANGE_PASSWORD, VERIFY_OTP,
+  /// An endpoint for registration requests.
+  REGISTER,
+  /// An endpoint for login requests.
+  LOGIN,
+  /// An endpoint for token refresh requests.
+  REFRESH_TOKEN,
+  /// An endpoint for forget password requests.
+  FORGOT_PASSWORD,
+  /// An endpoint for reset password requests.
+  RESET_PASSWORD,
+  /// An endpoint for change password requests.
+  CHANGE_PASSWORD,
+  /// An endpoint for verifying otp code.
+  VERIFY_OTP,
 }
 
-enum MovieEndpoint { BASE, BY_ID, ROLES }
+/// A collection of endpoints used for movies.
+enum MovieEndpoint {
+  /// An endpoint for movies' collection requests.
+  BASE,
+  /// An endpoint for individual movie requests.
+  BY_ID,
+  /// An endpoint for individual movie's roles.
+  ROLES
+}
 
-enum UserEndpoint { BASE, BY_ID }
+/// A collection of endpoints used for users.
+enum UserEndpoint {
+  /// An endpoint for users' collection requests.
+  BASE,
+  /// An endpoint for individual user requests.
+  BY_ID
+}
 
-enum RoleEndpoint { BASE, BY_ID, MOVIES }
+/// A collection of endpoints used for roles.
+enum RoleEndpoint {
+  /// An endpoint for roles' collection requests.
+  BASE,
+  /// An endpoint for individual role requests.
+  BY_ID,
+  /// An endpoint for individual role's movies.
+  MOVIES
+}
 
-enum ShowEndpoint { BASE, BY_ID, FILTERS }
+/// A collection of endpoints used for shows.
+enum ShowEndpoint {
+  /// An endpoint for shows' collection requests.
+  BASE,
+  /// An endpoint for individual show requests.
+  BY_ID,
+  /// An endpoint for custom show requests with query parameters.
+  FILTERS
+}
 
-enum TheaterEndpoint { BASE, BY_ID }
+/// A collection of endpoints used for theaters.
+enum TheaterEndpoint {
+  /// An endpoint for theaters' collection requests.
+  BASE,
+  /// An endpoint for individual theater requests.
+  BY_ID
+}
 
-enum BookingEndpoint { BASE, BY_ID, USERS, SHOWS, FILTERS }
+/// A collection of endpoints used for bookings.
+enum BookingEndpoint {
+  /// An endpoint for bookings' collection requests.
+  BASE,
+  /// An endpoint for individual booking requests.
+  BY_ID,
+  /// An endpoint for individual user bookings' requests.
+  USERS,
+  /// An endpoint for individual show bookings' requests.
+  SHOWS,
+  /// An endpoint for custom booking requests with query parameters.
+  FILTERS
+}
 
-enum PaymentEndpoint { BASE, BY_ID, USERS }
+/// A collection of endpoints used for payments.
+enum PaymentEndpoint {
+  /// An endpoint for roles collection requests.
+  BASE,
+  /// An endpoint for individual role requests.
+  BY_ID,
+  /// An endpoint for an individual user's payments' requests.
+  USERS
+}
 
