@@ -1,10 +1,13 @@
 // ignore_for_file: constant_identifier_names
 // DO NOT USE 'dartfmt' on this file for formatting
 
+import 'package:flutter/material.dart';
+
 /// A utility class for getting paths for API endpoints.
 /// This class has no constructor and all methods are `static`.
+@immutable
 class ApiEndpoint {
-  ApiEndpoint._();
+  const ApiEndpoint._();
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
