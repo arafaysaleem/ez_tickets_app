@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
+/// A utility class that holds constants for assets strings.
+/// This class has no constructor and all variables are `static`.
 @immutable
 class AssetsHelper {
   const AssetsHelper._();
 
-  static String get faceId => "assets/face_id.png";
-  static String get pkFlag => "assets/pk_flag.png";
+  /// The path for face id image asset
+  static const String faceId = "assets/face_id.png";
+
+  /// The path for Pakistani flag image asset
+  static const String pkFlag = "assets/pk_flag.png";
 }
