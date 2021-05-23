@@ -336,7 +336,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Constants.bottomInsets,
                 ),
                 child: AnimatedSwitcher(
-                  duration: Constants.defaultAnimationDuration,
+                  duration: const Duration(milliseconds: 550),
                   switchOutCurve: Curves.easeInBack,
                   child: getButton(theme),
                 ),

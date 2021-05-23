@@ -83,7 +83,7 @@ class __MoviesCarouselState extends State<MoviesCarousel> {
         widget.backgroundImageController.animateToPage(
           i,
           curve: Curves.easeOutCubic,
-          duration: const Duration(milliseconds: 300),
+          duration: Constants.defaultAnimationDuration,
         );
       },
     );
@@ -105,7 +105,7 @@ class _MovieContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+      duration: Constants.defaultAnimationDuration,
       curve: Curves.fastOutSlowIn,
       decoration: BoxDecoration(
         color: isCurrent ? Colors.white : Colors.white54,

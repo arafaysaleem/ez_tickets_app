@@ -81,7 +81,7 @@ class _ShowTimeItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: Constants.defaultAnimationDuration,
         curve: Curves.fastOutSlowIn,
         width: 110,
         decoration: BoxDecoration(
