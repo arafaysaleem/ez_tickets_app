@@ -4,6 +4,8 @@ import 'constants.dart';
 
 @immutable
 class CustomTheme {
+  const CustomTheme._();
+
   static ThemeData get mainTheme {
     return ThemeData(
       primaryColor: Constants.primaryColor,

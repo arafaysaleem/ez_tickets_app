@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 @immutable
 class Constants {
+  const Constants._();
+
   static const Color primaryColor = Color(0xFFf03400);
 
   static const Color redColor = Color(0xFFed0000);
