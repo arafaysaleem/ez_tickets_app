@@ -43,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       //Full name
       CustomTextField(
         controller: fullNameController,
+        autofocus: true,
         floatingText: "Full name",
         hintText: "Type your full name",
         keyboardType: TextInputType.name,
@@ -131,6 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       //Password
       CustomTextField(
         controller: passwordController,
+        autofocus: true,
         floatingText: "Password",
         hintText: "Type your password",
         keyboardType: TextInputType.visiblePassword,

@@ -12,12 +12,14 @@ class CustomTextField extends StatefulWidget {
   final void Function(String? value)? onSaved;
   final AlignmentGeometry errorTextAlign;
   final Widget? prefix;
+  final bool autofocus;
 
   const CustomTextField({
     Key? key,
     this.onSaved,
     this.prefix,
     this.errorTextAlign = Alignment.centerRight,
+    this.autofocus = false,
     required this.controller,
     required this.floatingText,
     required this.hintText,
@@ -100,6 +102,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: 47,
           child: TextFormField(
             controller: widget.controller,
+            autofocus: widget.autofocus,
             textAlignVertical: TextAlignVertical.center,
             showCursor: true,
             obscureText: showPassword,
