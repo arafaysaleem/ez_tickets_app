@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 125, 20, Constants.bottomInsets),
         child: Column(
