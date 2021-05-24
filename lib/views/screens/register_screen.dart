@@ -21,16 +21,22 @@ import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
-class RegisterScreen extends HookWidget {
+class RegisterScreen extends StatefulHookWidget {
   const RegisterScreen();
 
-  Future<bool> showConfirmDialog(context, {required bool formHasData}) async {
-    if (formHasData) {
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  bool _formHasData = false;
+
+  Future<bool> _showConfirmDialog() async {
+    if (_formHasData) {
       final doPop = await showDialog<bool>(
         context: context,
         barrierColor: Constants.barrierColor,
-        builder: (ctx) =>
-        const CustomDialog.confirm(
+        builder: (ctx) => const CustomDialog.confirm(
           title: "Are you sure?",
           body: "Do you want to go back without saving your form data?",
           trueButtonText: "Yes",
@@ -46,11 +52,7 @@ class RegisterScreen extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    var formRef = useRef<bool>();
-    useEffect(() {
-      formRef.value = false;
-    }, const []);
-    final isState1 = useState(true);
+    final userDetailsState = useState(true);
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
@@ -59,8 +61,203 @@ class RegisterScreen extends HookWidget {
     final addressController = useTextEditingController(text: "");
     final contactController = useTextEditingController(text: "");
 
-    List<Widget> getState1Fields() {
-      return [
+    CustomTextButton getButton() {
+      //Next Button
+      if (userDetailsState.value) {
+        return CustomTextButton.outlined(
+          width: double.infinity,
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              userDetailsState.value = false;
+            }
+          },
+          padding: const EdgeInsets.only(left: 20, right: 15),
+          border: Border.all(
+            color: theme.primaryColor,
+            width: 4,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Next",
+                style: TextStyle(
+                  color: theme.primaryColor,
+                  fontSize: 15,
+                  letterSpacing: 0.7,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              //Arrow
+              Icon(
+                Icons.arrow_forward_sharp,
+                size: 26,
+                color: theme.primaryColor,
+              )
+            ],
+          ),
+        );
+      }
+      //Confirm button
+      return CustomTextButton.gradient(
+        width: double.infinity,
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
+            context.read(authProvider.notifier).register(
+                  email: emailController.text,
+                  password: passwordController.text,
+                  fullName: fullNameController.text,
+                  address: addressController.text,
+                  contact: contactController.text,
+                );
+          }
+        },
+        gradient: Constants.buttonGradientOrange,
+        child: Consumer(
+          builder: (context, watch, child) {
+            final authState = watch(authProvider);
+            if (authState is AUTHENTICATING) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              );
+            }
+            return child!;
+          },
+          child: const Center(
+            child: Text(
+              "CONFIRM",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                letterSpacing: 0.7,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    void _onChange(_, AuthState authState) async {
+      if (authState is AUTHENTICATED) {
+        emailController.clear();
+        passwordController.clear();
+        fullNameController.clear();
+        addressController.clear();
+        cPasswordController.clear();
+        contactController.clear();
+        _formHasData = false;
+        context.router.popUntilRoot();
+      } else if (authState is FAILED) {
+        await showDialog<bool>(
+          context: context,
+          barrierColor: Constants.barrierColor.withOpacity(0.75),
+          builder: (ctx) {
+            return CustomDialog.alert(
+              title: "Register Failed",
+              body: authState.reason,
+              buttonText: "Retry",
+            );
+          },
+        );
+      }
+    }
+
+    return Scaffold(
+      body: ProviderListener(
+        provider: authProvider,
+        onChange: _onChange,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: ScrollableColumn(
+            children: [
+              //Input card
+              Form(
+                key: formKey,
+                onChanged: () {
+                  if (!_formHasData) _formHasData = true;
+                },
+                onWillPop: _showConfirmDialog,
+                child: RoundedBottomContainer(
+                  onBackTap: !userDetailsState.value
+                      ? () {
+                          userDetailsState.value = true;
+                        }
+                      : null,
+                  children: [
+                    //Page name
+                    Text(
+                      "Register",
+                      style: textTheme.headline3!.copyWith(
+                        color: Colors.white,
+                        fontSize: 32,
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    if (userDetailsState.value)
+                      _UserDetailFields(
+                        fullNameController: fullNameController,
+                        emailController: emailController,
+                        addressController: addressController,
+                        contactController: contactController,
+                      )
+                    else
+                      _PasswordDetailFields(
+                        passwordController: passwordController,
+                        cPasswordController: cPasswordController,
+                      ),
+                  ],
+                ),
+              ),
+
+              const Spacer(),
+
+              //Button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  20,
+                  40,
+                  20,
+                  Constants.bottomInsets,
+                ),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 550),
+                  switchOutCurve: Curves.easeInBack,
+                  child: getButton(),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _UserDetailFields extends StatelessWidget {
+  final TextEditingController fullNameController;
+  final TextEditingController contactController;
+  final TextEditingController addressController;
+  final TextEditingController emailController;
+
+  const _UserDetailFields({
+    required this.fullNameController,
+    required this.emailController,
+    required this.addressController,
+    required this.contactController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
         //Full name
         CustomTextField(
           controller: fullNameController,
@@ -145,11 +342,24 @@ class RegisterScreen extends HookWidget {
             return "Please enter a valid contact";
           },
         ),
-      ];
-    }
+      ],
+    );
+  }
+}
 
-    List<Widget> getState2Fields() {
-      return [
+class _PasswordDetailFields extends StatelessWidget {
+  final TextEditingController passwordController;
+  final TextEditingController cPasswordController;
+
+  const _PasswordDetailFields({
+    required this.passwordController,
+    required this.cPasswordController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
         //Password
         CustomTextField(
           controller: passwordController,
@@ -178,175 +388,7 @@ class RegisterScreen extends HookWidget {
             return "Passwords don't match";
           },
         ),
-      ];
-    }
-
-    CustomTextButton getButton() {
-      //Next Button
-      if (isState1.value) {
-        return CustomTextButton.outlined(
-          width: double.infinity,
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              formKey.currentState!.save();
-              isState1.value = false;
-            }
-          },
-          padding: const EdgeInsets.only(left: 20, right: 15),
-          border: Border.all(
-            color: theme.primaryColor,
-            width: 4,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Next",
-                style: TextStyle(
-                  color: theme.primaryColor,
-                  fontSize: 15,
-                  letterSpacing: 0.7,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
-              //Arrow
-              Icon(
-                Icons.arrow_forward_sharp,
-                size: 26,
-                color: theme.primaryColor,
-              )
-            ],
-          ),
-        );
-      }
-      //Confirm button
-      return CustomTextButton.gradient(
-        width: double.infinity,
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-            context.read(authProvider.notifier).register(
-              email: emailController.text,
-              password: passwordController.text,
-              fullName: fullNameController.text,
-              address: addressController.text,
-              contact: contactController.text,
-            );
-          }
-        },
-        gradient: Constants.buttonGradientOrange,
-        child: Consumer(
-          builder: (context, watch, child) {
-            final authState = watch(authProvider);
-            if (authState is AUTHENTICATING) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              );
-            }
-            return child!;
-          },
-          child: const Center(
-            child: Text(
-              "CONFIRM",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                letterSpacing: 0.7,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      body: ProviderListener(
-        provider: authProvider,
-        onChange: (context, authState) async {
-          if (authState is AUTHENTICATED) {
-            emailController.clear();
-            passwordController.clear();
-            fullNameController.clear();
-            addressController.clear();
-            cPasswordController.clear();
-            contactController.clear();
-            formRef.value = false;
-            context.router.popUntilRoot();
-          } else if (authState is FAILED) {
-            await showDialog<bool>(
-              context: context,
-              barrierColor: Constants.barrierColor.withOpacity(0.75),
-              builder: (ctx) =>
-                  CustomDialog.alert(
-                    title: "Register Failed",
-                    body: authState.reason,
-                    buttonText: "Retry",
-                  ),
-            );
-          }
-        },
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: ScrollableColumn(
-            children: [
-              //Input card
-              Form(
-                key: formKey,
-                onChanged: () {
-                  if (!formRef.value!) formRef.value = true;
-                },
-                onWillPop: () => showConfirmDialog(
-                  context,
-                  formHasData: formRef.value!,
-                ),
-                child: RoundedBottomContainer(
-                  onBackTap: !isState1.value
-                      ? () => isState1.value = true
-                      : null,
-                  children: [
-                    //Page name
-                    Text(
-                      "Register",
-                      style: textTheme.headline3!.copyWith(
-                        color: Colors.white,
-                        fontSize: 32,
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    if (isState1.value)
-                      ...getState1Fields()
-                    else
-                      ...getState2Fields(),
-                  ],
-                ),
-              ),
-
-              const Spacer(),
-
-              //Button
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  20,
-                  40,
-                  20,
-                  Constants.bottomInsets,
-                ),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 550),
-                  switchOutCurve: Curves.easeInBack,
-                  child: getButton(),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      ],
     );
   }
 }
