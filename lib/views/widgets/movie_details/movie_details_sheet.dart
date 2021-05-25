@@ -15,35 +15,16 @@ import 'movie_summary_box.dart';
 final mainPosterScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 final _btnScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 
-class MovieDetailsSheet extends StatefulWidget {
-  const MovieDetailsSheet({
-    Key? key,
-  }) : super(key: key);
+class MovieDetailsSheet extends StatefulHookWidget {
+  const MovieDetailsSheet();
 
   @override
   _MovieDetailsSheetState createState() => _MovieDetailsSheetState();
 }
 
-class _MovieDetailsSheetState extends State<MovieDetailsSheet>
-    with SingleTickerProviderStateMixin {
-  late final PanelController panelController;
-  late final AnimationController _animationController;
+class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
+  late final PanelController panelController = PanelController();
   final snapPoint = 0.2;
-
-  void initState() {
-    super.initState();
-    panelController = PanelController();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 0),
-    );
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      panelController.animatePanelToPosition(
-        snapPoint,
-        duration: const Duration(milliseconds: 0),
-      );
-    });
-  }
 
   double _playBtnPos(minHeight, maxHeight, panelPosition) {
     return minHeight - 28.5 + panelPosition * (maxHeight - minHeight);
@@ -68,9 +49,9 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet>
     return extentRatio * scaleRange + 1.2;
   }
 
-  void _onPanelSlide(double slide) {
+  void _onPanelSlide(double slide, AnimationController animationController) {
     //Update animation controller for play button position
-    _animationController.value = slide;
+    animationController.value = slide;
 
     //Calculate and store main poster scale ratio
     final posterScaleRatio = getPosterScaleRatio(slide, snapPoint);
@@ -97,6 +78,17 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet>
     var screenHeight = MediaQuery.of(context).size.height;
     var maxHeight = 0.96 * screenHeight;
     var minHeight = 0.65 * screenHeight;
+    late final _animationController = useAnimationController(
+      duration: const Duration(milliseconds: 0),
+    );
+    useEffect(() {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        panelController.animatePanelToPosition(
+          snapPoint,
+          duration: const Duration(milliseconds: 0),
+        );
+      });
+    }, const []);
     var child;
     return Stack(
       clipBehavior: Clip.none,
@@ -111,7 +103,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet>
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
-          onPanelSlide: _onPanelSlide,
+          onPanelSlide: (slide) => _onPanelSlide(slide, _animationController),
           panelBuilder: (controller) {
             if (child == null) {
               child = Padding(
@@ -143,6 +135,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet>
           },
         ),
 
+        //White text fade
         const Positioned(
           bottom: 0,
           right: 20,
