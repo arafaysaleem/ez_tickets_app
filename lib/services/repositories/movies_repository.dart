@@ -25,7 +25,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      builder: (response) => response["body"]["movie_id"],
+      converter: (response) => response["body"]["movie_id"],
     );
   }
 
@@ -37,7 +37,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       data: data,
       cancelToken: _cancelToken,
-      builder: (response) => response["headers"]["message"],
+      converter: (response) => response["headers"]["message"],
     );
   }
 
@@ -49,7 +49,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       data: data,
       cancelToken: _cancelToken,
-      builder: (response) => response["headers"]["message"],
+      converter: (response) => response["headers"]["message"],
     );
   }
 
@@ -60,7 +60,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),
       queryParams: queryParameters,
       cancelToken: _cancelToken,
-      builder: (responseBody) => MovieModel.fromJson(responseBody),
+      converter: (responseBody) => MovieModel.fromJson(responseBody),
     );
   }
 
@@ -70,7 +70,7 @@ class MoviesRepository {
     return await _apiService.getDocumentData<MovieModel>(
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       cancelToken: _cancelToken,
-      builder: (responseBody) => MovieModel.fromJson(responseBody),
+      converter: (responseBody) => MovieModel.fromJson(responseBody),
     );
   }
 
@@ -80,7 +80,7 @@ class MoviesRepository {
     return await _apiService.getCollectionData<MovieRoleModel>(
       endpoint: ApiEndpoint.movies(MovieEndpoint.ROLES, id: movieId),
       cancelToken: _cancelToken,
-      builder: (responseBody) => MovieRoleModel.fromJson(responseBody),
+      converter: (responseBody) => MovieRoleModel.fromJson(responseBody),
     );
   }
 

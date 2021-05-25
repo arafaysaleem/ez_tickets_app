@@ -21,7 +21,7 @@ class ApiService implements ApiInterface{
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> responseBody) builder,
+    required T Function(Map<String, dynamic> responseBody) converter,
   }) async {
     //Entire map of response
     final data = await _dioService.get(
@@ -35,7 +35,7 @@ class ApiService implements ApiInterface{
     final List<dynamic> body = data['body'];
 
     //Returning the deserialized objects
-    return body.map((dataMap) => builder(dataMap)).toList();
+    return body.map((dataMap) => converter(dataMap)).toList();
   }
 
   @override
@@ -44,7 +44,7 @@ class ApiService implements ApiInterface{
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> responseBody) builder,
+    required T Function(Map<String, dynamic> responseBody) converter,
   }) async {
     //Entire map of response
     final data = await _dioService.get(
@@ -55,7 +55,7 @@ class ApiService implements ApiInterface{
     );
 
     //Returning the deserialized object
-    return builder(data['body']);
+    return converter(data['body']);
   }
 
   @override
@@ -64,7 +64,7 @@ class ApiService implements ApiInterface{
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) builder,
+    required T Function(Map<String, dynamic> response) converter,
   }) async {
     //Entire map of response
     final dataMap = await _dioService.post(
@@ -74,7 +74,7 @@ class ApiService implements ApiInterface{
       cancelToken: cancelToken,
     );
 
-    return builder(dataMap);
+    return converter(dataMap);
   }
 
   @override
@@ -83,7 +83,7 @@ class ApiService implements ApiInterface{
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) builder,
+    required T Function(Map<String, dynamic> response) converter,
   }) async {
     //Entire map of response
     final dataMap = await _dioService.patch(
@@ -93,7 +93,7 @@ class ApiService implements ApiInterface{
       cancelToken: cancelToken,
     );
 
-    return builder(dataMap);
+    return converter(dataMap);
   }
 
   @override
@@ -102,7 +102,7 @@ class ApiService implements ApiInterface{
     Map<String, dynamic>? data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) builder,
+    required T Function(Map<String, dynamic> response) converter,
   }) async {
     //Entire map of response
     final dataMap = await _dioService.delete(
@@ -112,7 +112,7 @@ class ApiService implements ApiInterface{
       cancelToken: cancelToken,
     );
 
-    return builder(dataMap);
+    return converter(dataMap);
   }
 
   @override

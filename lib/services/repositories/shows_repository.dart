@@ -26,7 +26,7 @@ class ShowsRepository {
       ),
       queryParams: queryParameters,
       cancelToken: _cancelToken,
-      builder: (responseBody) => ShowModel.fromJson(responseBody),
+      converter: (responseBody) => ShowModel.fromJson(responseBody),
     );
   }
 
@@ -36,7 +36,7 @@ class ShowsRepository {
     return await _apiService.getDocumentData<ShowModel>(
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       cancelToken: _cancelToken,
-      builder: (responseBody) => ShowModel.fromJson(responseBody),
+      converter: (responseBody) => ShowModel.fromJson(responseBody),
     );
   }
 
@@ -47,7 +47,7 @@ class ShowsRepository {
       endpoint: ApiEndpoint.shows(ShowEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      builder: (response) => response["body"]["show_id"],
+      converter: (response) => response["body"]["show_id"],
     );
   }
 
@@ -59,7 +59,7 @@ class ShowsRepository {
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       data: data,
       cancelToken: _cancelToken,
-      builder: (response) => response["headers"]["message"],
+      converter: (response) => response["headers"]["message"],
     );
   }
 
@@ -71,7 +71,7 @@ class ShowsRepository {
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       data: data,
       cancelToken: _cancelToken,
-      builder: (response) => response["headers"]["message"],
+      converter: (response) => response["headers"]["message"],
     );
   }
 

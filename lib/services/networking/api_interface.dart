@@ -12,7 +12,7 @@ abstract class ApiInterface {
 
   /// Base method for requesting collection of data from the [endpoint].
   /// The response is **deserialized** into a List of model objects of type [T],
-  /// using the [builder] callback.
+  /// using the [converter] callback.
   ///
   /// [queryParams] holds any query parameters for the request.
   ///
@@ -26,12 +26,12 @@ abstract class ApiInterface {
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> responseBody) builder,
+    required T Function(Map<String, dynamic> responseBody) converter,
   });
 
   /// Base method for requesting a document of data from the [endpoint].
   /// The response is deserialized into a single model objects of type [T],
-  /// using the [builder] callback.
+  /// using the [converter] callback.
   ///
   /// [queryParams] holds any query parameters for the request.
   ///
@@ -45,12 +45,12 @@ abstract class ApiInterface {
     Map<String, dynamic>? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> responseBody) builder,
+    required T Function(Map<String, dynamic> responseBody) converter,
   });
 
   /// Base method for inserting [data] at the [endpoint].
   /// The response is deserialized into an object of type [T],
-  /// using the [builder] callback.
+  /// using the [converter] callback.
   ///
   /// [cancelToken] is used to cancel the request pre-maturely. If null,
   /// the **default** [cancelToken] inside [DioService] is used.
@@ -62,12 +62,12 @@ abstract class ApiInterface {
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) builder,
+    required T Function(Map<String, dynamic> response) converter,
   });
 
   /// Base method for updating [data] at the [endpoint].
   /// The response is deserialized into an object of type [T],
-  /// using the [builder] callback.
+  /// using the [converter] callback.
   ///
   /// [cancelToken] is used to cancel the request pre-maturely. If null,
   /// the **default** [cancelToken] inside [DioService] is used.
@@ -79,12 +79,12 @@ abstract class ApiInterface {
     required Map<String, dynamic> data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) builder,
+    required T Function(Map<String, dynamic> response) converter,
   });
 
   /// Base method for deleting [data] at the [endpoint].
   /// The response is deserialized into an object of type [T],
-  /// using the [builder] callback.
+  /// using the [converter] callback.
   ///
   /// [cancelToken] is used to cancel the request pre-maturely. If null,
   /// the **default** [cancelToken] inside [DioService] is used.
@@ -96,7 +96,7 @@ abstract class ApiInterface {
     Map<String, dynamic>? data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) builder,
+    required T Function(Map<String, dynamic> response) converter,
   });
 
   /// Base method for cancelling requests pre-maturely
