@@ -30,6 +30,8 @@ class RegisterScreen extends StatefulHookWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _formHasData = false;
+  late final formKey = GlobalKey<FormState>();
+  late final ValueNotifier<bool> userDetailsState = ValueNotifier(true);
 
   Future<bool> _showConfirmDialog() async {
     if (_formHasData) {
@@ -48,12 +50,97 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Future<bool>.value(true);
   }
 
+  CustomTextButton buildNextButton() {
+    return CustomTextButton.outlined(
+      width: double.infinity,
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          formKey.currentState!.save();
+          userDetailsState.value = false;
+        }
+      },
+      padding: const EdgeInsets.only(left: 20, right: 15),
+      border: Border.all(
+        color: Constants.primaryColor,
+        width: 4,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Text(
+            "Next",
+            style: TextStyle(
+              color: Constants.primaryColor,
+              fontSize: 15,
+              letterSpacing: 0.7,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          //Arrow
+          Icon(
+            Icons.arrow_forward_sharp,
+            size: 26,
+            color: Constants.primaryColor,
+          )
+        ],
+      ),
+    );
+  }
+
+  CustomTextButton buildConfirmButton({
+    required String email,
+    required String password,
+    required String fullName,
+    required String address,
+    required String contact,
+  }) {
+    return CustomTextButton.gradient(
+      width: double.infinity,
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          formKey.currentState!.save();
+          context.read(authProvider.notifier).register(
+                email: email,
+                password: password,
+                fullName: fullName,
+                address: address,
+                contact: contact,
+              );
+        }
+      },
+      gradient: Constants.buttonGradientOrange,
+      child: Consumer(
+        builder: (context, watch, child) {
+          final authState = watch(authProvider);
+          if (authState is AUTHENTICATING) {
+            return const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            );
+          }
+          return child!;
+        },
+        child: const Center(
+          child: Text(
+            "CONFIRM",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              letterSpacing: 0.7,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final userDetailsState = useState(true);
-    final formKey = useMemoized(() => GlobalKey<FormState>());
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
     final cPasswordController = useTextEditingController(text: "");
@@ -61,117 +148,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final addressController = useTextEditingController(text: "");
     final contactController = useTextEditingController(text: "");
 
-    CustomTextButton getButton() {
-      //Next Button
-      if (userDetailsState.value) {
-        return CustomTextButton.outlined(
-          width: double.infinity,
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              formKey.currentState!.save();
-              userDetailsState.value = false;
-            }
-          },
-          padding: const EdgeInsets.only(left: 20, right: 15),
-          border: Border.all(
-            color: theme.primaryColor,
-            width: 4,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Next",
-                style: TextStyle(
-                  color: theme.primaryColor,
-                  fontSize: 15,
-                  letterSpacing: 0.7,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
-              //Arrow
-              Icon(
-                Icons.arrow_forward_sharp,
-                size: 26,
-                color: theme.primaryColor,
-              )
-            ],
-          ),
-        );
-      }
-      //Confirm button
-      return CustomTextButton.gradient(
-        width: double.infinity,
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-            context.read(authProvider.notifier).register(
-                  email: emailController.text,
-                  password: passwordController.text,
-                  fullName: fullNameController.text,
-                  address: addressController.text,
-                  contact: contactController.text,
-                );
-          }
-        },
-        gradient: Constants.buttonGradientOrange,
-        child: Consumer(
-          builder: (context, watch, child) {
-            final authState = watch(authProvider);
-            if (authState is AUTHENTICATING) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              );
-            }
-            return child!;
-          },
-          child: const Center(
-            child: Text(
-              "CONFIRM",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                letterSpacing: 0.7,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    void _onChange(_, AuthState authState) async {
-      if (authState is AUTHENTICATED) {
-        emailController.clear();
-        passwordController.clear();
-        fullNameController.clear();
-        addressController.clear();
-        cPasswordController.clear();
-        contactController.clear();
-        _formHasData = false;
-        context.router.popUntilRoot();
-      } else if (authState is FAILED) {
-        await showDialog<bool>(
-          context: context,
-          barrierColor: Constants.barrierColor.withOpacity(0.75),
-          builder: (ctx) {
-            return CustomDialog.alert(
-              title: "Register Failed",
-              body: authState.reason,
-              buttonText: "Retry",
-            );
-          },
-        );
-      }
-    }
-
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
-        onChange: _onChange,
+        onChange: (_, authState) async {
+          if (authState is AUTHENTICATED) {
+            emailController.clear();
+            passwordController.clear();
+            fullNameController.clear();
+            addressController.clear();
+            cPasswordController.clear();
+            contactController.clear();
+            _formHasData = false;
+            context.router.popUntilRoot();
+          } else if (authState is FAILED) {
+            await showDialog<bool>(
+              context: context,
+              barrierColor: Constants.barrierColor.withOpacity(0.75),
+              builder: (ctx) {
+                return CustomDialog.alert(
+                  title: "Register Failed",
+                  body: authState.reason,
+                  buttonText: "Retry",
+                );
+              },
+            );
+          }
+        },
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ScrollableColumn(
@@ -185,9 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onWillPop: _showConfirmDialog,
                 child: RoundedBottomContainer(
                   onBackTap: !userDetailsState.value
-                      ? () {
-                          userDetailsState.value = true;
-                        }
+                      ? () => userDetailsState.value = true
                       : null,
                   children: [
                     //Page name
@@ -230,7 +231,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 550),
                   switchOutCurve: Curves.easeInBack,
-                  child: getButton(),
+                  child: userDetailsState.value
+                      ? buildNextButton()
+                      : buildConfirmButton(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          fullName: fullNameController.text,
+                          address: addressController.text,
+                          contact: contactController.text,
+                        ),
                 ),
               )
             ],
