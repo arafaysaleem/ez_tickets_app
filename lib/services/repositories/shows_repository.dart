@@ -22,7 +22,8 @@ class ShowsRepository {
   }) async {
     return await _apiService.getCollectionData<ShowModel>(
       endpoint: ApiEndpoint.shows(
-          queryParameters != null ? ShowEndpoint.FILTERS : ShowEndpoint.BASE),
+          queryParameters != null ? ShowEndpoint.FILTERS : ShowEndpoint.BASE
+      ),
       queryParams: queryParameters,
       cancelToken: _cancelToken,
       builder: (responseBody) => ShowModel.fromJson(responseBody),
