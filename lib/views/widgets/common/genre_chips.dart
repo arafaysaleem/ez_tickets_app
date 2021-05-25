@@ -21,10 +21,7 @@ class GenreChips extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: Constants.textGreyColor,
-                width: 1,
-              ),
+              border: Border.all(color: Constants.textGreyColor,width: 1),
             ),
             child: Text(
               genres[i],

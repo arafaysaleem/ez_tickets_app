@@ -26,9 +26,7 @@ class WelcomeScreen extends StatelessWidget {
             //Welcome
             Text(
               "Welcome",
-              style: textTheme.headline1!.copyWith(
-                color: Constants.primaryColor,
-              ),
+              style: textTheme.headline1!.copyWith(color: Constants.primaryColor),
             ),
 
             const SizedBox(height: 20),

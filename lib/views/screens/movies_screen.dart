@@ -24,8 +24,7 @@ import '../widgets/movies/movie_backdrop_view.dart';
 import '../widgets/movies/movie_carousel.dart';
 import '../widgets/movies/movie_icons_row.dart';
 
-final moviesFuture =
-    FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
+final moviesFuture = FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
   (ref, movieType) async {
     final _moviesProvider = ref.watch(moviesProvider);
 

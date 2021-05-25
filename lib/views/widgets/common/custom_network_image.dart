@@ -40,10 +40,7 @@ class CustomNetworkImage extends StatelessWidget {
       ),
       imageBuilder: (ctx, imageProvider) => Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: fit,
-          ),
+          image: DecorationImage(image: imageProvider,fit: fit),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         margin: margin,

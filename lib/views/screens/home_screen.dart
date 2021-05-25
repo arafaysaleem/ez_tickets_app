@@ -29,9 +29,7 @@ class HomeScreen extends StatelessWidget {
             //Heading text
             Text(
               "EZ Tickets",
-              style: textTheme.headline1!.copyWith(
-                color: Constants.primaryColor,
-              ),
+              style: textTheme.headline1!.copyWith(color: Constants.primaryColor),
             ),
 
             const SizedBox(height: 35),

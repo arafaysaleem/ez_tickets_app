@@ -22,17 +22,12 @@ class ShowDetailsBox extends HookWidget {
     return Container(
       decoration: BoxDecoration(
         color: Constants.scaffoldGreyColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: Border.all(color: Constants.primaryColor),
       ),
       height: 65,
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.symmetric(
-        vertical: 17,
-        horizontal: 35,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 17,horizontal: 35),
       child: Row(
         children: [
           Text(

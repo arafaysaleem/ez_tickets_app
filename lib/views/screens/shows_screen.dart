@@ -39,10 +39,7 @@ class ShowsScreen extends HookWidget {
               children: [
                 const SizedBox(width: 15),
                 GestureDetector(
-                  child: const Icon(
-                    Icons.arrow_back_sharp,
-                    size: 32,
-                  ),
+                  child: const Icon(Icons.arrow_back_sharp,size: 32),
                   onTap: () {
                     context.router.pop();
                   },
@@ -149,12 +146,7 @@ class ShowsScreen extends HookWidget {
 
                     //Continue button
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        20,
-                        0,
-                        20,
-                        Constants.bottomInsetsLow,
-                      ),
+                      padding: const EdgeInsets.fromLTRB(20,0,20,Constants.bottomInsetsLow),
                       child: CustomTextButton.gradient(
                         width: double.infinity,
                         onPressed: () {},
@@ -177,9 +169,7 @@ class ShowsScreen extends HookWidget {
               ),
               loading: () => const Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Constants.primaryColor,
-                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
                 ),
               ),
               error: (error, st) {

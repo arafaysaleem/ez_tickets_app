@@ -60,10 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       },
       padding: const EdgeInsets.only(left: 20, right: 15),
-      border: Border.all(
-        color: Constants.primaryColor,
-        width: 4,
-      ),
+      border: Border.all(color: Constants.primaryColor,width: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
@@ -101,12 +98,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           context.read(authProvider.notifier).register(
-                email: email,
-                password: password,
-                fullName: fullName,
-                address: address,
-                contact: contact,
-              );
+            email: email,
+            password: password,
+            fullName: fullName,
+            address: address,
+            contact: contact,
+          );
         }
       },
       gradient: Constants.buttonGradientOrange,
@@ -222,12 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               //Button
               Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  20,
-                  40,
-                  20,
-                  Constants.bottomInsets,
-                ),
+                padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 550),
                   switchOutCurve: Curves.easeInBack,

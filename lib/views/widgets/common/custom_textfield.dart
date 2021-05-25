@@ -121,10 +121,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
               isDense: true,
               hintText: widget.hintText,
-              hintStyle: const TextStyle(
-                fontSize: 17,
-                color: Constants.textWhite80Color,
-              ),
+              hintStyle: const TextStyle(fontSize: 17,color: Constants.textWhite80Color),
               errorStyle: const TextStyle(height: 0, color: Colors.transparent),
               border: _normalBorder(),
               focusedBorder: _focusedBorder(),
@@ -140,10 +137,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       });
                     },
                     child: const Icon(
-                        Icons.remove_red_eye_sharp,
-                        color: Constants.textGreyColor,
-                        size: 22,
-                      ),
+                      Icons.remove_red_eye_sharp,
+                      color: Constants.textGreyColor,
+                      size: 22,
+                    ),
                   )
                   : null,
             ),

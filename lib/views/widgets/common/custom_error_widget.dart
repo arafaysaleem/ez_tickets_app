@@ -59,9 +59,7 @@ class CustomErrorWidget extends StatelessWidget {
               const SizedBox(height: 30),
               Text(
                 error.message,
-                style: textTheme.headline5!.copyWith(
-                  fontSize: 21,
-                ),
+                style: textTheme.headline5!.copyWith(fontSize: 21),
               ),
               const Spacer(),
               CustomTextButton.gradient(
