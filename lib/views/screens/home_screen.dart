@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
             Text(
               "EZ Tickets",
               style: textTheme.headline1!.copyWith(
-                color: theme.primaryColor,
+                color: Constants.primaryColor,
               ),
             ),
 
@@ -105,12 +105,12 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 context.router.push(const RegisterScreenRoute());
               },
-              border: Border.all(color: theme.primaryColor, width: 4),
-              child: Center(
+              border: Border.all(color: Constants.primaryColor, width: 4),
+              child: const Center(
                 child: Text(
                   "REGISTER",
                   style: TextStyle(
-                    color: theme.primaryColor,
+                    color: Constants.primaryColor,
                     fontSize: 15,
                     letterSpacing: 0.7,
                     fontWeight: FontWeight.w600,

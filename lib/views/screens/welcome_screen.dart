@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
             Text(
               "Welcome",
               style: textTheme.headline1!.copyWith(
-                color: theme.primaryColor,
+                color: Constants.primaryColor,
               ),
             ),
 
