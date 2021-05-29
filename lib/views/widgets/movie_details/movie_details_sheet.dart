@@ -11,9 +11,10 @@ import '../../../helper/utils/constants.dart';
 import 'movie_actors_list.dart';
 import 'movie_details_column.dart';
 import 'movie_summary_box.dart';
+import 'play_button_widget.dart';
 
 final mainPosterScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
-final _btnScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
+final btnScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 
 class MovieDetailsSheet extends StatefulHookWidget {
   const MovieDetailsSheet();
@@ -59,7 +60,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
 
     //Animate playButton
     final btnScaleRatio = getPlayBtnScaleRatio(slide);
-    context.read(_btnScaleRatioProvider).state = btnScaleRatio;
+    context.read(btnScaleRatioProvider).state = btnScaleRatio;
 
     //Bounce sheet if necessary
     if (slide < snapPoint && !panelController.isPanelAnimating) {
@@ -165,37 +166,9 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
             ),
             child: child!,
           ),
-          child: const _PlayButtonWidget(),
+          child: const PlayButtonWidget(),
         )
       ],
-    );
-  }
-}
-
-class _PlayButtonWidget extends HookWidget {
-  const _PlayButtonWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final btnScaleRatio = useProvider(_btnScaleRatioProvider).state;
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        elevation: 5,
-        minimumSize: Size.fromRadius(btnScaleRatio * 28.5),
-        primary: Colors.white,
-        padding: const EdgeInsets.all(0),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-        ),
-      ),
-      child: Icon(
-        Icons.play_arrow_sharp,
-        size: btnScaleRatio * 35,
-        color: Colors.black,
-      ),
     );
   }
 }
