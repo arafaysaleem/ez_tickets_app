@@ -23,8 +23,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   intl: ^0.17.0
   dartdoc: ^0.44.0
-  video_player: ^2.1.4
-  chewie: ^1.2.0
+  better_player: ^0.0.68
 dev_dependencies:
   flutter_test:
     sdk: flutter
