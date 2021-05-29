@@ -19,16 +19,18 @@ dependencies:
   flutter_launcher_icons: ^0.9.0
   carousel_slider: 4.0.0-nullsafety.0
   dio: ^4.0.0
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.6
   sliding_up_panel: ^2.0.0+1
   intl: ^0.17.0
-  dartdoc: ^0.43.0
+  dartdoc: ^0.44.0
+  video_player: ^2.1.4
+  chewie: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^2.1.0
   freezed: ^0.14.2
-  json_serializable: ^4.1.2
+  json_serializable: ^4.1.3
   build_runner: null
   effective_dart: ^1.3.1
 flutter:
