@@ -10,6 +10,9 @@ import '../../helper/utils/constants.dart';
 import '../../providers/movies_provider.dart';
 import '../../providers/shows_provider.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //Services
 import '../../services/networking/network_exception.dart';
 
@@ -149,7 +152,9 @@ class ShowsScreen extends HookWidget {
                       padding: const EdgeInsets.fromLTRB(20,0,20,Constants.bottomInsetsLow),
                       child: CustomTextButton.gradient(
                         width: double.infinity,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.router.push(const TheaterScreenRoute());
+                        },
                         gradient: Constants.buttonGradientOrange,
                         child: const Center(
                           child: Text(
