@@ -1,20 +1,19 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/utils/constants.dart';
 import '../enums/show_status_enum.dart';
 import '../enums/show_type_enum.dart';
 
 part 'show_time_model.freezed.dart';
 part 'show_time_model.g.dart';
 
-T? toNull<T>(_) => null;
-
 @freezed
 class ShowTimeModel with _$ShowTimeModel {
   const ShowTimeModel._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable()
   const factory ShowTimeModel({
-    @JsonKey(toJson: toNull, includeIfNull: false)
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false)
     @Default(0) int showId,
     required DateTime startTime,
     required DateTime endTime,

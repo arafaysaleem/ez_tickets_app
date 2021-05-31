@@ -5,7 +5,7 @@ part 'seat_model.g.dart';
 
 @freezed
 class SeatModel with _$SeatModel {
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable()
   const factory SeatModel({
     required String seatRow,
     required int seatNumber,

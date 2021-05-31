@@ -1,18 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/utils/constants.dart';
 import '../enums/user_role_enum.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
 
-T? toNull<T>(_) => null;
-
 @freezed
 class UserModel with _$UserModel {
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable()
   const factory UserModel({
-    @JsonKey(toJson: toNull, includeIfNull: false) required int? userId,
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? userId,
     required String fullName,
     required String email,
     required String address,

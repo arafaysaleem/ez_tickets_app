@@ -6,7 +6,7 @@ part 'genre_model.g.dart';
 
 @freezed
 class GenreModel with _$GenreModel {
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable()
   const factory GenreModel({
     required int genreId,
     required String genre,

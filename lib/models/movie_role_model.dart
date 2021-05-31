@@ -13,7 +13,7 @@ part 'movie_role_model.g.dart';
 class MovieRoleModel with _$MovieRoleModel {
   const MovieRoleModel._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+  @JsonSerializable()
   const factory MovieRoleModel({
     required int movieId,
     required RoleModel role,

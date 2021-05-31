@@ -1,13 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/movie_type_enum.dart';
+import '../helper/utils/constants.dart';
 import 'genre_model.dart';
 
 part 'movie_model.freezed.dart';
 
 part 'movie_model.g.dart';
-
-T? toNull<T>(_) => null;
 
 List<int> toJsonGenres(List<GenreModel> genres) {
   return genres.map((genre) => genre.genreId).toList(growable: false);
@@ -17,9 +16,9 @@ List<int> toJsonGenres(List<GenreModel> genres) {
 class MovieModel with _$MovieModel {
   MovieModel._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+  @JsonSerializable()
   factory MovieModel({
-    @JsonKey(toJson: toNull, includeIfNull: false) required int? movieId,
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? movieId,
     required int year,
     required String title,
     required String summary,

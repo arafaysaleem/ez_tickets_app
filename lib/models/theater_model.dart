@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/utils/constants.dart';
 import '../enums/theater_type_enum.dart';
 import 'seat_model.dart';
 
@@ -7,15 +8,13 @@ part 'theater_model.freezed.dart';
 
 part 'theater_model.g.dart';
 
-T? toNull<T>(_) => null;
-
 @freezed
 class TheaterModel with _$TheaterModel {
   const TheaterModel._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+  @JsonSerializable()
   const factory TheaterModel({
-    @JsonKey(toJson: toNull, includeIfNull: false) required int? theaterId,
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? theaterId,
     required String theaterName,
     required int numOfRows,
     required int seatsPerRow,
