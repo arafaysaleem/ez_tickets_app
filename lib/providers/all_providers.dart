@@ -20,49 +20,49 @@ import 'theaters_provider.dart';
 import 'states/auth_state.dart';
 
 //service providers
-final apiServiceProvider = Provider<ApiService>((ref) => ApiService());
-final prefsServiceProvider = Provider<PrefsService>((ref) => PrefsService());
+final _apiServiceProvider = Provider<ApiService>((ref) => ApiService());
+final _prefsServiceProvider = Provider<PrefsService>((ref) => PrefsService());
 
 //repositories providers
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  final _apiService = ref.watch(apiServiceProvider);
+final _authRepositoryProvider = Provider<AuthRepository>((ref) {
+  final _apiService = ref.watch(_apiServiceProvider);
   return AuthRepository(apiService: _apiService);
 });
 
-final moviesRepositoryProvider = Provider<MoviesRepository>((ref) {
-  final _apiService = ref.watch(apiServiceProvider);
+final _moviesRepositoryProvider = Provider<MoviesRepository>((ref) {
+  final _apiService = ref.watch(_apiServiceProvider);
   return MoviesRepository(apiService: _apiService);
 });
 
-final showsRepositoryProvider = Provider<ShowsRepository>((ref) {
-  final _apiService = ref.watch(apiServiceProvider);
+final _showsRepositoryProvider = Provider<ShowsRepository>((ref) {
+  final _apiService = ref.watch(_apiServiceProvider);
   return ShowsRepository(apiService: _apiService);
 });
 
-final theatersRepositoryProvider = Provider<TheatersRepository>((ref){
-  final _apiService = ref.watch(apiServiceProvider);
+final _theatersRepositoryProvider = Provider<TheatersRepository>((ref){
+  final _apiService = ref.watch(_apiServiceProvider);
   return TheatersRepository(apiService: _apiService);
 });
 
 //notifier providers
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
-  final _authRepository = ref.watch(authRepositoryProvider);
-  final _prefsService = ref.watch(prefsServiceProvider);
+  final _authRepository = ref.watch(_authRepositoryProvider);
+  final _prefsService = ref.watch(_prefsServiceProvider);
   return AuthProvider(_authRepository, _prefsService);
 });
 
 //data providers
 final moviesProvider = Provider<MoviesProvider>((ref) {
-  final _moviesRepository = ref.watch(moviesRepositoryProvider);
+  final _moviesRepository = ref.watch(_moviesRepositoryProvider);
   return MoviesProvider(_moviesRepository);
 });
 
 final showsProvider = Provider<ShowsProvider>((ref) {
-  final _showsRepository = ref.watch(showsRepositoryProvider);
+  final _showsRepository = ref.watch(_showsRepositoryProvider);
   return ShowsProvider(_showsRepository);
 });
 
 final theatersProvider = Provider<TheatersProvider>((ref){
-  final _theatersRepository = ref.watch(theatersRepositoryProvider);
+  final _theatersRepository = ref.watch(_theatersRepositoryProvider);
   return TheatersProvider(_theatersRepository);
 });
