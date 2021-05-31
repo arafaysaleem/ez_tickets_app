@@ -28,9 +28,10 @@ class TheaterScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theater = useProvider(showTheaterFuture);
-    return theater.when(
-      data: (theater) {
+    final showSeatingModelFuture = useProvider(showSeatingFuture);
+    return showSeatingModelFuture.when(
+      data: (showSeatingModel) {
+        final theater = showSeatingModel.theater;
         final minScreenWidth = MediaQuery.of(context).size.width;
         var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap) + 20; //for right pad
         if (screenWidth < minScreenWidth) screenWidth = minScreenWidth;
@@ -68,6 +69,7 @@ class TheaterScreen extends HookWidget {
                     seatsPerRow: theater.seatsPerRow,
                     missing: theater.missing,
                     blocked: theater.blocked,
+                    booked: showSeatingModel.bookedSeats,
                     screenScrollController: screenScrollController,
                   ),
 

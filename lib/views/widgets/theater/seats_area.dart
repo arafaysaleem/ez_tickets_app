@@ -9,7 +9,7 @@ import 'seat_widget.dart';
 class SeatsArea extends StatelessWidget {
   final double maxGridHeight, seatSize, seatGap;
   final int numOfRows, maxRows, seatsPerRow;
-  final List<SeatModel> missing, blocked;
+  final List<SeatModel> missing, blocked, booked;
   final ScrollController screenScrollController;
 
   const SeatsArea({
@@ -21,12 +21,15 @@ class SeatsArea extends StatelessWidget {
     required this.seatsPerRow,
     required this.missing,
     required this.blocked,
+    required this.booked,
     required this.screenScrollController,
   });
 
-  bool isMissing(List<SeatModel> missing, SeatModel seat) => missing.contains(seat);
+  bool isMissing(SeatModel seat) => missing.contains(seat);
 
-  bool isBlocked(List<SeatModel> blocked, SeatModel seat) => blocked.contains(seat);
+  bool isBlocked(SeatModel seat) => blocked.contains(seat);
+
+  bool isBooked(SeatModel seat) => booked.contains(seat);
 
   bool _onGlowNotification(OverscrollIndicatorNotification overScroll) {
     overScroll.disallowGlow();
@@ -88,9 +91,9 @@ class SeatsArea extends StatelessWidget {
                       seatRow: String.fromCharCode(i % numOfRows + 65),
                       seatNumber: i ~/ numOfRows,
                     );
-                    if (isMissing(missing, seat)) {
+                    if (isMissing(seat)) {
                       return const SizedBox.shrink();
-                    } else if (isBlocked(blocked, seat)) {
+                    } else if (isBlocked(seat) || isBooked(seat)) {
                       return const DecoratedBox(
                         decoration: BoxDecoration(
                           color: Color(0xFF424242),
@@ -100,7 +103,7 @@ class SeatsArea extends StatelessWidget {
                         ),
                       );
                     }
-                    return const SeatWidget();
+                    return SeatWidget(seat: seat);
                   },
                 ),
               ),
