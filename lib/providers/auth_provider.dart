@@ -5,9 +5,9 @@ import '../enums/user_role_enum.dart';
 
 //models
 import '../models/user_model.dart';
-import '../services/local_storage/prefs_service.dart';
 
 //services
+import '../services/local_storage/prefs_service.dart';
 import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
 
