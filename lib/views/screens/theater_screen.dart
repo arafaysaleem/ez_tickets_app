@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../helper/utils/constants.dart';
 
 //Providers
-import '../../providers/shows_provider.dart';
 import '../../providers/theaters_provider.dart';
 
 //Services
@@ -29,10 +28,7 @@ class TheaterScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theaterId = useProvider(selectedShowTimeProvider.select((value) {
-      return value.state.theaterId;
-    }));
-    final theater = useProvider(showTheaterFuture(theaterId));
+    final theater = useProvider(showTheaterFuture);
     return theater.when(
       data: (theater) {
         final minScreenWidth = MediaQuery.of(context).size.width;

@@ -2,27 +2,25 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
 import '../enums/theater_type_enum.dart';
+import '../models/seat_model.dart';
 
 //Models
 import '../models/theater_model.dart';
-import '../models/seat_model.dart';
 
 //Services
 import '../services/repositories/theaters_repository.dart';
 
 //Providers
+import 'shows_provider.dart';
 import 'all_providers.dart';
 
-final showTheaterFuture = FutureProvider.family.autoDispose<TheaterModel, int>(
-  (ref, theaterId) async {
-    final _theatersProvider = ref.watch(theatersProvider);
+final showTheaterFuture = FutureProvider.autoDispose<TheaterModel>((ref) async {
+  final _theatersProvider = ref.watch(theatersProvider);
+  final _theaterId = ref.watch(selectedShowTimeProvider).state.theaterId;
 
-    final theater =
-        await _theatersProvider.getTheaterById(theaterId: theaterId);
-
-    return theater;
-  },
-);
+  final theater = await _theatersProvider.getTheaterById(theaterId: _theaterId);
+  return theater;
+});
 
 class TheatersProvider {
   final TheatersRepository _theatersRepository;
@@ -75,13 +73,13 @@ class TheatersProvider {
     List<SeatModel>? missing,
     List<SeatModel>? blocked,
   }) async {
-    final data = <String,dynamic>{
-      if(theaterName != null) "theater_name": theaterName,
-      if(numOfRows != null) "num_of_rows": numOfRows,
-      if(seatsPerRow != null) "seats_per_row": seatsPerRow,
-      if(theaterType != null) "theater_type": theaterType.toJson,
-      if(missing != null) "missing": missing.map((s) => s.toJson()).toList(),
-      if(blocked != null) "blocked": blocked.map((s) => s.toJson()).toList(),
+    final data = <String, dynamic>{
+      if (theaterName != null) "theater_name": theaterName,
+      if (numOfRows != null) "num_of_rows": numOfRows,
+      if (seatsPerRow != null) "seats_per_row": seatsPerRow,
+      if (theaterType != null) "theater_type": theaterType.toJson,
+      if (missing != null) "missing": missing.map((s) => s.toJson()).toList(),
+      if (blocked != null) "blocked": blocked.map((s) => s.toJson()).toList(),
     };
     if (data.isEmpty) return "Nothing to update!";
     return await _theatersRepository.update(theaterId: theaterId, data: data);
