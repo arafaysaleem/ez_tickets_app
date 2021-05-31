@@ -9,12 +9,14 @@ import '../services/repositories/auth_repository.dart';
 import '../services/repositories/movies_repository.dart';
 import '../services/repositories/shows_repository.dart';
 import '../services/repositories/theaters_repository.dart';
+import '../services/repositories/bookings_repository.dart';
 
 //provider imports
 import 'auth_provider.dart';
 import 'movies_provider.dart';
 import 'shows_provider.dart';
 import 'theaters_provider.dart';
+import 'bookings_provider.dart';
 
 //states
 import 'states/auth_state.dart';
@@ -44,6 +46,11 @@ final _theatersRepositoryProvider = Provider<TheatersRepository>((ref){
   return TheatersRepository(apiService: _apiService);
 });
 
+final _bookingsRepositoryProvider = Provider<BookingsRepository>((ref){
+  final _apiService = ref.watch(_apiServiceProvider);
+  return BookingsRepository(apiService: _apiService);
+});
+
 //notifier providers
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final _authRepository = ref.watch(_authRepositoryProvider);
@@ -65,4 +72,9 @@ final showsProvider = Provider<ShowsProvider>((ref) {
 final theatersProvider = Provider<TheatersProvider>((ref){
   final _theatersRepository = ref.watch(_theatersRepositoryProvider);
   return TheatersProvider(_theatersRepository);
+});
+
+final bookingsProvider = Provider<BookingsProvider>((ref){
+  final _bookingsRepository = ref.watch(_bookingsRepositoryProvider);
+  return BookingsProvider(_bookingsRepository);
 });
