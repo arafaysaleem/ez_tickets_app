@@ -6,11 +6,14 @@ import 'seat_model.dart';
 part 'theater_model.freezed.dart';
 part 'theater_model.g.dart';
 
+T? toNull<T>(_) => null;
+
 @freezed
 class TheaterModel with _$TheaterModel {
-  @JsonSerializable(fieldRename: FieldRename.snake)
+
+  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory TheaterModel({
-    required int theaterId,
+    @JsonKey(toJson: toNull, includeIfNull: false) required int? theaterId,
     required String theaterName,
     required int numOfRows,
     required int seatsPerRow,
