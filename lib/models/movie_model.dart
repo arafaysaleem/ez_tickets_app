@@ -44,6 +44,35 @@ class MovieModel with _$MovieModel {
     );
   }
 
+  Map<String, dynamic> toUpdateJson({
+    int? year,
+    String? title,
+    String? summary,
+    String? trailerUrl,
+    String? posterUrl,
+    double? rating,
+    MovieType? movieType,
+  }) {
+    if (year == null &&
+        title == null &&
+        summary == null &&
+        trailerUrl == null &&
+        posterUrl == null &&
+        rating == null &&
+        movieType == null
+    ) return const {};
+    return copyWith(
+      movieId: movieId,
+      year: year ?? this.year,
+      title: title ?? this.title,
+      summary: summary ?? this.summary,
+      trailerUrl: trailerUrl ?? this.trailerUrl,
+      posterUrl: posterUrl ?? this.posterUrl,
+      rating: rating ?? this.rating,
+      movieType: movieType ?? this.movieType,
+    ).toJson();
+  }
+
   factory MovieModel.fromJson(Map<String, dynamic> json) =>
       _$MovieModelFromJson(json);
 

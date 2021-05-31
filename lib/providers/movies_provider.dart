@@ -82,26 +82,26 @@ class MoviesProvider {
   }
 
   Future<String> editMovie({
-    required int movieId,
+    required MovieModel movie,
     String? title,
-    String? year,
+    int? year,
     String? summary,
     String? trailerUrl,
     String? posterUrl,
     double? rating,
     MovieType? movieType,
   }) async {
-    final data = <String,dynamic>{
-      if (title != null) "title": title,
-      if (year != null) "year": year,
-      if (summary != null) "summary": summary,
-      if (trailerUrl != null) "trailer_url": trailerUrl,
-      if (posterUrl != null) "poster_url": posterUrl,
-      if (rating != null) "rating": rating,
-      if (movieType != null) "movie_type": movieType.toJson,
-    };
+    final data = movie.toUpdateJson(
+      title: title,
+      year: year,
+      summary: summary,
+      trailerUrl: trailerUrl,
+      posterUrl: posterUrl,
+      rating: rating,
+      movieType: movieType,
+    );
     if (data.isEmpty) return "Nothing to update!";
-    return await _moviesRepository.update(movieId: movieId, data: data);
+    return await _moviesRepository.update(movieId: movie.movieId!, data: data);
   }
 
   Future<String> removeMovie({
