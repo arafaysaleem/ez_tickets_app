@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+
+//Routes
+import '../../../routes/app_router.gr.dart';
 
 //Widgets
 import '../common/custom_text_button.dart';
@@ -15,7 +19,9 @@ class ContinueButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: CustomTextButton.gradient(
         width: double.infinity,
-        onPressed: () {},
+        onPressed: () {
+          context.router.push(const TicketSummaryScreenRoute());
+        },
         gradient: Constants.buttonGradientOrange,
         child: const Center(
           child: Text(
