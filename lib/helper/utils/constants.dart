@@ -109,4 +109,6 @@ class Constants {
 
   /// The regular expression for validating full names in the app.
   static RegExp fullNameRegex = RegExp(r"^[a-zA-Z ]+$");
+
+  static T? toNull<T>(_) => null;
 }
