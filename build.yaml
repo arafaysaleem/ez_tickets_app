@@ -1,0 +1,18 @@
+targets:
+  $default:
+    builders:
+      auto_route_generator:autoRouteGenerator:
+        generate_for:
+          include:
+            - lib/routes/**.dart
+      json_serializable:
+        options:
+          explicit_to_json: true
+          field_rename: snake
+      freezed:freezed:
+        generate_for:
+          include:
+            - lib/models/**.dart
+            - lib/providers/states/**.dart
+            - lib/services/networking/**.dart
+            - lib/enums/**.dart
