@@ -45,7 +45,7 @@ class TheatersRepository {
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["body"]["show_id"],
+      converter: (response) => response["body"]["theater_id"],
     );
   }
 
