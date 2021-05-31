@@ -5,12 +5,14 @@ import '../enums/user_role_enum.dart';
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
 
+T? toNull<T>(_) => null;
+
 @freezed
 class UserModel with _$UserModel {
 
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory UserModel({
-    required int userId,
+    @JsonKey(toJson: toNull, includeIfNull: false) required int? userId,
     required String fullName,
     required String email,
     required String address,

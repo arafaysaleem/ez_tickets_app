@@ -5,11 +5,11 @@ import '../enums/user_role_enum.dart';
 
 //models
 import '../models/user_model.dart';
+import '../services/local_storage/prefs_service.dart';
 
 //services
 import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
-import '../services/local_storage/prefs_service.dart';
 
 //states
 import 'states/auth_state.dart';
@@ -26,7 +26,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     init();
   }
 
-  int get currentUserId => _currentUser!.userId;
+  int get currentUserId => _currentUser!.userId!;
 
   String get token => _token;
 
@@ -87,18 +87,18 @@ class AuthProvider extends StateNotifier<AuthState> {
   }) async {
     if (contact.startsWith("0")) contact = contact.substring(1);
     contact = "+92$contact";
-    final data = <String, dynamic>{
-      "email": email,
-      "password": password,
-      "full_name": fullName,
-      "contact": contact,
-      "address": address,
-      "role": role.toJson,
-    };
+    final user = UserModel(
+      userId: null,
+      fullName: fullName,
+      email: email,
+      address: address,
+      contact: contact,
+      role: role,
+    );
     state = const AuthState.authenticating();
     try {
       _currentUser = await _authRepository.sendRegisterData(
-        data: data,
+        data: user.toJson(),
         updateTokenCallback: updateToken,
       );
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
