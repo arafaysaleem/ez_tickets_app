@@ -2,9 +2,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
 import '../enums/theater_type_enum.dart';
-import '../models/seat_model.dart';
 
 //Models
+import '../models/seat_model.dart';
 import '../models/theater_model.dart';
 
 //Services
@@ -65,7 +65,7 @@ class TheatersProvider {
   }
 
   Future<String> editTheater({
-    required int theaterId,
+    required TheaterModel theater,
     String? theaterName,
     int? numOfRows,
     int? seatsPerRow,
@@ -73,16 +73,16 @@ class TheatersProvider {
     List<SeatModel>? missing,
     List<SeatModel>? blocked,
   }) async {
-    final data = <String, dynamic>{
-      if (theaterName != null) "theater_name": theaterName,
-      if (numOfRows != null) "num_of_rows": numOfRows,
-      if (seatsPerRow != null) "seats_per_row": seatsPerRow,
-      if (theaterType != null) "theater_type": theaterType.toJson,
-      if (missing != null) "missing": missing.map((s) => s.toJson()).toList(),
-      if (blocked != null) "blocked": blocked.map((s) => s.toJson()).toList(),
-    };
+    final data = theater.toUpdateJson(
+      theaterName: theaterName,
+      numOfRows: numOfRows,
+      seatsPerRow: seatsPerRow,
+      theaterType: theaterType,
+      missing: missing,
+      blocked: blocked,
+    );
     if (data.isEmpty) return "Nothing to update!";
-    return await _theatersRepository.update(theaterId: theaterId, data: data);
+    return await _theatersRepository.update(theaterId: theater.theaterId!, data: data);
   }
 
   Future<String> removeTheater({
