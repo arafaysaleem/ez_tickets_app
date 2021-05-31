@@ -13,10 +13,10 @@ import '../../providers/theaters_provider.dart';
 import '../../services/networking/network_exception.dart';
 
 //Widgets
-import '../widgets/common/custom_text_button.dart';
 import '../widgets/theater/curved_screen.dart';
 import '../widgets/theater/seat_color_indicators.dart';
 import '../widgets/theater/seats_area.dart';
+import '../widgets/theater/continue_button.dart';
 
 class TheaterScreen extends HookWidget {
   const TheaterScreen();
@@ -46,7 +46,7 @@ class TheaterScreen extends HookWidget {
                   const SizedBox(height: 10),
 
                   //Icons row
-                  const _IconsRow(),
+                  const _BackIcon(),
 
                   const SizedBox(height: 10),
 
@@ -79,7 +79,7 @@ class TheaterScreen extends HookWidget {
                   const Spacer(),
 
                   //Continue button
-                  const _ContinueButton(),
+                  const ContinueButton(),
 
                   const SizedBox(height: Constants.bottomInsetsLow),
                 ],
@@ -109,8 +109,8 @@ class TheaterScreen extends HookWidget {
     }
 }
 
-class _IconsRow extends StatelessWidget {
-  const _IconsRow({Key? key}) : super(key: key);
+class _BackIcon extends StatelessWidget {
+  const _BackIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,38 +124,11 @@ class _IconsRow extends StatelessWidget {
         child: const DecoratedBox(
           decoration: BoxDecoration(
             color: Colors.white30,
-            shape: BoxShape.circle,
+            shape: BoxShape.circle
           ),
           child: Padding(
             padding: EdgeInsets.all(5),
-            child: Icon(Icons.close_rounded, size: 23),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ContinueButton extends StatelessWidget {
-  const _ContinueButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: CustomTextButton.gradient(
-        width: double.infinity,
-        onPressed: () {},
-        gradient: Constants.buttonGradientOrange,
-        child: const Center(
-          child: Text(
-            "PURCHASE - X SEATS",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              letterSpacing: 0.7,
-              fontWeight: FontWeight.w600,
-            ),
+            child: Icon(Icons.arrow_back_rounded, size: 23),
           ),
         ),
       ),
