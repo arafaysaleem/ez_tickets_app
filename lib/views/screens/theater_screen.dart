@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -14,10 +16,11 @@ import '../../services/networking/network_exception.dart';
 
 //Widgets
 import '../widgets/common/custom_chips_list.dart';
-import '../widgets/theater/curved_screen.dart';
-import '../widgets/theater/seats_area.dart';
-import '../widgets/theater/seat_color_indicators.dart';
+import '../widgets/common/custom_error_widget.dart';
 import '../widgets/theater/continue_button.dart';
+import '../widgets/theater/curved_screen.dart';
+import '../widgets/theater/seat_color_indicators.dart';
+import '../widgets/theater/seats_area.dart';
 
 class TheaterScreen extends HookWidget {
   const TheaterScreen();
@@ -29,89 +32,103 @@ class TheaterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final showSeatingModelFuture = useProvider(showSeatingFuture);
-    return showSeatingModelFuture.when(
-      data: (showSeatingModel) {
-        final theater = showSeatingModel.theater;
-        final minScreenWidth = MediaQuery.of(context).size.width;
-        var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
-        if (screenWidth < minScreenWidth) screenWidth = minScreenWidth;
-        late final screenScrollController = useScrollController();
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
 
-                  //Icons row
-                  const _BackIcon(),
+              //Icons row
+              const _BackIcon(),
 
-                  const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-                  //Screen
-                  CurvedScreen(
-                    screenScrollController: screenScrollController,
-                    screenWidth: screenWidth,
-                  ),
+              //Theater details
+              showSeatingModelFuture.when(
+                data: (showSeatingModel) {
+                  final theater = showSeatingModel.theater;
+                  final minScreenWidth = MediaQuery.of(context).size.width;
+                  var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
+                  screenWidth = max(screenWidth, minScreenWidth);
+                  late final screenScrollController = useScrollController();
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        //Screen
+                        CurvedScreen(
+                          screenScrollController: screenScrollController,
+                          screenWidth: screenWidth,
+                        ),
 
-                  const Spacer(),
+                        const Spacer(),
 
-                  //Seats Area
-                  SeatsArea(
-                    maxGridHeight: _maxGridHeight,
-                    seatSize: _seatSize,
-                    seatGap: _seatGap,
-                    maxRows: Constants.maxSeatRows,
-                    numOfRows: theater.numOfRows,
-                    seatsPerRow: theater.seatsPerRow,
-                    missing: theater.missing,
-                    blocked: theater.blocked,
-                    booked: showSeatingModel.bookedSeats,
-                    screenScrollController: screenScrollController,
-                  ),
+                        //Seats Area
+                        SeatsArea(
+                          maxGridHeight: _maxGridHeight,
+                          seatSize: _seatSize,
+                          seatGap: _seatGap,
+                          maxRows: Constants.maxSeatRows,
+                          numOfRows: theater.numOfRows,
+                          seatsPerRow: theater.seatsPerRow,
+                          missing: theater.missing,
+                          blocked: theater.blocked,
+                          booked: showSeatingModel.bookedSeats,
+                          screenScrollController: screenScrollController,
+                        ),
 
-                  const Spacer(),
+                        const Spacer(),
 
-                  //Seat color indicators
-                  const SeatColorIndicators(),
+                        //Seat color indicators
+                        const SeatColorIndicators(),
 
-                  const Spacer(),
+                        const Spacer(),
 
-                  //Selected Seats Chips
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: CustomChipsList(
-                      chipContents: const ["A-13", "B-5", "D-3", "A-13", "B-5", "D-3"],
-                      chipHeight: 27,
-                      chipGap: 10,
-                      fontSize: 14,
-                      chipWidth: 60,
-                      borderColor: Constants.orangeColor,
-                      contentColor: Constants.orangeColor,
-                      borderWidth: 1.5,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: Colors.red.shade700.withOpacity(0.3),
-                      physics: const BouncingScrollPhysics(),
+                        //Selected Seats Chips
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: CustomChipsList(
+                            chipContents: const [
+                              "A-13",
+                              "B-5",
+                              "D-3",
+                              "A-13",
+                              "B-5",
+                              "D-3"
+                            ],
+                            chipHeight: 27,
+                            chipGap: 10,
+                            fontSize: 14,
+                            chipWidth: 60,
+                            borderColor: Constants.orangeColor,
+                            contentColor: Constants.orangeColor,
+                            borderWidth: 1.5,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: Colors.red.shade700.withOpacity(0.3),
+                            physics: const BouncingScrollPhysics(),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        //Continue button
+                        const ContinueButton(),
+
+                        const SizedBox(height: Constants.bottomInsetsLow),
+                      ],
                     ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  //Continue button
-                  const ContinueButton(),
-
-                  const SizedBox(height: Constants.bottomInsetsLow),
-                ],
+                  );
+                },
+                loading: _buildLoading,
+                error: (error, st) => _buildError(error, st, context),
               ),
-            ),
+            ],
           ),
-        );
-      },
-      loading: _buildLoading,
-      error: _buildError,
+        ),
+      ),
     );
   }
 
@@ -121,13 +138,19 @@ class TheaterScreen extends HookWidget {
         ),
       );
 
-  Widget _buildError(error, st) {
+  Widget _buildError(error, st, context) {
     if (error is NetworkException) {
-      return Text(error.message);
+      return CustomErrorWidget.dark(
+        error: error,
+        retryCallback: () {
+          context.refresh(showSeatingFuture);
+        },
+        height: MediaQuery.of(context).size.height * 0.5,
+      );
     }
     debugPrint(error.toString());
     debugPrint(st.toString());
-    return Text(error.toString());
+    return const SizedBox.shrink();
   }
 }
 
