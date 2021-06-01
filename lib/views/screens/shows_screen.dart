@@ -39,29 +39,38 @@ class ShowsScreen extends HookWidget {
 
             //Back and title
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 15),
-                GestureDetector(
-                  child: const Icon(Icons.arrow_back_sharp,size: 32),
+                InkResponse(
+                  radius: 25,
+                  child: const Icon(Icons.arrow_back_sharp,size: 26),
                   onTap: () {
                     context.router.pop();
                   },
                 ),
-                const SizedBox(width: 70),
+                const SizedBox(width: 20),
 
                 //Movie Title
-                Consumer(
-                  builder: (_, watch, __) {
-                    final title = watch(selectedMovieProvider).state.title;
-                    return Text(
-                      title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontSize: 30),
-                    );
-                  },
+                Expanded(
+                  child: Consumer(
+                    builder: (_, watch, __) {
+                      final title = watch(selectedMovieProvider).state.title;
+                      return Text(
+                        title,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3!
+                            .copyWith(fontSize: 22),
+                      );
+                    },
+                  ),
                 ),
+
+                const SizedBox(width: 20),
               ],
             ),
 
