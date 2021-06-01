@@ -13,28 +13,28 @@ class MoviesSkeletonLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return ShimmerLoader(
-      child: Container(
-        color: Constants.scaffoldGreyColor,
-        height: screenHeight,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            //Movie icon
-            const Expanded(
-              child: Icon(
-                Icons.movie_creation_rounded,
-                color: Constants.darkSkeletonColor,
-                size: 65,
-              ),
+    return Container(
+      color: Constants.scaffoldGreyColor,
+      height: screenHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          //Movie icon
+          const Expanded(
+            child: Icon(
+              Icons.movie_creation_rounded,
+              color: Constants.darkSkeletonColor,
+              size: 65,
             ),
+          ),
 
-            //Movie Carousel Skeleton
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                //Left container
-                Container(
+          //Movie Carousel Skeleton
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              //Left container
+              ShimmerLoader(
+                child: Container(
                   height: 0.62 * screenHeight,
                   width: 40,
                   decoration: const BoxDecoration(
@@ -54,11 +54,13 @@ class MoviesSkeletonLoader extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
 
-                const Spacer(),
+              const Spacer(),
 
-                //Center container
-                Container(
+              //Center container
+              ShimmerLoader(
+                child: Container(
                   height: 0.68 * screenHeight,
                   width: 235,
                   decoration: const BoxDecoration(
@@ -141,11 +143,13 @@ class MoviesSkeletonLoader extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
 
-                const Spacer(),
+              const Spacer(),
 
-                //Right Container
-                Container(
+              //Right Container
+              ShimmerLoader(
+                child: Container(
                   height: 0.62 * screenHeight,
                   width: 40,
                   decoration: const BoxDecoration(
@@ -165,10 +169,10 @@ class MoviesSkeletonLoader extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
