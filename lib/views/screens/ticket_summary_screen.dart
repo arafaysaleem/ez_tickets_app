@@ -32,7 +32,7 @@ class TicketSummaryScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(width: 90),
+                const SizedBox(width: 85),
 
                 //Movie Title
                 Text(
@@ -40,7 +40,7 @@ class TicketSummaryScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .headline5!
-                      .copyWith(fontSize: 18),
+                      .copyWith(fontSize: 20),
                 ),
 
                 const Spacer(),
@@ -55,7 +55,7 @@ class TicketSummaryScreen extends StatelessWidget {
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(9)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -66,8 +66,8 @@ class TicketSummaryScreen extends StatelessWidget {
                       decoration: const BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(9),
-                          topRight: Radius.circular(9),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
                         ),
                       ),
                     ),
@@ -158,8 +158,8 @@ class TicketSummaryScreen extends StatelessWidget {
                         itemBuilder: (_, i) => Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(9),
-                              bottomRight: Radius.circular(9),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
                             ),
                           ),
                           padding: const EdgeInsets.symmetric(
@@ -228,8 +228,8 @@ class TicketSummaryScreen extends StatelessWidget {
                       decoration: const BoxDecoration(
                         color: Constants.primaryColor,
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(9),
-                          bottomRight: Radius.circular(9),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
                         ),
                       ),
                       child: const Icon(
