@@ -31,11 +31,7 @@ class _SeatWidgetState extends State<SeatWidget> {
       isSelected = !isSelected;
     });
     final _theatersProvider = context.read(theatersProvider);
-    if (isSelected) {
-      _theatersProvider.selectSeat(widget.seat);
-    } else {
-      _theatersProvider.unSelectSeat(widget.seat);
-    }
+    _theatersProvider.toggleSeat(seat: widget.seat, select: isSelected);
   }
 
   @override

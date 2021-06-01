@@ -44,13 +44,13 @@ class TheatersProvider {
 
   TheatersProvider(this._theatersRepository);
 
-  void selectSeat(SeatModel seat){
-    _selectedSeats.add(seat);
+  void toggleSeat({required SeatModel seat, required bool select}){
+    if(select) {
+      _selectedSeats.add(seat);
+    } else {
+      _selectedSeats.remove(seat);
+    }
     print(_selectedSeats);
-  }
-
-  void unSelectSeat(SeatModel seat){
-    _selectedSeats.remove(seat);
   }
 
   Future<List<TheaterModel>> getAllTheaters({
