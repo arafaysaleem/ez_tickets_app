@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+//Helpers
 import '../../helper/utils/constants.dart';
+
+//Widgets
 import '../widgets/common/custom_text_button.dart';
+import '../widgets/ticket_summary/dashed_ticket_separator.dart';
 
 class TicketSummaryScreen extends StatelessWidget {
   const TicketSummaryScreen();
@@ -57,7 +61,7 @@ class TicketSummaryScreen extends StatelessWidget {
                   children: [
                     //Movie Picture
                     Container(
-                      height: 280,
+                      height: 255,
                       decoration: const BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.only(
@@ -143,121 +147,13 @@ class TicketSummaryScreen extends StatelessWidget {
                     ),
 
                     //Separator
-                    SizedBox(
-                      height: 20,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          //Dotted line
-                          Row(
-                            children: [
-                              for (int i = 0; i < 30; i++)
-                                const Expanded(
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 2),
-                                    child: Divider(
-                                      color: Colors.black,
-                                      height: 2,
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-
-                          //Left circle cut
-                          const Positioned(
-                            left: -25,
-                            child: SizedBox(
-                              height: 20,
-                              width: 50,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          //Right circle cut
-                          const Positioned(
-                            right: -25,
-                            child: SizedBox(
-                              height: 20,
-                              width: 50,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const DashedTicketSeparator(),
 
                     //Ticket details
                     Expanded(
                       child: ListView.separated(
-                        itemCount: 6,
-                        separatorBuilder: (_, i) => SizedBox(
-                          height: 20,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              //Dotted line
-                              Row(
-                                children: [
-                                  for (int i = 0; i < 30; i++)
-                                    const Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2),
-                                        child: Divider(
-                                          color: Colors.black,
-                                          height: 2,
-                                          thickness: 1.5,
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-
-                              //Left circle cut
-                              const Positioned(
-                                left: -25,
-                                child: SizedBox(
-                                  height: 20,
-                                  width: 50,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              //Right circle cut
-                              const Positioned(
-                                right: -25,
-                                child: SizedBox(
-                                  height: 20,
-                                  width: 50,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        itemCount: 15,
+                        separatorBuilder: (_, i) => const DashedTicketSeparator(),
                         itemBuilder: (_, i) => Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -274,7 +170,7 @@ class TicketSummaryScreen extends StatelessWidget {
                             children: [
                               //Seat icon
                               const Icon(
-                                Icons.event_seat,
+                                Icons.event_seat_sharp,
                                 color: Constants.primaryColor,
                               ),
 
@@ -322,6 +218,22 @@ class TicketSummaryScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                      ),
+                    ),
+
+                    //Expand icon
+                    Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Constants.primaryColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(9),
+                          bottomRight: Radius.circular(9),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.expand_more_sharp,
+                        color: Colors.white,
                       ),
                     ),
                   ],
