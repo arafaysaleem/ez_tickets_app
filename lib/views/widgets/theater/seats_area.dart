@@ -96,7 +96,7 @@ class SeatsArea extends StatelessWidget {
                     } else if (isBlocked(seat) || isBooked(seat)) {
                       return const DecoratedBox(
                         decoration: BoxDecoration(
-                          color: Color(0xFF424242),
+                          color: Color(0xFF5A5A5A),
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
                           ),

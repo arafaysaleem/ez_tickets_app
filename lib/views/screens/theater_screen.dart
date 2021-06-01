@@ -45,7 +45,7 @@ class TheaterScreen extends HookWidget {
               //Icons row
               const _BackIcon(),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
 
               //Theater details
               showSeatingModelFuture.when(
@@ -89,7 +89,7 @@ class TheaterScreen extends HookWidget {
 
                         //Selected Seats Chips
                         Padding(
-                          padding: const EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
                           child: CustomChipsList(
                             chipContents: const [
                               "A-13",
@@ -112,8 +112,6 @@ class TheaterScreen extends HookWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 20),
-
                         //Continue button
                         const ContinueButton(),
 
@@ -132,11 +130,13 @@ class TheaterScreen extends HookWidget {
     );
   }
 
-  Widget _buildLoading() => const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
-        ),
-      );
+  Widget _buildLoading() {
+    return const Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
+      ),
+    );
+  }
 
   Widget _buildError(error, st, context) {
     if (error is NetworkException) {
@@ -167,8 +167,10 @@ class _BackIcon extends StatelessWidget {
           context.router.pop();
         },
         child: const DecoratedBox(
-          decoration:
-              BoxDecoration(color: Colors.white30, shape: BoxShape.circle),
+          decoration: BoxDecoration(
+            color: Colors.white30,
+            shape: BoxShape.circle,
+          ),
           child: Padding(
             padding: EdgeInsets.all(5),
             child: Icon(Icons.arrow_back_rounded, size: 23),

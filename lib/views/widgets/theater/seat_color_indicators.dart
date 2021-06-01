@@ -15,7 +15,7 @@ class SeatColorIndicators extends StatelessWidget {
 
   static const _indicators = [
     _Indicator("Available", Colors.white),
-    _Indicator("Taken", Color(0xFF424242)),
+    _Indicator("Taken", Color(0xFF5A5A5A)),
     _Indicator("Selected", Constants.redColor),
   ];
 
@@ -26,14 +26,14 @@ class SeatColorIndicators extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          for(var indicator in _indicators)
+          for (var indicator in _indicators)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 //Color indicator circle
                 SizedBox(
-                  height: 12,
-                  width: 12,
+                  height: 9,
+                  width: 9,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: indicator.color,
