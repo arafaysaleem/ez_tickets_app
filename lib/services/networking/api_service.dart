@@ -3,9 +3,14 @@ import 'package:dio/dio.dart';
 import 'api_interface.dart';
 import 'dio_service.dart';
 
+/// A service class implementing methods for basic API requests.
 class ApiService implements ApiInterface{
+
+  /// An instance of [DioService] for network requests
   late final DioService _dioService;
 
+  /// A public constructor that is used to initialize the API service
+  /// with [BaseOptions] and setup the underlying [_dioService].
   ApiService() {
     final options = BaseOptions(
       baseUrl: "https://ez-tickets-backend.herokuapp.com/api/v1",
@@ -15,6 +20,23 @@ class ApiService implements ApiInterface{
     );
   }
 
+  /// An implementation of the base method for requesting collection of data
+  /// from the [endpoint].
+  /// The response body must be a [List], else the [converter] fails.
+  ///
+  /// The [converter] callback is used to **deserialize** the response body
+  /// into a [List] of objects of type [T].
+  /// The callback is executed on each member of the response `body` List.
+  /// [T] is usually set to a `Model`.
+  ///
+  /// [queryParams] holds any query parameters for the request.
+  ///
+  /// [cancelToken] is used to cancel the request pre-maturely. If null,
+  /// the **default** [cancelToken] inside [DioService] is used.
+  ///
+  /// [requiresAuthToken] is used to decide if a token will be inserted
+  /// in the **headers** of the request using an [ApiInterceptor].
+  /// The default value is `true`.
   @override
   Future<List<T>> getCollectionData<T>({
     required String endpoint,
@@ -38,6 +60,23 @@ class ApiService implements ApiInterface{
     return body.map((dataMap) => converter(dataMap)).toList();
   }
 
+  /// An implementation of the base method for requesting a document of data
+  /// from the [endpoint].
+  /// The response body must be a [Map], else the [converter] fails.
+  ///
+  /// The [converter] callback is used to **deserialize** the response body
+  /// into an object of type [T].
+  /// The callback is executed on the response `body`.
+  /// [T] is usually set to a `Model`.
+  ///
+  /// [queryParams] holds any query parameters for the request.
+  ///
+  /// [cancelToken] is used to cancel the request pre-maturely. If null,
+  /// the **default** [cancelToken] inside [DioService] is used.
+  ///
+  /// [requiresAuthToken] is used to decide if a token will be inserted
+  /// in the **headers** of the request using an [ApiInterceptor].
+  /// The default value is `true`.
   @override
   Future<T> getDocumentData<T>({
     required String endpoint,
@@ -58,6 +97,22 @@ class ApiService implements ApiInterface{
     return converter(data['body']);
   }
 
+  /// An implementation of the base method for inserting [data] at
+  /// the [endpoint].
+  /// The response body must be a [Map], else the [converter] fails.
+  ///
+  /// The [data] contains body for the request.
+  ///
+  /// The [converter] callback is used to **deserialize** the response body
+  /// into an object of type [T].
+  /// The callback is executed on the response `body`.
+  ///
+  /// [cancelToken] is used to cancel the request pre-maturely. If null,
+  /// the **default** [cancelToken] inside [DioService] is used.
+  ///
+  /// [requiresAuthToken] is used to decide if a token will be inserted
+  /// in the **headers** of the request using an [ApiInterceptor].
+  /// The default value is `true`.
   @override
   Future<T> setData<T>({
     required String endpoint,
@@ -77,6 +132,22 @@ class ApiService implements ApiInterface{
     return converter(dataMap);
   }
 
+  /// An implementation of the base method for updating [data]
+  /// at the [endpoint].
+  /// The response body must be a [Map], else the [converter] fails.
+  ///
+  /// The [data] contains body for the request.
+  ///
+  /// The [converter] callback is used to **deserialize** the response body
+  /// into an object of type [T].
+  /// The callback is executed on the response `body`.
+  ///
+  /// [cancelToken] is used to cancel the request pre-maturely. If null,
+  /// the **default** [cancelToken] inside [DioService] is used.
+  ///
+  /// [requiresAuthToken] is used to decide if a token will be inserted
+  /// in the **headers** of the request using an [ApiInterceptor].
+  /// The default value is `true`.
   @override
   Future<T> updateData<T>({
     required String endpoint,
@@ -96,6 +167,22 @@ class ApiService implements ApiInterface{
     return converter(dataMap);
   }
 
+  /// An implementation of the base method for deleting [data]
+  /// at the [endpoint].
+  /// The response body must be a [Map], else the [converter] fails.
+  ///
+  /// The [data] contains body for the request.
+  ///
+  /// The [converter] callback is used to **deserialize** the response body
+  /// into an object of type [T].
+  /// The callback is executed on the response `body`.
+  ///
+  /// [cancelToken] is used to cancel the request pre-maturely. If null,
+  /// the **default** [cancelToken] inside [DioService] is used.
+  ///
+  /// [requiresAuthToken] is used to decide if a token will be inserted
+  /// in the **headers** of the request using an [ApiInterceptor].
+  /// The default value is `true`.
   @override
   Future<T> deleteData<T>({
     required String endpoint,
@@ -115,6 +202,10 @@ class ApiService implements ApiInterface{
     return converter(dataMap);
   }
 
+  /// An implementation of the base method for cancelling
+  /// requests pre-maturely using the [cancelToken].
+  ///
+  /// If null, the **default** [cancelToken] inside [DioService] is used.
   @override
   void cancelRequests({CancelToken? cancelToken}){
     _dioService.cancelRequests(cancelToken: cancelToken);

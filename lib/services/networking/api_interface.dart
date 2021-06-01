@@ -11,6 +11,7 @@ abstract class ApiInterface {
   const ApiInterface();
 
   /// Base method for requesting collection of data from the [endpoint].
+  ///
   /// The response is **deserialized** into a List of model objects of type [T],
   /// using the [converter] callback.
   ///
@@ -30,6 +31,7 @@ abstract class ApiInterface {
   });
 
   /// Base method for requesting a document of data from the [endpoint].
+  ///
   /// The response is deserialized into a single model objects of type [T],
   /// using the [converter] callback.
   ///
@@ -49,6 +51,9 @@ abstract class ApiInterface {
   });
 
   /// Base method for inserting [data] at the [endpoint].
+  ///
+  /// The [data] contains body for the request.
+  ///
   /// The response is deserialized into an object of type [T],
   /// using the [converter] callback.
   ///
@@ -66,8 +71,11 @@ abstract class ApiInterface {
   });
 
   /// Base method for updating [data] at the [endpoint].
+  ///
   /// The response is deserialized into an object of type [T],
   /// using the [converter] callback.
+  ///
+  /// The [data] contains body for the request.
   ///
   /// [cancelToken] is used to cancel the request pre-maturely. If null,
   /// the **default** [cancelToken] inside [DioService] is used.
@@ -83,8 +91,11 @@ abstract class ApiInterface {
   });
 
   /// Base method for deleting [data] at the [endpoint].
+  ///
   /// The response is deserialized into an object of type [T],
   /// using the [converter] callback.
+  ///
+  /// The [data] contains body for the request.
   ///
   /// [cancelToken] is used to cancel the request pre-maturely. If null,
   /// the **default** [cancelToken] inside [DioService] is used.
