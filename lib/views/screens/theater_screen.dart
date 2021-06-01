@@ -13,9 +13,10 @@ import '../../providers/theaters_provider.dart';
 import '../../services/networking/network_exception.dart';
 
 //Widgets
+import '../widgets/common/custom_chips_list.dart';
 import '../widgets/theater/curved_screen.dart';
-import '../widgets/theater/seat_color_indicators.dart';
 import '../widgets/theater/seats_area.dart';
+import '../widgets/theater/seat_color_indicators.dart';
 import '../widgets/theater/continue_button.dart';
 
 class TheaterScreen extends HookWidget {
@@ -32,7 +33,7 @@ class TheaterScreen extends HookWidget {
       data: (showSeatingModel) {
         final theater = showSeatingModel.theater;
         final minScreenWidth = MediaQuery.of(context).size.width;
-        var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap) + 20; //for right pad
+        var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
         if (screenWidth < minScreenWidth) screenWidth = minScreenWidth;
         late final screenScrollController = useScrollController();
         return Scaffold(
@@ -79,6 +80,26 @@ class TheaterScreen extends HookWidget {
 
                   const Spacer(),
 
+                  //Selected Seats Chips
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: CustomChipsList(
+                      chipContents: const ["A-13", "B-5", "D-3", "A-13", "B-5", "D-3"],
+                      chipHeight: 27,
+                      chipGap: 10,
+                      fontSize: 14,
+                      chipWidth: 60,
+                      borderColor: Constants.orangeColor,
+                      contentColor: Constants.orangeColor,
+                      borderWidth: 1.5,
+                      fontWeight: FontWeight.bold,
+                      backgroundColor: Colors.red.shade700.withOpacity(0.3),
+                      physics: const BouncingScrollPhysics(),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
                   //Continue button
                   const ContinueButton(),
 
@@ -95,19 +116,19 @@ class TheaterScreen extends HookWidget {
   }
 
   Widget _buildLoading() => const Center(
-    child: CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
-    ),
-  );
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
+        ),
+      );
 
-  Widget _buildError(error,st) {
-      if (error is NetworkException) {
-        return Text(error.message);
-      }
-      debugPrint(error.toString());
-      debugPrint(st.toString());
-      return Text(error.toString());
+  Widget _buildError(error, st) {
+    if (error is NetworkException) {
+      return Text(error.message);
     }
+    debugPrint(error.toString());
+    debugPrint(st.toString());
+    return Text(error.toString());
+  }
 }
 
 class _BackIcon extends StatelessWidget {
@@ -123,10 +144,8 @@ class _BackIcon extends StatelessWidget {
           context.router.pop();
         },
         child: const DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.white30,
-            shape: BoxShape.circle
-          ),
+          decoration:
+              BoxDecoration(color: Colors.white30, shape: BoxShape.circle),
           child: Padding(
             padding: EdgeInsets.all(5),
             child: Icon(Icons.arrow_back_rounded, size: 23),
