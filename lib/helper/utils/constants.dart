@@ -99,6 +99,9 @@ class Constants {
   /// Used to prevent overlapping of android navigation with the button.
   static const double bottomInsetsLow = 45;
 
+  /// The max number of rows a theater can contain
+  static const int maxSeatRows = 12;
+
   /// The regular expression for validating emails in the app.
   static RegExp emailRegex = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z\.]+\.(com|pk)+",

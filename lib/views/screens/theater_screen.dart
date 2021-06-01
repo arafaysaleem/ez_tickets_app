@@ -21,7 +21,6 @@ import '../widgets/theater/continue_button.dart';
 class TheaterScreen extends HookWidget {
   const TheaterScreen();
 
-  static const _maxRows = 13;
   static const _seatSize = 28.0;
   static const _seatGap = 7.0;
   static const _maxGridHeight = 430.0;
@@ -64,7 +63,7 @@ class TheaterScreen extends HookWidget {
                     maxGridHeight: _maxGridHeight,
                     seatSize: _seatSize,
                     seatGap: _seatGap,
-                    maxRows: _maxRows,
+                    maxRows: Constants.maxSeatRows,
                     numOfRows: theater.numOfRows,
                     seatsPerRow: theater.seatsPerRow,
                     missing: theater.missing,
