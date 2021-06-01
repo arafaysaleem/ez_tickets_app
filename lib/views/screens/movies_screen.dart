@@ -48,83 +48,87 @@ class MoviesScreen extends HookWidget {
     final movies = useProvider(moviesFuture(null));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: movies.when(
-        data: (movies) {
-          final backgroundImageController = usePageController(
-            initialPage: movies.length ~/ 2,
-          );
-          return SizedBox.expand(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                //page controller bg
-                Positioned.fill(
-                  child: MovieBackdropView(
-                    backgroundImageController: backgroundImageController,
-                    movies: movies,
-                  ),
-                ),
-
-                //Top black overlay
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 110,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: Constants.blackOverlayGradient,
-                    ),
-                  ),
-                ),
-
-                //White gradient
-                Positioned.fill(
-                  top: screenHeight * 0.40,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: Constants.movieCarouselGradient,
-                    ),
-                  ),
-                ),
-
-                //Movies Carousel
-                Positioned(
-                  bottom: -50,
-                  top: screenHeight * 0.27,
-                  child: MoviesCarousel(
-                    backgroundImageController: backgroundImageController,
-                    movies: movies,
-                  ),
-                ),
-
-                //Icons row
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: MoviesIconsRow(),
-                )
-              ],
-            ),
-          );
-        },
-        loading: () => const MoviesSkeletonLoader(),
-        error: (error, st) {
-          if (error is NetworkException) {
-            return CustomErrorWidget.dark(
-              error: error,
-              retryCallback: () {
-                context.refresh(moviesFuture(null));
-              },
-              height: screenHeight * 0.5,
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 550),
+        switchOutCurve: Curves.easeInBack,
+        child: movies.when(
+          data: (movies) {
+            final backgroundImageController = usePageController(
+              initialPage: movies.length ~/ 2,
             );
-          }
-          context.read(authProvider.notifier).logout();
-          context.router.popUntilRoot();
-          debugPrint(error.toString());
-          debugPrint(st.toString());
-        },
+            return SizedBox.expand(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  //page controller bg
+                  Positioned.fill(
+                    child: MovieBackdropView(
+                      backgroundImageController: backgroundImageController,
+                      movies: movies,
+                    ),
+                  ),
+
+                  //Top black overlay
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 110,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: Constants.blackOverlayGradient,
+                      ),
+                    ),
+                  ),
+
+                  //White gradient
+                  Positioned.fill(
+                    top: screenHeight * 0.40,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: Constants.movieCarouselGradient,
+                      ),
+                    ),
+                  ),
+
+                  //Movies Carousel
+                  Positioned(
+                    bottom: -50,
+                    top: screenHeight * 0.27,
+                    child: MoviesCarousel(
+                      backgroundImageController: backgroundImageController,
+                      movies: movies,
+                    ),
+                  ),
+
+                  //Icons row
+                  const Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: MoviesIconsRow(),
+                  )
+                ],
+              ),
+            );
+          },
+          loading: () => const MoviesSkeletonLoader(),
+          error: (error, st) {
+            if (error is NetworkException) {
+              return CustomErrorWidget.dark(
+                error: error,
+                retryCallback: () {
+                  context.refresh(moviesFuture(null));
+                },
+                height: screenHeight * 0.5,
+              );
+            }
+            context.read(authProvider.notifier).logout();
+            context.router.popUntilRoot();
+            debugPrint(error.toString());
+            debugPrint(st.toString());
+          },
+        ),
       ),
     );
   }
