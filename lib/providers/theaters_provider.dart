@@ -16,7 +16,7 @@ import '../services/repositories/theaters_repository.dart';
 import 'shows_provider.dart';
 import 'all_providers.dart';
 
-final showSeatingFuture = FutureProvider.autoDispose<ShowSeatingModel>((ref) async {
+final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   final _selectedShowTime = ref.watch(selectedShowTimeProvider).state;
 
   final _theatersProvider = ref.watch(theatersProvider);
@@ -26,8 +26,6 @@ final showSeatingFuture = FutureProvider.autoDispose<ShowSeatingModel>((ref) asy
   final _bookingsProvider = ref.watch(bookingsProvider);
   final _showId = _selectedShowTime.showId;
   final bookedSeats = await _bookingsProvider.getShowBookedSeats(showId: _showId);
-
-  //create and return a ShowSeatingModel
 
   return ShowSeatingModel(
     showTime: _selectedShowTime,
