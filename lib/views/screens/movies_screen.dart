@@ -24,6 +24,9 @@ import '../widgets/movies/movie_backdrop_view.dart';
 import '../widgets/movies/movie_carousel.dart';
 import '../widgets/movies/movie_icons_row.dart';
 
+//Skeletons
+import '../skeletons/movies_skeleton_loader.dart';
+
 final moviesFuture = FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
   (ref, movieType) async {
     final _moviesProvider = ref.watch(moviesProvider);
@@ -106,12 +109,7 @@ class MoviesScreen extends HookWidget {
             ),
           );
         },
-        //TODO: Add skeleton loader
-        loading: () => const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
-          ),
-        ),
+        loading: () => const MoviesSkeletonLoader(),
         error: (error, st) {
           if (error is NetworkException) {
             return CustomErrorWidget.dark(
