@@ -3,16 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//Enums
-import '../../enums/movie_type_enum.dart';
-
 //Helper
 import '../../helper/utils/constants.dart';
 
-//Models
-import '../../models/movie_model.dart';
-
 //Providers
+import '../../providers/movies_provider.dart';
 import '../../providers/all_providers.dart';
 
 //Services
@@ -26,18 +21,6 @@ import '../widgets/movies/movie_icons_row.dart';
 
 //Skeletons
 import '../skeletons/movies_skeleton_loader.dart';
-
-final moviesFuture = FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
-  (ref, movieType) async {
-    final _moviesProvider = ref.watch(moviesProvider);
-
-    final moviesList = await _moviesProvider.getAllMovies(
-      movieType: movieType,
-    );
-
-    return moviesList;
-  },
-);
 
 class MoviesScreen extends HookWidget {
   const MoviesScreen();

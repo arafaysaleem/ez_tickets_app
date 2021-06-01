@@ -1,5 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Providers
+import 'all_providers.dart';
+
 //Services
 import '../services/repositories/movies_repository.dart';
 
@@ -10,6 +13,18 @@ import '../enums/movie_type_enum.dart';
 import '../models/genre_model.dart';
 import '../models/movie_model.dart';
 import '../models/movie_role_model.dart';
+
+final moviesFuture = FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
+  (ref, movieType) async {
+    final _moviesProvider = ref.watch(moviesProvider);
+
+    final moviesList = await _moviesProvider.getAllMovies(
+      movieType: movieType,
+    );
+
+    return moviesList;
+  },
+);
 
 final selectedMovieProvider = StateProvider<MovieModel>((ref) {
   return MovieModel.initial();
