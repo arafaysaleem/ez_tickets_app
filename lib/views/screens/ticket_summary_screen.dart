@@ -24,7 +24,8 @@ class TicketSummaryScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 15),
-                GestureDetector(
+                InkResponse(
+                  radius: 25,
                   child: const Icon(Icons.arrow_back_sharp, size: 26),
                   onTap: () {
                     context.router.pop();

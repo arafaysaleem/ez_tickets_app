@@ -102,6 +102,7 @@ class MovieDetailsScreen extends HookWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 4),
               child: IconButton(
+                splashRadius: 25,
                 icon: const Icon(Icons.close_rounded, size: 25),
                 padding: const EdgeInsets.all(0),
                 onPressed: () {
