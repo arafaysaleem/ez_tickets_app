@@ -20,6 +20,12 @@ class Constants {
   /// The color value for rating stars in the app.
   static const Color starsColor = Color(0xFFf78040);
 
+  /// The color value for dark grey skeleton containers in the app.
+  static const Color darkSkeletonColor = Color(0xFF656565);
+
+  /// The color value for light grey skeleton containers in the app.
+  static const Color lightSkeletonColor = Colors.grey;
+
   /// The red [LinearGradient] for buttons in the app.
   static const Gradient buttonGradientRed = LinearGradient(
     colors: [primaryColor, redColor],
