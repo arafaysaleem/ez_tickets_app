@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../providers/movies_provider.dart';
 
 //Widgets
-import '../common/genre_chips.dart';
+import '../common/custom_chips_list.dart';
 import '../common/ratings.dart';
 
 class MovieDetailsColumn extends HookWidget {
@@ -32,7 +32,11 @@ class MovieDetailsColumn extends HookWidget {
         //Genres
         SizedBox(
           width: 200,
-          child: GenreChips(genres: movie.genreNames),
+          child: CustomChipsList(
+            chipHeight: 26,
+            chipGap: 9,
+            chipContents: movie.genreNames.sublist(0, 3),
+          ),
         ),
 
         const SizedBox(height: 15),

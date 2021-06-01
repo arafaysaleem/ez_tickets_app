@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../models/movie_model.dart';
 
 //Widgets
-import '../common/genre_chips.dart';
+import '../common/custom_chips_list.dart';
 import '../common/ratings.dart';
 
 class MovieOverviewColumn extends StatelessWidget {
@@ -32,7 +32,11 @@ class MovieOverviewColumn extends StatelessWidget {
         const SizedBox(height: 10),
 
         //Genres
-        GenreChips(genres: movie.genreNames),
+        CustomChipsList(
+          chipHeight: 26,
+          chipGap: 9,
+          chipContents: movie.genreNames.sublist(0, 3),
+        ),
 
         const SizedBox(height: 12),
 
@@ -54,4 +58,3 @@ class MovieOverviewColumn extends StatelessWidget {
     );
   }
 }
-
