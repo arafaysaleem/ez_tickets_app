@@ -34,7 +34,7 @@ class TicketSummaryScreen extends StatelessWidget {
 
                 const SizedBox(width: 85),
 
-                //Movie Title
+                //Title
                 Text(
                   'Your tickets',
                   style: Theme.of(context)
@@ -61,6 +61,7 @@ class TicketSummaryScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     //Movie Picture
+                    //TODO: Load movie details from provider
                     Container(
                       height: 255,
                       decoration: const BoxDecoration(
@@ -73,6 +74,7 @@ class TicketSummaryScreen extends StatelessWidget {
                     ),
 
                     //Show details
+                    //TODO: Load show details from provider
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 25,
@@ -151,6 +153,7 @@ class TicketSummaryScreen extends StatelessWidget {
                     const DashedTicketSeparator(),
 
                     //Ticket details
+                    //TODO: Load seats details from provider
                     Expanded(
                       child: ListView.separated(
                         itemCount: 15,
@@ -249,7 +252,9 @@ class TicketSummaryScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: CustomTextButton.gradient(
                 width: double.infinity,
-                onPressed: () {},
+                onPressed: () {
+                  //TODO: Make bookings for these tickets
+                },
                 gradient: Constants.buttonGradientOrange,
                 child: const Center(
                   child: Text(

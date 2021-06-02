@@ -17,7 +17,7 @@ import '../../services/networking/network_exception.dart';
 //Widgets
 import '../widgets/common/custom_chips_list.dart';
 import '../widgets/common/custom_error_widget.dart';
-import '../widgets/theater/continue_button.dart';
+import '../widgets/theater/purchase_seats_button.dart';
 import '../widgets/theater/curved_screen.dart';
 import '../widgets/theater/seat_color_indicators.dart';
 import '../widgets/theater/seats_area.dart';
@@ -94,6 +94,7 @@ class TheaterScreen extends HookWidget {
                           const Spacer(),
 
                           //Selected Seats Chips
+                          //TODO: Use consumer,load & pass the selected seat list
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
                             child: CustomChipsList(
@@ -118,8 +119,8 @@ class TheaterScreen extends HookWidget {
                             ),
                           ),
 
-                          //Continue button
-                          const ContinueButton(),
+                          //Purchase seats button
+                          const PurchaseSeatsButton(),
 
                           const SizedBox(height: Constants.bottomInsetsLow),
                         ],
