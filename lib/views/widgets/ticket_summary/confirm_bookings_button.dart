@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+
+//Routes
+import "../../../routes/app_router.gr.dart";
 
 //Widgets
 import '../common/custom_text_button.dart';
@@ -16,7 +20,7 @@ class ConfirmBookingsButton extends StatelessWidget {
       child: CustomTextButton.gradient(
         width: double.infinity,
         onPressed: () {
-          //TODO: Make bookings for these tickets
+          context.router.push(const PaymentScreenRoute());
         },
         gradient: Constants.buttonGradientOrange,
         child: const Center(
