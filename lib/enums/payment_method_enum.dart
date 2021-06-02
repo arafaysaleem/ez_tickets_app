@@ -1,4 +1,19 @@
-//TODO: Add these constant values to enum
-// Cash: "cash",
-// Card: "card",
-// COD: "cod"
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+// ignore_for_file: constant_identifier_names
+
+import '../helper/extensions/string_extension.dart';
+
+/// A collection of payment methods that a user can choose.
+enum PaymentMethod {
+@JsonValue("cash") CASH,
+@JsonValue("cod") COD,
+@JsonValue("card") CARD,
+}
+
+/// A utility with extensions for enum name and serialized value.
+extension ExtRoleType on PaymentMethod {
+  String get name => describeEnum(this);
+  String get toJson => name.toLowerCase();
+  String get inString => name.capitalize;
+}
