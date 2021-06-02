@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 /// A utility class that holds constants for assets strings.
 /// This class has no constructor and all variables are `static`.

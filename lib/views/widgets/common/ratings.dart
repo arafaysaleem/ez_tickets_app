@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+//Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 class Ratings extends StatelessWidget {
   final double rating;
@@ -26,7 +28,7 @@ class Ratings extends StatelessWidget {
         //Rating number
         Text(
           rating.toString(),
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+          style: context.bodyText2.copyWith(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),

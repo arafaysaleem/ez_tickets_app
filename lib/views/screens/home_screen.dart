@@ -5,6 +5,7 @@ import '../../helper/utils/assets_helper.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Routes
 import '../../routes/app_router.gr.dart';
@@ -17,8 +18,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -29,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             //Heading text
             Text(
               "EZ Tickets",
-              style: textTheme.headline1!.copyWith(color: Constants.primaryColor),
+              style: context.headline1.copyWith(color: Constants.primaryColor),
             ),
 
             const SizedBox(height: 35),
@@ -37,15 +36,15 @@ class HomeScreen extends StatelessWidget {
             //Welcome msg
             Text(
               "Welcome to\nthe new\nNueplex cinemas",
-              style: textTheme.headline3!,
+              style: context.headline3,
             ),
 
             const SizedBox(height: 40),
 
-            //experience msg
+            //Experience msg
             Text(
               "New level of features\nwith the new app",
-              style: textTheme.headline5!.copyWith(
+              style: context.headline5.copyWith(
                 color: Constants.textGreyColor,
                 fontWeight: FontWeight.w400,
                 fontSize: 21,

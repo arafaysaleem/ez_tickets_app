@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Helpers
+import '../../../helper/extensions/context_extensions.dart';
+
 //Providers
 import '../../../providers/movies_provider.dart';
 
@@ -14,14 +17,13 @@ class MovieDetailsColumn extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final movie = useProvider(selectedMovieProvider).state;
     return Column(
       children: [
         //Title
         Text(
           movie.title,
-          style: textTheme.headline2!.copyWith(
+          style: context.headline2.copyWith(
             color: Colors.black,
             fontSize: 26,
           ),
@@ -49,7 +51,7 @@ class MovieDetailsColumn extends HookWidget {
         //Year
         Text(
           "${movie.year}",
-          style: textTheme.headline4!.copyWith(
+          style: context.headline4.copyWith(
             color: Colors.black,
             fontSize: 14,
           ),

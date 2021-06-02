@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+//Helpers
+import '../../helper/extensions/context_extensions.dart';
+
 //Widgets
 import '../widgets/ticket_summary/confirm_bookings_button.dart';
 import '../widgets/ticket_summary/tickets_summary_box.dart';
@@ -57,9 +60,8 @@ class _BackIconRow extends StatelessWidget {
         //Title
         Text(
           'Your tickets',
-          style: Theme.of(context)
-              .textTheme
-              .headline5!
+          style: context
+              .headline5
               .copyWith(fontSize: 20),
         ),
 

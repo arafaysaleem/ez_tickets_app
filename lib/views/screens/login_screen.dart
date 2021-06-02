@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //Helpers
 import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -28,8 +29,6 @@ class LoginScreen extends HookWidget {
     final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
@@ -62,7 +61,7 @@ class LoginScreen extends HookWidget {
                     //Page name
                     Text(
                       "Login",
-                      style: textTheme.headline3!.copyWith(
+                      style: context.headline3.copyWith(
                         color: Colors.white,
                         fontSize: 32,
                       ),

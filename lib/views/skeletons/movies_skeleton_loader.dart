@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Widgets
 import '../widgets/common/shimmer_loader.dart';
@@ -12,7 +12,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = context.screenHeight;
     return Container(
       color: Constants.scaffoldGreyColor,
       height: screenHeight,

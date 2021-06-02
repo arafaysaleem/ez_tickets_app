@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Widgets
 import '../widgets/common/shimmer_loader.dart';
@@ -12,7 +12,7 @@ class ShowsSkeletonLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = context.textTheme;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

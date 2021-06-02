@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../../providers/movies_provider.dart';
@@ -17,8 +18,8 @@ class TicketsSummaryBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return             SizedBox(
-      height: MediaQuery.of(context).size.height * 0.72,
+    return SizedBox(
+      height: context.screenHeight * 0.72,
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -29,7 +30,7 @@ class TicketsSummaryBox extends StatelessWidget {
           children: [
             //Movie Picture
             Consumer(
-              builder: (ctx,watch,_) {
+              builder: (ctx, watch, _) {
                 final _selectedMovie = watch(selectedMovieProvider).state;
                 return Container(
                   height: 255,

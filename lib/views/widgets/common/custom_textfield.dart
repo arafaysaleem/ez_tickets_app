@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+//Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 class CustomTextField extends StatefulWidget {
   final String floatingText, hintText;
@@ -81,15 +83,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Floating text
         Text(
           widget.floatingText,
-          style: textTheme.bodyText1!.copyWith(
+          style: context.bodyText1.copyWith(
             color: Constants.textGreyColor,
             fontSize: 17,
           ),
@@ -126,7 +126,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               border: _normalBorder(),
               focusedBorder: _focusedBorder(),
               focusedErrorBorder: _focusedBorder(),
-              fillColor: theme.scaffoldBackgroundColor,
+              fillColor: context.theme.scaffoldBackgroundColor,
               filled: true,
               prefixIcon: widget.prefix,
               suffixIcon: isPasswordField
@@ -155,7 +155,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             alignment: widget.errorTextAlign,
             child: Text(
               errorText!,
-              style: textTheme.bodyText1!.copyWith(
+              style: context.bodyText1.copyWith(
                 fontSize: 16,
                 color: Constants.primaryColor,
               ),

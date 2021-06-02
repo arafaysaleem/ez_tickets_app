@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/movies_provider.dart';
@@ -27,7 +28,7 @@ class MoviesScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = context.screenHeight;
     final movies = useProvider(moviesFuture(null));
     return Scaffold(
       resizeToAvoidBottomInset: false,

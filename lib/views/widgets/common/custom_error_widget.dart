@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-//Constants
+//Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Services
 import '../../../services/networking/network_exception.dart';
@@ -36,7 +37,7 @@ class CustomErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = context.textTheme;
     return Center(
       child: Container(
         decoration: BoxDecoration(

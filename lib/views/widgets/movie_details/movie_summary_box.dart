@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../../providers/movies_provider.dart';
@@ -13,7 +14,6 @@ class MovieSummaryBox extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final movie = useProvider(selectedMovieProvider).state;
     return Column(
       children: [
@@ -24,7 +24,7 @@ class MovieSummaryBox extends HookWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               "Introduction",
-              style: textTheme.headline2!.copyWith(
+              style: context.headline2.copyWith(
                 color: Colors.black,
                 fontSize: 17,
               ),
@@ -37,7 +37,7 @@ class MovieSummaryBox extends HookWidget {
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
           child: Text(
             movie.summary,
-            style: textTheme.bodyText2!.copyWith(
+            style: context.bodyText2.copyWith(
               fontSize: 13,
               height: 1.4,
               color: Constants.textGreyColor,

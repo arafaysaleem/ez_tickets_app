@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/movies_provider.dart';
@@ -81,7 +82,7 @@ class MovieDetailsScreen extends HookWidget {
               child: Center(
                 child: Text(
                   "VIEW SHOWS",
-                  style: Theme.of(context).textTheme.headline1!.copyWith(
+                  style: context.headline1.copyWith(
                         color: Colors.white,
                         fontSize: 15,
                         letterSpacing: 0.7,

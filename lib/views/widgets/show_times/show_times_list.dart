@@ -8,6 +8,7 @@ import '../../../providers/shows_provider.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 class ShowTimesList extends StatefulHookWidget {
   const ShowTimesList();
@@ -77,7 +78,6 @@ class _ShowTimeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -93,7 +93,7 @@ class _ShowTimeItem extends StatelessWidget {
           child: Text(
             time,
             textAlign: TextAlign.center,
-            style: textTheme.headline3!.copyWith(
+            style: context.headline3.copyWith(
               color: Colors.white,
               fontSize: 14,
             ),

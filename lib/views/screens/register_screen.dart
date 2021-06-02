@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/assets_helper.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -136,8 +137,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
     final cPasswordController = useTextEditingController(text: "");
@@ -191,7 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     //Page name
                     Text(
                       "Register",
-                      style: textTheme.headline3!.copyWith(
+                      style: context.headline3.copyWith(
                         color: Colors.white,
                         fontSize: 32,
                       ),

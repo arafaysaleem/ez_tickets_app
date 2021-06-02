@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Widgets
 import '../widgets/common/shimmer_loader.dart';
@@ -17,7 +17,7 @@ class TheaterSkeletonLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.height;
+    var screenWidth = context.screenWidth;
     return ShimmerLoader(
       child: Column(
         children: [

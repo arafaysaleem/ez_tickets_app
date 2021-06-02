@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/movies_provider.dart';
@@ -32,8 +33,7 @@ class ShowsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final showList = useProvider(showsFutureProvider);
-    final screenHeight = MediaQuery.of(context).size.height;
-    final textTheme = Theme.of(context).textTheme;
+    final screenHeight = context.screenHeight;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -64,10 +64,7 @@ class ShowsScreen extends HookWidget {
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3!
-                            .copyWith(fontSize: 22),
+                        style: context.headline3.copyWith(fontSize: 22),
                       );
                     },
                   ),
@@ -90,7 +87,7 @@ class ShowsScreen extends HookWidget {
                       //Date Title
                       Text(
                         "Select a date",
-                        style: textTheme.headline5!.copyWith(
+                        style: context.headline5.copyWith(
                           height: 1,
                           color: Constants.textGreyColor,
                           fontSize: 20,
@@ -119,7 +116,7 @@ class ShowsScreen extends HookWidget {
                       //Time Title
                       Text(
                         "Select a time",
-                        style: textTheme.headline5!.copyWith(
+                        style: context.headline5.copyWith(
                           height: 1,
                           color: Constants.textGreyColor,
                           fontSize: 20,
@@ -148,7 +145,7 @@ class ShowsScreen extends HookWidget {
                       //Seats details title
                       Text(
                         "Show details",
-                        style: textTheme.headline5!.copyWith(
+                        style: context.headline5.copyWith(
                           height: 1,
                           color: Constants.textGreyColor,
                           fontSize: 20,

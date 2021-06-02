@@ -7,6 +7,7 @@ import '../../../enums/role_type_enum.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Models
 import '../../../models/movie_role_model.dart';
@@ -53,7 +54,6 @@ class MovieActorsList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final movieId = useProvider(selectedMovieProvider.select((value) {
       return value.state.movieId;
     }));
@@ -67,7 +67,7 @@ class MovieActorsList extends HookWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               "Cast And Crew",
-              style: textTheme.headline2!.copyWith(
+              style: context.headline2.copyWith(
                 color: Colors.black,
                 fontSize: 17,
               ),
@@ -132,7 +132,6 @@ class _ActorListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
         //Image
@@ -152,7 +151,7 @@ class _ActorListItem extends StatelessWidget {
         Expanded(
           child: Text(
             fullName,
-            style: textTheme.headline4!.copyWith(
+            style: context.headline4.copyWith(
               color: Colors.black,
               fontSize: 14,
             ),
@@ -167,7 +166,7 @@ class _ActorListItem extends StatelessWidget {
         Expanded(
           child: Text(
             roleType,
-            style: textTheme.headline4!.copyWith(
+            style: context.headline4.copyWith(
               color: Constants.textGreyColor,
               fontSize: 12,
             ),

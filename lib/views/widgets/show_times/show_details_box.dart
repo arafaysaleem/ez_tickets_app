@@ -8,6 +8,7 @@ import '../../../enums/show_type_enum.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../../providers/shows_provider.dart';
@@ -17,7 +18,6 @@ class ShowDetailsBox extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final showTime = useProvider(selectedShowTimeProvider).state;
     return Container(
       decoration: BoxDecoration(
@@ -32,7 +32,7 @@ class ShowDetailsBox extends HookWidget {
         children: [
           Text(
             showTime.showType.inString,
-            style: textTheme.headline3!.copyWith(
+            style: context.headline3.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               height: 1.4,
@@ -57,7 +57,7 @@ class ShowDetailsBox extends HookWidget {
                 //Status
                 Text(
                   showTime.showStatus.inString,
-                  style: textTheme.headline3!.copyWith(
+                  style: context.headline3.copyWith(
                     color: Colors.white,
                     fontSize: 16,
                   ),

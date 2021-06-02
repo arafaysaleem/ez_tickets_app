@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//Helpers
+import '../../../helper/extensions/context_extensions.dart';
+
 class CustomTextButton extends StatelessWidget {
   final double height;
   final double? width;
@@ -50,7 +53,7 @@ class CustomTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = context.theme;
     final textButtonTheme = theme.textButtonTheme;
     return TextButton(
       style: textButtonTheme.style!.copyWith(

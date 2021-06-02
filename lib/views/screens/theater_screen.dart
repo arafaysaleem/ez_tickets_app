@@ -1,16 +1,17 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ez_ticketz_app/providers/all_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/theaters_provider.dart';
+import '../../providers/all_providers.dart';
 
 //Services
 import '../../services/networking/network_exception.dart';
@@ -59,7 +60,7 @@ class TheaterScreen extends HookWidget {
                   child: showSeatingModelFuture.when(
                     data: (showSeatingModel) {
                       final theater = showSeatingModel.theater;
-                      final minScreenWidth = MediaQuery.of(context).size.width;
+                      final minScreenWidth = context.screenWidth;
                       var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
                       screenWidth = max(screenWidth, minScreenWidth);
                       late final screenScrollController = useScrollController();
@@ -143,7 +144,7 @@ class TheaterScreen extends HookWidget {
         retryCallback: () {
           context.refresh(showSeatingFuture);
         },
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: context.screenHeight * 0.5,
       );
     }
     debugPrint(error.toString());

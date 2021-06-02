@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Models
 import '../../../models/show_model.dart';
@@ -80,7 +81,6 @@ class _ShowDateItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -99,7 +99,7 @@ class _ShowDateItem extends StatelessWidget {
             Text(
               weekDay,
               textAlign: TextAlign.center,
-              style: textTheme.headline3!.copyWith(
+              style: context.headline3.copyWith(
                 color: Colors.white,
                 fontSize: 17,
               ),
@@ -111,7 +111,7 @@ class _ShowDateItem extends StatelessWidget {
             Text(
               date,
               textAlign: TextAlign.center,
-              style: textTheme.headline3!.copyWith(
+              style: context.headline3.copyWith(
                 color: Colors.white,
                 fontSize: 17,
               ),

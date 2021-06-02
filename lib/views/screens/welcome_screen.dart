@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Routes
 import '../../routes/app_router.gr.dart';
@@ -15,8 +16,6 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -26,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
             //Welcome
             Text(
               "Welcome",
-              style: textTheme.headline1!.copyWith(color: Constants.primaryColor),
+              style: context.headline1.copyWith(color: Constants.primaryColor),
             ),
 
             const SizedBox(height: 20),

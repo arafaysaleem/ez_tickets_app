@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 
+//Helpers
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
+
+//Widgets
 import 'custom_text_button.dart';
 
 // ignore: constant_identifier_names
@@ -35,8 +40,6 @@ class CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     return AlertDialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -48,11 +51,11 @@ class CustomDialog extends StatelessWidget {
       backgroundColor: Constants.scaffoldGreyColor,
       title: Text(title),
       content: Text(body),
-      contentTextStyle: textTheme.bodyText1!.copyWith(
+      contentTextStyle: context.bodyText1.copyWith(
         color: Constants.textGreyColor,
         fontSize: 16,
       ),
-      titleTextStyle: textTheme.bodyText1!.copyWith(
+      titleTextStyle: context.bodyText1.copyWith(
         color: Constants.textWhite80Color,
         fontSize: 19,
       ),
@@ -69,7 +72,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
-              Navigator.of(context).pop();
+              context.router.pop();
             },
           )
         else if (_type == CustomDialogType.CONFIRM) ...[
@@ -84,7 +87,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
-              Navigator.of(context).pop(true);
+              context.router.pop(true);
             },
           ),
           CustomTextButton.gradient(
@@ -98,7 +101,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
-              Navigator.of(context).pop(false);
+              context.router.pop(false);
             },
           ),
         ]

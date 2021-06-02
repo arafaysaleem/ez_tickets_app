@@ -6,6 +6,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 //Helper
 import '../../../helper/utils/constants.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Widgets
 import 'movie_actors_list.dart';
@@ -76,7 +77,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
+    var screenHeight = context.screenHeight;
     var maxHeight = 0.96 * screenHeight;
     var minHeight = 0.65 * screenHeight;
     late final _animationController = useAnimationController(

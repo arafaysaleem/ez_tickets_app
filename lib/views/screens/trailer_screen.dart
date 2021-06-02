@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Helpers
 import '../../helper/utils/constants.dart';
+import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/movies_provider.dart';
@@ -89,10 +90,7 @@ class _TrailerScreenState extends State<TrailerScreen> {
                     final title = watch(selectedMovieProvider).state.title;
                     return Text(
                       title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontSize: 28),
+                      style: context.headline3.copyWith(fontSize: 28),
                     );
                   },
                 ),

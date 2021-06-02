@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//Helpers
+import '../../../helper/extensions/context_extensions.dart';
+
 //Models
 import '../../../models/movie_model.dart';
 
@@ -17,13 +20,12 @@ class MovieOverviewColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
         //Title
         Text(
           movie.title,
-          style: textTheme.headline2!.copyWith(
+          style: context.headline2.copyWith(
             color: Colors.black,
             fontSize: 26,
           ),
