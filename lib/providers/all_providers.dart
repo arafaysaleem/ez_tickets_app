@@ -69,7 +69,7 @@ final showsProvider = Provider<ShowsProvider>((ref) {
   return ShowsProvider(_showsRepository);
 });
 
-final theatersProvider = Provider<TheatersProvider>((ref){
+final theatersProvider = ChangeNotifierProvider<TheatersProvider>((ref){
   final _theatersRepository = ref.watch(_theatersRepositoryProvider);
   return TheatersProvider(_theatersRepository);
 });

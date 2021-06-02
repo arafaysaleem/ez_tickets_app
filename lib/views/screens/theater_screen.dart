@@ -95,7 +95,6 @@ class TheaterScreen extends HookWidget {
                           const Spacer(),
 
                           //Selected Seats Chips
-                          //TODO: Use consumer,load & pass the selected seat list
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
                             child: Consumer(
