@@ -22,6 +22,9 @@ import '../widgets/theater/curved_screen.dart';
 import '../widgets/theater/seat_color_indicators.dart';
 import '../widgets/theater/seats_area.dart';
 
+//Skeletons
+import '../skeletons/theater_skeleton_loader.dart';
+
 class TheaterScreen extends HookWidget {
   const TheaterScreen();
 
@@ -48,92 +51,88 @@ class TheaterScreen extends HookWidget {
               const SizedBox(height: 5),
 
               //Theater details
-              showSeatingModelFuture.when(
-                data: (showSeatingModel) {
-                  final theater = showSeatingModel.theater;
-                  final minScreenWidth = MediaQuery.of(context).size.width;
-                  var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
-                  screenWidth = max(screenWidth, minScreenWidth);
-                  late final screenScrollController = useScrollController();
-                  return Expanded(
-                    child: Column(
-                      children: [
-                        //Screen
-                        CurvedScreen(
-                          screenScrollController: screenScrollController,
-                          screenWidth: screenWidth,
-                        ),
-
-                        const Spacer(),
-
-                        //Seats Area
-                        SeatsArea(
-                          maxGridHeight: _maxGridHeight,
-                          seatSize: _seatSize,
-                          seatGap: _seatGap,
-                          maxRows: Constants.maxSeatRows,
-                          numOfRows: theater.numOfRows,
-                          seatsPerRow: theater.seatsPerRow,
-                          missing: theater.missing,
-                          blocked: theater.blocked,
-                          booked: showSeatingModel.bookedSeats,
-                          screenScrollController: screenScrollController,
-                        ),
-
-                        const Spacer(),
-
-                        //Seat color indicators
-                        const SeatColorIndicators(),
-
-                        const Spacer(),
-
-                        //Selected Seats Chips
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
-                          child: CustomChipsList(
-                            chipContents: const [
-                              "A-13",
-                              "B-5",
-                              "D-3",
-                              "A-13",
-                              "B-5",
-                              "D-3"
-                            ],
-                            chipHeight: 27,
-                            chipGap: 10,
-                            fontSize: 14,
-                            chipWidth: 60,
-                            borderColor: Constants.orangeColor,
-                            contentColor: Constants.orangeColor,
-                            borderWidth: 1.5,
-                            fontWeight: FontWeight.bold,
-                            backgroundColor: Colors.red.shade700.withOpacity(0.3),
-                            physics: const BouncingScrollPhysics(),
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 550),
+                  switchOutCurve: Curves.easeInBack,
+                  child: showSeatingModelFuture.when(
+                    data: (showSeatingModel) {
+                      final theater = showSeatingModel.theater;
+                      final minScreenWidth = MediaQuery.of(context).size.width;
+                      var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
+                      screenWidth = max(screenWidth, minScreenWidth);
+                      late final screenScrollController = useScrollController();
+                      return Column(
+                        children: [
+                          //Screen
+                          CurvedScreen(
+                            screenScrollController: screenScrollController,
+                            screenWidth: screenWidth,
                           ),
-                        ),
 
-                        //Continue button
-                        const ContinueButton(),
+                          const Spacer(),
 
-                        const SizedBox(height: Constants.bottomInsetsLow),
-                      ],
-                    ),
-                  );
-                },
-                loading: _buildLoading,
-                error: (error, st) => _buildError(error, st, context),
+                          //Seats Area
+                          SeatsArea(
+                            maxGridHeight: _maxGridHeight,
+                            seatSize: _seatSize,
+                            seatGap: _seatGap,
+                            maxRows: Constants.maxSeatRows,
+                            numOfRows: theater.numOfRows,
+                            seatsPerRow: theater.seatsPerRow,
+                            missing: theater.missing,
+                            blocked: theater.blocked,
+                            booked: showSeatingModel.bookedSeats,
+                            screenScrollController: screenScrollController,
+                          ),
+
+                          const Spacer(),
+
+                          //Seat color indicators
+                          const SeatColorIndicators(),
+
+                          const Spacer(),
+
+                          //Selected Seats Chips
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
+                            child: CustomChipsList(
+                              chipContents: const [
+                                "A-13",
+                                "B-5",
+                                "D-3",
+                                "A-13",
+                                "B-5",
+                                "D-3"
+                              ],
+                              chipHeight: 27,
+                              chipGap: 10,
+                              fontSize: 14,
+                              chipWidth: 60,
+                              borderColor: Constants.orangeColor,
+                              contentColor: Constants.orangeColor,
+                              borderWidth: 1.5,
+                              fontWeight: FontWeight.bold,
+                              backgroundColor: Colors.red.shade700.withOpacity(0.3),
+                              physics: const BouncingScrollPhysics(),
+                            ),
+                          ),
+
+                          //Continue button
+                          const ContinueButton(),
+
+                          const SizedBox(height: Constants.bottomInsetsLow),
+                        ],
+                      );
+                    },
+                    loading: () => const TheaterSkeletonLoader(),
+                    error: (error, st) => _buildError(error, st, context),
+                  ),
+                ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Constants.primaryColor),
       ),
     );
   }
