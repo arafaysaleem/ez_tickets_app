@@ -17,6 +17,8 @@ import '../services/repositories/theaters_repository.dart';
 import 'shows_provider.dart';
 import 'all_providers.dart';
 
+final selectedTheaterNameProvider = StateProvider<String>((_)=>"");
+
 final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   final _selectedShowTime = ref.watch(selectedShowTimeProvider).state;
 
@@ -28,6 +30,8 @@ final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   final _showId = _selectedShowTime.showId;
   final bookedSeats = await _bookingsProvider.getShowBookedSeats(showId: _showId);
 
+  ref.read(selectedTheaterNameProvider).state = theater.theaterName;
+
   return ShowSeatingModel(
     showTime: _selectedShowTime,
     theater: theater,
@@ -38,8 +42,6 @@ final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
 // ignore: prefer_mixin
 class TheatersProvider with ChangeNotifier {
   final TheatersRepository _theatersRepository;
-
-  //TODO: Add a provider reference to read other providers
 
   final List<SeatModel> _selectedSeats = [];
 
@@ -74,14 +76,6 @@ class TheatersProvider with ChangeNotifier {
     required int theaterId,
   }) async {
     return await _theatersRepository.fetchOne(theaterId: theaterId);
-  }
-
-  Future<void> reserveSelectedSeats() async {
-    //TODO: Loop over each seat in _selectedSeats
-    //For each seat call the _makeABooking method in BookingsProvider
-    //  Fetch the currentUserId from authProvider
-    //  Fetch the showId from selectedShowTimeProvider
-    //  Pass price from Constants = Rs 800
   }
 
   Future<TheaterModel> uploadNewTheater({

@@ -36,6 +36,9 @@ class Constants {
     colors: [orangeColor, redColor],
   );
 
+  /// The price for a single seat ticket
+  static const double ticketPrice = 800;
+
   /// The white [LinearGradient] for fading movies carousel in the app.
   static const Gradient movieCarouselGradient = LinearGradient(
     begin: Alignment.bottomCenter,
