@@ -17,6 +17,7 @@ import 'movies_provider.dart';
 import 'shows_provider.dart';
 import 'theaters_provider.dart';
 import 'bookings_provider.dart';
+import 'payments_provider.dart';
 
 //states
 import 'states/auth_state.dart';
@@ -77,4 +78,8 @@ final theatersProvider = ChangeNotifierProvider<TheatersProvider>((ref){
 final bookingsProvider = Provider<BookingsProvider>((ref){
   final _bookingsRepository = ref.watch(_bookingsRepositoryProvider);
   return BookingsProvider(_bookingsRepository);
+});
+
+final paymentsProvider = ChangeNotifierProvider<PaymentsProvider>((ref){
+  return PaymentsProvider();
 });
