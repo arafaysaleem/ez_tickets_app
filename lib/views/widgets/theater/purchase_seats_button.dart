@@ -10,8 +10,8 @@ import '../../../routes/app_router.gr.dart';
 //Widgets
 import '../common/custom_text_button.dart';
 
-class ContinueButton extends StatelessWidget {
-  const ContinueButton({Key? key}) : super(key: key);
+class PurchaseSeatsButton extends StatelessWidget {
+  const PurchaseSeatsButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class ContinueButton extends StatelessWidget {
         },
         gradient: Constants.buttonGradientOrange,
         child: const Center(
+          //TODO: Wrap in consumer and display seats list length instead of X
           child: Text(
             "PURCHASE - X SEATS",
             style: TextStyle(
