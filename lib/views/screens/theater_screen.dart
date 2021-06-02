@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:ez_ticketz_app/providers/all_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -97,25 +98,23 @@ class TheaterScreen extends HookWidget {
                           //TODO: Use consumer,load & pass the selected seat list
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
-                            child: CustomChipsList(
-                              chipContents: const [
-                                "A-13",
-                                "B-5",
-                                "D-3",
-                                "A-13",
-                                "B-5",
-                                "D-3"
-                              ],
-                              chipHeight: 27,
-                              chipGap: 10,
-                              fontSize: 14,
-                              chipWidth: 60,
-                              borderColor: Constants.orangeColor,
-                              contentColor: Constants.orangeColor,
-                              borderWidth: 1.5,
-                              fontWeight: FontWeight.bold,
-                              backgroundColor: Colors.red.shade700.withOpacity(0.3),
-                              physics: const BouncingScrollPhysics(),
+                            child: Consumer(
+                              builder:(ctx,watch,child) {
+                                final _theatersProvider = watch(theatersProvider);
+                                return CustomChipsList(
+                                  chipContents: _theatersProvider.selectedSeatNames,
+                                  chipHeight: 27,
+                                  chipGap: 10,
+                                  fontSize: 14,
+                                  chipWidth: 60,
+                                  borderColor: Constants.orangeColor,
+                                  contentColor: Constants.orangeColor,
+                                  borderWidth: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  backgroundColor: Colors.red.shade700.withOpacity(0.3),
+                                  physics: const BouncingScrollPhysics(),
+                                );
+                              },
                             ),
                           ),
 

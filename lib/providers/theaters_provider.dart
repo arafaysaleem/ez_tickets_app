@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,7 +20,7 @@ import 'all_providers.dart';
 final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   final _selectedShowTime = ref.watch(selectedShowTimeProvider).state;
 
-  final _theatersProvider = ref.watch(theatersProvider);
+  final _theatersProvider = ref.read(theatersProvider);
   final _theaterId = _selectedShowTime.theaterId;
   final theater = await _theatersProvider.getTheaterById(theaterId: _theaterId);
 
@@ -34,15 +35,19 @@ final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   );
 });
 
-class TheatersProvider {
-  //TODO: Convert to a change notifier
+// ignore: prefer_mixin
+class TheatersProvider with ChangeNotifier {
   final TheatersRepository _theatersRepository;
 
   //TODO: Add a provider reference to read other providers
 
   final List<SeatModel> _selectedSeats = [];
 
-  UnmodifiableListView get selectedSeats => UnmodifiableListView(_selectedSeats);
+  UnmodifiableListView<SeatModel> get selectedSeats => UnmodifiableListView<SeatModel>(_selectedSeats);
+
+  List<String> get selectedSeatNames {
+    return _selectedSeats.map((seat)=>"${seat.seatRow}-${seat.seatNumber}").toList();
+  }
 
   TheatersProvider(this._theatersRepository);
 
@@ -53,7 +58,7 @@ class TheatersProvider {
       _selectedSeats.remove(seat);
     }
     print(_selectedSeats);
-    //TODO: Notify listeners to update selected seats chips list
+    notifyListeners();
   }
 
   Future<List<TheaterModel>> getAllTheaters({
