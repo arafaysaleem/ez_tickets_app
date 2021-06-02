@@ -21,13 +21,15 @@ class CurvedScreen extends StatelessWidget {
           screenWidth,
           (screenWidth * 0.1).toDouble(), // * 0.143 was original
         ),
-        painter: ScreenPainter(),
+        painter: const ScreenPainter(),
       ),
     );
   }
 }
 
 class ScreenPainter extends CustomPainter {
+  const ScreenPainter();
+
   @override
   void paint(Canvas canvas, Size size) {
     var paint_0 = Paint()
