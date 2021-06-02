@@ -12,6 +12,8 @@ import '../services/repositories/bookings_repository.dart';
 class BookingsProvider {
   final BookingsRepository _bookingsRepository;
 
+  //TODO: Add a field for payments provider;
+
   BookingsProvider(this._bookingsRepository);
 
   Future<List<BookingModel>> getAllBookings({
@@ -29,30 +31,6 @@ class BookingsProvider {
     return await _bookingsRepository.fetchOne(bookingId: bookingId);
   }
 
-  Future<BookingModel> makeABooking({
-    required int userId,
-    required int showId,
-    required String seatRow,
-    required int seatNumber,
-    required double price,
-    required BookingStatus bookingStatus,
-    required DateTime bookingDatetime,
-  }) async {
-    final booking = BookingModel(
-      bookingId: null,
-      userId: userId,
-      showId: showId,
-      seatRow: seatRow,
-      seatNumber: seatNumber,
-      price: price,
-      bookingStatus: bookingStatus,
-      bookingDatetime: bookingDatetime,
-    );
-    final bookingId = await _bookingsRepository.create(data: booking.toJson());
-
-    return booking.copyWith(bookingId: bookingId);
-  }
-
   Future<List<UserBookingModel>> getUserBookings({
     required int userId,
   }) async {
@@ -65,15 +43,49 @@ class BookingsProvider {
     return await _bookingsRepository.fetchShowBookings(showId: showId);
   }
 
-  Future<String> editBooking({
-    required BookingModel booking,
+  Future<void> confirmBookings() async {
+    //TODO: Call makePayment in PaymentsProvider
+    // Loop over each booking in _currentUserBookings
+    //For each booking call the _editABooking method
+    //  Pass in [BookingStatus.CONFIRMED]
+  }
+
+  /// This method is used to reserve tickets for selected seats
+  ///
+  /// Adds bookings for the specified seat with a status of
+  /// [BookingStatus.RESERVED].
+  Future<BookingModel> _makeABooking({
     required int userId,
     required int showId,
     required String seatRow,
     required int seatNumber,
     required double price,
-    required BookingStatus bookingStatus,
     required DateTime bookingDatetime,
+  }) async {
+    final booking = BookingModel(
+      bookingId: null,
+      userId: userId,
+      showId: showId,
+      seatRow: seatRow,
+      seatNumber: seatNumber,
+      price: price,
+      bookingStatus: BookingStatus.RESERVED,
+      bookingDatetime: bookingDatetime,
+    );
+    final bookingId = await _bookingsRepository.create(data: booking.toJson());
+
+    return booking.copyWith(bookingId: bookingId);
+  }
+
+  Future<String> _editBooking({
+    required BookingModel booking,
+    int? userId,
+    int? showId,
+    String? seatRow,
+    int? seatNumber,
+    double? price,
+    BookingStatus? bookingStatus,
+    DateTime? bookingDatetime,
   }) async {
     final data = booking.toUpdateJson(
       userId: userId,

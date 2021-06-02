@@ -38,6 +38,8 @@ class TheatersProvider {
   //TODO: Convert to a change notifier
   final TheatersRepository _theatersRepository;
 
+  //TODO: Add a provider reference to read other providers
+
   final List<SeatModel> _selectedSeats = [];
 
   UnmodifiableListView get selectedSeats => UnmodifiableListView(_selectedSeats);
@@ -51,6 +53,7 @@ class TheatersProvider {
       _selectedSeats.remove(seat);
     }
     print(_selectedSeats);
+    //TODO: Notify listeners to update selected seats chips list
   }
 
   Future<List<TheaterModel>> getAllTheaters({
@@ -66,6 +69,14 @@ class TheatersProvider {
     required int theaterId,
   }) async {
     return await _theatersRepository.fetchOne(theaterId: theaterId);
+  }
+
+  Future<void> reserveSelectedSeats() async {
+    //TODO: Loop over each seat in _selectedSeats
+    //For each seat call the _makeABooking method in BookingsProvider
+    //  Fetch the currentUserId from authProvider
+    //  Fetch the showId from selectedShowTimeProvider
+    //  Pass price from Constants = Rs 800
   }
 
   Future<TheaterModel> uploadNewTheater({
