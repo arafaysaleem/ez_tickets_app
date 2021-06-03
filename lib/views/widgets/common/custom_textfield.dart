@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 //Helpers
@@ -15,11 +16,13 @@ class CustomTextField extends StatefulWidget {
   final AlignmentGeometry errorTextAlign;
   final Widget? prefix;
   final bool autofocus;
+  final int? maxLength;
 
   const CustomTextField({
     Key? key,
     this.onSaved,
     this.prefix,
+    this.maxLength,
     this.errorTextAlign = Alignment.centerRight,
     this.autofocus = false,
     required this.controller,
@@ -103,6 +106,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           child: TextFormField(
             controller: widget.controller,
             autofocus: widget.autofocus,
+            maxLength: widget.maxLength,
+            maxLengthEnforcement: MaxLengthEnforcement.enforced,
             textAlignVertical: TextAlignVertical.center,
             showCursor: true,
             obscureText: showPassword,
@@ -120,6 +125,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
               isDense: true,
+              counterText: "",
               hintText: widget.hintText,
               hintStyle: const TextStyle(fontSize: 17,color: Constants.textWhite80Color),
               errorStyle: const TextStyle(height: 0, color: Colors.transparent),
