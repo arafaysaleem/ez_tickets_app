@@ -7,7 +7,7 @@ part 'user_booking_model.g.dart';
 
 @freezed
 class UserBookingModel with _$UserBookingModel {
-    @JsonSerializable(fieldRename: FieldRename.snake)
+    @JsonSerializable()
     const factory UserBookingModel({
       required int showId,
       required String title,
