@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
+
+//Providers
+import '../../../providers/all_providers.dart';
 
 class BillingDetails extends StatelessWidget {
   const BillingDetails({Key? key}) : super(key: key);
@@ -55,28 +59,39 @@ class BillingDetails extends StatelessWidget {
 
           //Billing Summary Data
           Row(
-            children: const [
+            children: [
+              //Num of tickets
               SizedBox(
                 width: 30,
-                child: Text(
-                  "3",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Constants.textGreyColor,
-                  ),
+                child: Consumer(
+                  builder: (ctx,watch,_) {
+                    final numSeats = watch(theatersProvider).selectedSeats.length;
+                    return Text(
+                      "$numSeats",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Constants.textGreyColor,
+                      ),
+                    );
+                  },
                 ),
               ),
-              SizedBox(width: 10),
-              Text(
+
+              const SizedBox(width: 10),
+
+              //Seat type
+              const Text(
                 "Normal Seat",
                 style: TextStyle(
                   fontSize: 16,
                   color: Constants.textGreyColor,
                 ),
               ),
-              Spacer(),
-              Text(
+              const Spacer(),
+
+              //Price
+              const Text(
                 "${Constants.ticketPrice}",
                 style: TextStyle(
                   fontSize: 16,
