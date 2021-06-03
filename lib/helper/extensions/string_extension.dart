@@ -9,8 +9,20 @@ extension StringExt on String {
   /// An extension for validating String as a full name.
   bool get isValidFullName => Constants.fullNameRegex.hasMatch(this);
 
-  /// An extension for validating String as an contact.
+  /// An extension for validating String as a contact.
   bool get isValidContact => Constants.contactRegex.hasMatch(this);
+
+  /// An extension for validating String as a zipcode.
+  bool get isValidZipCode => Constants.zipCodeRegex.hasMatch(this);
+
+  /// An extension for validating String as a credit card number.
+  bool get isValidCreditCardNumber => Constants.creditCardNumberRegex.hasMatch(this);
+
+  /// An extension for validating String as a credit card CVV.
+  bool get isValidCreditCardCVV => Constants.creditCardCVVRegex.hasMatch(this);
+
+  /// An extension for validating String as a credit card expiry.
+  bool get isValidCreditCardExpiry => Constants.creditCardExpiryRegex.hasMatch(this);
 
   /// An extension for converting String to Capitalcase.
   String get capitalize => this[0].toUpperCase() + this.substring(1).toLowerCase();
