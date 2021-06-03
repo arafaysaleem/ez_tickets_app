@@ -173,7 +173,7 @@ class _MainMoviePoster extends HookWidget {
       },
       child: CustomNetworkImage(
         imageUrl: posterUrl,
-        borderRadius: 10,
+        radius: 10,
         placeholder: const MoviePosterPlaceholder(),
         errorWidget: const MoviePosterPlaceholder(),
         fit: BoxFit.fill,

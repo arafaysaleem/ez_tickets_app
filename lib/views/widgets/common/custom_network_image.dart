@@ -5,7 +5,8 @@ class CustomNetworkImage extends StatelessWidget {
   final String imageUrl;
   final double? height;
   final double width;
-  final double borderRadius;
+  final double radius;
+  final BorderRadiusGeometry? borderRadius;
   final BoxFit? fit;
   final EdgeInsetsGeometry? margin;
   final Widget? placeholder;
@@ -13,15 +14,16 @@ class CustomNetworkImage extends StatelessWidget {
 
   const CustomNetworkImage({
     double? width,
-    double? borderRadius,
+    double? radius,
     this.margin,
     this.fit,
     this.height,
+    this.borderRadius,
     this.placeholder,
     this.errorWidget,
     required this.imageUrl,
   })   : width = width ?? double.infinity,
-        borderRadius = borderRadius ?? 20;
+        radius = radius ?? 20;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class CustomNetworkImage extends StatelessWidget {
       imageBuilder: (ctx, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(image: imageProvider,fit: fit),
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: borderRadius ?? BorderRadius.circular(radius),
         ),
         margin: margin,
       ),
