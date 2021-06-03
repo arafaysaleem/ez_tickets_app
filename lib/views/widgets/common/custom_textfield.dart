@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../helper/extensions/context_extensions.dart';
+
 //Helpers
 import '../../../helper/utils/constants.dart';
-import '../../../helper/extensions/context_extensions.dart';
 
 class CustomTextField extends StatefulWidget {
   final String floatingText, hintText;
@@ -17,14 +18,31 @@ class CustomTextField extends StatefulWidget {
   final Widget? prefix;
   final bool autofocus;
   final int? maxLength;
+  final TextStyle hintStyle, errorStyle, inputStyle;
+  final TextStyle? floatingStyle;
+  final Color fillColor;
 
   const CustomTextField({
     Key? key,
     this.onSaved,
     this.prefix,
     this.maxLength,
+    this.floatingStyle,
     this.errorTextAlign = Alignment.centerRight,
     this.autofocus = false,
+    this.hintStyle = const TextStyle(
+      fontSize: 17,
+      color: Constants.textWhite80Color,
+    ),
+    this.errorStyle = const TextStyle(
+      height: 0,
+      color: Colors.transparent,
+    ),
+    this.inputStyle = const TextStyle(
+      fontSize: 17,
+      color: Constants.textWhite80Color,
+    ),
+    this.fillColor = Constants.scaffoldColor,
     required this.controller,
     required this.floatingText,
     required this.hintText,
@@ -92,7 +110,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         //Floating text
         Text(
           widget.floatingText,
-          style: context.bodyText1.copyWith(
+          style: widget.floatingStyle ?? context.bodyText1.copyWith(
             color: Constants.textGreyColor,
             fontSize: 17,
           ),
@@ -118,36 +136,33 @@ class _CustomTextFieldState extends State<CustomTextField> {
             onFieldSubmitted: _onFieldSubmitted,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
-            style: const TextStyle(
-              fontSize: 17,
-              color: Constants.textWhite80Color,
-            ),
+            style: widget.inputStyle,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
               isDense: true,
               counterText: "",
               hintText: widget.hintText,
-              hintStyle: const TextStyle(fontSize: 17,color: Constants.textWhite80Color),
-              errorStyle: const TextStyle(height: 0, color: Colors.transparent),
+              hintStyle: widget.hintStyle,
+              errorStyle: widget.errorStyle,
               border: _normalBorder(),
               focusedBorder: _focusedBorder(),
               focusedErrorBorder: _focusedBorder(),
-              fillColor: context.theme.scaffoldBackgroundColor,
+              fillColor: widget.fillColor,
               filled: true,
               prefixIcon: widget.prefix,
               suffixIcon: isPasswordField
                   ? InkWell(
-                    onTap: (){
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    child: const Icon(
-                      Icons.remove_red_eye_sharp,
-                      color: Constants.textGreyColor,
-                      size: 22,
-                    ),
-                  )
+                      onTap: () {
+                        setState(() {
+                          showPassword = !showPassword;
+                        });
+                      },
+                      child: const Icon(
+                        Icons.remove_red_eye_sharp,
+                        color: Constants.textGreyColor,
+                        size: 22,
+                      ),
+                    )
                   : null,
             ),
           ),
