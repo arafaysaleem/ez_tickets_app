@@ -19,12 +19,9 @@ class BookingsRepository {
   })  : _apiService = apiService,
         _cancelToken = cancelToken;
 
-  Future<List<BookingModel>> fetchAll({
-    Map<String, dynamic>? queryParameters,
-  }) async {
+  Future<List<BookingModel>> fetchAll() async {
     return await _apiService.getCollectionData<BookingModel>(
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BASE),
-      queryParams: queryParameters,
       cancelToken: _cancelToken,
       converter: (responseBody) => BookingModel.fromJson(responseBody),
     );
@@ -96,6 +93,17 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.USERS, id: userId),
       cancelToken: _cancelToken,
       converter: (responseBody) => UserBookingModel.fromJson(responseBody),
+    );
+  }
+
+  Future<List<BookingModel>> fetchFilteredBookings({
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return await _apiService.getCollectionData<BookingModel>(
+      endpoint: ApiEndpoint.bookings(BookingEndpoint.FILTERS),
+      queryParams: queryParameters,
+      cancelToken: _cancelToken,
+      converter: (responseBody) => BookingModel.fromJson(responseBody),
     );
   }
 
