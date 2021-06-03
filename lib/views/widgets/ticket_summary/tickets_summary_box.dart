@@ -1,5 +1,3 @@
-import '../../skeletons/movie_poster_placeholder.dart';
-import '../common/custom_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,9 +9,13 @@ import '../../../helper/extensions/context_extensions.dart';
 import '../../../providers/movies_provider.dart';
 
 //Widgets
+import '../common/custom_network_image.dart';
 import 'dashed_ticket_separator.dart';
 import 'show_details_section.dart';
 import 'ticket_details_list.dart';
+
+//Skeletons
+import '../../skeletons/movie_poster_placeholder.dart';
 
 class TicketsSummaryBox extends StatelessWidget {
   const TicketsSummaryBox();
