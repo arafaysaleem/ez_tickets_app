@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/extensions/context_extensions.dart';
-import '../../helper/utils/constants.dart';
 
 //Widgets
 import '../widgets/ticket_summary/confirm_bookings_button.dart';
@@ -29,12 +28,10 @@ class TicketSummaryScreen extends StatelessWidget {
             //Tickets Box
             TicketsSummaryBox(),
 
-            Spacer(),
-
             //Confirm Button
             ConfirmBookingsButton(),
-            
-            SizedBox(height: Constants.bottomInsetsLow),
+
+            SizedBox(height: 5),
           ],
         ),
       ),

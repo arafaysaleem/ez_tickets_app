@@ -38,7 +38,6 @@ class TheaterScreen extends HookWidget {
   Widget build(BuildContext context) {
     final showSeatingModelFuture = useProvider(showSeatingFuture);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
@@ -121,7 +120,7 @@ class TheaterScreen extends HookWidget {
                           //Purchase seats button
                           const PurchaseSeatsButton(),
 
-                          const SizedBox(height: Constants.bottomInsetsLow),
+                          const SizedBox(height: 5),
                         ],
                       );
                     },
@@ -137,7 +136,7 @@ class TheaterScreen extends HookWidget {
     );
   }
 
-  Widget _buildError(error, st, context) {
+  Widget _buildError(error, StackTrace? st, BuildContext context) {
     if (error is NetworkException) {
       return CustomErrorWidget.dark(
         error: error,

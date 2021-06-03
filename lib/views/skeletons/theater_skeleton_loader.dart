@@ -210,7 +210,7 @@ class TheaterSkeletonLoader extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: Constants.bottomInsetsLow),
+          const SizedBox(height: 5),
         ],
       ),
     );
