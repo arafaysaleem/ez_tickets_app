@@ -4,23 +4,24 @@ import '../enums/booking_status_enum.dart';
 import '../helper/utils/constants.dart';
 
 part 'booking_model.freezed.dart';
+
 part 'booking_model.g.dart';
 
 @freezed
 class BookingModel with _$BookingModel {
   const BookingModel._();
 
-    @JsonSerializable(fieldRename: FieldRename.snake)
-    const factory BookingModel({
-      @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? bookingId,
-      @JsonKey(includeIfNull: false) required int? userId,
-      required int showId,
-      required String seatRow,
-      required int seatNumber,
-      required double price,
-      required BookingStatus bookingStatus,
-      required DateTime bookingDatetime,
-    }) = _BookingModel;
+  @JsonSerializable()
+  const factory BookingModel({
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? bookingId,
+    @JsonKey(includeIfNull: false) required int? userId,
+    required int showId,
+    required String seatRow,
+    required int seatNumber,
+    required double price,
+    required BookingStatus bookingStatus,
+    required DateTime bookingDatetime,
+  }) = _BookingModel;
 
   Map<String, dynamic> toUpdateJson({
     int? userId,
@@ -37,8 +38,7 @@ class BookingModel with _$BookingModel {
         seatNumber == null &&
         price == null &&
         bookingStatus == null &&
-        bookingDatetime == null
-    ) return const {};
+        bookingDatetime == null) return const {};
     return copyWith(
       userId: userId,
       showId: showId ?? this.showId,
@@ -50,5 +50,6 @@ class BookingModel with _$BookingModel {
     ).toJson();
   }
 
-    factory BookingModel.fromJson(Map<String, dynamic> json) => _$BookingModelFromJson(json);
+  factory BookingModel.fromJson(Map<String, dynamic> json) =>
+      _$BookingModelFromJson(json);
 }
