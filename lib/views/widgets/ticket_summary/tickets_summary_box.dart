@@ -1,3 +1,5 @@
+import '../../skeletons/movie_poster_placeholder.dart';
+import '../common/custom_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -32,18 +34,16 @@ class TicketsSummaryBox extends StatelessWidget {
             Consumer(
               builder: (ctx, watch, _) {
                 final _selectedMovie = watch(selectedMovieProvider).state;
-                return Container(
+                return CustomNetworkImage(
+                  imageUrl: _selectedMovie.posterUrl,
                   height: 255,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(_selectedMovie.posterUrl),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
+                  fit: BoxFit.cover,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
                   ),
+                  placeholder: const MoviePosterPlaceholder(),
+                  errorWidget: const MoviePosterPlaceholder(),
                 );
               },
             ),
