@@ -1,28 +1,53 @@
 //Enums
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../enums/booking_status_enum.dart';
+
+//Helpers
+import '../helper/utils/constants.dart';
 
 //Models
 import '../models/booking_model.dart';
-import '../models/user_booking_model.dart';
 import '../models/seat_model.dart';
+import '../models/user_booking_model.dart';
 
 //Services
 import '../services/repositories/bookings_repository.dart';
 
+//Providers
+import 'all_providers.dart';
+import 'shows_provider.dart';
+
 class BookingsProvider {
   final BookingsRepository _bookingsRepository;
+  final Reader _reader;
 
-  //TODO: Add a field for payments provider;
+  BookingsProvider({
+    required BookingsRepository bookingsRepository,
+    required Reader read,
+  })  : _bookingsRepository = bookingsRepository,
+        _reader = read,
+        super();
 
-  BookingsProvider(this._bookingsRepository);
+  Future<List<BookingModel>> getAllBookings() async {
+    return await _bookingsRepository.fetchAll();
+  }
 
-  Future<List<BookingModel>> getAllBookings({
+  Future<List<BookingModel>> getFilteredBookings({
     BookingStatus? bookingStatus,
+    DateTime? bookingDatetime,
+    int? userId,
+    int? showId,
   }) async {
-    final Map<String, String>? queryParams = {
+    final Map<String, dynamic>? queryParams = {
       if (bookingStatus != null) "booking_status": bookingStatus.toJson,
+      if (bookingDatetime != null)
+        "booking_datetime": bookingDatetime.toString(),
+      if (userId != null) "user_id": userId,
+      if (showId != null) "show_id": showId,
     };
-    return await _bookingsRepository.fetchAll(queryParameters: queryParams);
+    return await _bookingsRepository.fetchFilteredBookings(
+        queryParameters: queryParams);
   }
 
   Future<BookingModel> getBookingById({
@@ -43,17 +68,32 @@ class BookingsProvider {
     return await _bookingsRepository.fetchShowBookings(showId: showId);
   }
 
-  Future<void> confirmBookings() async {
-    //TODO: Call makePayment in PaymentsProvider
-    // Loop over each booking in _currentUserBookings
-    //For each booking call the _editABooking method
-    //  Pass in [BookingStatus.CONFIRMED]
+  Future<List<int>> bookSelectedSeats({bool confirmEach = false}) async {
+    final userId = _reader(authProvider.notifier).currentUserId;
+    final showId = _reader(selectedShowTimeProvider).state.showId;
+    final selectedSeats = _reader(theatersProvider).selectedSeats;
+    final bookingIds = <int>[];
+    for (var seat in selectedSeats) {
+      final newBooking = await _makeABooking(
+        userId: userId,
+        showId: showId,
+        seatRow: seat.seatRow,
+        seatNumber: seat.seatNumber,
+        price: Constants.ticketPrice,
+        bookingStatus:
+            confirmEach ? BookingStatus.CONFIRMED : BookingStatus.RESERVED,
+        bookingDatetime: DateTime.now(),
+      );
+      bookingIds.add(newBooking.bookingId!);
+    }
+    return bookingIds;
   }
 
-  /// This method is used to reserve tickets for selected seats
-  ///
-  /// Adds bookings for the specified seat with a status of
-  /// [BookingStatus.RESERVED].
+  Future<String> confirmBooking(BookingModel booking) async {
+    return await _editBooking(booking: booking, bookingStatus: BookingStatus.CONFIRMED);
+  }
+
+  /// This method is used add booking for the specified seat.
   Future<BookingModel> _makeABooking({
     required int userId,
     required int showId,
@@ -61,6 +101,7 @@ class BookingsProvider {
     required int seatNumber,
     required double price,
     required DateTime bookingDatetime,
+    required BookingStatus bookingStatus,
   }) async {
     final booking = BookingModel(
       bookingId: null,
@@ -69,7 +110,7 @@ class BookingsProvider {
       seatRow: seatRow,
       seatNumber: seatNumber,
       price: price,
-      bookingStatus: BookingStatus.RESERVED,
+      bookingStatus: bookingStatus,
       bookingDatetime: bookingDatetime,
     );
     final bookingId = await _bookingsRepository.create(data: booking.toJson());
@@ -98,7 +139,9 @@ class BookingsProvider {
     );
     if (data.isEmpty) return "Nothing to update!";
     return await _bookingsRepository.update(
-        bookingId: booking.bookingId!, data: data);
+      bookingId: booking.bookingId!,
+      data: data,
+    );
   }
 
   Future<String> removeBooking({
