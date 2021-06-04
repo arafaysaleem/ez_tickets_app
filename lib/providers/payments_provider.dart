@@ -65,7 +65,10 @@ class PaymentsProvider {
 
   Future<void> makePayment() async {
     final _paymentStateProv = _reader(paymentStateProvider);
-    _paymentStateProv.state = const PaymentState.processing();
+    _paymentStateProv.state = const PaymentState.unprocessed();
+    await Future.delayed(const Duration(seconds: 3)).then((_) {
+      _paymentStateProv.state = const PaymentState.processing();
+    });
     final _activePaymentMethod = _reader(activePaymentModeProvider).state;
     try {
       switch(_activePaymentMethod){
@@ -75,6 +78,7 @@ class PaymentsProvider {
         default: await _confirmCashPayment(); break;
       }
       _paymentStateProv.state = const PaymentState.successful();
+      _reader(theatersProvider).clearSelectedSeats();
     } on NetworkException catch (e) {
       _paymentStateProv.state = PaymentState.failed(reason: e.message);
     }

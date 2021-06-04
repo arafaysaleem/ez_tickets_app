@@ -63,6 +63,8 @@ class TheatersProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearSelectedSeats() => _selectedSeats.clear();
+
   Future<List<TheaterModel>> getAllTheaters({
     TheaterType? theaterType,
   }) async {

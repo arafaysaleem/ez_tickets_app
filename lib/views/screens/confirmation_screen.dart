@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
 
 //Providers
 import '../../providers/payments_provider.dart';
+
+//Widgets
+import '../widgets/confirmation/more_bookings_button.dart';
+import '../widgets/confirmation/retry_payment_button.dart';
 
 class ConfirmationScreen extends StatelessWidget {
   const ConfirmationScreen({Key? key}) : super(key: key);
@@ -14,22 +19,82 @@ class ConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: DecoratedBox(
+      body: WillPopScope(
+        onWillPop: () async => await false,
+        child: Container(
           decoration: const BoxDecoration(
-            gradient: Constants.buttonGradientRed,
+            gradient: Constants.buttonGradientOrange,
           ),
-          child: Center(
-            child: Consumer(
-              builder: (ctx, watch, child) {
-                final _paymentStatus = watch(paymentStateProvider).state;
-                return _paymentStatus.maybeWhen(
-                  successful: () => Column(
+          padding: const EdgeInsets.only(bottom: Constants.bottomInsetsLow+5),
+          child: Consumer(
+            builder: (ctx, watch, child) {
+              final _paymentStatus = watch(paymentStateProvider).state;
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 550),
+                switchInCurve: Curves.easeInBack,
+                child: _paymentStatus.when(
+                  unprocessed: () => Column(
+                    key: UniqueKey(),
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
+                      Spacer(),
+
+                      SpinKitRing(
+                        color: Colors.white,
+                        duration: Duration(milliseconds: 1000),
+                        size: 64,
+                      ),
+
+                      SizedBox(height: 10),
+
+                      //Text
+                      Expanded(
+                        child: Text(
+                          "Initializing payment",
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  processing: () => Column(
+                    key: UniqueKey(),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Spacer(),
+
+                      SpinKitPouringHourglass(
+                        color: Colors.white,
+                        duration: Duration(milliseconds: 1100),
+                        size: 64,
+                      ),
+
+                      SizedBox(height: 10),
+
+                      //Text
+                      Expanded(
+                        child: Text(
+                          "Processing payment",
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  successful: () => Column(
+                    key: UniqueKey(),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Spacer(),
+
                       Icon(
                         Icons.check_circle_outline_rounded,
                         color: Colors.white,
-                        size: 32,
+                        size: 64,
                       ),
 
                       SizedBox(height: 10),
@@ -39,41 +104,53 @@ class ConfirmationScreen extends StatelessWidget {
                         child: Text(
                           "Your tickets have been booked!",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 22,
                             color: Colors.white,
                           ),
                         ),
                       ),
+
+                      MoreBookingsButton(),
                     ],
                   ),
-                  failed: (reason) => Column(
-                    children: [
-                      const Icon(
-                        Icons.cancel_outlined,
-                        color: Colors.white,
-                        size: 32,
-                      ),
+                  failed: (reason) {
+                    debugPrint(reason);
+                    return Column(
+                      key: UniqueKey(),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Spacer(),
 
-                      const SizedBox(height: 10),
+                        Icon(
+                          Icons.cancel_outlined,
+                          color: Colors.white,
+                          size: 64,
+                        ),
 
-                      //Text
-                      Expanded(
-                        child: Text(
-                          reason,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
+                        SizedBox(height: 10),
+
+                        //Text
+                        Expanded(
+                          child: Text(
+                            "Payment Failed",
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  orElse: () => const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                );
-              },
-            ),
+
+                        RetryPaymentButton(),
+
+                        SizedBox(height: 20),
+
+                        MoreBookingsButton(),
+                      ],
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),
