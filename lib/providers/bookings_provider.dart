@@ -68,7 +68,7 @@ class BookingsProvider {
     return await _bookingsRepository.fetchShowBookings(showId: showId);
   }
 
-  Future<List<int>> bookSelectedSeats({bool confirmEach = false}) async {
+  Future<List<int>> bookSelectedSeats() async {
     final userId = _reader(authProvider.notifier).currentUserId;
     final showId = _reader(selectedShowTimeProvider).state.showId;
     final selectedSeats = _reader(theatersProvider).selectedSeats;
@@ -80,17 +80,12 @@ class BookingsProvider {
         seatRow: seat.seatRow,
         seatNumber: seat.seatNumber,
         price: Constants.ticketPrice,
-        bookingStatus:
-            confirmEach ? BookingStatus.CONFIRMED : BookingStatus.RESERVED,
+        bookingStatus: BookingStatus.RESERVED,
         bookingDatetime: DateTime.now(),
       );
       bookingIds.add(newBooking.bookingId!);
     }
     return bookingIds;
-  }
-
-  Future<String> confirmBooking(BookingModel booking) async {
-    return await _editBooking(booking: booking, bookingStatus: BookingStatus.CONFIRMED);
   }
 
   /// This method is used add booking for the specified seat.
@@ -107,8 +102,7 @@ class BookingsProvider {
       bookingId: null,
       userId: userId,
       showId: showId,
-      seatRow: seatRow,
-      seatNumber: seatNumber,
+      seat: "$seatRow-$seatNumber",
       price: price,
       bookingStatus: bookingStatus,
       bookingDatetime: bookingDatetime,

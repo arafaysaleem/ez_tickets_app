@@ -32,7 +32,10 @@ class TheaterScreen extends HookWidget {
 
   static const _seatSize = 28.0;
   static const _seatGap = 7.0;
-  static const _maxGridHeight = 430.0;
+
+  double getMaxGridHeight(int numOfRows) {
+    return _seatSize * (numOfRows + 2) + _seatGap + 3;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,7 @@ class TheaterScreen extends HookWidget {
                       final minScreenWidth = context.screenWidth;
                       var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
                       screenWidth = max(screenWidth, minScreenWidth);
+                      final maxGridHeight = getMaxGridHeight(theater.numOfRows);
                       late final screenScrollController = useScrollController();
                       return Column(
                         children: [
@@ -75,7 +79,7 @@ class TheaterScreen extends HookWidget {
 
                           //Seats Area
                           SeatsArea(
-                            maxGridHeight: _maxGridHeight,
+                            maxGridHeight: maxGridHeight,
                             seatSize: _seatSize,
                             seatGap: _seatGap,
                             maxRows: Constants.maxSeatRows,

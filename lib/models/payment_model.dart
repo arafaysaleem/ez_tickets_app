@@ -20,7 +20,7 @@ class PaymentModel with _$PaymentModel {
     required DateTime paymentDatetime,
     required PaymentMethod paymentMethod,
     @JsonKey(fromJson: Constants.toNull, includeIfNull: false)
-        required List<int>? bookingIds,
+        required List<int>? bookings,
   }) = _PaymentModel;
 
   Map<String, dynamic> toUpdateJson({

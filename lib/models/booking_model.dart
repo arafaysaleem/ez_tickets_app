@@ -16,9 +16,10 @@ class BookingModel with _$BookingModel {
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? bookingId,
     @JsonKey(includeIfNull: false) required int? userId,
     required int showId,
-    required String seatRow,
-    required int seatNumber,
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false) String? seatRow,
+    @JsonKey(toJson: Constants.toNull, includeIfNull: false) int? seatNumber,
     required double price,
+    @JsonKey(fromJson: Constants.toNull, includeIfNull: false) String? seat,
     required BookingStatus bookingStatus,
     required DateTime bookingDatetime,
   }) = _BookingModel;

@@ -95,7 +95,6 @@ class PaymentsProvider {
     var amount = 0.0;
     final bookingIds = <int>[];
     for(var booking in bookings){
-      await _bookingsProvider.confirmBooking(booking);
       amount += booking.price;
       bookingIds.add(booking.bookingId!);
     }
@@ -113,7 +112,7 @@ class PaymentsProvider {
     final userId = _reader(authProvider.notifier).currentUserId;
     final showId = _reader(selectedShowTimeProvider).state.showId;
     final _bookingsProvider = _reader(bookingsProvider);
-    final bookingIds = await _bookingsProvider.bookSelectedSeats(confirmEach: true);
+    final bookingIds = await _bookingsProvider.bookSelectedSeats();
     final selectedSeats = _reader(theatersProvider).selectedSeats;
     final amount = selectedSeats.length * Constants.ticketPrice;
     await _makeAPayment(
@@ -140,7 +139,7 @@ class PaymentsProvider {
       showId: showId,
       amount: amount,
       paymentDatetime: paymentDatetime,
-      bookingIds: bookingIds,
+      bookings: bookingIds,
       paymentMethod: paymentMethod,
     );
     final paymentId = await _paymentsRepository.create(data: payment.toJson());
