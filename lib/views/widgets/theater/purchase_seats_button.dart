@@ -1,4 +1,3 @@
-import 'package:ez_ticketz_app/providers/all_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +7,9 @@ import '../../../helper/utils/constants.dart';
 
 //Routes
 import '../../../routes/app_router.gr.dart';
+
+//Providers
+import '../../../providers/all_providers.dart';
 
 //Widgets
 import '../common/custom_text_button.dart';

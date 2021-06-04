@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
+import '../enums/booking_status_enum.dart';
 import '../enums/payment_method_enum.dart';
 
 //Helpers
@@ -73,15 +74,20 @@ class PaymentsProvider {
     try {
       switch(_activePaymentMethod){
         case PaymentMethod.CASH:
-        case PaymentMethod.COD: await _confirmCashPayment(); break;
+        case PaymentMethod.COD: await _reserveTickets(); break;
         case PaymentMethod.CARD: await _confirmCardPayment(); break;
-        default: await _confirmCashPayment(); break;
+        default: await _reserveTickets(); break;
       }
       _paymentStateProv.state = const PaymentState.successful();
       _reader(theatersProvider).clearSelectedSeats();
     } on NetworkException catch (e) {
       _paymentStateProv.state = PaymentState.failed(reason: e.message);
     }
+  }
+
+  Future<void> _reserveTickets() async {
+    final _bookingsProvider = _reader(bookingsProvider);
+    await _bookingsProvider.bookSelectedSeats();
   }
 
   Future<void> _confirmCashPayment() async {
@@ -91,6 +97,7 @@ class PaymentsProvider {
     final bookings = await _bookingsProvider.getFilteredBookings(
       userId: userId,
       showId: showId,
+      bookingStatus: BookingStatus.RESERVED,
     );
     var amount = 0.0;
     final bookingIds = <int>[];
