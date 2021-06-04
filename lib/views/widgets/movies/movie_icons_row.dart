@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
-
-//Providers
-import '../../../providers/all_providers.dart';
 
 class MoviesIconsRow extends HookWidget {
   const MoviesIconsRow({
@@ -18,17 +14,11 @@ class MoviesIconsRow extends HookWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          //Logout
-          RotatedBox(
-            quarterTurns: 2,
-            child: IconButton(
-              icon: const Icon(Icons.logout),
-              padding: const EdgeInsets.all(0),
-              onPressed: () {
-                context.read(authProvider.notifier).logout();
-                context.router.popUntilRoot();
-              },
-            ),
+          //Back Arrow
+          IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            padding: const EdgeInsets.all(0),
+            onPressed: () => context.router.pop(),
           ),
 
           //Filter

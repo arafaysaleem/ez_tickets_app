@@ -1,15 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
-import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
+import '../../helper/utils/constants.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
+//Providers
+import '../../providers/all_providers.dart';
 
 //Widgets
-import '../widgets/common/custom_text_button.dart';
+import '../widgets/welcome/user_profile_details.dart';
+import '../widgets/welcome/view_bookings_button.dart';
+import '../widgets/welcome/browse_movies_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen();
@@ -17,41 +21,68 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Welcome
-            Text(
-              "Welcome",
-              style: context.headline1.copyWith(color: Constants.primaryColor),
+            const SizedBox(height: 65),
+
+            //Logout
+            RotatedBox(
+              quarterTurns: 2,
+              child: InkResponse(
+                radius: 26,
+                child: const Icon(
+                  Icons.logout,
+                  color: Constants.primaryColor,
+                  size: 30,
+                ),
+                onTap: () {
+                  context.read(authProvider.notifier).logout();
+                  context.router.popUntilRoot();
+                },
+              ),
             ),
 
             const SizedBox(height: 20),
 
-            //Continue Button
-            CustomTextButton.gradient(
-              width: double.infinity,
-              onPressed: () {
-                context.router.push(const MoviesScreenRoute());
-              },
-              gradient: Constants.buttonGradientOrange,
-              child: const Center(
-                child: Text(
-                  "CONTINUE",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    letterSpacing: 0.7,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+            //Welcome
+            Text(
+              "Welcome",
+              style: context.headline1.copyWith(
+                color: Constants.primaryColor,
+                fontSize: 45,
               ),
-            )
+            ),
+
+            const SizedBox(height: 50),
+
+            //User Details
+            const Flexible(
+              child: SizedBox(
+                width: double.infinity,
+                child: UserProfileDetails(),
+              ),
+            ),
+
+            const SizedBox(height: 60),
+
+            //Booking History Button
+            const ViewBookingsButton(),
+
+            const SizedBox(height: 20),
+
+            //Browse Movies Button
+            const BrowseMoviesButton(),
+
+            const SizedBox(height: Constants.bottomInsetsLow + 5),
           ],
         ),
       ),
     );
   }
 }
+
+

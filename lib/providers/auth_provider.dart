@@ -34,6 +34,10 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   String get currentUserEmail => _currentUser!.email;
 
+  String get currentUserAddress => _currentUser!.address;
+
+  String get currentUserContact => _currentUser!.contact;
+
   String get currentUserPassword => _password;
 
   void updateToken(String value) {
