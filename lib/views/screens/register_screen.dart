@@ -1,13 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../helper/extensions/context_extensions.dart';
 
 //Helpers
 import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/assets_helper.dart';
 import '../../helper/utils/constants.dart';
-import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -61,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       },
       padding: const EdgeInsets.only(left: 20, right: 15),
-      border: Border.all(color: Constants.primaryColor,width: 4),
+      border: Border.all(color: Constants.primaryColor, width: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
@@ -113,8 +115,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           final authState = watch(authProvider);
           if (authState is AUTHENTICATING) {
             return const Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              child: SpinKitRing(
+                color: Colors.white,
+                size: 30,
+                lineWidth: 4,
+                duration: Duration(milliseconds: 1100),
               ),
             );
           }
@@ -147,8 +152,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
-        onChange: (_, authState) async {
-          if (authState is AUTHENTICATED) {
+        onChange: (_, authState) async => (authState as AuthState).maybeWhen(
+          authenticated: (_) {
             emailController.clear();
             passwordController.clear();
             fullNameController.clear();
@@ -157,20 +162,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
             contactController.clear();
             _formHasData = false;
             context.router.popUntilRoot();
-          } else if (authState is FAILED) {
+          },
+          failed: (reason) async {
             await showDialog<bool>(
               context: context,
               barrierColor: Constants.barrierColor.withOpacity(0.75),
               builder: (ctx) {
                 return CustomDialog.alert(
                   title: "Register Failed",
-                  body: authState.reason,
+                  body: reason,
                   buttonText: "Retry",
                 );
               },
             );
-          }
-        },
+          },
+          orElse: () {},
+        ),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ScrollableColumn(

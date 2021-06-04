@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../helper/extensions/context_extensions.dart';
 
 //Helpers
 import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/constants.dart';
-import '../../helper/extensions/context_extensions.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -26,29 +28,32 @@ class LoginScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+    final formKey = useMemoized(()=>GlobalKey<FormState>());
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
-        onChange: (context, authState) async {
-          if (authState is AUTHENTICATED) {
+        onChange: (context, authState) async =>
+            (authState as AuthState).maybeWhen(
+          authenticated: (_) {
             emailController.clear();
             passwordController.clear();
             context.router.popUntilRoot();
-          } else if (authState is FAILED) {
+          },
+          failed: (reason) async {
             await showDialog<bool>(
               context: context,
               barrierColor: Constants.barrierColor.withOpacity(0.75),
               builder: (ctx) => CustomDialog.alert(
                 title: "Login Failed",
-                body: authState.reason,
+                body: reason,
                 buttonText: "Retry",
               ),
             );
-          }
-        },
+          },
+          orElse: () {},
+        ),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ScrollableColumn(
@@ -105,31 +110,34 @@ class LoginScreen extends HookWidget {
 
               //Login button
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
+                padding: const EdgeInsets.fromLTRB(
+                    20, 40, 20, Constants.bottomInsets),
                 child: CustomTextButton.gradient(
                   width: double.infinity,
                   onPressed: () async {
-                    print("ON_PRESSED");
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       context.read(authProvider.notifier).login(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
                     }
                   },
                   gradient: Constants.buttonGradientOrange,
                   child: Consumer(
                     builder: (context, watch, child) {
                       final authState = watch(authProvider);
-                      if (authState is AUTHENTICATING) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      return authState.maybeWhen(
+                        authenticating: () => const Center(
+                          child: SpinKitRing(
+                            color: Colors.white,
+                            size: 30,
+                            lineWidth: 4,
+                            duration: Duration(milliseconds: 1100),
                           ),
-                        );
-                      }
-                      return child!;
+                        ),
+                        orElse: () => child!,
+                      );
                     },
                     child: const Center(
                       child: Text(
