@@ -86,7 +86,7 @@ final bookingsProvider = Provider<BookingsProvider>((ref){
   return BookingsProvider(read: ref.read, bookingsRepository: _bookingsRepository);
 });
 
-final paymentsProvider = ChangeNotifierProvider<PaymentsProvider>((ref){
+final paymentsProvider = Provider<PaymentsProvider>((ref){
   final _paymentsRepository = ref.watch(_paymentsRepositoryProvider);
   return PaymentsProvider(read: ref.read, paymentsRepository: _paymentsRepository);
 });

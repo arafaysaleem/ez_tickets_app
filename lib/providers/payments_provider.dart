@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
@@ -11,23 +10,27 @@ import '../helper/utils/constants.dart';
 import '../models/payment_model.dart';
 import '../models/user_payment_model.dart';
 
+//States
+import 'states/payment_state.dart';
+
 //Services
+import '../services/networking/network_exception.dart';
 import '../services/repositories/payments_repository.dart';
 
 //Providers
 import 'all_providers.dart';
 import 'shows_provider.dart';
 
+final paymentStateProvider = StateProvider<PaymentState>((ref){
+  return const PaymentState.unprocessed();
+});
+
+final activePaymentModeProvider = StateProvider<PaymentMethod>((ref){
+  return PaymentMethod.CASH;
+});
+
 // ignore: prefer_mixin
-class PaymentsProvider with ChangeNotifier {
-  PaymentMethod _activePaymentMethod = PaymentMethod.COD;
-
-  PaymentMethod get activePaymentMethod => _activePaymentMethod;
-
-  void setActivePaymentMethod(PaymentMethod? method) {
-    _activePaymentMethod = method!;
-    notifyListeners();
-  }
+class PaymentsProvider {
 
   final PaymentsRepository _paymentsRepository;
   final Reader _reader;
@@ -60,7 +63,24 @@ class PaymentsProvider with ChangeNotifier {
     return await _paymentsRepository.fetchUserPayments(userId: userId);
   }
 
-  Future<void> confirmCashPayment(PaymentMethod paymentMethod) async {
+  Future<void> makePayment() async {
+    final _paymentStateProv = _reader(paymentStateProvider);
+    _paymentStateProv.state = const PaymentState.processing();
+    final _activePaymentMethod = _reader(activePaymentModeProvider).state;
+    try {
+      switch(_activePaymentMethod){
+        case PaymentMethod.CASH:
+        case PaymentMethod.COD: await _confirmCashPayment(); break;
+        case PaymentMethod.CARD: await _confirmCardPayment(); break;
+        default: await _confirmCashPayment(); break;
+      }
+      _paymentStateProv.state = const PaymentState.successful();
+    } on NetworkException catch (e) {
+      _paymentStateProv.state = PaymentState.failed(reason: e.message);
+    }
+  }
+
+  Future<void> _confirmCashPayment() async {
     final userId = _reader(authProvider.notifier).currentUserId;
     final showId = _reader(selectedShowTimeProvider).state.showId;
     final _bookingsProvider = _reader(bookingsProvider);
@@ -70,32 +90,29 @@ class PaymentsProvider with ChangeNotifier {
     );
     var amount = 0.0;
     final bookingIds = <int>[];
-    //TODO: Convert return message to int and check all true
     for(var booking in bookings){
       await _bookingsProvider.confirmBooking(booking);
       amount += booking.price;
       bookingIds.add(booking.bookingId!);
     }
-    _makeAPayment(
+    await _makeAPayment(
       userId: userId,
       showId: showId,
       amount: amount,
       paymentDatetime: DateTime.now(),
       bookingIds: bookingIds,
-      paymentMethod: paymentMethod,
+      paymentMethod: _reader(activePaymentModeProvider).state,
     );
   }
 
-  Future<bool> confirmCardPayment() async {
+  Future<void> _confirmCardPayment() async {
     final userId = _reader(authProvider.notifier).currentUserId;
     final showId = _reader(selectedShowTimeProvider).state.showId;
     final _bookingsProvider = _reader(bookingsProvider);
-    final bookingIds =
-        await _bookingsProvider.bookSelectedSeats(confirmEach: true);
-    final _theatersProvider = _reader(theatersProvider);
-    final amount =
-        _theatersProvider.selectedSeats.length * Constants.ticketPrice;
-    final newPayment = await _makeAPayment(
+    final bookingIds = await _bookingsProvider.bookSelectedSeats(confirmEach: true);
+    final selectedSeats = _reader(theatersProvider).selectedSeats;
+    final amount = selectedSeats.length * Constants.ticketPrice;
+    await _makeAPayment(
       userId: userId,
       showId: showId,
       amount: amount,
@@ -103,7 +120,6 @@ class PaymentsProvider with ChangeNotifier {
       bookingIds: bookingIds,
       paymentMethod: PaymentMethod.CARD,
     );
-    return newPayment.paymentId == null ? false : true;
   }
 
   Future<PaymentModel> _makeAPayment({
