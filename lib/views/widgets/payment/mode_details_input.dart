@@ -8,7 +8,7 @@ import '../../../helper/extensions/string_extension.dart';
 import '../../../helper/utils/constants.dart';
 
 //Providers
-import '../../../providers/all_providers.dart';
+import '../../../providers/payments_provider.dart';
 
 //Widgets
 import '../common/custom_dialog.dart';
@@ -45,16 +45,13 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
   @override
   Widget build(BuildContext context) {
     final deliveryAddressController = useTextEditingController(text: "");
+    final branchNameController = useTextEditingController(text: "");
     final zipcodeController = useTextEditingController(text: "");
     final promoCodeController = useTextEditingController(text: "");
     final creditCardNumberController = useTextEditingController(text: "");
     final creditCardCVVController = useTextEditingController(text: "");
     final creditCardExpiryController = useTextEditingController(text: "");
-
-    final activeMode = useProvider(paymentsProvider.select((provider) {
-      return provider.activePaymentMethod;
-    }));
-    final isCOD = activeMode == PaymentMethod.COD ? true : false;
+    final activeMode = useProvider(activePaymentModeProvider).state;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(
@@ -67,17 +64,22 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
           duration: const Duration(milliseconds: 550),
           switchOutCurve: Curves.easeInBack,
           switchInCurve: Curves.easeIn,
-          child: isCOD
+          child: activeMode == PaymentMethod.COD
               ? _CashOnDeliveryDetailFields(
                   deliveryAddressController: deliveryAddressController,
                   zipcodeController: zipcodeController,
                   promoCodeController: promoCodeController,
                 )
-              : _CardDetailFields(
-                  creditCardNumberController: creditCardNumberController,
-                  creditCardCVVController: creditCardCVVController,
-                  creditCardExpiryController: creditCardExpiryController,
-                ),
+              : activeMode == PaymentMethod.CARD
+                  ? _CardDetailFields(
+                      creditCardNumberController: creditCardNumberController,
+                      creditCardCVVController: creditCardCVVController,
+                      creditCardExpiryController: creditCardExpiryController,
+                    )
+                  : _CashOnHandDetailFields(
+                      branchNameController: branchNameController,
+                      promoCodeController: promoCodeController,
+                    ),
         ),
       ),
     );
@@ -131,6 +133,59 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
           validator: (zipCode) {
             if (zipCode != null && zipCode.isValidZipCode) return null;
             return "Please enter a valid zip code";
+          },
+        ),
+
+        const SizedBox(height: 5),
+
+        //Promo Code
+        CustomTextField(
+          controller: promoCodeController,
+          floatingText: "Promo code",
+          hintText: "Enter promo code",
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.done,
+          validator: (_) {},
+          prefix: const Icon(
+            Icons.local_activity_rounded,
+            color: Constants.primaryColor,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CashOnHandDetailFields extends StatelessWidget {
+  final TextEditingController branchNameController;
+  final TextEditingController promoCodeController;
+
+  const _CashOnHandDetailFields({
+    Key? key,
+    required this.branchNameController,
+    required this.promoCodeController,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const SizedBox(height: 5),
+
+        //Branch Name
+        CustomTextField(
+          controller: branchNameController,
+          floatingText: "Branch Name",
+          hintText: "Enter the branch name",
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+          validator: (branchName) {
+            if (branchName!.isEmpty) {
+              return "Please enter the branch name";
+            }
+            return null;
           },
         ),
 

@@ -13,7 +13,7 @@ class BillingDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -106,13 +106,18 @@ class BillingDetails extends StatelessWidget {
           //Billing Total
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              Text(
-                "Total - Rs. ${3 * Constants.ticketPrice}",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+            children: [
+              Consumer(
+                builder: (ctx,watch,_) {
+                  final numSeats = watch(theatersProvider).selectedSeats.length;
+                  return Text(
+                    "Total - Rs. ${numSeats * Constants.ticketPrice}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -43,7 +43,7 @@ class PaymentScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              //Payment Details White Box
+              //Payment Details Black Box
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -57,8 +57,6 @@ class PaymentScreen extends StatelessWidget {
                     children: const [
                       //Payment Mode Options
                       PaymentOptions(),
-
-                      SizedBox(height: 5),
 
                       //Mode Details Form
                       Expanded(child: ModeDetailsInput()),

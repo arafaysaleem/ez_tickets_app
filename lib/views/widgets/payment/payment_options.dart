@@ -8,16 +8,14 @@ import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
 //Providers
-import '../../../providers/all_providers.dart';
+import '../../../providers/payments_provider.dart';
 
 class PaymentOptions extends HookWidget {
   const PaymentOptions();
 
   @override
   Widget build(BuildContext context) {
-    final activePaymentMode = useProvider(paymentsProvider.select((provider) {
-      return provider.activePaymentMethod;
-    }));
+    final activePaymentMode = useProvider(activePaymentModeProvider).state;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,30 +37,33 @@ class PaymentOptions extends HookWidget {
         //Payment options
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
             children: [
-              //COD Button
+              //On Hand Cash Button
               Radio<PaymentMethod>(
-                value: PaymentMethod.COD,
+                value: PaymentMethod.CASH,
                 fillColor:
-                    MaterialStateProperty.all<Color>(Constants.primaryColor),
+                MaterialStateProperty.all<Color>(Constants.primaryColor),
                 activeColor: Constants.primaryColor,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 groupValue: activePaymentMode,
-                onChanged:
-                    context.read(paymentsProvider).setActivePaymentMethod,
+                onChanged:(mode) {
+                  context.read(activePaymentModeProvider).state = mode!;
+                },
               ),
 
-              //COD Label
+              //On Hand Cash Label
               Text(
-                "Cash On Delivery",
+                "On Hand Cash",
                 style: context.bodyText1.copyWith(
                   color: Constants.textGreyColor,
                   fontSize: 17,
                 ),
               ),
 
-              const SizedBox(width: 20),
+              const SizedBox(width: 10),
 
               //Card Button
               Radio<PaymentMethod>(
@@ -72,13 +73,38 @@ class PaymentOptions extends HookWidget {
                 activeColor: Constants.primaryColor,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 groupValue: activePaymentMode,
-                onChanged:
-                    context.read(paymentsProvider).setActivePaymentMethod,
+                onChanged:(mode) {
+                  context.read(activePaymentModeProvider).state = mode!;
+                },
               ),
 
               //Card Label
               Text(
                 "Card",
+                style: context.bodyText1.copyWith(
+                  color: Constants.textGreyColor,
+                  fontSize: 17,
+                ),
+              ),
+
+              const SizedBox(width: 10),
+
+              //COD Button
+              Radio<PaymentMethod>(
+                value: PaymentMethod.COD,
+                fillColor:
+                MaterialStateProperty.all<Color>(Constants.primaryColor),
+                activeColor: Constants.primaryColor,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                groupValue: activePaymentMode,
+                onChanged:(mode) {
+                  context.read(activePaymentModeProvider).state = mode!;
+                },
+              ),
+
+              //COD Label
+              Text(
+                "Cash On Delivery",
                 style: context.bodyText1.copyWith(
                   color: Constants.textGreyColor,
                   fontSize: 17,
