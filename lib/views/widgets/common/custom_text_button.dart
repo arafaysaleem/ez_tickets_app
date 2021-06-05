@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 //Helpers
+import '../../../helper/utils/constants.dart';
 import '../../../helper/extensions/context_extensions.dart';
 
 class CustomTextButton extends StatelessWidget {
   final double height;
   final double? width;
   final VoidCallback onPressed;
+  final bool disabled;
   final Color? color;
   final EdgeInsetsGeometry? padding;
   final Border? border;
@@ -19,14 +21,16 @@ class CustomTextButton extends StatelessWidget {
     double? height,
     double? borderRadius,
     this.width,
+    bool? disabled,
     this.gradient,
     this.border,
     this.color,
     this.padding,
     required this.child,
     required this.onPressed,
-  })   : borderRadius = borderRadius ?? 7,
+  })  : borderRadius = borderRadius ?? 7,
         height = height ?? 55,
+        disabled = disabled ?? false,
         super(key: key);
 
   const factory CustomTextButton.gradient({
@@ -34,6 +38,7 @@ class CustomTextButton extends StatelessWidget {
     double? height,
     double? width,
     double? borderRadius,
+    bool? disabled,
     EdgeInsetsGeometry? padding,
     required Widget child,
     required VoidCallback onPressed,
@@ -44,6 +49,7 @@ class CustomTextButton extends StatelessWidget {
     Key? key,
     double? height,
     double? width,
+    bool? disabled,
     double? borderRadius,
     EdgeInsetsGeometry? padding,
     required Border border,
@@ -57,9 +63,11 @@ class CustomTextButton extends StatelessWidget {
     final textButtonTheme = theme.textButtonTheme;
     return TextButton(
       style: textButtonTheme.style!.copyWith(
-        overlayColor: MaterialStateProperty.all(theme.primaryColor),
+        overlayColor: MaterialStateProperty.all(
+          disabled ? Constants.scaffoldGreyColor : theme.primaryColor,
+        ),
       ),
-      onPressed: onPressed,
+      onPressed: disabled ? (){} : onPressed,
       child: Container(
         height: height,
         width: width,
@@ -67,7 +75,7 @@ class CustomTextButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
           border: border,
-          gradient: gradient,
+          gradient: disabled ? Constants.buttonGradientGrey : gradient,
           color: color,
         ),
         child: child,
@@ -81,6 +89,7 @@ class _CustomTextButtonWithGradient extends CustomTextButton {
     Key? key,
     double? height,
     double? width,
+    bool? disabled,
     double? borderRadius,
     EdgeInsetsGeometry? padding,
     required Widget child,
@@ -93,6 +102,7 @@ class _CustomTextButtonWithGradient extends CustomTextButton {
           padding: padding,
           borderRadius: borderRadius,
           child: child,
+          disabled: disabled ?? false,
           onPressed: onPressed,
           gradient: gradient,
         );
@@ -103,6 +113,7 @@ class _CustomTextButtonOutlined extends CustomTextButton {
     Key? key,
     double? height,
     double? width,
+    bool? disabled,
     double? borderRadius,
     EdgeInsetsGeometry? padding,
     required Border border,
@@ -115,6 +126,7 @@ class _CustomTextButtonOutlined extends CustomTextButton {
           padding: padding,
           borderRadius: borderRadius,
           border: border,
+          disabled: disabled ?? false,
           child: child,
           onPressed: onPressed,
         );

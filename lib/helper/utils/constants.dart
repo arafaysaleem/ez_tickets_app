@@ -36,6 +36,11 @@ class Constants {
     colors: [orangeColor, redColor],
   );
 
+  /// The orange [LinearGradient] for disabled buttons in the app.
+  static const Gradient buttonGradientGrey = LinearGradient(
+    colors: [textGreyColor, scaffoldGreyColor],
+  );
+
   /// The price for a single seat ticket
   static const double ticketPrice = 800;
 

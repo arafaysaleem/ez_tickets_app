@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
+import '../../enums/show_status_enum.dart';
 import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
 
@@ -162,23 +163,31 @@ class ShowsScreen extends HookWidget {
                       //Continue button
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: CustomTextButton.gradient(
-                          width: double.infinity,
-                          onPressed: () {
-                            context.router.push(const TheaterScreenRoute());
-                          },
-                          gradient: Constants.buttonGradientOrange,
-                          child: const Center(
-                            child: Text(
-                              "CONTINUE",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                letterSpacing: 0.7,
-                                fontWeight: FontWeight.w600,
+                        child: Consumer(
+                          builder: (ctx,watch,child) {
+                            final showStatus = watch(selectedShowTimeProvider)
+                                .state
+                                .showStatus;
+                            return CustomTextButton.gradient(
+                              width: double.infinity,
+                              disabled: showStatus == ShowStatus.FULL,
+                              onPressed: () {
+                                context.router.push(const TheaterScreenRoute());
+                              },
+                              gradient: Constants.buttonGradientOrange,
+                              child: const Center(
+                                child: Text(
+                                  "CONTINUE",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    letterSpacing: 0.7,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                       ),
 

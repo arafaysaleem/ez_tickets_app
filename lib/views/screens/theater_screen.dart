@@ -37,6 +37,10 @@ class TheaterScreen extends HookWidget {
     return _seatSize * (14) + _seatGap + 3;
   }
 
+  double getMaxScreenWidth(int seatsPerRow) {
+    return seatsPerRow * (_seatSize + _seatGap + 3);
+  }
+
   @override
   Widget build(BuildContext context) {
     final showSeatingModelFuture = useProvider(showSeatingFuture);
@@ -63,7 +67,7 @@ class TheaterScreen extends HookWidget {
                     data: (showSeatingModel) {
                       final theater = showSeatingModel.theater;
                       final minScreenWidth = context.screenWidth;
-                      var screenWidth = theater.seatsPerRow * (_seatSize + _seatGap);
+                      var screenWidth = getMaxScreenWidth(theater.seatsPerRow);
                       screenWidth = max(screenWidth, minScreenWidth);
                       final maxGridHeight = getMaxGridHeight(theater.numOfRows);
                       late final screenScrollController = useScrollController();
