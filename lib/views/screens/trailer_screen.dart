@@ -77,22 +77,26 @@ class _TrailerScreenState extends State<TrailerScreen> {
               children: [
                 const SizedBox(width: 15),
                 GestureDetector(
-                  child: const Icon(Icons.arrow_back_sharp, size: 30),
+                  child: const Icon(Icons.arrow_back_sharp, size: 26),
                   onTap: () {
                     context.router.pop();
                   },
                 ),
-                const SizedBox(width: 70),
+
+                const SizedBox(width: 20),
 
                 //Movie Title
-                Consumer(
-                  builder: (_, watch, __) {
-                    final title = watch(selectedMovieProvider).state.title;
-                    return Text(
-                      title,
-                      style: context.headline3.copyWith(fontSize: 28),
-                    );
-                  },
+                Expanded(
+                  child: Consumer(
+                    builder: (_, watch, __) {
+                      final title = watch(selectedMovieProvider).state.title;
+                      return Text(
+                        title,
+                        maxLines: 1,
+                        style: context.headline3.copyWith(fontSize: 22),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

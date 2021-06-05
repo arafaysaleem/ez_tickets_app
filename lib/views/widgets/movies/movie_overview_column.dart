@@ -25,6 +25,8 @@ class MovieOverviewColumn extends StatelessWidget {
         //Title
         Text(
           movie.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: context.headline2.copyWith(
             color: Colors.black,
             fontSize: 26,
@@ -36,7 +38,7 @@ class MovieOverviewColumn extends StatelessWidget {
         //Genres
         CustomChipsList(
           chipHeight: 26,
-          chipGap: 9,
+          chipGap: 7,
           chipContents: movie.genreNames.sublist(0, 3),
         ),
 

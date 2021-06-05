@@ -50,6 +50,7 @@ class CustomChipsList extends StatelessWidget {
               style: TextStyle(
                 color: contentColor,
                 fontSize: fontSize,
+                height: 1,
                 fontWeight: fontWeight
               ),
             ),
