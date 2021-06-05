@@ -7,7 +7,7 @@ import '../helper/extensions/string_extension.dart';
 /// A collection of statuses that a show can have.
 enum ShowStatus {
   @JsonValue("free") FREE,
-  @JsonValue("almost_free") ALMOST_FULL,
+  @JsonValue("almost_full") ALMOST_FULL,
   @JsonValue("full") FULL,
 }
 

@@ -66,15 +66,15 @@ class ShowDetailsBox extends HookWidget {
                 //Seating level icon
                 if (showTime.showStatus == ShowStatus.FULL)
                   const Icon(
-                    Icons.error_rounded,
-                    size: 25,
-                    color: Colors.amber,
-                  )
-                else if (showTime.showStatus == ShowStatus.ALMOST_FULL)
-                  const Icon(
                     Icons.warning_rounded,
                     size: 25,
                     color: Colors.red,
+                  )
+                else if (showTime.showStatus == ShowStatus.ALMOST_FULL)
+                  const Icon(
+                    Icons.error_rounded,
+                    size: 25,
+                    color: Colors.amber,
                   )
                 else if (showTime.showStatus == ShowStatus.FREE)
                   const Icon(
