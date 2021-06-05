@@ -11,7 +11,7 @@ class UserModel with _$UserModel {
 
   @JsonSerializable()
   const factory UserModel({
-    @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? userId,
+    @JsonKey(includeIfNull: false) required int? userId,
     required String fullName,
     required String email,
     required String address,
