@@ -34,7 +34,7 @@ class TheaterScreen extends HookWidget {
   static const _seatGap = 7.0;
 
   double getMaxGridHeight(int numOfRows) {
-    return _seatSize * (numOfRows + 2) + _seatGap + 3;
+    return _seatSize * (14) + _seatGap + 3;
   }
 
   @override
