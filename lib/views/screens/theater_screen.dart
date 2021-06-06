@@ -170,6 +170,7 @@ class _BackIcon extends StatelessWidget {
       child: InkResponse(
         radius: 25,
         onTap: () {
+          context.read(theatersProvider).clearSelectedSeats();
           context.router.pop();
         },
         child: const DecoratedBox(
