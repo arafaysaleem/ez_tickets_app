@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../helper/extensions/context_extensions.dart';
 
 //Helpers
+import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
 class CustomTextField extends StatefulWidget {
