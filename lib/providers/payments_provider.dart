@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
-import '../enums/booking_status_enum.dart';
+// import '../enums/booking_status_enum.dart';
 import '../enums/payment_method_enum.dart';
 
 //Helpers
@@ -90,30 +90,30 @@ class PaymentsProvider {
     await _bookingsProvider.bookSelectedSeats();
   }
 
-  Future<void> _confirmCashPayment() async {
-    final userId = _reader(authProvider.notifier).currentUserId;
-    final showId = _reader(selectedShowTimeProvider).state.showId;
-    final _bookingsProvider = _reader(bookingsProvider);
-    final bookings = await _bookingsProvider.getFilteredBookings(
-      userId: userId,
-      showId: showId,
-      bookingStatus: BookingStatus.RESERVED,
-    );
-    var amount = 0.0;
-    final bookingIds = <int>[];
-    for(var booking in bookings){
-      amount += booking.price;
-      bookingIds.add(booking.bookingId!);
-    }
-    await _makeAPayment(
-      userId: userId,
-      showId: showId,
-      amount: amount,
-      paymentDatetime: DateTime.now(),
-      bookingIds: bookingIds,
-      paymentMethod: _reader(activePaymentModeProvider).state,
-    );
-  }
+  // Future<void> _confirmCashPayment() async {
+  //   final userId = _reader(authProvider.notifier).currentUserId;
+  //   final showId = _reader(selectedShowTimeProvider).state.showId;
+  //   final _bookingsProvider = _reader(bookingsProvider);
+  //   final bookings = await _bookingsProvider.getFilteredBookings(
+  //     userId: userId,
+  //     showId: showId,
+  //     bookingStatus: BookingStatus.RESERVED,
+  //   );
+  //   var amount = 0.0;
+  //   final bookingIds = <int>[];
+  //   for(var booking in bookings){
+  //     amount += booking.price;
+  //     bookingIds.add(booking.bookingId!);
+  //   }
+  //   await _makeAPayment(
+  //     userId: userId,
+  //     showId: showId,
+  //     amount: amount,
+  //     paymentDatetime: DateTime.now(),
+  //     bookingIds: bookingIds,
+  //     paymentMethod: _reader(activePaymentModeProvider).state,
+  //   );
+  // }
 
   Future<void> _confirmCardPayment() async {
     final userId = _reader(authProvider.notifier).currentUserId;
@@ -154,25 +154,25 @@ class PaymentsProvider {
     return payment.copyWith(paymentId: paymentId);
   }
 
-  Future<String> _editPayment({
-    required PaymentModel payment,
-    int? userId,
-    int? showId,
-    double? amount,
-    DateTime? paymentDatetime,
-    PaymentMethod? paymentMethod,
-  }) async {
-    final data = payment.toUpdateJson(
-      userId: userId,
-      showId: showId,
-      amount: amount,
-      paymentDatetime: paymentDatetime,
-      paymentMethod: paymentMethod,
-    );
-    if (data.isEmpty) return "Nothing to update!";
-    return await _paymentsRepository.update(
-        paymentId: payment.paymentId!, data: data);
-  }
+  // Future<String> _editPayment({
+  //   required PaymentModel payment,
+  //   int? userId,
+  //   int? showId,
+  //   double? amount,
+  //   DateTime? paymentDatetime,
+  //   PaymentMethod? paymentMethod,
+  // }) async {
+  //   final data = payment.toUpdateJson(
+  //     userId: userId,
+  //     showId: showId,
+  //     amount: amount,
+  //     paymentDatetime: paymentDatetime,
+  //     paymentMethod: paymentMethod,
+  //   );
+  //   if (data.isEmpty) return "Nothing to update!";
+  //   return await _paymentsRepository.update(
+  //       paymentId: payment.paymentId!, data: data);
+  // }
 
   Future<String> removePayment({
     required int paymentId,

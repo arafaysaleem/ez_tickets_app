@@ -112,31 +112,31 @@ class BookingsProvider {
     return booking.copyWith(bookingId: bookingId);
   }
 
-  Future<String> _editBooking({
-    required BookingModel booking,
-    int? userId,
-    int? showId,
-    String? seatRow,
-    int? seatNumber,
-    double? price,
-    BookingStatus? bookingStatus,
-    DateTime? bookingDatetime,
-  }) async {
-    final data = booking.toUpdateJson(
-      userId: userId,
-      showId: showId,
-      seatRow: seatRow,
-      seatNumber: seatNumber,
-      price: price,
-      bookingStatus: bookingStatus,
-      bookingDatetime: bookingDatetime,
-    );
-    if (data.isEmpty) return "Nothing to update!";
-    return await _bookingsRepository.update(
-      bookingId: booking.bookingId!,
-      data: data,
-    );
-  }
+  // Future<String> _editBooking({
+  //   required BookingModel booking,
+  //   int? userId,
+  //   int? showId,
+  //   String? seatRow,
+  //   int? seatNumber,
+  //   double? price,
+  //   BookingStatus? bookingStatus,
+  //   DateTime? bookingDatetime,
+  // }) async {
+  //   final data = booking.toUpdateJson(
+  //     userId: userId,
+  //     showId: showId,
+  //     seatRow: seatRow,
+  //     seatNumber: seatNumber,
+  //     price: price,
+  //     bookingStatus: bookingStatus,
+  //     bookingDatetime: bookingDatetime,
+  //   );
+  //   if (data.isEmpty) return "Nothing to update!";
+  //   return await _bookingsRepository.update(
+  //     bookingId: booking.bookingId!,
+  //     data: data,
+  //   );
+  // }
 
   Future<String> removeBooking({
     required int bookingId,
