@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../helper/utils/constants.dart';
 import '../enums/user_role_enum.dart';
 
 part 'user_model.freezed.dart';
