@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.inceptrafay.ez_ticketz_app">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="ez_ticketz_app"
+        android:label="EZ Ticketz"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

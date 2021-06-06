@@ -33,6 +33,7 @@ dev_dependencies:
   json_serializable: ^4.1.3
   build_runner: null
   effective_dart: ^1.3.1
+  flutter_native_splash: ^1.1.8+4
 flutter:
   uses-material-design: true
   assets:
@@ -41,3 +42,17 @@ flutter_icons:
   android: true
   ios: false
   image_path: assets/app_icon.png
+flutter_native_splash:
+  color: "#141414"
+  image: assets/app_icon.png
+
+  #android: false
+  ios: false
+  web: false
+
+  # bottom, center,
+  # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
+  # fill_vertical, left, right, start, or top.
+  #android_gravity: center
+
+  #fullscreen: true
