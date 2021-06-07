@@ -8,7 +8,7 @@ on:
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 jobs:
   build:
-    name: Build APK
+    name: Test APK
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
