@@ -35,8 +35,8 @@ jobs:
       uses: mathieudutour/github-tag-action@v5.5
       with:
         github_token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
-        default-bump: minor # major, minor, patch, false
-        custom-release-rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
+        default_bump: minor # major, minor, patch, false
+        custom_release_rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
     - name: Upload release apk to artifacts
       uses: ncipollo/release-action@v1.8.6
       with:
