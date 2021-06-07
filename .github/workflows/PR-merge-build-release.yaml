@@ -5,7 +5,6 @@ on:
     types: [ closed ]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 
-    # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
 name: Build Release APK
@@ -32,18 +31,24 @@ jobs:
     - name: Generate splitted release apks
       run: flutter build apk --obfuscate --split-debug-info=/ez_tickets_app/debug_trace --split-per-abi
     - name: Bump version and push tag
-      uses: mathieudutour/github-tag-action@v5.1
+      id: generate_tag
+      uses: mathieudutour/github-tag-action@v5.5
       with:
         github_token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
-      id: generate-tag
+        default-bump: minor # major, minor, patch, false
+        custom-release-rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,
+        refact:patch:Refactors,docs:patch:Documentation Changes,
+        build:patch:Build System/Dependency Upgrades"
     - name: Upload release apk to artifacts
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.8.6
       with:
-        tag: "${{ steps.generate-tag.outputs.new_tag }}"
+        tag: "${{ steps.generate_tag.outputs.new_tag }}"
         artifacts: "build/app/outputs/apk/release/*.apk"
+        name: Release ${{ steps.generate_tag.outputs.new_tag }}
+        body: ${{ steps.generate_tag.outputs.changelog }}
         token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
     - name: Upload apks to google drive
-      uses: mkrakowitzer/actions-googledrive@master
+      uses: mkrakowitzer/actions-googledrive@1
       with:
         upload-from: ./build/app/outputs/apk/release/
         upload-to: APKS/ez_tickets_app/
