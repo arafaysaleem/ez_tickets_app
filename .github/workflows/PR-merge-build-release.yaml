@@ -36,7 +36,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         default_bump: minor # major, minor, patch, false
-        custom_release_rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
+        custom_release_rules: "ci:patch:CI/CD,chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
     - name: Upload release apk to artifacts
       uses: ncipollo/release-action@v1.8.6
       with:
@@ -44,7 +44,7 @@ jobs:
         artifacts: "build/app/outputs/apk/release/app-arm*.apk"
         name: "Release ${{ steps.generate_tag.outputs.new_tag }}"
         body: "${{ steps.generate_tag.outputs.changelog }}"
-        token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload apks to google drive
       uses: mkrakowitzer/actions-googledrive@1
       with:
