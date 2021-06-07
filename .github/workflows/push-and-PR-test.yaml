@@ -1,12 +1,10 @@
-name: Test PR
+name: Test PR and Push
 on:
   pull_request:
-    branches:
-      - release
+    branches: [release,dev,master]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
   push:
-    branches:
-      - master
+    branches: [dev,feature/**]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 jobs:
   build:

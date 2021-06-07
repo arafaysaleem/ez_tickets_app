@@ -1,0 +1,101 @@
+enums:
+  - any: ['lib/enums/**/*']
+
+extensions:
+  - any: [ 'lib/helper/extensions/**/*']
+
+utilities:
+  - any: [ 'lib/helper/utils/**/*']
+
+helpers:
+  - any: ['lib/helper/**/*','lib/enums/**/*']
+
+models:
+  - any: ['lib/models/**/*']
+
+providers:
+  - any: ['lib/providers/**/*']
+
+routes:
+  - any: ['lib/routes/**/*']
+
+local_storage:
+  - any: ['lib/services/local_storage/**/*']
+
+networking:
+   - any: ['lib/services/networking/**/*']
+
+repositories:
+  - any: ['lib/services/repositories/**/*']
+
+interceptors:
+  - any: ['lib/services/interceptors/**/*']
+
+api:
+  - any: ['lib/services/networking/**/*api*']
+
+dio:
+  - any: ['lib/services/networking/**/*dio*']
+
+shared-preferences:
+  - any: ['lib/services/local_storage/**/*prefs*']
+
+exceptions:
+  - any: ['lib/**/*exception*']
+
+services:
+  - any: ['lib/services/**/*']
+
+views:
+  - any: ['lib/views/**/*']
+
+screens:
+  - any: ['lib/views/screens/**/*']
+
+widgets:
+  - any: ['lib/views/widgets/**/*']
+
+skeletons:
+  - any: ['lib/views/skeletons/**/*']
+
+presentation-layer:
+  - any: ['lib/views/**/*']
+
+business-layer:
+  - any: ['lib/providers/**/*','lib/helper/**/*','lib/enums/**/*','lib/routes/**/*']
+
+data-layer:
+  - any: ['lib/services/**/*','lib/models/**/*']
+
+config:
+  - any: ['lib/main.dart']
+
+dependencies:
+  - all: ['pubspec.yaml','pubspec.lock']
+
+linting:
+  - any: ['analysis_options.yaml']
+
+analyzer:
+  - any: ['analysis_options.yaml']
+
+code-gen:
+  - any: ['build.yaml']
+
+CI/CD:
+  - any: ['.github/**/*']
+
+assets:
+  - any: ['assets/**/*']
+
+documentation:
+  - any: ['README.md','doc/**/*']
+
+chores:
+  - any: ['.gitignore']
+
+native/android:
+  - any: ['android']
+
+gradle:
+  - any: ['android']

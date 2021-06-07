@@ -1,0 +1,53 @@
+on:
+  pull_request:
+    branches:
+      - master
+    types: [ closed ]
+    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+name: Build Release APK
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    name: build-release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Checkout Flutter Stable Channel
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'
+    - name: Get Pub Dependencies
+      run: flutter pub get
+    - name: Run build runner for codegen files
+      run: flutter packages pub run build_runner build --delete-conflicting-outputs
+    - name: Run Dart Analyzer
+      run: flutter analyze .
+    - name: Generate splitted release apks
+      run: flutter build apk --obfuscate --split-debug-info=/ez_tickets_app/debug_trace --split-per-abi
+    - name: Bump version and push tag
+      uses: mathieudutour/github-tag-action@v5.1
+      with:
+        github_token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
+      id: generate-tag
+    - name: Upload release apk to artifacts
+      uses: ncipollo/release-action@v1
+      with:
+        tag: "${{ steps.generate-tag.outputs.new_tag }}"
+        artifacts: "build/app/outputs/apk/release/*.apk"
+        token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
+    - name: Upload apks to google drive
+      uses: mkrakowitzer/actions-googledrive@master
+      with:
+        upload-from: ./build/app/outputs/apk/release/
+        upload-to: APKS/ez_tickets_app/
+        skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+        google-client-id: ${{ secrets.DRIVE_CLIENT_ID }}
+        google-client-secret: ${{ secrets.DRIVE_CLIENT_SECRET }}
+        remove-outdated: 'false'
