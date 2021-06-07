@@ -1,7 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
-// import '../enums/booking_status_enum.dart';
 import '../enums/payment_method_enum.dart';
 
 //Helpers
@@ -30,7 +29,6 @@ final activePaymentModeProvider = StateProvider<PaymentMethod>((ref){
   return PaymentMethod.CASH;
 });
 
-// ignore: prefer_mixin
 class PaymentsProvider {
 
   final PaymentsRepository _paymentsRepository;

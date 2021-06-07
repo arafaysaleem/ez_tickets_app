@@ -40,8 +40,7 @@ final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   );
 });
 
-// ignore: prefer_mixin
-class TheatersProvider with ChangeNotifier {
+class TheatersProvider extends ChangeNotifier {
   final TheatersRepository _theatersRepository;
   final Map<int,TheaterModel> _theatersMap = {};
   final List<SeatModel> _selectedSeats = [];
