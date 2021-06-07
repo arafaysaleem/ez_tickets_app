@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: '12.x'
     - name: Checkout Flutter Stable Channel
-      uses: subosito/flutter-action@v1
+      uses: subosito/flutter-action@v1.5.1
       with:
         channel: 'stable'
     - name: Get Pub Dependencies
