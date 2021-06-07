@@ -4,7 +4,7 @@ on:
     branches: [release,dev,master]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
   push:
-    branches: [feature/**]
+    branches: [feature/**,hotfix/**]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 jobs:
   build:
@@ -26,4 +26,4 @@ jobs:
     - name: Run Dart Analyzer
       run: flutter analyze .
     - name: Attempt release build generation
-      run: flutter build apk --split-per-abi
+      run: flutter build apk --target-platform android-arm,android-arm64 --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
