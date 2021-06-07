@@ -73,14 +73,23 @@ class TheatersProvider with ChangeNotifier {
     final Map<String, String>? queryParams = {
       if (theaterType != null) "theater_type": theaterType.toJson,
     };
-    return await _theatersRepository.fetchAll(queryParameters: queryParams);
+    final theaters = await _theatersRepository.fetchAll(queryParameters: queryParams);
+    for(var theater in theaters) {
+      _theatersMap[theater.theaterId!] = theater;
+    }
+    return theaters;
   }
 
   Future<TheaterModel> getTheaterById({
     required int theaterId,
   }) async {
-    if(_theatersMap.isEmpty){}
-    return await _theatersRepository.fetchOne(theaterId: theaterId);
+    //Check local list for preloaded theaters, return if found.
+    if(_theatersMap.containsKey(theaterId)) return _theatersMap[theaterId]!;
+
+    //Else load it from network and cache it in the Map.
+    final theater = await _theatersRepository.fetchOne(theaterId: theaterId);
+    _theatersMap[theaterId] = theater;
+    return theater;
   }
 
   Future<TheaterModel> uploadNewTheater({
