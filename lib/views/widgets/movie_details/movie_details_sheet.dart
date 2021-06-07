@@ -87,7 +87,8 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         panelController.animatePanelToPosition(
           snapPoint,
-          duration: const Duration(milliseconds: 0),
+          duration: const Duration(milliseconds: 1150),
+          curve: Curves.elasticOut,
         );
       });
     }, const []);
