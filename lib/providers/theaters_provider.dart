@@ -7,17 +7,17 @@ import '../enums/theater_type_enum.dart';
 
 //Models
 import '../models/seat_model.dart';
-import '../models/theater_model.dart';
 import '../models/show_seating_model.dart';
+import '../models/theater_model.dart';
 
 //Services
 import '../services/repositories/theaters_repository.dart';
+import 'all_providers.dart';
 
 //Providers
 import 'shows_provider.dart';
-import 'all_providers.dart';
 
-final selectedTheaterNameProvider = StateProvider<String>((_)=>"");
+final selectedTheaterNameProvider = StateProvider<String>((_) => "");
 
 final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
   final _selectedShowTime = ref.watch(selectedShowTimeProvider).state;
@@ -28,7 +28,8 @@ final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
 
   final _bookingsProvider = ref.watch(bookingsProvider);
   final _showId = _selectedShowTime.showId;
-  final bookedSeats = await _bookingsProvider.getShowBookedSeats(showId: _showId);
+  final bookedSeats =
+      await _bookingsProvider.getShowBookedSeats(showId: _showId);
 
   ref.read(selectedTheaterNameProvider).state = theater.theaterName;
 
@@ -42,19 +43,20 @@ final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
 // ignore: prefer_mixin
 class TheatersProvider with ChangeNotifier {
   final TheatersRepository _theatersRepository;
-
+  final Map<int,TheaterModel> _theatersMap = {};
   final List<SeatModel> _selectedSeats = [];
 
-  UnmodifiableListView<SeatModel> get selectedSeats => UnmodifiableListView<SeatModel>(_selectedSeats);
+  UnmodifiableListView<SeatModel> get selectedSeats =>
+      UnmodifiableListView<SeatModel>(_selectedSeats);
 
-  List<String> get selectedSeatNames {
-    return _selectedSeats.map((seat)=>"${seat.seatRow}-${seat.seatNumber}").toList();
-  }
+  List<String> get selectedSeatNames => _selectedSeats
+      .map((seat) => "${seat.seatRow}-${seat.seatNumber}")
+      .toList();
 
   TheatersProvider(this._theatersRepository);
 
-  void toggleSeat({required SeatModel seat, required bool select}){
-    if(select) {
+  void toggleSeat({required SeatModel seat, required bool select}) {
+    if (select) {
       _selectedSeats.add(seat);
     } else {
       _selectedSeats.remove(seat);
@@ -77,6 +79,7 @@ class TheatersProvider with ChangeNotifier {
   Future<TheaterModel> getTheaterById({
     required int theaterId,
   }) async {
+    if(_theatersMap.isEmpty){}
     return await _theatersRepository.fetchOne(theaterId: theaterId);
   }
 
