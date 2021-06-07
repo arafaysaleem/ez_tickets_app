@@ -29,21 +29,19 @@ jobs:
     - name: Run Dart Analyzer
       run: flutter analyze .
     - name: Generate splitted release apks
-      run: flutter build apk --obfuscate --split-debug-info=/ez_tickets_app/debug_trace --split-per-abi
+      run: flutter build apk --target-platform android-arm,android-arm64 --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
     - name: Bump version and push tag
       id: generate_tag
       uses: mathieudutour/github-tag-action@v5.5
       with:
         github_token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
         default-bump: minor # major, minor, patch, false
-        custom-release-rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,
-        refact:patch:Refactors,docs:patch:Documentation Changes,
-        build:patch:Build System/Dependency Upgrades"
+        custom-release-rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
     - name: Upload release apk to artifacts
       uses: ncipollo/release-action@v1.8.6
       with:
         tag: "${{ steps.generate_tag.outputs.new_tag }}"
-        artifacts: "build/app/outputs/apk/release/*.apk"
+        artifacts: "build/app/outputs/apk/release/app-arm*.apk"
         name: Release ${{ steps.generate_tag.outputs.new_tag }}
         body: ${{ steps.generate_tag.outputs.changelog }}
         token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
