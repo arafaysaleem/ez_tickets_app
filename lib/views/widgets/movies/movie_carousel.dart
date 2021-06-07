@@ -124,6 +124,7 @@ class _MovieContainer extends HookWidget {
               imageUrl: movie.posterUrl,
               height: constraints.minHeight * 0.58,
               fit: BoxFit.fill,
+              onTap: onViewDetails,
               placeholder: MoviePosterPlaceholder(
                 height: constraints.minHeight * 0.58,
               ),

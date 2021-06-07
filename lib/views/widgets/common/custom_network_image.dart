@@ -11,6 +11,7 @@ class CustomNetworkImage extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Widget? placeholder;
   final Widget? errorWidget;
+  final VoidCallback? onTap;
 
   const CustomNetworkImage({
     double? width,
@@ -18,6 +19,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.margin,
     this.fit,
     this.height,
+    this.onTap,
     this.borderRadius,
     this.placeholder,
     this.errorWidget,
@@ -39,12 +41,15 @@ class CustomNetworkImage extends StatelessWidget {
         padding: margin ?? EdgeInsets.zero,
         child: errorWidget ?? const SizedBox.shrink(),
       ),
-      imageBuilder: (ctx, imageProvider) => Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: imageProvider,fit: fit),
-          borderRadius: borderRadius ?? BorderRadius.circular(radius),
+      imageBuilder: (ctx, imageProvider) => GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image: imageProvider,fit: fit),
+            borderRadius: borderRadius ?? BorderRadius.circular(radius),
+          ),
+          margin: margin,
         ),
-        margin: margin,
       ),
     );
   }

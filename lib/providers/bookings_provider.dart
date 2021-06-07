@@ -1,6 +1,6 @@
-//Enums
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Enums
 import '../enums/booking_status_enum.dart';
 
 //Helpers

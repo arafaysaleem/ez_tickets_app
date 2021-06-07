@@ -4,11 +4,11 @@ on:
     branches: [release,dev,master]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
   push:
-    branches: [dev,feature/**]
+    branches: [feature/**]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 jobs:
   build:
-    name: Build APK
+    name: Test APK
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
