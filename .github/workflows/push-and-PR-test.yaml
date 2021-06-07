@@ -26,4 +26,4 @@ jobs:
     - name: Run Dart Analyzer
       run: flutter analyze .
     - name: Attempt release build generation
-      run: flutter build apk --target-platform android-arm,android-arm64 --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
+      run: flutter build apk --split-per-abi
