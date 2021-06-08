@@ -80,10 +80,6 @@ jobs:
         with:
           name: key-properties-artifact #Must be same as upload artifact in previous job
           path: android #Download to android directory
-      - name: Log downloaded artifacts
-        run: |
-          ls android
-          cat android/key.properties
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
@@ -97,6 +93,8 @@ jobs:
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       - name: Generate Splitted Release APKs
         run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
+      - name: Remove bundled APK
+        run: rm app.apk
       - name: Upload Built APKs Artifact
         uses: actions/upload-artifact@v2.2.3
         with:
@@ -115,8 +113,6 @@ jobs:
         with:
           name: built-apks-artifact #Must be same as upload artifact in previous job
           path: build/app/outputs/flutter-apk #download all apks to flutter-apk dir
-      - name: Log downloaded APK artifacts
-        run: ls build/app/outputs/flutter-apk
       - name: Bump version and push tag
         id: generate_tag
         uses: mathieudutour/github-tag-action@v5.5
