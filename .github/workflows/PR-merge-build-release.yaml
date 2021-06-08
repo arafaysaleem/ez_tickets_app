@@ -83,7 +83,7 @@ jobs:
       - name: Log downloaded artifacts
         run: |
           ls android
-          cat android/keystore.properties
+          cat android/key.properties
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
