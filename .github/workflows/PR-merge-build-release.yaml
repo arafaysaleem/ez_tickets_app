@@ -3,7 +3,7 @@ on:
     branches:
       - master
     types: [ closed ]
-    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**','.github/**']
+    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 
     workflow_dispatch:
 
