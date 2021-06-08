@@ -3,9 +3,6 @@ on:
   pull_request:
     branches: [release,dev,master]
     paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
-  push:
-    branches: [feature/**,hotfix/**]
-    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 jobs:
   build:
     name: Test APK
