@@ -41,7 +41,7 @@ jobs:
       uses: ncipollo/release-action@v1.8.6
       with:
         tag: "${{ steps.generate_tag.outputs.new_tag }}"
-        artifacts: "build/app/outputs/apk/release/app-arm*.apk"
+        artifacts: "build/app/outputs/apk/release/*.apk"
         name: "Release ${{ steps.generate_tag.outputs.new_tag }}"
         body: "${{ steps.generate_tag.outputs.changelog }}"
         token: ${{ secrets.GITHUB_TOKEN }}
