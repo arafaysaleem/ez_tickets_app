@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.3
         with:
           name: signing-key-artifact
-          path: './android/$KEYSTORE_FILENAME'
+          path: ./android/${{ env.KEYSTORE_FILENAME }}
           if-no-files-found: error
           retention-days: 1
       - name: Upload Key Properties Artifact
@@ -74,7 +74,7 @@ jobs:
         uses: actions/download-artifact@v2.0.9
         with:
           name: signing-key-artifact #Must be same as upload artifact in previous job
-          path: './android/${{ secrets.KEYSTORE_FILENAME }}'
+          path: ./android/${{ secrets.KEYSTORE_FILENAME }}
       - name: Download Key Properties Artifact
         uses: actions/download-artifact@v2.0.9
         with:
