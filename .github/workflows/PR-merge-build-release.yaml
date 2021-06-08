@@ -45,7 +45,7 @@ jobs:
           gpg -d --passphrase "$KEYSTORE_PASSPHRASE" --batch "$KEYSTORE_FILENAME.asc" > "./android/$KEYSTORE_FILENAME"
       - name: Generate key properties
         run: |
-          echo "storeFile=$KEYSTORE_FILENAME" > ./android/key.properties
+          echo "storeFile=../$KEYSTORE_FILENAME" > ./android/key.properties
           echo "storePassword=$KEYSTORE_PASSPHRASE" >> ./android/key.properties
           echo "keyPassword=$KEYSTORE_PASSPHRASE" >> ./android/key.properties
           echo "keyAlias=$KEY_ALIAS" >> ./android/key.properties
