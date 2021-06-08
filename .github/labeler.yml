@@ -92,7 +92,7 @@ documentation:
   - any: ['README.md','doc/**/*']
 
 chores:
-  - any: ['.gitignore']
+  - any: ['.gitignore','README.md','.github/**/*']
 
 native/android:
   - any: ['android/**/*']
