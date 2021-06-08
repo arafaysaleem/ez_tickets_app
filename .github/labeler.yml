@@ -95,7 +95,7 @@ chores:
   - any: ['.gitignore']
 
 native/android:
-  - any: ['android']
+  - any: ['android/**/*']
 
 gradle:
-  - any: ['android']
+  - any: ['android/**/*']

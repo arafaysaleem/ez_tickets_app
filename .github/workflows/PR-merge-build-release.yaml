@@ -3,56 +3,105 @@ on:
     branches:
       - master
     types: [ closed ]
-    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
+    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**','.github/**']
 
     workflow_dispatch:
 
 name: Build Release APK
 jobs:
-  build:
+  flutter-setup:
     if: github.event.pull_request.merged == true
-    name: build-release
+    name: Run Codegen and analyze
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    - name: Checkout Flutter Stable Channel
-      uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable'
-    - name: Get Pub Dependencies
-      run: flutter pub get
-    - name: Run build runner for codegen files
-      run: flutter packages pub run build_runner build --delete-conflicting-outputs
-    - name: Run Dart Analyzer
-      run: flutter analyze .
-    - name: Generate splitted release apks
-      run: flutter build apk --obfuscate --split-debug-info=/ez_tickets_app/debug_trace --split-per-abi
-    - name: Bump version and push tag
-      id: generate_tag
-      uses: mathieudutour/github-tag-action@v5.5
-      with:
-        github_token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
-        default-bump: minor # major, minor, patch, false
-        custom-release-rules: "chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,
-        refact:patch:Refactors,docs:patch:Documentation Changes,
-        build:patch:Build System/Dependency Upgrades"
-    - name: Upload release apk to artifacts
-      uses: ncipollo/release-action@v1.8.6
-      with:
-        tag: "${{ steps.generate_tag.outputs.new_tag }}"
-        artifacts: "build/app/outputs/apk/release/*.apk"
-        name: Release ${{ steps.generate_tag.outputs.new_tag }}
-        body: ${{ steps.generate_tag.outputs.changelog }}
-        token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
-    - name: Upload apks to google drive
-      uses: mkrakowitzer/actions-googledrive@1
-      with:
-        upload-from: ./build/app/outputs/apk/release/
-        upload-to: APKS/ez_tickets_app/
-        skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-        google-client-id: ${{ secrets.DRIVE_CLIENT_ID }}
-        google-client-secret: ${{ secrets.DRIVE_CLIENT_SECRET }}
-        remove-outdated: 'false'
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - name: Checkout Flutter Stable Channel
+        uses: subosito/flutter-action@v1.5.1
+        with:
+          channel: 'stable'
+      - name: Get Pub Dependencies
+        run: flutter pub get
+      - name: Run build runner for codegen files
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      - name: Run Dart Analyzer
+        run: flutter analyze .
+
+  assemble-release:
+    name: Setup signing keys
+    runs-on: ubuntu-latest
+    env:
+      ENCRYPTED_KEYSTORE: ${{ secrets.ENCRYPTED_KEYSTORE }}
+      KEYSTORE_FILENAME: ${{ secrets.KEYSTORE_FILENAME }}
+      KEYSTORE_PASSPHRASE: ${{ secrets.KEYSTORE_PASSPHRASE }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Load and decrypt keystore #destination of both should be the android folder
+        run: |
+          echo "$ENCRYPTED_KEYSTORE" > "$KEYSTORE_FILENAME.asc"
+          gpg -d --passphrase "$KEYSTORE_PASSPHRASE" --batch "$KEYSTORE_FILENAME.asc" > "./android/$KEYSTORE_FILENAME"
+      - name: Generate key properties
+        run: |
+          echo "storeFile=$KEYSTORE_FILENAME" > ./android/key.properties
+          echo "storePassword=$KEYSTORE_PASSPHRASE" > ./android/key.properties
+          echo "keyPassword=$KEYSTORE_PASSPHRASE" > ./android/key.properties
+          echo "keyAlias=$KEY_ALIAS" > ./android/key.properties
+
+  build-release:
+    needs: [flutter-setup,assemble-release]
+    name: Build Release APKS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - name: Checkout Flutter Stable Channel
+        uses: subosito/flutter-action@v1.5.1
+        with:
+          channel: 'stable'
+      - name: Get Pub Dependencies
+        run: flutter pub get
+      - name: Run build runner for codegen files
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      - name: Generate splitted release apks
+        run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
+
+  release-artifacts-upload:
+    needs: [build-release]
+    name: Upload APKS to release artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bump version and push tag
+        id: generate_tag
+        uses: mathieudutour/github-tag-action@v5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: minor # major, minor, patch, false
+          custom_release_rules: "ci:patch:CI/CD,chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
+      - name: Upload release apk to artifacts
+        uses: ncipollo/release-action@v1.8.6
+        with:
+          tag: "${{ steps.generate_tag.outputs.new_tag }}"
+          artifacts: "build/app/outputs/flutter-apk/*.apk"
+          name: "Release ${{ steps.generate_tag.outputs.new_tag }}"
+          body: "${{ steps.generate_tag.outputs.changelog }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  google-drive-upload:
+    needs: [build-release]
+    name: Upload APKS to google drive
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload apks to google drive
+        uses: mkrakowitzer/actions-googledrive@1
+        with:
+          upload-from: ./build/app/outputs/flutter-apk/
+          upload-to: APKS/ez_tickets_app/
+          skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+          google-client-id: ${{ secrets.DRIVE_CLIENT_ID }}
+          google-client-secret: ${{ secrets.DRIVE_CLIENT_SECRET }}
+          remove-outdated: 'false'
