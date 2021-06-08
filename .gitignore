@@ -49,3 +49,6 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 *.gr.dart
+
+#keystore
+*.jks
