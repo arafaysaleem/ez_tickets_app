@@ -46,9 +46,9 @@ jobs:
       - name: Generate key properties
         run: |
           echo "storeFile=$KEYSTORE_FILENAME" > ./android/key.properties
-          echo "storePassword=$KEYSTORE_PASSPHRASE" > ./android/key.properties
-          echo "keyPassword=$KEYSTORE_PASSPHRASE" > ./android/key.properties
-          echo "keyAlias=$KEY_ALIAS" > ./android/key.properties
+          echo "storePassword=$KEYSTORE_PASSPHRASE" >> ./android/key.properties
+          echo "keyPassword=$KEYSTORE_PASSPHRASE" >> ./android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> ./android/key.properties
       - name: Upload Keystore Artifact
         uses: actions/upload-artifact@v2.2.3
         with:
@@ -161,6 +161,7 @@ jobs:
         uses: GeekyEggo/delete-artifact@v1.0.0
         with:
           name: |
-            signing-key-artifact
+            keystore-artifact
+            key-properties-artifact
             built-apks-artifact
           failOnError: false
