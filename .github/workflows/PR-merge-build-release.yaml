@@ -11,7 +11,7 @@ name: Build Release APK
 jobs:
   flutter-setup:
     if: github.event.pull_request.merged == true
-    name: Run Flutter Analyze
+    name: Run Codegen and analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,6 +24,8 @@ jobs:
           channel: 'stable'
       - name: Get Pub Dependencies
         run: flutter pub get
+      - name: Run build runner for codegen files
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
       - name: Run Dart Analyzer
         run: flutter analyze .
 
