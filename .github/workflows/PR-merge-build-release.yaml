@@ -94,7 +94,7 @@ jobs:
       - name: Generate Splitted Release APKs
         run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
       - name: Remove bundled APK
-        run: rm app.apk
+        run: rm build/app/outputs/flutter-apk/app.apk
       - name: Upload Built APKs Artifact
         uses: actions/upload-artifact@v2.2.3
         with:
