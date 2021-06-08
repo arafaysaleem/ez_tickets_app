@@ -52,15 +52,15 @@ jobs:
       - name: Upload Keystore Artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: signing-key-artifact
-          path: ./android/${{ env.KEYSTORE_FILENAME }}
+          name: keystore-artifact
+          path: android/${{ env.KEYSTORE_FILENAME }}
           if-no-files-found: error
           retention-days: 1
       - name: Upload Key Properties Artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: signing-key-artifact
-          path: ./android/key.properties
+          name: key-properties-artifact
+          path: android/key.properties
           if-no-files-found: error
           retention-days: 1
 
@@ -70,11 +70,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download Keystore & Properties Artifact
+      - name: Download Keystore Artifact
         uses: actions/download-artifact@v2.0.9
         with:
-          name: signing-key-artifact #Must be same as upload artifact in previous job
+          name: keystore-artifact #Must be same as upload artifact in previous job
           path: android #Download to android directory
+      - name: Download Key Properties Artifact
+        uses: actions/download-artifact@v2.0.9
+        with:
+          name: key-properties-artifact #Must be same as upload artifact in previous job
+          path: android #Download to android directory
+      - name: Log downloaded artifacts
+        run: |
+          ls android
+          cat android/keystore.properties
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
@@ -101,6 +110,13 @@ jobs:
     name: Upload APKS to release artifacts
     runs-on: ubuntu-latest
     steps:
+      - name: Download Built APKs Artifact
+        uses: actions/download-artifact@v2.0.9
+        with:
+          name: built-apks-artifact #Must be same as upload artifact in previous job
+          path: build/app/outputs/flutter-apk #download all apks to flutter-apk dir
+      - name: Log downloaded APK artifacts
+        run: ls build/app/outputs/flutter-apk
       - name: Bump version and push tag
         id: generate_tag
         uses: mathieudutour/github-tag-action@v5.5
@@ -108,11 +124,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: minor # major, minor, patch, false
           custom_release_rules: "ci:patch:CI/CD,chore:patch:Chore Tasks,hotfix:minor:Bug Fixes,refact:patch:Refactors,docs:patch:Documentation Changes,build:patch:Build System/Dependency Upgrades"
-      - name: Download Built APKs Artifact
-        uses: actions/download-artifact@v2.0.9
-        with:
-          name: built-apks-artifact #Must be same as upload artifact in previous job
-          path: build/app/outputs/flutter-apk #download all apks to flutter-apk dir
       - name: Upload release apk to artifacts
         uses: ncipollo/release-action@v1.8.6
         with:
