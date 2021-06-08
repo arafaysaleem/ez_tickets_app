@@ -94,6 +94,7 @@ jobs:
   google-drive-upload:
     needs: [build-release]
     name: Upload APKS to google drive
+    runs-on: ubuntu-latest
     steps:
       - name: Upload apks to google drive
         uses: mkrakowitzer/actions-googledrive@1
