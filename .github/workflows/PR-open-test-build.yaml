@@ -2,7 +2,6 @@ name: Test PR and Push
 on:
   pull_request:
     branches: [release,dev,master]
-    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**','.github/**']
 jobs:
   build:
     name: Test APK
@@ -18,9 +17,9 @@ jobs:
         channel: 'stable'
     - name: Get Pub Dependencies
       run: flutter pub get
-    - name: Run build runner for codegen files
+    - name: Run Build Runner For Codegen Files
       run: flutter packages pub run build_runner build --delete-conflicting-outputs
     - name: Run Dart Analyzer
       run: flutter analyze .
-    - name: Attempt release build generation
+    - name: Attempt Debug APK Build
       run: flutter build apk --debug
