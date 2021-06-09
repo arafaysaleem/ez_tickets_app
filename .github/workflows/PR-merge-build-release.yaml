@@ -3,7 +3,7 @@ on:
     branches:
       - master
     types: [ closed ]
-    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**','.github/**']
+    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**']
 
     workflow_dispatch:
 
@@ -45,10 +45,24 @@ jobs:
           gpg -d --passphrase "$KEYSTORE_PASSPHRASE" --batch "$KEYSTORE_FILENAME.asc" > "./android/$KEYSTORE_FILENAME"
       - name: Generate key properties
         run: |
-          echo "storeFile=$KEYSTORE_FILENAME" > ./android/key.properties
-          echo "storePassword=$KEYSTORE_PASSPHRASE" > ./android/key.properties
-          echo "keyPassword=$KEYSTORE_PASSPHRASE" > ./android/key.properties
-          echo "keyAlias=$KEY_ALIAS" > ./android/key.properties
+          echo "storeFile=../$KEYSTORE_FILENAME" > ./android/key.properties
+          echo "storePassword=$KEYSTORE_PASSPHRASE" >> ./android/key.properties
+          echo "keyPassword=$KEYSTORE_PASSPHRASE" >> ./android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> ./android/key.properties
+      - name: Upload Keystore Artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: keystore-artifact
+          path: android/${{ env.KEYSTORE_FILENAME }}
+          if-no-files-found: error
+          retention-days: 1
+      - name: Upload Key Properties Artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: key-properties-artifact
+          path: android/key.properties
+          if-no-files-found: error
+          retention-days: 1
 
   build-release:
     needs: [flutter-setup,assemble-release]
@@ -56,6 +70,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Download Keystore Artifact
+        uses: actions/download-artifact@v2.0.9
+        with:
+          name: keystore-artifact #Must be same as upload artifact in previous job
+          path: android #Download to android directory
+      - name: Download Key Properties Artifact
+        uses: actions/download-artifact@v2.0.9
+        with:
+          name: key-properties-artifact #Must be same as upload artifact in previous job
+          path: android #Download to android directory
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
@@ -67,14 +91,28 @@ jobs:
         run: flutter pub get
       - name: Run build runner for codegen files
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
-      - name: Generate splitted release apks
+      - name: Generate Splitted Release APKs
         run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
+      - name: Remove bundled APK
+        run: rm build/app/outputs/flutter-apk/app.apk
+      - name: Upload Built APKs Artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: built-apks-artifact
+          path: 'build/app/outputs/flutter-apk/*.apk'
+          if-no-files-found: error
+          retention-days: 1
 
   release-artifacts-upload:
     needs: [build-release]
     name: Upload APKS to release artifacts
     runs-on: ubuntu-latest
     steps:
+      - name: Download Built APKs Artifact
+        uses: actions/download-artifact@v2.0.9
+        with:
+          name: built-apks-artifact #Must be same as upload artifact in previous job
+          path: build/app/outputs/flutter-apk #download all apks to flutter-apk dir
       - name: Bump version and push tag
         id: generate_tag
         uses: mathieudutour/github-tag-action@v5.5
@@ -96,6 +134,11 @@ jobs:
     name: Upload APKS to google drive
     runs-on: ubuntu-latest
     steps:
+      - name: Download Built APKs Artifact
+        uses: actions/download-artifact@v2.0.9
+        with:
+          name: built-apks-artifact #Must be same as upload artifact in previous job
+          path: build/app/outputs/flutter-apk #download all apks to flutter-apk dir
       - name: Upload apks to google drive
         uses: mkrakowitzer/actions-googledrive@1
         with:
@@ -105,3 +148,16 @@ jobs:
           google-client-id: ${{ secrets.DRIVE_CLIENT_ID }}
           google-client-secret: ${{ secrets.DRIVE_CLIENT_SECRET }}
           remove-outdated: 'false'
+
+  cleanup_job:
+    needs: [ google-drive-upload, release-artifacts-upload ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete All Artifacts
+        uses: GeekyEggo/delete-artifact@v1.0.0
+        with:
+          name: |
+            keystore-artifact
+            key-properties-artifact
+            built-apks-artifact
+          failOnError: false

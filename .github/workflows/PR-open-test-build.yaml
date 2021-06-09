@@ -2,7 +2,6 @@ name: Test PR and Push
 on:
   pull_request:
     branches: [release,dev,master]
-    paths-ignore: ['doc/**','**.md','.gitignore','Prototype/**','.github/**']
 jobs:
   build:
     name: Test APK
