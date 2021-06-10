@@ -66,7 +66,7 @@ class _FloatingMoviePostersState extends State<FloatingMoviePosters> {
           right: 0,
           height: 300,
           child: ColoredBox(
-            color: Colors.black54,
+            color: Colors.black45,
           ),
         ),
 

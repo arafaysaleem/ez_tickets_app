@@ -29,7 +29,7 @@ class BillingDetails extends StatelessWidget {
           Row(
             children: const [
               SizedBox(
-                width: 30,
+                width: 40,
                 child: Text(
                   "Qty",
                   textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class BillingDetails extends StatelessWidget {
             children: [
               //Num of tickets
               SizedBox(
-                width: 30,
+                width: 40,
                 child: Consumer(
                   builder: (ctx,watch,_) {
                     final numSeats = watch(theatersProvider).selectedSeats.length;

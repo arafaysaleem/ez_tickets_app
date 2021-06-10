@@ -37,9 +37,8 @@ class PaymentOptions extends HookWidget {
         //Payment options
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //On Hand Cash Button
               Radio<PaymentMethod>(
@@ -86,9 +85,15 @@ class PaymentOptions extends HookWidget {
                   fontSize: 17,
                 ),
               ),
+            ],
+          ),
+        ),
 
-              const SizedBox(width: 10),
-
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               //COD Button
               Radio<PaymentMethod>(
                 value: PaymentMethod.COD,

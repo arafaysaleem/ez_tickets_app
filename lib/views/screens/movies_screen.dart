@@ -29,7 +29,7 @@ class MoviesScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = context.screenHeight;
-    final movies = useProvider(moviesFuture(null));
+    final movies = useProvider(moviesFuture);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AnimatedSwitcher(
@@ -102,7 +102,7 @@ class MoviesScreen extends HookWidget {
               return CustomErrorWidget.dark(
                 error: error,
                 retryCallback: () {
-                  context.refresh(moviesFuture(null));
+                  context.refresh(moviesFuture);
                 },
                 height: screenHeight * 0.5,
               );
