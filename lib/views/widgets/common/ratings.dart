@@ -27,7 +27,7 @@ class Ratings extends StatelessWidget {
       children: [
         //Rating number
         Text(
-          rating.toString(),
+          rating == 0 ? "N/A" : rating.toString(),
           style: context.bodyText2.copyWith(
             color: Colors.black,
             fontWeight: FontWeight.bold,

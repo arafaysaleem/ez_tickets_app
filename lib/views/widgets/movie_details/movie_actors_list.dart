@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
 import '../../../enums/role_type_enum.dart';
+import '../../../helper/extensions/context_extensions.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
-import '../../../helper/extensions/context_extensions.dart';
 
 //Models
 import '../../../models/movie_role_model.dart';
@@ -22,11 +22,11 @@ import '../../../services/networking/network_exception.dart';
 //Placeholders
 import '../../skeletons/actor_picture_placeholder.dart';
 
-//Widgets
-import '../common/custom_network_image.dart';
-
 //Skeletons
 import '../../skeletons/movie_actors_skeleton_loader.dart';
+
+//Widgets
+import '../common/custom_network_image.dart';
 
 final movieRolesFuture = FutureProvider.family<List<MovieRoleModel>, int>(
   (ref, movieId) async {
@@ -43,7 +43,7 @@ final movieRolesFuture = FutureProvider.family<List<MovieRoleModel>, int>(
 class MovieActorsList extends HookWidget {
   const MovieActorsList();
 
-  EdgeInsets getImagePadding({required bool isFirst,required bool isLast}) {
+  EdgeInsets getImagePadding({required bool isFirst, required bool isLast}) {
     if (isFirst) {
       return const EdgeInsets.only(left: 20);
     } else if (isLast) {
@@ -83,7 +83,7 @@ class MovieActorsList extends HookWidget {
           switchOutCurve: Curves.easeInBack,
           child: movieRoles.when(
             data: (movieRoles) => SizedBox(
-              height: 140,
+              height: context.screenHeight / 5.38,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
