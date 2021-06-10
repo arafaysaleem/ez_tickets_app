@@ -119,7 +119,7 @@ class TheaterScreen extends HookWidget {
                                   borderWidth: 1.5,
                                   fontWeight: FontWeight.bold,
                                   backgroundColor: Colors.red.shade700.withOpacity(0.3),
-                                  physics: const BouncingScrollPhysics(),
+                                  isScrollable: true,
                                 );
                               },
                             ),

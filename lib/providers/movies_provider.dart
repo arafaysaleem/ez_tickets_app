@@ -1,11 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//Providers
-import 'all_providers.dart';
-
-//Services
-import '../services/repositories/movies_repository.dart';
-
 //Enums
 import '../enums/movie_type_enum.dart';
 
@@ -14,17 +8,24 @@ import '../models/genre_model.dart';
 import '../models/movie_model.dart';
 import '../models/movie_role_model.dart';
 
-final moviesFuture = FutureProvider.family.autoDispose<List<MovieModel>, MovieType?>(
-  (ref, movieType) async {
-    final _moviesProvider = ref.watch(moviesProvider);
+//Services
+import '../services/repositories/movies_repository.dart';
 
-    final moviesList = await _moviesProvider.getAllMovies(
-      movieType: movieType,
-    );
+//Providers
+import 'all_providers.dart';
 
-    return moviesList;
-  },
-);
+final moviesFuture = FutureProvider.autoDispose<List<MovieModel>>((ref) async {
+  final _moviesProvider = ref.watch(moviesProvider);
+  final _movieType = ref.watch(selectedMovieTypeProvider).state;
+
+  return await _moviesProvider.getAllMovies(
+    movieType: _movieType == MovieType.ALL_MOVIES ? null : _movieType,
+  );
+});
+
+final selectedMovieTypeProvider = StateProvider<MovieType>((ref) {
+  return MovieType.ALL_MOVIES;
+});
 
 final selectedMovieProvider = StateProvider<MovieModel>((ref) {
   return MovieModel.initial();
@@ -125,7 +126,7 @@ class MoviesProvider {
     return await _moviesRepository.delete(movieId: movieId);
   }
 
-  void cancelNetworkRequest(){
+  void cancelNetworkRequest() {
     _moviesRepository.cancelRequests();
   }
 }

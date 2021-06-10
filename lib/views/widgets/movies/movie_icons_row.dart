@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:auto_route/auto_route.dart';
+
+//Widgets
+import 'movie_type_popup_menu.dart';
 
 class MoviesIconsRow extends HookWidget {
   const MoviesIconsRow({
@@ -22,14 +25,9 @@ class MoviesIconsRow extends HookWidget {
           ),
 
           //Filter
-          IconButton(
-            icon: const Icon(Icons.filter_list_rounded, size: 25),
-            padding: const EdgeInsets.all(0),
-            onPressed: () {},
-          ),
+          const MovieTypePopupMenu(),
         ],
       ),
     );
   }
 }
-

@@ -53,6 +53,7 @@ class ShowsScreen extends HookWidget {
                     context.router.pop();
                   },
                 ),
+
                 const SizedBox(width: 20),
 
                 //Movie Title
@@ -71,7 +72,7 @@ class ShowsScreen extends HookWidget {
                   ),
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 50),
               ],
             ),
 

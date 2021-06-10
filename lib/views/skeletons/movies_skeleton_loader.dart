@@ -35,7 +35,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
               //Left container
               ShimmerLoader(
                 child: Container(
-                  height: 0.62 * screenHeight,
+                  height: 0.63 * screenHeight,
                   width: 40,
                   decoration: const BoxDecoration(
                     color: Constants.lightSkeletonColor,
@@ -43,7 +43,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
                       topRight: Radius.circular(30),
                     ),
                   ),
-                  padding: const EdgeInsets.fromLTRB(0, 20, 20, 200),
+                  padding: const EdgeInsets.fromLTRB(0, 20, 20, 260),
                   child: const DecoratedBox(
                     decoration: BoxDecoration(
                       color: Constants.darkSkeletonColor,
@@ -61,8 +61,8 @@ class MoviesSkeletonLoader extends StatelessWidget {
               //Center container
               ShimmerLoader(
                 child: Container(
-                  height: 0.68 * screenHeight,
-                  width: 235,
+                  height: 0.675 * screenHeight,
+                  width: 240,
                   decoration: const BoxDecoration(
                     color: Constants.lightSkeletonColor,
                     borderRadius: BorderRadius.only(
@@ -76,7 +76,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
                       //Image Box
                       SizedBox(
                         width: double.infinity,
-                        height: 255,
+                        height: 265,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             color: Constants.darkSkeletonColor,
@@ -89,7 +89,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
 
                       //Title Box
                       SizedBox(
-                        height: 45,
+                        height: 40,
                         width: 160,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -150,7 +150,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
               //Right Container
               ShimmerLoader(
                 child: Container(
-                  height: 0.62 * screenHeight,
+                  height: 0.63 * screenHeight,
                   width: 40,
                   decoration: const BoxDecoration(
                     color: Constants.lightSkeletonColor,
@@ -158,7 +158,7 @@ class MoviesSkeletonLoader extends StatelessWidget {
                       topLeft: Radius.circular(30),
                     ),
                   ),
-                  padding: const EdgeInsets.fromLTRB(20, 20, 0, 200),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 0, 260),
                   child: const DecoratedBox(
                     decoration: BoxDecoration(
                       color: Constants.darkSkeletonColor,

@@ -45,10 +45,10 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
     // change poster size between these two extents
     var endExtent = 0.0;
     final extentRange = startExtent - endExtent;
-    // scaleRatio goes from 1.0 -> 1.2
-    final scaleRange = 1 - 1.2;
+    // scaleRatio goes from 1.0 -> 2.2
+    final scaleRange = 1 - 2.2;
     final extentRatio = (slide - endExtent) / extentRange;
-    return extentRatio * scaleRange + 1.2;
+    return extentRatio * scaleRange + 2.2;
   }
 
   void _onPanelSlide(double slide, AnimationController animationController) {

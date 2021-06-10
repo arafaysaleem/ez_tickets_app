@@ -24,7 +24,7 @@ class MovieModel with _$MovieModel {
     required String summary,
     required String trailerUrl,
     required String posterUrl,
-    required double? rating,
+    @Default(0.0) double rating,
     @JsonKey(toJson: toJsonGenres) required List<GenreModel> genres,
     required MovieType movieType,
   }) = _MovieModel;
@@ -37,7 +37,6 @@ class MovieModel with _$MovieModel {
       summary: "",
       trailerUrl: "",
       posterUrl: "",
-      rating: null,
       genres: [],
       movieType: MovieType.COMING_SOON,
     );

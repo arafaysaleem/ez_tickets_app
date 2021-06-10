@@ -34,19 +34,16 @@ class MovieDetailsColumn extends HookWidget {
         const SizedBox(height: 15),
 
         //Genres
-        SizedBox(
-          width: 210,
-          child: CustomChipsList(
-            chipHeight: 26,
-            chipGap: 9,
-            chipContents: movie.genreNames.sublist(0, 3),
-          ),
+        CustomChipsList(
+          chipHeight: 26,
+          chipGap: 9,
+          chipContents: movie.genreNames.sublist(0, 3),
         ),
 
         const SizedBox(height: 15),
 
         //Ratings
-        if (movie.rating != null) Ratings(rating: movie.rating!),
+        Ratings(rating: movie.rating),
 
         const SizedBox(height: 15),
 
