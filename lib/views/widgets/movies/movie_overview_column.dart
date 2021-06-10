@@ -29,11 +29,11 @@ class MovieOverviewColumn extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: context.headline2.copyWith(
             color: Colors.black,
-            fontSize: 26,
+            fontSize: 21,
           ),
         ),
 
-        const SizedBox(height: 10),
+        const SizedBox(height: 13),
 
         //Genres
         CustomChipsList(
@@ -42,10 +42,10 @@ class MovieOverviewColumn extends StatelessWidget {
           chipContents: movie.genreNames.sublist(0, 3),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 13),
 
         //Ratings
-        if (movie.rating != null) Ratings(rating: movie.rating!),
+        Ratings(rating: movie.rating),
 
         //Elipses
         const Text(

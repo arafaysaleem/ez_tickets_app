@@ -43,7 +43,7 @@ class MovieDetailsColumn extends HookWidget {
         const SizedBox(height: 15),
 
         //Ratings
-        if (movie.rating != null) Ratings(rating: movie.rating!),
+        Ratings(rating: movie.rating),
 
         const SizedBox(height: 15),
 

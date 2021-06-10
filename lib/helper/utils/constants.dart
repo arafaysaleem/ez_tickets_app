@@ -111,7 +111,7 @@ class Constants {
   /// It is measured from the bottom of the screen, that is
   /// behind the android system navigation.
   /// Used to prevent overlapping of android navigation with the button.
-  static const double bottomInsetsLow = 45;
+  static const double bottomInsetsLow = 48;
 
   /// The max number of rows a theater can contain
   static const int maxSeatRows = 12;
