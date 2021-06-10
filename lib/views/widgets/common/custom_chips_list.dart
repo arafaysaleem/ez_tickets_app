@@ -31,31 +31,34 @@ class CustomChipsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: chipHeight,
-      child: ListView.separated(
-        physics: physics,
-        scrollDirection: Axis.horizontal,
-        itemCount: chipContents.length,
-        separatorBuilder: (ctx, i) => SizedBox(width: chipGap),
-        itemBuilder: (ctx, i) => Container(
-          width: chipWidth,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: borderColor, width: borderWidth),
-          ),
-          child: Center(
-            child: Text(
-              chipContents[i],
-              style: TextStyle(
-                color: contentColor,
-                fontSize: fontSize,
-                height: 1,
-                fontWeight: fontWeight
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for(var i = 0; i < chipContents.length; i++)
+            Padding(
+              padding: EdgeInsets.only(left: i == 0 ? 0 : chipGap),
+              child: Container(
+                width: chipWidth,
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  border: Border.all(color: borderColor, width: borderWidth),
+                ),
+                child: Center(
+                  child: Text(
+                    chipContents[i],
+                    style: TextStyle(
+                        color: contentColor,
+                        fontSize: fontSize,
+                        height: 1,
+                        fontWeight: fontWeight
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
+            )
+        ],
       ),
     );
   }
