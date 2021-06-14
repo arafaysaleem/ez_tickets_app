@@ -10,21 +10,47 @@ import '../../../helper/utils/constants.dart';
 //Providers
 import '../../../providers/bookings_provider.dart';
 
+//Models
+import '../../../models/user_booking_model.dart';
+
 //Services
 import '../../../services/networking/network_exception.dart';
 
 //Skeletons
 import '../../skeletons/movie_poster_placeholder.dart';
-import '../common/custom_error_widget.dart';
 
 //Widgets
+import '../common/custom_error_widget.dart';
 import '../common/custom_network_image.dart';
+import 'booking_details_dialog.dart';
+import 'booking_summary_row.dart';
 
 class UserBookingsList extends HookWidget {
   const UserBookingsList();
 
   static const movieSize = 100.0;
   static const padding = 15.0;
+
+  void onTap(BuildContext context, UserBookingModel booking) {
+    showGeneralDialog(
+      barrierColor: Constants.barrierColor,
+      transitionDuration: const Duration(milliseconds: 350),
+      barrierDismissible: true,
+      barrierLabel: '',
+      context: context,
+      transitionBuilder: (context, a1, a2, dialog) {
+        final curveValue = (1 - Curves.ease.transform(a1.value)) * 200;
+        return Transform(
+          transform: Matrix4.translationValues(curveValue, 0.0, 0.0),
+          child: Opacity(opacity: a1.value, child: dialog),
+        );
+      },
+      pageBuilder: (_, __, ___) => BookingDetailsDialog(
+        posterUrl: booking.posterUrl,
+        bookings: booking.bookings,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,123 +66,34 @@ class UserBookingsList extends HookWidget {
           final noOfSeats = booking.bookings.length;
           return SizedBox(
             height: 140,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                SizedBox(
-                  height: 100,
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      color: Constants.scaffoldGreyColor,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        //Ticket total and movie name
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            movieSize + 23,
-                            10,
-                            5,
-                            padding,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //Movie data
-                              Text(
-                                bookings[i].title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Constants.textWhite80Color,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+            child: GestureDetector(
+              onTap: () => onTap(context, booking),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  //Booking overview
+                  BookingSummaryRow(
+                    total: total,
+                    title: booking.title,
+                    noOfSeats: noOfSeats,
+                  ),
 
-                              const Spacer(),
-
-                              //Total label
-                              const Text(
-                                "Total",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Constants.textGreyColor,
-                                ),
-                              ),
-
-                              const SizedBox(height: 1),
-
-                              //Total data
-                              Text(
-                                "Rs. $total",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Constants.textWhite80Color,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: double.infinity,
-                          width: 45,
-                          child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              color: Constants.darkSkeletonColor,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(15),
-                                bottomRight: Radius.circular(15),
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                //Ticket icon
-                                const Icon(
-                                  Icons.local_activity_sharp,
-                                  color: Constants.textWhite80Color,
-                                ),
-
-                                const SizedBox(height: 5),
-
-                                //No. of seats
-                                Text(
-                                  "$noOfSeats",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Constants.textWhite80Color,
-                                  ),
-                                )
-
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                  //Movie Image
+                  Positioned(
+                    bottom: 13,
+                    left: 13,
+                    child: CustomNetworkImage(
+                      imageUrl: booking.posterUrl,
+                      fit: BoxFit.cover,
+                      width: movieSize,
+                      height: movieSize + 25,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      placeholder: const MoviePosterPlaceholder(),
+                      errorWidget: const MoviePosterPlaceholder(),
                     ),
                   ),
-                ),
-
-                //Movie Image
-                Positioned(
-                  bottom: 13,
-                  left: 13,
-                  width: movieSize,
-                  height: movieSize + 25,
-                  child: CustomNetworkImage(
-                    imageUrl: bookings[i].posterUrl,
-                    height: 255,
-                    fit: BoxFit.cover,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    placeholder: const MoviePosterPlaceholder(),
-                    errorWidget: const MoviePosterPlaceholder(),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
