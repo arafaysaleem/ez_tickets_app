@@ -11,6 +11,7 @@ import '../views/screens/theater_screen.dart';
 import '../views/screens/ticket_summary_screen.dart';
 import '../views/screens/payment_screen.dart';
 import '../views/screens/confirmation_screen.dart';
+import '../views/screens/user_bookings_screen.dart';
 
 @MaterialAutoRouter(
     routes: <AutoRoute>[
@@ -25,6 +26,7 @@ import '../views/screens/confirmation_screen.dart';
       AutoRoute(page: TicketSummaryScreen),
       AutoRoute(page: PaymentScreen),
       AutoRoute(page: ConfirmationScreen),
+      AutoRoute(page: UserBookingsScreen),
     ],
 )
 class $AppRouter{}
