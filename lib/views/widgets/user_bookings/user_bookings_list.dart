@@ -33,13 +33,13 @@ class UserBookingsList extends HookWidget {
 
   void onTap(BuildContext context, UserBookingModel booking) {
     showGeneralDialog(
-      barrierColor: Constants.barrierColor,
-      transitionDuration: const Duration(milliseconds: 350),
+      barrierColor: Constants.barrierColorLight,
+      transitionDuration: const Duration(milliseconds: 400),
       barrierDismissible: true,
       barrierLabel: '',
       context: context,
       transitionBuilder: (context, a1, a2, dialog) {
-        final curveValue = (1 - Curves.ease.transform(a1.value)) * 200;
+        final curveValue = (1 - Curves.linearToEaseOut.transform(a1.value)) * 200;
         return Transform(
           transform: Matrix4.translationValues(curveValue, 0.0, 0.0),
           child: Opacity(opacity: a1.value, child: dialog),
