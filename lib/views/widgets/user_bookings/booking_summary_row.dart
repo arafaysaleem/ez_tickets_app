@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+//Helpers
+import '../../../enums/show_type_enum.dart';
 import '../../../helper/utils/constants.dart';
 
 class BookingSummaryRow extends StatelessWidget {
   final String title;
   final int noOfSeats;
   final double total;
+  final DateTime showDateTime;
+  final ShowType showType;
 
   const BookingSummaryRow({
     Key? key,
     required this.total,
     required this.title,
     required this.noOfSeats,
+    required this.showDateTime,
+    required this.showType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 120,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -49,24 +56,77 @@ class BookingSummaryRow extends StatelessWidget {
 
                   const Spacer(),
 
-                  //Total label
-                  const Text(
-                    "Total",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Constants.textGreyColor,
-                    ),
+                  //Show type row
+                  Row(
+                    children: [
+                      //Show type icon
+                      const Icon(
+                        Icons.hd_outlined,
+                        size: 19,
+                        color: Colors.blue,
+                      ),
+
+                      const SizedBox(width: 10),
+
+                      //Show status
+                      Text(
+                        "${showType.inString}",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Constants.textWhite80Color,
+                        ),
+                      ),
+                    ],
                   ),
 
-                  const SizedBox(height: 1),
+                  const Spacer(),
 
-                  //Total data
-                  Text(
-                    "Rs. $total",
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Constants.textWhite80Color,
-                    ),
+                  //Show timings row
+                  Row(
+                    children: [
+                      //Show date icon
+                      const Icon(
+                        Icons.date_range_outlined,
+                        size: 19,
+                        color: Constants.primaryColor,
+                      ),
+
+                      const SizedBox(width: 10),
+
+                      //Show time data
+                      Text(
+                        "${DateFormat("d MMMM,yy H:m").format(showDateTime)}",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Constants.textWhite80Color,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const Spacer(),
+
+                  //Show payment row
+                  Row(
+                    children: [
+                      //Total icon
+                      const Icon(
+                        Icons.local_atm_outlined,
+                        size: 19,
+                        color: Colors.green,
+                      ),
+
+                      const SizedBox(width: 10),
+
+                      //Total data
+                      Text(
+                        "Rs. $total",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Constants.textWhite80Color,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

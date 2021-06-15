@@ -76,6 +76,8 @@ class UserBookingsList extends HookWidget {
                     total: total,
                     title: booking.title,
                     noOfSeats: noOfSeats,
+                    showDateTime: booking.show.showDatetime,
+                    showType: booking.show.showType,
                   ),
 
                   //Movie Image
