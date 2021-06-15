@@ -18,6 +18,7 @@ class CustomTheme {
   /// * textButtonTheme: [TextButtonTheme] without the default padding,
   static late final mainTheme = ThemeData(
     primaryColor: Constants.primaryColor,
+    accentColor: Constants.primaryColor,
     scaffoldBackgroundColor: Constants.scaffoldColor,
     fontFamily: Constants.poppinsFont.fontFamily,
     textTheme: TextTheme(
