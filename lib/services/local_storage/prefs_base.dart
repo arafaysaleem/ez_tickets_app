@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-///Internal class for shared preferences methods
+///Base class for shared preferences methods
 ///This class provides low level preferences methods
 class PrefsBase{
   ///Instance of shared preferences
