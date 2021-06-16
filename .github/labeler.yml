@@ -29,7 +29,7 @@ repositories:
   - any: ['lib/services/repositories/**/*']
 
 interceptors:
-  - any: ['lib/services/interceptors/**/*']
+  - any: ['lib/services/networking/interceptors/**/*']
 
 api:
   - any: ['lib/services/networking/**/*api*']

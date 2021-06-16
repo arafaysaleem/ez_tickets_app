@@ -13,7 +13,6 @@ class AppStartupScreen extends HookWidget {
   const AppStartupScreen();
 
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).padding.bottom);
     final authState = useProvider(authProvider);
     return authState.maybeWhen(
       authenticated: (fullName) => const WelcomeScreen(),

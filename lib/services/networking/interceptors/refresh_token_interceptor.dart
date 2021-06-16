@@ -8,14 +8,33 @@ import '../../../providers/all_providers.dart';
 //Endpoints
 import '../api_endpoint.dart';
 
+/// A class that holds intercepting logic for refreshing tokens. This is
+/// the last interceptor in the queue.
 class RefreshTokenInterceptor extends Interceptor {
+
+  /// An instance of [Dio] for network requests
   final Dio _dio;
 
   RefreshTokenInterceptor(this._dio);
 
+  /// The name of the exception on which this interceptor is triggered.
   // ignore: non_constant_identifier_names
   String get TokenExpiredException => "TokenExpiredException";
 
+  /// This method is used to send a refresh token request if the error
+  /// indicates an expired token.
+  ///
+  /// In case of expired token, it creates a new [Dio] instance, replicates
+  /// its options and locks the current instance to prevent further requests.
+  /// The new instance retrieves a new token and updates it. The original
+  /// request is retried with the new token.
+  ///
+  /// ** NOTE: ** Any requests from original instance will trigger all attached
+  /// interceptors as expected.
+  ///
+  /// ** The structure of response in case of errors or the refresh request is
+  /// dependant on the API and may not always be the same. It might need
+  /// changing according to your own API. **
   @override
   void onError(
     DioError dioError,
@@ -75,6 +94,11 @@ class RefreshTokenInterceptor extends Interceptor {
     return super.onError(dioError, handler);
   }
 
+  /// This method sends out a request to refresh the token. Since this request
+  /// uses the new [Dio] instance it needs its own logging and error handling.
+  ///
+  /// ** The structure of response is dependant on the API and may not always
+  /// be the same. It might need changing according to your own API. **
   Future<String?> _refreshTokenRequest({
     required DioError dioError,
     required ErrorInterceptorHandler handler,

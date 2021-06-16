@@ -4,24 +4,21 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
-import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
+import '../../helper/utils/constants.dart';
 
 //Providers
-import '../../providers/movies_provider.dart';
 import '../../providers/all_providers.dart';
-
-//Services
-import '../../services/networking/network_exception.dart';
-
-//Widgets
-import '../widgets/common/custom_error_widget.dart';
-import '../widgets/movies/movie_backdrop_view.dart';
-import '../widgets/movies/movie_carousel.dart';
-import '../widgets/movies/movie_icons_row.dart';
+import '../../providers/movies_provider.dart';
 
 //Skeletons
 import '../skeletons/movies_skeleton_loader.dart';
+
+//Widgets
+import '../widgets/movies/movie_backdrop_view.dart';
+import '../widgets/movies/movie_carousel.dart';
+import '../widgets/movies/movie_icons_row.dart';
+import '../widgets/common/error_response_handler.dart';
 
 class MoviesScreen extends HookWidget {
   const MoviesScreen();
@@ -97,21 +94,15 @@ class MoviesScreen extends HookWidget {
             );
           },
           loading: () => const MoviesSkeletonLoader(),
-          error: (error, st) {
-            if (error is NetworkException) {
-              return CustomErrorWidget.dark(
-                error: error,
-                retryCallback: () {
-                  context.refresh(moviesFuture);
-                },
-                height: screenHeight * 0.5,
-              );
-            }
-            context.read(authProvider.notifier).logout();
-            context.router.popUntilRoot();
-            debugPrint(error.toString());
-            debugPrint(st.toString());
-          },
+          error: (error, st) => ErrorResponseHandler(
+            error: error,
+            stackTrace: st,
+            retryCallback: () => context.refresh(moviesFuture),
+            onError: () {
+              context.read(authProvider.notifier).logout();
+              context.router.popUntilRoot();
+            },
+          ),
         ),
       ),
     );

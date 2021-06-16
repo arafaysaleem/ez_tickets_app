@@ -87,6 +87,9 @@ class Constants {
   /// The color value for dark grey [CustomDialog] in the app.
   static const Color barrierColor = Colors.black87;
 
+  /// The color value for light grey [CustomDialog] in the app.
+  static const Color barrierColorLight = Color(0xBF000000);
+
   /// The TextStyle for Lato font in the app.
   static TextStyle latoFont = GoogleFonts.lato().copyWith(color: Colors.black);
 
