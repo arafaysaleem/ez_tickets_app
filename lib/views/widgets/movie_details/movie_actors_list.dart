@@ -16,9 +16,6 @@ import '../../../providers/all_providers.dart';
 //Providers
 import '../../../providers/movies_provider.dart';
 
-//Services
-import '../../../services/networking/network_exception.dart';
-
 //Placeholders
 import '../../skeletons/actor_picture_placeholder.dart';
 
@@ -27,8 +24,9 @@ import '../../skeletons/movie_actors_skeleton_loader.dart';
 
 //Widgets
 import '../common/custom_network_image.dart';
+import '../common/error_response_handler.dart';
 
-final movieRolesFuture = FutureProvider.family<List<MovieRoleModel>, int>(
+final movieRolesFuture = FutureProvider.family.autoDispose<List<MovieRoleModel>, int>(
   (ref, movieId) async {
     final _moviesProvider = ref.watch(moviesProvider);
 
@@ -36,6 +34,7 @@ final movieRolesFuture = FutureProvider.family<List<MovieRoleModel>, int>(
       movieId: movieId,
     );
 
+    ref.maintainState = true; //Caches the response only if the future completed.
     return movieRolesList;
   },
 );
@@ -105,14 +104,11 @@ class MovieActorsList extends HookWidget {
               ),
             ),
             loading: () => const MovieActorsSkeletonLoader(),
-            error: (error, st) {
-              if (error is NetworkException) {
-                return Text(error.message);
-              }
-              debugPrint(error.toString());
-              debugPrint(st.toString());
-              return Text(error.toString());
-            },
+            error: (error, st) => ErrorResponseHandler.builder(
+              error: error,
+              stackTrace: st,
+              builder: (error) => Text(error.message),
+            ),
           ),
         ),
       ],

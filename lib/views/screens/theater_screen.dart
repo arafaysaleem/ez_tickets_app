@@ -6,26 +6,23 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
-import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
+import '../../helper/utils/constants.dart';
+import '../../providers/all_providers.dart';
 
 //Providers
 import '../../providers/theaters_provider.dart';
-import '../../providers/all_providers.dart';
-
-//Services
-import '../../services/networking/network_exception.dart';
-
-//Widgets
-import '../widgets/common/custom_chips_list.dart';
-import '../widgets/common/custom_error_widget.dart';
-import '../widgets/theater/purchase_seats_button.dart';
-import '../widgets/theater/curved_screen.dart';
-import '../widgets/theater/seat_color_indicators.dart';
-import '../widgets/theater/seats_area.dart';
 
 //Skeletons
 import '../skeletons/theater_skeleton_loader.dart';
+
+//Widgets
+import '../widgets/common/custom_chips_list.dart';
+import '../widgets/common/error_response_handler.dart';
+import '../widgets/theater/curved_screen.dart';
+import '../widgets/theater/purchase_seats_button.dart';
+import '../widgets/theater/seat_color_indicators.dart';
+import '../widgets/theater/seats_area.dart';
 
 class TheaterScreen extends HookWidget {
   const TheaterScreen();
@@ -106,10 +103,12 @@ class TheaterScreen extends HookWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
                             child: Consumer(
-                              builder:(ctx,watch,child) {
-                                final _theatersProvider = watch(theatersProvider);
+                              builder: (ctx, watch, child) {
+                                final _theatersProvider =
+                                    watch(theatersProvider);
                                 return CustomChipsList(
-                                  chipContents: _theatersProvider.selectedSeatNames,
+                                  chipContents:
+                                      _theatersProvider.selectedSeatNames,
                                   chipHeight: 27,
                                   chipGap: 10,
                                   fontSize: 14,
@@ -118,7 +117,8 @@ class TheaterScreen extends HookWidget {
                                   contentColor: Constants.orangeColor,
                                   borderWidth: 1.5,
                                   fontWeight: FontWeight.bold,
-                                  backgroundColor: Colors.red.shade700.withOpacity(0.3),
+                                  backgroundColor:
+                                      Colors.red.shade700.withOpacity(0.3),
                                   isScrollable: true,
                                 );
                               },
@@ -133,7 +133,11 @@ class TheaterScreen extends HookWidget {
                       );
                     },
                     loading: () => const TheaterSkeletonLoader(),
-                    error: (error, st) => _buildError(error, st, context),
+                    error: (error, st) => ErrorResponseHandler(
+                      error: error,
+                      retryCallback: () => context.refresh(showSeatingFuture),
+                      stackTrace: st,
+                    ),
                   ),
                 ),
               ),
@@ -142,21 +146,6 @@ class TheaterScreen extends HookWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildError(error, StackTrace? st, BuildContext context) {
-    if (error is NetworkException) {
-      return CustomErrorWidget.dark(
-        error: error,
-        retryCallback: () {
-          context.refresh(showSeatingFuture);
-        },
-        height: context.screenHeight * 0.5,
-      );
-    }
-    debugPrint(error.toString());
-    debugPrint(st.toString());
-    return const SizedBox.shrink();
   }
 }
 

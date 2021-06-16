@@ -1,22 +1,22 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//Services
-import '../services/repositories/shows_repository.dart';
-
 //Enums
 import '../enums/show_status_enum.dart';
 import '../enums/show_type_enum.dart';
+import '../models/show_model.dart';
 
 //Models
 import '../models/show_time_model.dart';
-import '../models/show_model.dart';
+
+//Services
+import '../services/repositories/shows_repository.dart';
 
 //Providers
 import 'all_providers.dart';
 import 'movies_provider.dart';
 
-final showsFutureProvider = FutureProvider<List<ShowModel>>(
-      (ref) async {
+final showsFutureProvider = FutureProvider.autoDispose<List<ShowModel>>(
+  (ref) async {
     final _movieId = ref.watch(selectedMovieProvider).state.movieId;
     final _showsProvider = ref.watch(showsProvider);
     final _showDates = await _showsProvider.getAllShows(movieId: _movieId!);
@@ -24,15 +24,15 @@ final showsFutureProvider = FutureProvider<List<ShowModel>>(
   },
 );
 
-final selectedShowProvider = StateProvider<ShowModel>((ref) {
+final selectedShowProvider = StateProvider.autoDispose<ShowModel>((ref) {
   return ref.watch(showsFutureProvider).maybeWhen(
-    data: (shows) => shows[0],
-    orElse: () => ShowModel.initial(),
-  );
+        data: (shows) => shows[0],
+        orElse: () => ShowModel.initial(),
+      );
 });
 
-final selectedShowTimeProvider = StateProvider<ShowTimeModel>(
-      (ref) {
+final selectedShowTimeProvider = StateProvider.autoDispose<ShowTimeModel>(
+  (ref) {
     final _selectedShow = ref.watch(selectedShowProvider).state;
     if (_selectedShow.showTimes.isEmpty) return ShowTimeModel.initial();
     return _selectedShow.showTimes[0];
@@ -88,11 +88,7 @@ class ShowsProvider {
       theaterId: theaterId,
     );
 
-    final show = ShowModel(
-        date: date,
-        movieId: movieId,
-        showTimes: [showTime]
-    );
+    final show = ShowModel(date: date, movieId: movieId, showTimes: [showTime]);
     return show;
   }
 
