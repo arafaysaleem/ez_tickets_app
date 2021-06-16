@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../helper/extensions/context_extensions.dart';
 
 //Widgets
-import '../widgets/user_bookings/user_bookings_list.dart';
+import '../widgets/user_bookings/user_bookings_history.dart';
 
 class UserBookingsScreen extends StatelessWidget {
   const UserBookingsScreen({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class UserBookingsScreen extends StatelessWidget {
             const Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: UserBookingsList(),
+                child: UserBookingsHistory(),
               ),
             ),
           ],
