@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
 import '../../enums/show_status_enum.dart';
-import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
+import '../../helper/utils/constants.dart';
 
 //Providers
 import '../../providers/movies_provider.dart';
@@ -15,18 +15,15 @@ import '../../providers/shows_provider.dart';
 //Routes
 import '../../routes/app_router.gr.dart';
 
-//Services
-import '../../services/networking/network_exception.dart';
+//Skeletons
+import '../skeletons/shows_skeleton_loader.dart';
 
 //Widgets
-import '../widgets/common/custom_error_widget.dart';
 import '../widgets/common/custom_text_button.dart';
+import '../widgets/common/error_response_handler.dart';
 import '../widgets/show_times/show_dates_list.dart';
 import '../widgets/show_times/show_details_box.dart';
 import '../widgets/show_times/show_times_list.dart';
-
-//Skeletons
-import '../skeletons/shows_skeleton_loader.dart';
 
 class ShowsScreen extends HookWidget {
   const ShowsScreen();
@@ -34,7 +31,6 @@ class ShowsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final showList = useProvider(showsFutureProvider);
-    final screenHeight = context.screenHeight;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -48,7 +44,7 @@ class ShowsScreen extends HookWidget {
                 const SizedBox(width: 15),
                 InkResponse(
                   radius: 25,
-                  child: const Icon(Icons.arrow_back_sharp,size: 26),
+                  child: const Icon(Icons.arrow_back_sharp, size: 26),
                   onTap: () {
                     context.router.pop();
                   },
@@ -78,6 +74,7 @@ class ShowsScreen extends HookWidget {
 
             const SizedBox(height: 42),
 
+            //Show details
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 550),
@@ -165,7 +162,7 @@ class ShowsScreen extends HookWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Consumer(
-                          builder: (ctx,watch,child) {
+                          builder: (ctx, watch, child) {
                             final showStatus = watch(selectedShowTimeProvider)
                                 .state
                                 .showStatus;
@@ -196,20 +193,11 @@ class ShowsScreen extends HookWidget {
                     ],
                   ),
                   loading: () => const ShowsSkeletonLoader(),
-                  error: (error, st) {
-                    if (error is NetworkException) {
-                      return CustomErrorWidget.dark(
-                        error: error,
-                        retryCallback: () {
-                          context.refresh(showsFutureProvider);
-                        },
-                        height: screenHeight * 0.5,
-                      );
-                    }
-                    debugPrint(error.toString());
-                    debugPrint(st.toString());
-                    return const SizedBox.shrink();
-                  },
+                  error: (error, st) => ErrorResponseHandler(
+                    retryCallback: () => context.refresh(showsFutureProvider),
+                    error: error,
+                    stackTrace: st,
+                  ),
                 ),
               ),
             ),
