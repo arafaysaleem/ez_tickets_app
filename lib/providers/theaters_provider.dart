@@ -19,19 +19,23 @@ import 'shows_provider.dart';
 
 final selectedTheaterNameProvider = StateProvider<String>((_) => "");
 
-final showSeatingFuture = FutureProvider<ShowSeatingModel>((ref) async {
+/// Does not use `ref.maintainState = true` bcz we wanted to load theater seats
+/// everytime because it can receive frequent updates.
+final showSeatingFuture = FutureProvider.autoDispose<ShowSeatingModel>((ref) async {
   final _selectedShowTime = ref.watch(selectedShowTimeProvider).state;
-
-  final _theatersProvider = ref.read(theatersProvider);
   final _theaterId = _selectedShowTime.theaterId;
+  final _showId = _selectedShowTime.showId;
+
+  /// For any provider that can notify listeners, watch it's notifier instead
+  /// of state to prevent rebuilds upon listener's notifications.
+  final _theatersProvider = ref.watch(theatersProvider.notifier);
   final theater = await _theatersProvider.getTheaterById(theaterId: _theaterId);
 
   final _bookingsProvider = ref.watch(bookingsProvider);
-  final _showId = _selectedShowTime.showId;
   final bookedSeats =
       await _bookingsProvider.getShowBookedSeats(showId: _showId);
 
-  ref.read(selectedTheaterNameProvider).state = theater.theaterName;
+  ref.watch(selectedTheaterNameProvider.notifier).state = theater.theaterName;
 
   return ShowSeatingModel(
     showTime: _selectedShowTime,
@@ -60,7 +64,6 @@ class TheatersProvider extends ChangeNotifier {
     } else {
       _selectedSeats.remove(seat);
     }
-    print(_selectedSeats);
     notifyListeners();
   }
 
