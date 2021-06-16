@@ -18,6 +18,12 @@ import '../services/repositories/bookings_repository.dart';
 import 'all_providers.dart';
 import 'shows_provider.dart';
 
+final userBookingsProvider = FutureProvider.autoDispose((ref) async {
+  final _userId = ref.watch(authProvider.notifier).currentUserId;
+  final _bookingsProvider = ref.watch(bookingsProvider);
+  return await _bookingsProvider.getUserBookings(userId: _userId);
+});
+
 class BookingsProvider {
   final BookingsRepository _bookingsRepository;
   final Reader _reader;
