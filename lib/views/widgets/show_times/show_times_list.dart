@@ -10,15 +10,8 @@ import '../../../providers/shows_provider.dart';
 import '../../../helper/utils/constants.dart';
 import '../../../helper/extensions/context_extensions.dart';
 
-class ShowTimesList extends StatefulHookWidget {
+class ShowTimesList extends HookWidget {
   const ShowTimesList();
-
-  @override
-  _ShowTimesListState createState() => _ShowTimesListState();
-}
-
-class _ShowTimesListState extends State<ShowTimesList> {
-  int selectedIndex = 0;
 
   Shader getShader(Rect bounds) {
     return const LinearGradient(
@@ -35,6 +28,7 @@ class _ShowTimesListState extends State<ShowTimesList> {
   @override
   Widget build(BuildContext context) {
     final showTimes = useProvider(selectedShowProvider).state.showTimes;
+    final selectedShowTime = useProvider(selectedShowTimeProvider).state;
     return ShaderMask(
       shaderCallback: getShader,
       blendMode: BlendMode.dstOut,
@@ -49,12 +43,9 @@ class _ShowTimesListState extends State<ShowTimesList> {
               ? const EdgeInsets.only(left: 20)
               : const EdgeInsets.all(0),
           child: _ShowTimeItem(
-            isActive: i == selectedIndex,
+            isActive: showTimes[i] == selectedShowTime,
             onTap: () {
-              setState(() {
-                context.read(selectedShowTimeProvider).state = showTimes[i];
-                selectedIndex = i;
-              });
+              context.read(selectedShowTimeProvider).state = showTimes[i];
             },
             time: DateFormat.jm().format(showTimes[i].startTime),
           ),
