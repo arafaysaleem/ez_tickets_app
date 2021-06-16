@@ -15,7 +15,7 @@ class BookingModel with _$BookingModel {
   const factory BookingModel({
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? bookingId,
     @JsonKey(includeIfNull: false) required int? userId,
-    required int showId,
+    @JsonKey(includeIfNull: false) required int? showId,
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) String? seatRow,
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) int? seatNumber,
     required double price,
