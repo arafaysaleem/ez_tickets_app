@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-
 //Helpers
 import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String floatingText, hintText;
+  final String? floatingText, hintText;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final TextEditingController controller;
@@ -43,9 +42,9 @@ class CustomTextField extends StatefulWidget {
       color: Constants.textWhite80Color,
     ),
     this.fillColor = Constants.scaffoldColor,
+    this.floatingText,
+    this.hintText,
     required this.controller,
-    required this.floatingText,
-    required this.hintText,
     required this.keyboardType,
     required this.textInputAction,
     required this.validator,
@@ -57,7 +56,7 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   String? errorText;
-  bool showPassword = false;
+  bool hidePassword = true;
 
   bool get hasErrorText => errorText != null;
 
@@ -108,15 +107,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Floating text
-        Text(
-          widget.floatingText,
-          style: widget.floatingStyle ?? context.bodyText1.copyWith(
-            color: Constants.textGreyColor,
-            fontSize: 17,
+        if (widget.floatingText != null)
+          Text(
+            widget.floatingText!,
+            style: widget.floatingStyle ??
+                context.bodyText1.copyWith(
+                  color: Constants.textGreyColor,
+                  fontSize: 17,
+                ),
           ),
-        ),
 
-        const SizedBox(height: 2),
+        if (widget.floatingText != null) const SizedBox(height: 2),
 
         //TextField
         SizedBox(
@@ -128,7 +129,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             maxLengthEnforcement: MaxLengthEnforcement.enforced,
             textAlignVertical: TextAlignVertical.center,
             showCursor: true,
-            obscureText: showPassword,
+            obscureText: hidePassword,
             cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.disabled,
             validator: _onValidate,
@@ -154,7 +155,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ? InkWell(
                       onTap: () {
                         setState(() {
-                          showPassword = !showPassword;
+                          hidePassword = !hidePassword;
                         });
                       },
                       child: const Icon(
