@@ -6,22 +6,22 @@ import '../services/networking/api_service.dart';
 
 //repository imports
 import '../services/repositories/auth_repository.dart';
+import '../services/repositories/bookings_repository.dart';
 import '../services/repositories/movies_repository.dart';
+import '../services/repositories/payments_repository.dart';
 import '../services/repositories/shows_repository.dart';
 import '../services/repositories/theaters_repository.dart';
-import '../services/repositories/bookings_repository.dart';
-import '../services/repositories/payments_repository.dart';
 
 //provider imports
 import 'auth_provider.dart';
-import 'movies_provider.dart';
-import 'shows_provider.dart';
-import 'theaters_provider.dart';
 import 'bookings_provider.dart';
+import 'movies_provider.dart';
 import 'payments_provider.dart';
+import 'shows_provider.dart';
 
 //states
 import 'states/auth_state.dart';
+import 'theaters_provider.dart';
 
 //service providers
 final _apiServiceProvider = Provider<ApiService>((ref) => ApiService());
@@ -43,17 +43,17 @@ final _showsRepositoryProvider = Provider<ShowsRepository>((ref) {
   return ShowsRepository(apiService: _apiService);
 });
 
-final _theatersRepositoryProvider = Provider<TheatersRepository>((ref){
+final _theatersRepositoryProvider = Provider<TheatersRepository>((ref) {
   final _apiService = ref.watch(_apiServiceProvider);
   return TheatersRepository(apiService: _apiService);
 });
 
-final _bookingsRepositoryProvider = Provider<BookingsRepository>((ref){
+final _bookingsRepositoryProvider = Provider<BookingsRepository>((ref) {
   final _apiService = ref.watch(_apiServiceProvider);
   return BookingsRepository(apiService: _apiService);
 });
 
-final _paymentsRepositoryProvider = Provider<PaymentsRepository>((ref){
+final _paymentsRepositoryProvider = Provider<PaymentsRepository>((ref) {
   final _apiService = ref.watch(_apiServiceProvider);
   return PaymentsRepository(apiService: _apiService);
 });
@@ -62,7 +62,11 @@ final _paymentsRepositoryProvider = Provider<PaymentsRepository>((ref){
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final _authRepository = ref.watch(_authRepositoryProvider);
   final _prefsService = ref.watch(_prefsServiceProvider);
-  return AuthProvider(_authRepository, _prefsService);
+  return AuthProvider(
+    reader: ref.read,
+    authRepository: _authRepository,
+    prefsService: _prefsService,
+  );
 });
 
 //data providers
@@ -76,17 +80,19 @@ final showsProvider = Provider<ShowsProvider>((ref) {
   return ShowsProvider(_showsRepository);
 });
 
-final theatersProvider = ChangeNotifierProvider<TheatersProvider>((ref){
+final theatersProvider = ChangeNotifierProvider<TheatersProvider>((ref) {
   final _theatersRepository = ref.watch(_theatersRepositoryProvider);
   return TheatersProvider(_theatersRepository);
 });
 
-final bookingsProvider = Provider<BookingsProvider>((ref){
+final bookingsProvider = Provider<BookingsProvider>((ref) {
   final _bookingsRepository = ref.watch(_bookingsRepositoryProvider);
-  return BookingsProvider(read: ref.read, bookingsRepository: _bookingsRepository);
+  return BookingsProvider(
+      read: ref.read, bookingsRepository: _bookingsRepository);
 });
 
-final paymentsProvider = Provider<PaymentsProvider>((ref){
+final paymentsProvider = Provider<PaymentsProvider>((ref) {
   final _paymentsRepository = ref.watch(_paymentsRepositoryProvider);
-  return PaymentsProvider(read: ref.read, paymentsRepository: _paymentsRepository);
+  return PaymentsProvider(
+      read: ref.read, paymentsRepository: _paymentsRepository);
 });

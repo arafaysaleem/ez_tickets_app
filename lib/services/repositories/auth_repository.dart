@@ -63,14 +63,14 @@ class AuthRepository {
     );
   }
 
-  Future<bool> sendChangePasswordData({
+  Future<String> sendChangePasswordData({
     required Map<String, dynamic> data,
   }) async {
-    return await _apiService.setData<bool>(
+    return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.CHANGE_PASSWORD),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response["headers"]["success"] == 1,
+      converter: (response) => response["headers"]["message"],
     );
   }
 
