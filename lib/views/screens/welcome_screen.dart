@@ -10,6 +10,9 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //Widgets
 import '../widgets/welcome/user_profile_details.dart';
 import '../widgets/welcome/view_bookings_button.dart';
@@ -30,20 +33,39 @@ class WelcomeScreen extends StatelessWidget {
             const SizedBox(height: 65),
 
             //Logout
-            RotatedBox(
-              quarterTurns: 2,
-              child: InkResponse(
-                radius: 26,
-                child: const Icon(
-                  Icons.logout,
-                  color: Constants.primaryColor,
-                  size: 30,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //Log out icon
+                RotatedBox(
+                  quarterTurns: 2,
+                  child: InkResponse(
+                    radius: 26,
+                    child: const Icon(
+                      Icons.logout,
+                      color: Constants.primaryColor,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      context.read(authProvider.notifier).logout();
+                      context.router.popUntilRoot();
+                    },
+                  ),
                 ),
-                onTap: () {
-                  context.read(authProvider.notifier).logout();
-                  context.router.popUntilRoot();
-                },
-              ),
+
+                //Edit profile icon
+                InkResponse(
+                  radius: 26,
+                  child: const Icon(
+                    Icons.manage_accounts_sharp,
+                    color: Constants.primaryColor,
+                    size: 30,
+                  ),
+                  onTap: () {
+                    context.router.push(const ChangePasswordScreenRoute());
+                  },
+                )
+              ],
             ),
 
             const SizedBox(height: 20),

@@ -33,7 +33,7 @@ class UserBookingsScreen extends StatelessWidget {
 
                 const SizedBox(width: 20),
 
-                //Movie Title
+                //Page Title
                 Expanded(
                   child: Text(
                     "Your bookings",
