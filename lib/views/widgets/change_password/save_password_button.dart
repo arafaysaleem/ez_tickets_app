@@ -27,7 +27,7 @@ class SavePasswordButton extends StatelessWidget {
       gradient: Constants.buttonGradientOrange,
       child: Consumer(
         builder: (context, watch, child) {
-          final _changePasswordState = watch(changePasswordState).state;
+          final _changePasswordState = watch(changePasswordStateProvider).state;
           return _changePasswordState.maybeWhen(
             loading: () => const Center(
               child: SpinKitRing(

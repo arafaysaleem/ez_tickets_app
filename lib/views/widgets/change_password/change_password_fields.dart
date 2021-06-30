@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//Helpers
-import '../../../helper/utils/constants.dart';
-import '../../../helper/extensions/context_extensions.dart';
+//Providers
+import '../../../providers/all_providers.dart';
 
 //Widgets
 import '../common/custom_textfield.dart';
@@ -22,70 +22,50 @@ class ChangePasswordFields extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        //Current Password Label
-        Text(
-          "Current Password",
-          style: context.bodyText1.copyWith(
-              color: Constants.primaryColor,
-              fontSize: 26,
-              fontWeight: FontWeight.bold
-          ),
-        ),
 
         //Current Password Field
         CustomTextField(
-          controller: currentPasswordController,
           hintText: "Enter current password",
+          floatingText: "Current Password",
+          controller: currentPasswordController,
           keyboardType: TextInputType.visiblePassword,
-          textInputAction: TextInputAction.done,
-          validator: (cPassword) {
-            if (newPasswordController.text.trim() == cPassword) return null;
-            return "Passwords don't match";
+          textInputAction: TextInputAction.next,
+          validator: (currPassword) {
+            final authProv = context.read(authProvider.notifier);
+            if (authProv.currentUserPassword == currPassword) return null;
+            return "Invalid current password!";
           },
         ),
 
-        const Spacer(),
-
-        //New Password Label
-        Text(
-          "New Password",
-          style: context.bodyText1.copyWith(
-              color: Constants.primaryColor,
-              fontSize: 26,
-              fontWeight: FontWeight.bold
-          ),
-        ),
+        const SizedBox(height: 25),
 
         //New Password Field
         CustomTextField(
-          controller: newPasswordController,
           hintText: "Type your password",
+          floatingText: "New Password",
+          controller: newPasswordController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.next,
           validator: (password) {
-            if (password!.isEmpty) return "Please enter a password";
+            final authProv = context.read(authProvider.notifier);
+            if (password!.isEmpty) {
+              return "Please enter a password";
+            }
+            else if(authProv.currentUserPassword == password) {
+              return "Current and new password can't be same";
+            }
             return null;
           },
         ),
 
-        const Spacer(),
-
-        //Confirm New Password Label
-        Text(
-          "Confirm Password",
-          style: context.bodyText1.copyWith(
-              color: Constants.primaryColor,
-              fontSize: 26,
-              fontWeight: FontWeight.bold
-          ),
-        ),
+        const SizedBox(height: 25),
 
         //Confirm New Password Field
         CustomTextField(
-          controller: cNewPasswordController,
           hintText: "Retype your password",
+          floatingText: "New Password",
+          controller: cNewPasswordController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
           validator: (cPassword) {
@@ -97,5 +77,3 @@ class ChangePasswordFields extends StatelessWidget {
     );
   }
 }
-
-

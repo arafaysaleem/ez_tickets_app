@@ -15,8 +15,9 @@ import 'states/auth_state.dart';
 //States
 import 'states/future_state.dart';
 
-final changePasswordState =
-    StateProvider((ref) => const FutureState<String>.idle());
+final changePasswordStateProvider = StateProvider(
+  (ref) => const FutureState<String>.idle(),
+);
 
 class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
@@ -145,7 +146,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       "password": currentUserPassword,
       "new_password": newPassword,
     };
-    final _changePasswordState = _reader(changePasswordState);
+    final _changePasswordState = _reader(changePasswordStateProvider);
     _changePasswordState.state = const FutureState.loading();
     try {
       final result = await _authRepository.sendChangePasswordData(data: data);

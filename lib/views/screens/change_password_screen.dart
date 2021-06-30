@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,13 +8,15 @@ import '../../helper/utils/constants.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/states/future_state.dart';
 
 //Widgets
-import '../widgets/change_password/change_password_fields.dart';
-import '../widgets/change_password/save_password_button.dart';
 import '../widgets/common/custom_dialog.dart';
 import '../widgets/common/scrollable_column.dart';
+import '../widgets/common/rounded_bottom_container.dart';
+import '../widgets/change_password/change_password_fields.dart';
+import '../widgets/change_password/save_password_button.dart';
 
 class ChangePasswordScreen extends HookWidget {
   const ChangePasswordScreen();
@@ -27,10 +28,11 @@ class ChangePasswordScreen extends HookWidget {
     final cNewPasswordController = useTextEditingController();
     late final _formKey = useMemoized(() => GlobalKey<FormState>());
     return Scaffold(
-      body: ProviderListener(
-        provider: authProvider,
-        onChange: (_, changePasswordState) async {
-          (changePasswordState as FutureState).maybeWhen(
+      body: ProviderListener<StateController<FutureState<String>>>(
+        provider: changePasswordStateProvider,
+        onChange: (_, changePasswordStateController) async {
+          final changePasswordState = changePasswordStateController.state;
+          changePasswordState.maybeWhen(
             data: (message) async {
               currentPasswordController.clear();
               newPasswordController.clear();
@@ -57,83 +59,54 @@ class ChangePasswordScreen extends HookWidget {
             orElse: () {},
           );
         },
-        child: SafeArea(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Form(
-              key: _formKey,
-              child: ScrollableColumn(
-                children: [
-                  const SizedBox(height: 20),
-
-                  //Back and title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 15),
-
-                      //Back icon
-                      InkResponse(
-                        radius: 25,
-                        child: const Icon(Icons.arrow_back_sharp, size: 26),
-                        onTap: () {
-                          context.router.pop();
-                        },
-                      ),
-
-                      const SizedBox(width: 20),
-
-                      //Page Title
-                      Expanded(
-                        child: Text(
-                          "Your profile",
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.headline3.copyWith(fontSize: 22),
-                        ),
-                      ),
-
-                      const SizedBox(width: 50),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  //Password fields
-                  Flexible(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: ChangePasswordFields(
-                          currentPasswordController: currentPasswordController,
-                          newPasswordController: newPasswordController,
-                          cNewPasswordController: cNewPasswordController,
-                        ),
-                      ),
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: ScrollableColumn(
+            children: [
+              //Input card
+              Form(
+                key: _formKey,
+                child: RoundedBottomContainer(
+                  children: [
+                    //Page name
+                    Text(
+                      "Your profile",
+                      textAlign: TextAlign.center,
+                      style: context.headline3.copyWith(fontSize: 22),
                     ),
-                  ),
 
-                  const SizedBox(height: 60),
+                    const SizedBox(height: 20),
 
-                  //Save Password Button
-                  SavePasswordButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        final _authProv = context.read(authProvider.notifier);
-                        _authProv.changePassword(
-                          newPassword: newPasswordController.text,
-                        );
-                      }
-                    },
-                  ),
-
-                  const SizedBox(height: Constants.bottomInsetsLow + 5),
-                ],
+                    //Password fields
+                    ChangePasswordFields(
+                      currentPasswordController: currentPasswordController,
+                      newPasswordController: newPasswordController,
+                      cNewPasswordController: cNewPasswordController,
+                    ),
+                  ],
+                ),
               ),
-            ),
+
+              const Spacer(),
+
+              //Save Password Button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
+                child: SavePasswordButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      final _authProv = context.read(authProvider.notifier);
+                      _authProv.changePassword(
+                        newPassword: newPasswordController.text,
+                      );
+                    }
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 5),
+            ],
           ),
         ),
       ),
