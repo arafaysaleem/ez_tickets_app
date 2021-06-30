@@ -110,17 +110,16 @@ class LoginScreen extends HookWidget {
 
               //Login button
               Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    20, 40, 20, Constants.bottomInsets),
+                padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
                 child: CustomTextButton.gradient(
                   width: double.infinity,
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       context.read(authProvider.notifier).login(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
                     }
                   },
                   gradient: Constants.buttonGradientOrange,

@@ -1,28 +1,40 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//enums
+//Enums
 import '../enums/user_role_enum.dart';
 
-//models
+//Models
 import '../models/user_model.dart';
 
-//services
+//Services
 import '../services/local_storage/prefs_service.dart';
 import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
-
-//states
 import 'states/auth_state.dart';
+
+//States
+import 'states/future_state.dart';
+
+final changePasswordStateProvider = StateProvider(
+  (ref) => const FutureState<String>.idle(),
+);
 
 class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
   final AuthRepository _authRepository;
   final PrefsService _prefsService;
+  final Reader _reader;
   String _token = "";
   String _password = "";
 
-  AuthProvider(this._authRepository, this._prefsService)
-      : super(const AuthState.unauthenticated()) {
+  AuthProvider({
+    required AuthRepository authRepository,
+    required PrefsService prefsService,
+    required Reader reader,
+  })  : _authRepository = authRepository,
+        _prefsService = prefsService,
+        _reader = reader,
+        super(const AuthState.unauthenticated()) {
     init();
   }
 
@@ -62,7 +74,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
-  void login({
+  Future<void> login({
     required String email,
     required String password,
   }) async {
@@ -81,7 +93,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
-  void register({
+  Future<void> register({
     required String email,
     required String password,
     required String fullName,
@@ -128,19 +140,21 @@ class AuthProvider extends StateNotifier<AuthState> {
     return result;
   }
 
-  Future<bool> changePassword({
-    required String email,
-    required String oldPassword,
-    required String newPassword,
-  }) async {
+  Future<void> changePassword({required String newPassword}) async {
     final data = {
-      "email": email,
-      "password": oldPassword,
+      "email": currentUserEmail,
+      "password": currentUserPassword,
       "new_password": newPassword,
     };
-    final result = await _authRepository.sendChangePasswordData(data: data);
-    if (result) _updatePassword(newPassword);
-    return result;
+    final _changePasswordState = _reader(changePasswordStateProvider);
+    _changePasswordState.state = const FutureState.loading();
+    try {
+      final result = await _authRepository.sendChangePasswordData(data: data);
+      _updatePassword(newPassword);
+      _changePasswordState.state = FutureState.data(data: result);
+    } on NetworkException catch (e) {
+      _changePasswordState.state = FutureState.failed(reason: e.message);
+    }
   }
 
   Future<bool> verifyOtp({required String email, required int otp}) async {
