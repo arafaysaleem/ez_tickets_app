@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-
 //Helpers
 import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String floatingText, hintText;
+  final String? floatingText, hintText;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final TextEditingController controller;
@@ -43,9 +42,9 @@ class CustomTextField extends StatefulWidget {
       color: Constants.textWhite80Color,
     ),
     this.fillColor = Constants.scaffoldColor,
+    this.floatingText,
+    this.hintText,
     required this.controller,
-    required this.floatingText,
-    required this.hintText,
     required this.keyboardType,
     required this.textInputAction,
     required this.validator,
@@ -57,7 +56,7 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   String? errorText;
-  bool showPassword = false;
+  bool hidePassword = true;
 
   bool get hasErrorText => errorText != null;
 
@@ -108,15 +107,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Floating text
-        Text(
-          widget.floatingText,
-          style: widget.floatingStyle ?? context.bodyText1.copyWith(
-            color: Constants.textGreyColor,
-            fontSize: 17,
+        if (widget.floatingText != null)
+          Text(
+            widget.floatingText!,
+            style: widget.floatingStyle ??
+                context.bodyText1.copyWith(
+                  color: Constants.textGreyColor,
+                  fontSize: 17,
+                ),
           ),
-        ),
 
-        const SizedBox(height: 2),
+        if (widget.floatingText != null) const SizedBox(height: 2),
 
         //TextField
         SizedBox(
@@ -125,36 +126,36 @@ class _CustomTextFieldState extends State<CustomTextField> {
             controller: widget.controller,
             autofocus: widget.autofocus,
             maxLength: widget.maxLength,
-            maxLengthEnforcement: MaxLengthEnforcement.enforced,
-            textAlignVertical: TextAlignVertical.center,
-            showCursor: true,
-            obscureText: showPassword,
-            cursorColor: Colors.white,
-            autovalidateMode: AutovalidateMode.disabled,
-            validator: _onValidate,
-            onSaved: _onSaved,
-            onFieldSubmitted: _onFieldSubmitted,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
             style: widget.inputStyle,
+            maxLengthEnforcement: MaxLengthEnforcement.enforced,
+            textAlignVertical: TextAlignVertical.center,
+            autovalidateMode: AutovalidateMode.disabled,
+            cursorColor: Colors.white,
+            obscureText: isPasswordField && hidePassword,
+            showCursor: true,
+            validator: _onValidate,
+            onSaved: _onSaved,
+            onFieldSubmitted: _onFieldSubmitted,
             decoration: InputDecoration(
-              contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
-              isDense: true,
-              counterText: "",
               hintText: widget.hintText,
               hintStyle: widget.hintStyle,
               errorStyle: widget.errorStyle,
+              fillColor: widget.fillColor,
+              prefixIcon: widget.prefix,
+              contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
+              isDense: true,
+              filled: true,
+              counterText: "",
               border: _normalBorder(),
               focusedBorder: _focusedBorder(),
               focusedErrorBorder: _focusedBorder(),
-              fillColor: widget.fillColor,
-              filled: true,
-              prefixIcon: widget.prefix,
               suffixIcon: isPasswordField
                   ? InkWell(
                       onTap: () {
                         setState(() {
-                          showPassword = !showPassword;
+                          hidePassword = !hidePassword;
                         });
                       },
                       child: const Icon(

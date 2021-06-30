@@ -58,15 +58,15 @@ class UserBookingsList extends StatelessWidget {
         return SizedBox(
           height: 140,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () => onTap(context,booking),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
                 //Booking overview
                 BookingSummaryRow(
                   total: total,
-                  title: booking.title,
                   noOfSeats: noOfSeats,
+                  title: booking.title,
                   showDateTime: booking.show.showDatetime,
                   showType: booking.show.showType,
                 ),
