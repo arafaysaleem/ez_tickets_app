@@ -10,12 +10,12 @@ import 'helper/utils/custom_theme.dart';
 import 'routes/app_router.gr.dart';
 
 //Services
-import 'services/local_storage/prefs_base.dart';
+import 'services/local_storage/key_value_storage_base.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   debugPrint = setDebugPrint;
-  await PrefsBase.init();
+  await KeyValueStorageBase.init();
   runApp(MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
