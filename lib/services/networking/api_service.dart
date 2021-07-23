@@ -10,15 +10,8 @@ class ApiService implements ApiInterface{
   late final DioService _dioService;
 
   /// A public constructor that is used to initialize the API service
-  /// with [BaseOptions] and setup the underlying [_dioService].
-  ApiService() {
-    final options = BaseOptions(
-      baseUrl: "https://ez-tickets-backend.herokuapp.com/api/v1",
-    );
-    _dioService = DioService(
-      baseOptions: options,
-    );
-  }
+  /// and setup the underlying [_dioService].
+  ApiService(DioService dioService) : _dioService = dioService;
 
   /// An implementation of the base method for requesting collection of data
   /// from the [endpoint].

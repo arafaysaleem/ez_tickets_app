@@ -1,19 +1,13 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
-//Interceptors
-import 'interceptors/api_interceptor.dart';
-import 'interceptors/logging_interceptor.dart';
-import 'interceptors/refresh_token_interceptor.dart';
 //Exceptions
 import 'network_exception.dart';
 
 /// A service class that wraps the [Dio] instance and provides methods for
 /// basic network requests.
 class DioService {
-
   /// An instance of [Dio] for executing network requests.
   late final Dio _dio;
 
@@ -21,30 +15,13 @@ class DioService {
   /// network requests.
   late final CancelToken _cancelToken;
 
-  /// A public constructor that is used to create the Dio service
-  /// with [baseOptions].
+  /// A public constructor that is used to create a Dio service and initialize
+  /// the underlying [Dio] client.
   ///
-  /// Calls [createDio()] to setup the underlying [_dio] instance.
-  DioService({required BaseOptions baseOptions}) {
-    createDio(baseOptions);
-  }
-
-  /// An method to create new instance of [Dio] with [baseOptions].
-  ///
-  /// Attaches any external [Interceptors] to [_dio].
-  ///
-  /// * [ApiInterceptor] handles token injection and response success validation
-  /// * [LoggingInterceptor] performs logging of all network requests, only
-  /// in debug mode
-  /// * [RefreshTokenInterceptor] refreshes an expired token.
-  void createDio(BaseOptions baseOptions) {
-    _cancelToken = CancelToken();
-    _dio = Dio(baseOptions);
-    _dio.interceptors.addAll([
-      ApiInterceptor(),
-      if (kDebugMode) LoggingInterceptor(),
-      RefreshTokenInterceptor(_dio),
-    ]);
+  /// Attaches any external [Interceptor]s to the underlying [_dio] client.
+  DioService({required Dio dioClient, Iterable<Interceptor>? interceptors})
+  : _dio = dioClient, _cancelToken = CancelToken() {
+    if (interceptors != null) _dio.interceptors.addAll(interceptors);
   }
 
   /// This method invokes the [cancel()] method on either the input
@@ -76,17 +53,24 @@ class DioService {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    try {
-      final response = await _dio.get(
-        endpoint,
-        queryParameters: queryParams,
-        options: options,
-        cancelToken: cancelToken ?? _cancelToken,
-      );
-      return response.data;
-    } on Exception catch (ex) {
-      throw NetworkException.getDioException(ex);
-    }
+    final response = await _dio.get(
+      endpoint,
+      queryParameters: queryParams,
+      options: options,
+      cancelToken: cancelToken ?? _cancelToken,
+    );
+    return response.data;
+    // try {
+    //   final response = await _dio.get(
+    //     endpoint,
+    //     queryParameters: queryParams,
+    //     options: options,
+    //     cancelToken: cancelToken ?? _cancelToken,
+    //   );
+    //   return response.data;
+    // } on Exception catch (ex) {
+    //   throw NetworkException.getDioException(ex);
+    // }
   }
 
   /// This method sends a `POST` request to the [endpoint] and returns the

@@ -7,7 +7,7 @@ import '../enums/user_role_enum.dart';
 import '../models/user_model.dart';
 
 //Services
-import '../services/local_storage/prefs_service.dart';
+import '../services/local_storage/key_value_storage_service.dart';
 import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
 import 'states/auth_state.dart';
@@ -22,25 +22,22 @@ final changePasswordStateProvider = StateProvider(
 class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
   final AuthRepository _authRepository;
-  final PrefsService _prefsService;
+  final KeyValueStorageService _keyValueStorageService;
   final Reader _reader;
-  String _token = "";
   String _password = "";
 
   AuthProvider({
     required AuthRepository authRepository,
-    required PrefsService prefsService,
+    required KeyValueStorageService keyValueStorageService,
     required Reader reader,
   })  : _authRepository = authRepository,
-        _prefsService = prefsService,
+        _keyValueStorageService = keyValueStorageService,
         _reader = reader,
         super(const AuthState.unauthenticated()) {
     init();
   }
 
   int get currentUserId => _currentUser!.userId!;
-
-  String get token => _token;
 
   String get currentUserFullName => _currentUser!.fullName;
 
@@ -53,21 +50,19 @@ class AuthProvider extends StateNotifier<AuthState> {
   String get currentUserPassword => _password;
 
   void updateToken(String value) {
-    _token = value;
-    _prefsService.setAuthToken(value);
+    _keyValueStorageService.setAuthToken(value);
   }
 
   void _updatePassword(String value) {
     _password = value;
-    _prefsService.setAuthPassword(value);
+    _keyValueStorageService.setAuthPassword(value);
   }
 
-  void init() {
-    final authenticated = _prefsService.getAuthState();
-    _currentUser = _prefsService.getAuthUser();
-    _password = _prefsService.getAuthPassword();
-    _token = _prefsService.getAuthToken();
-    if (!authenticated || _currentUser == null) {
+  void init() async {
+    final authenticated = _keyValueStorageService.getAuthState();
+    _currentUser = _keyValueStorageService.getAuthUser();
+    _password = await _keyValueStorageService.getAuthPassword();
+    if (!authenticated || _currentUser == null || _password.isEmpty) {
       logout();
     } else {
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
@@ -87,7 +82,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       );
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
       _updatePassword(password);
-      _updatePreferences();
+      _updateAuthProfile();
     } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
     }
@@ -119,7 +114,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       );
       state = AuthState.authenticated(fullName: _currentUser!.fullName);
       _updatePassword(password);
-      _updatePreferences();
+      _updateAuthProfile();
     } on NetworkException catch (e) {
       state = AuthState.failed(reason: e.message);
     }
@@ -165,17 +160,15 @@ class AuthProvider extends StateNotifier<AuthState> {
     return await _authRepository.sendOtpData(data: data);
   }
 
-  void _updatePreferences() {
-    _prefsService.setAuthState(state);
-    _prefsService.setAuthUser(_currentUser!);
-    _prefsService.setAuthToken(token);
+  void _updateAuthProfile() {
+    _keyValueStorageService.setAuthState(state);
+    _keyValueStorageService.setAuthUser(_currentUser!);
   }
 
   void logout() {
-    _token = "";
     _currentUser = null;
     _password = "";
     state = const AuthState.unauthenticated();
-    _prefsService.resetPrefs();
+    _keyValueStorageService.resetKeys();
   }
 }

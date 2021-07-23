@@ -25,6 +25,7 @@ dependencies:
   dartdoc: ^0.44.0
   better_player: ^0.0.69
   flutter_spinkit: 5.0.0
+  flutter_secure_storage: ^4.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -43,16 +44,7 @@ flutter_icons:
   ios: false
   image_path: assets/app_icon.png
 flutter_native_splash:
-  color: "#141414"
+  color: '#141414'
   image: assets/app_icon.png
-
-  #android: false
   ios: false
   web: false
-
-  # bottom, center,
-  # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
-  # fill_vertical, left, right, start, or top.
-  #android_gravity: center
-
-  #fullscreen: true

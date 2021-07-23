@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-
 import 'package:dio/dio.dart';
 
 /// A class that intercepts network requests for logging purposes only. This is
 /// the second interceptor in case of both request and response.
 ///
-/// ** This interceptor doesn't modify the request or response in any way. **
+/// ** This interceptor doesn't modify the request or response in any way. And
+/// only works in `debug` mode **
 class LoggingInterceptor extends Interceptor {
 
   /// This method intercepts an out-going request before it reaches the
