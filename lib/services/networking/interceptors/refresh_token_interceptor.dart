@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Providers
 import '../../../providers/all_providers.dart';
@@ -8,14 +8,17 @@ import '../../../providers/all_providers.dart';
 //Endpoints
 import '../api_endpoint.dart';
 
-/// A class that holds intercepting logic for refreshing tokens. This is
-/// the last interceptor in the queue.
+/// A class that holds intercepting logic for refreshing expired tokens. This
+/// is the last interceptor in the queue.
 class RefreshTokenInterceptor extends Interceptor {
-
   /// An instance of [Dio] for network requests
   final Dio _dio;
+  final ProviderReference _ref;
 
-  RefreshTokenInterceptor(this._dio);
+  RefreshTokenInterceptor({
+    required Dio dioClient,
+    required ProviderReference ref,
+  }) : _dio = dioClient, _ref = ref;
 
   /// The name of the exception on which this interceptor is triggered.
   // ignore: non_constant_identifier_names
@@ -54,11 +57,11 @@ class RefreshTokenInterceptor extends Interceptor {
           _dio.lock();
 
           //Get auth details for refresh token request
-          final authProv = ProviderContainer().read(authProvider.notifier);
+          final kVStorageService = await _ref.read(keyValueStorageServiceProvider);
           final data = {
-            "email": authProv.currentUserEmail,
-            "password": authProv.currentUserPassword,
-            "oldToken": authProv.token
+            "email": kVStorageService.getAuthUser()!.email,
+            "password": await kVStorageService.getAuthPassword(),
+            "oldToken": await kVStorageService.getAuthToken(),
           };
 
           //Make refresh request and get new token
@@ -69,10 +72,10 @@ class RefreshTokenInterceptor extends Interceptor {
             data: data,
           );
 
-          if(newToken == null) return super.onError(dioError, handler);
+          if (newToken == null) return super.onError(dioError, handler);
 
           //Update auth and unlock old dio
-          authProv.updateToken(newToken);
+          kVStorageService.setAuthToken(newToken);
           _dio.unlock();
           _dio.clear();
 
