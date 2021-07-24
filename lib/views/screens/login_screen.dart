@@ -4,11 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../helper/extensions/context_extensions.dart';
-
 //Helpers
-import '../../helper/extensions/string_extension.dart';
+import '../../helper/extensions/context_extensions.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/utils/form_validator.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -82,10 +81,7 @@ class LoginScreen extends HookWidget {
                       hintText: "Type your email address",
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      validator: (email) {
-                        if (email != null && email.isValidEmail) return null;
-                        return "Please enter a valid email address";
-                      },
+                      validator: FormValidator.emailValidator,
                     ),
 
                     const SizedBox(height: 25),
@@ -97,10 +93,7 @@ class LoginScreen extends HookWidget {
                       hintText: "Type your password",
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
-                      validator: (password) {
-                        if (password!.isEmpty) return "Please enter a password";
-                        return null;
-                      },
+                      validator: FormValidator.passwordValidator,
                     ),
                   ],
                 ),

@@ -6,9 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../helper/extensions/context_extensions.dart';
-import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/assets_helper.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/utils/form_validator.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -100,12 +100,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           context.read(authProvider.notifier).register(
-            email: email,
-            password: password,
-            fullName: fullName,
-            address: address,
-            contact: contact,
-          );
+                email: email,
+                password: password,
+                fullName: fullName,
+                address: address,
+                contact: contact,
+              );
         }
       },
       gradient: Constants.buttonGradientOrange,
@@ -139,6 +139,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  VoidCallback? onBackTap() {
+    if (!userDetailsState.value) {
+      return () => userDetailsState.value = true;
+    }
+    return null;
+  }
+
+  void onFormChanged() {
+    if (!_formHasData) _formHasData = true;
+  }
+
+  void onAuthStateFailed(String reason) async {
+    await showDialog<bool>(
+      context: context,
+      barrierColor: Constants.barrierColor.withOpacity(0.75),
+      builder: (ctx) {
+        return CustomDialog.alert(
+          title: "Register Failed",
+          body: reason,
+          buttonText: "Retry",
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final emailController = useTextEditingController(text: "");
@@ -148,33 +173,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final addressController = useTextEditingController(text: "");
     final contactController = useTextEditingController(text: "");
 
+    void onAuthStateAuthenticated(String? currentUserFullName){
+      emailController.clear();
+      passwordController.clear();
+      fullNameController.clear();
+      addressController.clear();
+      cPasswordController.clear();
+      contactController.clear();
+      _formHasData = false;
+      context.router.popUntilRoot();
+    }
+
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
         onChange: (_, authState) async => (authState as AuthState).maybeWhen(
-          authenticated: (_) {
-            emailController.clear();
-            passwordController.clear();
-            fullNameController.clear();
-            addressController.clear();
-            cPasswordController.clear();
-            contactController.clear();
-            _formHasData = false;
-            context.router.popUntilRoot();
-          },
-          failed: (reason) async {
-            await showDialog<bool>(
-              context: context,
-              barrierColor: Constants.barrierColor.withOpacity(0.75),
-              builder: (ctx) {
-                return CustomDialog.alert(
-                  title: "Register Failed",
-                  body: reason,
-                  buttonText: "Retry",
-                );
-              },
-            );
-          },
+          authenticated: onAuthStateAuthenticated,
+          failed: onAuthStateFailed,
           orElse: () {},
         ),
         child: GestureDetector(
@@ -184,14 +199,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               //Input card
               Form(
                 key: formKey,
-                onChanged: () {
-                  if (!_formHasData) _formHasData = true;
-                },
+                onChanged: onFormChanged,
                 onWillPop: _showConfirmDialog,
                 child: RoundedBottomContainer(
-                  onBackTap: !userDetailsState.value
-                      ? () => userDetailsState.value = true
-                      : null,
+                  onBackTap: onBackTap,
                   children: [
                     //Page name
                     Text(
@@ -224,7 +235,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               //Button
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
+                padding: const EdgeInsets.fromLTRB(
+                  20,
+                  40,
+                  20,
+                  Constants.bottomInsets,
+                ),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 550),
                   switchOutCurve: Curves.easeInBack,
@@ -272,10 +288,7 @@ class _UserDetailFields extends StatelessWidget {
           hintText: "Type your full name",
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
-          validator: (fullName) {
-            if (fullName != null && fullName.isValidFullName) return null;
-            return "Please enter a valid full name";
-          },
+          validator: FormValidator.fullNameValidator,
         ),
 
         const SizedBox(height: 25),
@@ -287,10 +300,7 @@ class _UserDetailFields extends StatelessWidget {
           hintText: "Type your email address",
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          validator: (email) {
-            if (email != null && email.isValidEmail) return null;
-            return "Please enter a valid email address";
-          },
+          validator: FormValidator.emailValidator,
         ),
 
         const SizedBox(height: 25),
@@ -302,10 +312,7 @@ class _UserDetailFields extends StatelessWidget {
           hintText: "Type your full address",
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
-          validator: (address) {
-            if (address!.isEmpty) return "Please enter a address";
-            return null;
-          },
+          validator: FormValidator.addressValidator,
         ),
 
         const SizedBox(height: 25),
@@ -317,15 +324,13 @@ class _UserDetailFields extends StatelessWidget {
           hintText: "Type your mobile #",
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.done,
+          validator: FormValidator.contactValidator,
           prefix: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(17, 0, 5, 0),
-                child: Image.asset(
-                  AssetsHelper.pkFlag,
-                  width: 25,
-                ),
+                child: Image.asset(AssetsHelper.pkFlag, width: 25),
               ),
               const Text(
                 "+92",
@@ -336,17 +341,10 @@ class _UserDetailFields extends StatelessWidget {
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                child: VerticalDivider(
-                  thickness: 1.1,
-                  color: Colors.white,
-                ),
+                child: VerticalDivider(thickness: 1.1, color: Colors.white),
               )
             ],
           ),
-          validator: (contact) {
-            if (contact != null && contact.isValidContact) return null;
-            return "Please enter a valid contact";
-          },
         ),
       ],
     );
@@ -374,10 +372,7 @@ class _PasswordDetailFields extends StatelessWidget {
           hintText: "Type your password",
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.next,
-          validator: (password) {
-            if (password!.isEmpty) return "Please enter a password";
-            return null;
-          },
+          validator: FormValidator.passwordValidator,
         ),
 
         const SizedBox(height: 25),
@@ -389,10 +384,10 @@ class _PasswordDetailFields extends StatelessWidget {
           hintText: "Retype your password",
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
-          validator: (cPassword) {
-            if (passwordController.text.trim() == cPassword) return null;
-            return "Passwords don't match";
-          },
+          validator: (confirmPw) => FormValidator.confirmPasswordValidator(
+            confirmPw,
+            passwordController.text,
+          ),
         ),
       ],
     );
