@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../../enums/payment_method_enum.dart';
-import '../../../helper/extensions/string_extension.dart';
+import '../../../helper/utils/form_validator.dart';
 import '../../../helper/utils/constants.dart';
 
 //Providers
@@ -42,6 +42,10 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
     return Future<bool>.value(true);
   }
 
+  void onFormChanged() {
+    if (!_formHasData) _formHasData = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final deliveryAddressController = useTextEditingController(text: "");
@@ -56,9 +60,7 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(
         key: formKey,
-        onChanged: () {
-          if (!_formHasData) _formHasData = true;
-        },
+        onChanged: onFormChanged,
         onWillPop: _showConfirmDialog,
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 550),
@@ -113,12 +115,7 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
           hintText: "Enter delivery address",
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
-          validator: (deliveryAddress) {
-            if (deliveryAddress!.isEmpty) {
-              return "Please enter a delivery address";
-            }
-            return null;
-          },
+          validator: FormValidator.addressValidator,
         ),
 
         const SizedBox(height: 5),
@@ -130,10 +127,7 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
           hintText: "Enter zip code",
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-          validator: (zipCode) {
-            if (zipCode != null && zipCode.isValidZipCode) return null;
-            return "Please enter a valid zip code";
-          },
+          validator: FormValidator.zipCodeValidator,
         ),
 
         const SizedBox(height: 5),
@@ -145,7 +139,7 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
           hintText: "Enter promo code",
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
-          validator: (_) {},
+          validator: FormValidator.promoCodeValidator,
           prefix: const Icon(
             Icons.local_activity_rounded,
             color: Constants.primaryColor,
@@ -181,12 +175,7 @@ class _CashOnHandDetailFields extends StatelessWidget {
           hintText: "Enter the branch name",
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
-          validator: (branchName) {
-            if (branchName!.isEmpty) {
-              return "Please enter the branch name";
-            }
-            return null;
-          },
+          validator: FormValidator.branchNameValidator,
         ),
 
         const SizedBox(height: 5),
@@ -198,7 +187,7 @@ class _CashOnHandDetailFields extends StatelessWidget {
           hintText: "Enter promo code",
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
-          validator: (_) {},
+          validator: FormValidator.promoCodeValidator,
           prefix: const Icon(
             Icons.local_activity_rounded,
             color: Constants.primaryColor,
@@ -237,12 +226,7 @@ class _CardDetailFields extends StatelessWidget {
           maxLength: 16,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-          validator: (ccNumber) {
-            if (ccNumber != null && ccNumber.isValidCreditCardNumber) {
-              return null;
-            }
-            return "Invalid credit card number";
-          },
+          validator: FormValidator.creditCardNumberValidator,
         ),
 
         const SizedBox(height: 5),
@@ -255,10 +239,7 @@ class _CardDetailFields extends StatelessWidget {
           maxLength: 3,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-          validator: (cvv) {
-            if (cvv != null && cvv.isValidCreditCardCVV) return null;
-            return "Please enter a valid zip code";
-          },
+          validator: FormValidator.creditCardCVVValidator,
         ),
 
         const SizedBox(height: 5),
@@ -270,10 +251,7 @@ class _CardDetailFields extends StatelessWidget {
           hintText: "Enter expiry date",
           keyboardType: TextInputType.datetime,
           textInputAction: TextInputAction.done,
-          validator: (expiry) {
-            if (expiry != null && expiry.isValidCreditCardExpiry) return null;
-            return "Please enter an expiry date";
-          },
+          validator: FormValidator.creditCardExpiryValidator,
         ),
       ],
     );
