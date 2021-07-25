@@ -1,8 +1,7 @@
-import 'package:ez_ticketz_app/models/user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-//Enums
 import 'package:ez_ticketz_app/enums/user_role_enum.dart';
+import 'package:ez_ticketz_app/models/user_model.dart';
 
 void main() {
   group("fromJson", () {
@@ -107,7 +106,8 @@ void main() {
       "WHEN properties are different"
       "THEN equality returns false",
       () {
-        const job1 = UserModel(
+        //given
+        const user1 = UserModel(
           userId: 1,
           fullName: "Test User",
           email: "test.email@gmail.com",
@@ -115,15 +115,19 @@ void main() {
           contact: "03001234567",
           role: UserRole.API_USER,
         );
-        const job2 = UserModel(
-          userId: 1,
+
+        //when
+        const user2 = UserModel(
+          userId: 2,
           fullName: "Test User 2",
           email: "test.email@gmail.com",
           address: "ABC-1/BLOCK TEST",
           contact: "03001234567",
           role: UserRole.API_USER,
         );
-        expect(job1 == job2, false);
+
+        //then
+        expect(user1 == user2, false);
       },
     );
 
@@ -132,7 +136,8 @@ void main() {
       "WHEN properties are same"
       "THEN equality returns true",
       () {
-        const job1 = UserModel(
+        //given
+        const user1 = UserModel(
           userId: 1,
           fullName: "Test User",
           email: "test.email@gmail.com",
@@ -140,7 +145,9 @@ void main() {
           contact: "03001234567",
           role: UserRole.API_USER,
         );
-        const job2 = UserModel(
+
+        //when
+        const user2 = UserModel(
           userId: 1,
           fullName: "Test User",
           email: "test.email@gmail.com",
@@ -148,7 +155,9 @@ void main() {
           contact: "03001234567",
           role: UserRole.API_USER,
         );
-        expect(job1 == job2, true);
+
+        //then
+        expect(user1 == user2, true);
       },
     );
   });
