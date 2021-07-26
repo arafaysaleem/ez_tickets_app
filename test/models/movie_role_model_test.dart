@@ -1,14 +1,14 @@
-import 'package:ez_ticketz_app/models/role_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:ez_ticketz_app/models/role_model.dart';
 import 'package:ez_ticketz_app/enums/role_type_enum.dart';
 import 'package:ez_ticketz_app/models/movie_role_model.dart';
 
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed"
-      "WHEN a valid movie role json is input"
+      "GIVEN a json serialization is needed "
+      "WHEN a valid movie role json is input "
       "THEN a movie role model is output",
       () {
         //given
@@ -21,13 +21,18 @@ void main() {
         final movieRoleJson = {
           "movie_id": 1,
           "role": roleJson,
-          "role_type": RoleType.CAST.toJson,
+          "role_type": "cast",
         };
 
         //when
         final actual = MovieRoleModel.fromJson(movieRoleJson);
-        final roleModel = RoleModel.fromJson(roleJson);
-        final matcher = MovieRoleModel(
+        const roleModel = RoleModel(
+          roleId: 1,
+          fullName: "Mr.Test",
+          age: 30,
+          pictureUrl: "www.placeholders.com/test_image",
+        );
+        const matcher = MovieRoleModel(
           movieId: 1,
           role: roleModel,
           roleType: RoleType.CAST,
@@ -41,8 +46,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed"
-      "WHEN a movie role model is converted"
+      "GIVEN a json deserialization is needed "
+      "WHEN a movie role model is converted "
       "THEN a movie role json is output",
       () {
         //given
@@ -62,7 +67,7 @@ void main() {
         final actual = movieRole.toCustomJson();
         final matcher = {
           "role_id": 1,
-          "role_type": RoleType.CAST.toJson,
+          "role_type": "cast",
         };
 
         //then
@@ -73,8 +78,8 @@ void main() {
 
   group("equality", () {
     test(
-      "GIVEN two movie role models"
-      "WHEN properties are different"
+      "GIVEN two movie role models "
+      "WHEN properties are different "
       "THEN equality returns false",
       () {
         //given
@@ -103,8 +108,8 @@ void main() {
     );
 
     test(
-      "GIVEN two movie role models"
-      "WHEN properties are same"
+      "GIVEN two movie role models "
+      "WHEN properties are same "
       "THEN equality returns true",
       () {
         //given

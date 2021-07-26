@@ -5,8 +5,8 @@ import 'package:ez_ticketz_app/models/seat_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed"
-      "WHEN a valid seat json is input"
+      "GIVEN a json serialization is needed "
+      "WHEN a valid seat json is input "
       "THEN a seat model is output",
       () {
         //given
@@ -30,8 +30,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed"
-      "WHEN a seat model is converted"
+      "GIVEN a json deserialization is needed "
+      "WHEN a seat model is converted "
       "THEN a seat json is output",
       () {
         //given
@@ -55,8 +55,8 @@ void main() {
 
   group("equality", () {
     test(
-      "GIVEN two seat models"
-      "WHEN properties are different"
+      "GIVEN two seat models "
+      "WHEN properties are different "
       "THEN equality returns false",
       () {
         //given
@@ -77,8 +77,8 @@ void main() {
     );
 
     test(
-      "GIVEN two seat models"
-      "WHEN properties are same"
+      "GIVEN two seat models "
+      "WHEN properties are same "
       "THEN equality returns true",
       () {
         //given

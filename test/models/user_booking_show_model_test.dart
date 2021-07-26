@@ -48,7 +48,7 @@ void main() {
         final actual = userBookingModel.toJson();
         final matcher = {
           "show_id": 1,
-          "show_type": "2D", //evaluates to 2D
+          "show_type": "2D",
           "show_datetime": "2012-02-27T13:27:00.000",
         };
 
@@ -60,8 +60,8 @@ void main() {
 
   group("equality", () {
     test(
-      "GIVEN two user booking show models"
-      "WHEN properties are different"
+      "GIVEN two user booking show models "
+      "WHEN properties are different "
       "THEN equality returns false",
       () {
         //given
@@ -84,8 +84,8 @@ void main() {
     );
 
     test(
-      "GIVEN two user booking show models"
-      "WHEN properties are same"
+      "GIVEN two user booking show models "
+      "WHEN properties are same "
       "THEN equality returns true",
       () {
         //given

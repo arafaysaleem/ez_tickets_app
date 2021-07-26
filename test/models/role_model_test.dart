@@ -5,8 +5,8 @@ import 'package:ez_ticketz_app/models/role_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed"
-      "WHEN a valid role json is input"
+      "GIVEN a json serialization is needed "
+      "WHEN a valid role json is input "
       "THEN a role model is output",
       () {
         //given
@@ -34,8 +34,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed"
-      "WHEN a role model is converted"
+      "GIVEN a json deserialization is needed "
+      "WHEN a role model is converted "
       "THEN a role json is output",
       () {
         //given
@@ -63,8 +63,8 @@ void main() {
 
   group("equality", () {
     test(
-      "GIVEN two role models"
-      "WHEN properties are different"
+      "GIVEN two role models "
+      "WHEN properties are different "
       "THEN equality returns false",
       () {
         //given
@@ -89,8 +89,8 @@ void main() {
     );
 
     test(
-      "GIVEN two role models"
-      "WHEN properties are same"
+      "GIVEN two role models "
+      "WHEN properties are same "
       "THEN equality returns true",
       () {
         //given

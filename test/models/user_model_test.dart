@@ -17,7 +17,7 @@ void main() {
           "email": "test.email@gmail.com",
           "address": "ABC-1/BLOCK TEST",
           "contact": "03001234567",
-          "role": UserRole.API_USER.toJson, //evaluates to api_user
+          "role": "api_user",
         };
 
         //when
@@ -39,8 +39,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed"
-      "WHEN a user model with user id is converted"
+      "GIVEN a json deserialization is needed "
+      "WHEN a user model with user id is converted "
       "THEN a user json with user id is output",
       () {
         //given
@@ -61,7 +61,7 @@ void main() {
           "email": "test.email@gmail.com",
           "address": "ABC-1/BLOCK TEST",
           "contact": "03001234567",
-          "role": UserRole.API_USER.toJson, //evaluates to api_user
+          "role": "api_user",
         };
 
         //then
@@ -70,8 +70,8 @@ void main() {
     );
 
     test(
-      "GIVEN a json deserialization is needed"
-      "WHEN a user model with null user id is converted"
+      "GIVEN a json deserialization is needed "
+      "WHEN a user model with null user id is converted "
       "THEN a user json without user id is output",
       () {
         //given
@@ -91,7 +91,7 @@ void main() {
           "email": "test.email@gmail.com",
           "address": "ABC-1/BLOCK TEST",
           "contact": "03001234567",
-          "role": UserRole.API_USER.toJson, //evaluates to api_user
+          "role": "api_user",
         };
 
         //then
@@ -102,8 +102,8 @@ void main() {
 
   group("equality", () {
     test(
-      "GIVEN two user models"
-      "WHEN properties are different"
+      "GIVEN two user models "
+      "WHEN properties are different "
       "THEN equality returns false",
       () {
         //given
@@ -132,8 +132,8 @@ void main() {
     );
 
     test(
-      "GIVEN two user models"
-      "WHEN properties are same"
+      "GIVEN two user models "
+      "WHEN properties are same "
       "THEN equality returns true",
       () {
         //given
