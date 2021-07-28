@@ -33,7 +33,6 @@ class RegisterScreen extends StatefulHookWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _formHasData = false;
   late final formKey = GlobalKey<FormState>();
-  late final ValueNotifier<bool> userDetailsState = ValueNotifier(true);
 
   Future<bool> _showConfirmDialog() async {
     if (_formHasData) {
@@ -52,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Future<bool>.value(true);
   }
 
-  CustomTextButton buildNextButton() {
+  CustomTextButton buildNextButton(ValueNotifier<bool> userDetailsState) {
     return CustomTextButton.outlined(
       width: double.infinity,
       onPressed: () {
@@ -139,11 +138,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  VoidCallback? onBackTap() {
-    if (!userDetailsState.value) {
-      return () => userDetailsState.value = true;
-    }
-    return null;
+  VoidCallback? onBackTap(ValueNotifier<bool> userDetailsState){
+    if(!userDetailsState.value) return () => userDetailsState.value = true;
   }
 
   void onFormChanged() {
@@ -166,6 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userDetailsState = useState<bool>(true);
     final emailController = useTextEditingController(text: "");
     final passwordController = useTextEditingController(text: "");
     final cPasswordController = useTextEditingController(text: "");
@@ -202,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onChanged: onFormChanged,
                 onWillPop: _showConfirmDialog,
                 child: RoundedBottomContainer(
-                  onBackTap: onBackTap,
+                  onBackTap: onBackTap(userDetailsState),
                   children: [
                     //Page name
                     Text(
@@ -245,7 +242,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   duration: const Duration(milliseconds: 550),
                   switchOutCurve: Curves.easeInBack,
                   child: userDetailsState.value
-                      ? buildNextButton()
+                      ? buildNextButton(userDetailsState)
                       : buildConfirmButton(
                           email: emailController.text,
                           password: passwordController.text,
