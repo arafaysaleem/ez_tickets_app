@@ -29,7 +29,7 @@ jobs:
       uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
       with:
         path: "./coverage/lcov.info"
-        min_coverage: 10
+        min_coverage: 4.5
         exclude: "**/*.freezed.dart **/*.g.dart **/*.gr.dart **/constants.dart **/custom_theme.dart **/assets_helper.dart"
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2.0.2
