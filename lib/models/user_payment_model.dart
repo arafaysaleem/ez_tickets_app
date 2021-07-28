@@ -19,8 +19,8 @@ class UserPaymentModel with _$UserPaymentModel {
     factory UserPaymentModel.fromJson(Map<String, dynamic> json) => _$UserPaymentModelFromJson(json);
 }
 
-@visibleForTesting
 @freezed
+@visibleForTesting
 class UserPaymentMovieModel with _$UserPaymentMovieModel {
   @JsonSerializable()
   const factory UserPaymentMovieModel({
