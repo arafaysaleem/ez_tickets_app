@@ -5,3 +5,6 @@ ignore:
   - '**/constants.dart'
   - '**/custom_theme.dart'
   - '**/assets_helper.dart'
+  - '/android/'
+  - '/ios/'
+  - '/build/'
