@@ -1,7 +1,7 @@
 name: Test PR and Push
 on:
   pull_request:
-    branches: [release,dev,master]
+    branches: [release,dev,master, test/**]
 jobs:
   build:
     name: Test APK
@@ -35,7 +35,7 @@ jobs:
       uses: codecov/codecov-action@v2.0.2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage
+        files: ./coverage/lcov.info
         verbose: true
     - name: Attempt Debug APK Build
       run: flutter build apk --debug
