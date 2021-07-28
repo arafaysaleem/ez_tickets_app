@@ -13,21 +13,22 @@ class UserPaymentModel with _$UserPaymentModel {
       required double amount,
       required DateTime paymentDatetime,
       required PaymentMethod paymentMethod,
-      required _UserPaymentMovieModel movie,
+      required UserPaymentMovieModel movie,
     }) = _UserPaymentModel;
 
     factory UserPaymentModel.fromJson(Map<String, dynamic> json) => _$UserPaymentModelFromJson(json);
 }
 
+@visibleForTesting
 @freezed
-class _UserPaymentMovieModel with _$_UserPaymentMovieModel {
+class UserPaymentMovieModel with _$UserPaymentMovieModel {
   @JsonSerializable()
-  const factory _UserPaymentMovieModel({
+  const factory UserPaymentMovieModel({
     required String title,
     required String posterUrl,
-  }) = __UserPaymentMovieModel;
+  }) = _UserPaymentMovieModel;
 
-  factory _UserPaymentMovieModel.fromJson(Map<String, dynamic> json) => _$_UserPaymentMovieModelFromJson(json);
+  factory UserPaymentMovieModel.fromJson(Map<String, dynamic> json) => _$UserPaymentMovieModelFromJson(json);
 }
 
 
