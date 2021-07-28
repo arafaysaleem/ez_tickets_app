@@ -92,7 +92,7 @@ jobs:
       - name: Run build runner for codegen files
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       - name: Generate Splitted Release APKs
-        run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi --obfuscate --split-debug-info=./ez_tickets_app/debug_trace
+        run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi --obfuscate --split-debug-info=./ez_tickets_app/debug_trace --dart-define=BASE_URL=${{ secrets.BASE_URL }}
       - name: Remove bundled APK
         run: rm build/app/outputs/flutter-apk/app.apk
       - name: Upload Built APKs Artifact

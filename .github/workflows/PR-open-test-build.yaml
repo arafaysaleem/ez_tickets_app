@@ -38,4 +38,4 @@ jobs:
         files: ./coverage/lcov.info
         verbose: true
     - name: Attempt Debug APK Build
-      run: flutter build apk --debug
+      run: flutter build apk --debug --dart-define=BASE_URL=${{ secrets.BASE_URL }}
