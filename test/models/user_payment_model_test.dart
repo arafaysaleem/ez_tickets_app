@@ -1,6 +1,7 @@
+import 'package:flutter_test/flutter_test.dart';
+
 import 'package:ez_ticketz_app/enums/payment_method_enum.dart';
 import 'package:ez_ticketz_app/models/user_payment_model.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("UserPaymentMovieModel", () {
@@ -102,6 +103,20 @@ void main() {
   });
 
   group("UserPaymentModel", () {
+    late UserPaymentMovieModel _userPaymentMovieModel;
+
+    const _paymentMovieJson = {
+      "title": "Some Movie",
+      "poster_url": "www.placeholder.com/some-poster",
+    };
+
+    setUp((){
+      _userPaymentMovieModel = const UserPaymentMovieModel(
+        title: "Some Movie",
+        posterUrl: "www.placeholder.com/some-poster",
+      );
+    });
+
     group("fromJson", () {
       test(
         "GIVEN a json serialization is needed "
@@ -109,30 +124,22 @@ void main() {
         "THEN a user payment model is output",
         () {
           //given
-          const paymentMovieJson = {
-            "title": "Some Movie",
-            "poster_url": "www.placeholder.com/some-poster",
-          };
           const userPaymentJson = {
             "payment_id": 1,
             "amount": 1500.9,
             "payment_datetime": "2012-02-27T13:27:00.000",
             "payment_method": "cash",
-            "movie": paymentMovieJson,
+            "movie": _paymentMovieJson,
           };
 
           //when
           final actual = UserPaymentModel.fromJson(userPaymentJson);
-          const paymentMovieModel = UserPaymentMovieModel(
-            title: "Some Movie",
-            posterUrl: "www.placeholder.com/some-poster",
-          );
           final matcher = UserPaymentModel(
             paymentId: 1,
             amount: 1500.9,
             paymentDatetime: DateTime(2012, 2, 27, 13, 27, 0),
             paymentMethod: PaymentMethod.CASH,
-            movie: paymentMovieModel,
+            movie: _userPaymentMovieModel,
           );
 
           //then
@@ -148,30 +155,22 @@ void main() {
         "THEN a user payment json is output",
         () {
           //given
-          const paymentMovieModel = UserPaymentMovieModel(
-            title: "Some Movie",
-            posterUrl: "www.placeholder.com/some-poster",
-          );
           final userPaymentModel = UserPaymentModel(
             paymentId: 1,
             amount: 1500.9,
             paymentDatetime: DateTime(2012, 2, 27, 13, 27, 0),
             paymentMethod: PaymentMethod.CASH,
-            movie: paymentMovieModel,
+            movie: _userPaymentMovieModel,
           );
 
           //when
           final actual = userPaymentModel.toJson();
-          const paymentMovieJson = {
-            "title": "Some Movie",
-            "poster_url": "www.placeholder.com/some-poster",
-          };
           const matcher = {
             "payment_id": 1,
             "amount": 1500.9,
             "payment_datetime": "2012-02-27T13:27:00.000",
             "payment_method": "cash",
-            "movie": paymentMovieJson,
+            "movie": _paymentMovieJson,
           };
 
           //then
@@ -187,29 +186,21 @@ void main() {
         "THEN equality returns false",
         () {
           //given
-          const paymentMovieModel1 = UserPaymentMovieModel(
-            title: "Some Movie",
-            posterUrl: "www.placeholder.com/some-poster",
-          );
           final userPaymentModel1 = UserPaymentModel(
             paymentId: 1,
             amount: 1500.9,
             paymentDatetime: DateTime(2012, 2, 27, 13, 27, 0),
             paymentMethod: PaymentMethod.CASH,
-            movie: paymentMovieModel1,
+            movie: _userPaymentMovieModel,
           );
 
           //when
-          const paymentMovieModel2 = UserPaymentMovieModel(
-            title: "Some Different Movie",
-            posterUrl: "www.placeholder.com/some-poster",
-          );
           final userPaymentModel2 = UserPaymentModel(
             paymentId: 1,
             amount: 1500.9,
             paymentDatetime: DateTime(2012, 2, 27, 13, 27, 0),
-            paymentMethod: PaymentMethod.CASH,
-            movie: paymentMovieModel2,
+            paymentMethod: PaymentMethod.COD, //different
+            movie: _userPaymentMovieModel,
           );
 
           //then
@@ -223,21 +214,17 @@ void main() {
         "THEN equality returns true",
         () {
           //given
-          const paymentMovieModel1 = UserPaymentMovieModel(
-            title: "Some Different Movie",
-            posterUrl: "www.placeholder.com/some-poster",
-          );
           final userPaymentModel1 = UserPaymentModel(
             paymentId: 1,
             amount: 1500.9,
             paymentDatetime: DateTime(2012, 2, 27, 13, 27, 0),
             paymentMethod: PaymentMethod.CASH,
-            movie: paymentMovieModel1,
+            movie: _userPaymentMovieModel,
           );
 
           //when
           const paymentMovieModel2 = UserPaymentMovieModel(
-            title: "Some Different Movie",
+            title: "Some Movie",
             posterUrl: "www.placeholder.com/some-poster",
           );
           final userPaymentModel2 = UserPaymentModel(
