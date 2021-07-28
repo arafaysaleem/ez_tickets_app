@@ -38,14 +38,14 @@ void main() {
       "THEN a user booking show json is output",
       () {
         //given
-        final userBookingModel = UserBookingShowModel(
+        final userBookingShowModel = UserBookingShowModel(
           showId: 1,
           showType: ShowType.i2D,
           showDatetime: DateTime(2012, 2, 27, 13, 27, 0),
         );
 
         //when
-        final actual = userBookingModel.toJson();
+        final actual = userBookingShowModel.toJson();
         final matcher = {
           "show_id": 1,
           "show_type": "2D",
