@@ -5,6 +5,17 @@ import 'package:ez_ticketz_app/enums/role_type_enum.dart';
 import 'package:ez_ticketz_app/models/movie_role_model.dart';
 
 void main() {
+  late RoleModel _roleModel;
+
+  setUp((){
+    _roleModel = const RoleModel(
+      roleId: 1,
+      fullName: "Mr.Test",
+      age: 30,
+      pictureUrl: "www.placeholders.com/test_image",
+    );
+  });
+
   group("fromJson", () {
     test(
       "GIVEN a json serialization is needed "
@@ -26,15 +37,9 @@ void main() {
 
         //when
         final actual = MovieRoleModel.fromJson(movieRoleJson);
-        const roleModel = RoleModel(
-          roleId: 1,
-          fullName: "Mr.Test",
-          age: 30,
-          pictureUrl: "www.placeholders.com/test_image",
-        );
-        const matcher = MovieRoleModel(
+        final matcher = MovieRoleModel(
           movieId: 1,
-          role: roleModel,
+          role: _roleModel,
           roleType: RoleType.CAST,
         );
 
@@ -51,15 +56,9 @@ void main() {
       "THEN a movie role json is output",
       () {
         //given
-        const roleModel = RoleModel(
-          roleId: 1,
-          fullName: "Mr.Test",
-          age: 30,
-          pictureUrl: "www.placeholders.com/test_image",
-        );
-        const movieRole = MovieRoleModel(
+        final movieRole = MovieRoleModel(
           movieId: 1,
-          role: roleModel,
+          role: _roleModel,
           roleType: RoleType.CAST,
         );
 
@@ -83,22 +82,16 @@ void main() {
       "THEN equality returns false",
       () {
         //given
-        const roleModel = RoleModel(
-          roleId: 1,
-          fullName: "Mr.Test",
-          age: 30,
-          pictureUrl: "www.placeholders.com/test_image",
-        );
-        const movieRole1 = MovieRoleModel(
+        final movieRole1 = MovieRoleModel(
           movieId: 1,
-          role: roleModel,
+          role: _roleModel,
           roleType: RoleType.DIRECTOR,
         );
 
         //when
-        const movieRole2 = MovieRoleModel(
+        final movieRole2 = MovieRoleModel(
           movieId: 1,
-          role: roleModel,
+          role: _roleModel,
           roleType: RoleType.PRODUCER,
         );
 
@@ -113,22 +106,22 @@ void main() {
       "THEN equality returns true",
       () {
         //given
-        const roleModel = RoleModel(
+        final movieRole1 = MovieRoleModel(
+          movieId: 1,
+          role: _roleModel,
+          roleType: RoleType.DIRECTOR,
+        );
+
+        //when
+        const roleModel2 = RoleModel(
           roleId: 1,
           fullName: "Mr.Test",
           age: 30,
           pictureUrl: "www.placeholders.com/test_image",
         );
-        const movieRole1 = MovieRoleModel(
-          movieId: 1,
-          role: roleModel,
-          roleType: RoleType.DIRECTOR,
-        );
-
-        //when
         const movieRole2 = MovieRoleModel(
           movieId: 1,
-          role: roleModel,
+          role: roleModel2,
           roleType: RoleType.DIRECTOR,
         );
 
