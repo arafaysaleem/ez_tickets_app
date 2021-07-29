@@ -71,8 +71,8 @@ void main() {
 
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed "
-      "WHEN a valid user booking json is input "
+      "GIVEN a valid user booking json "
+      "WHEN a json deserialization is performed "
       "THEN a user booking model is output",
       () {
         //given
@@ -125,8 +125,8 @@ void main() {
     });
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a user booking model is converted "
+      "GIVEN a user booking model "
+      "WHEN a json serialization is performed "
       "THEN a user booking json is output",
       () {
         //given
@@ -180,7 +180,7 @@ void main() {
     setUp(() => _bookingModels = [ _bookingModel1, _bookingModel2 ]);
 
     test(
-      "GIVEN two user payment movie models "
+      "GIVEN two user booking models "
       "WHEN properties are different "
       "THEN equality returns false",
       () {
@@ -206,7 +206,7 @@ void main() {
     );
 
     test(
-      "GIVEN two user payment movie models "
+      "GIVEN two user booking models "
       "WHEN properties are same "
       "THEN equality returns true",
       () {

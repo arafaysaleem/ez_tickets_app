@@ -5,8 +5,8 @@ import 'package:ez_ticketz_app/models/genre_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed "
-      "WHEN a valid genre json is input "
+      "GIVEN a valid genre json "
+      "WHEN json deserialization is performed "
       "THEN a genre model is output",
       () {
         //given
@@ -30,8 +30,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a genre model is converted "
+      "GIVEN a genre model "
+      "WHEN json serialization is performed "
       "THEN a genre json is output",
       () {
         //given

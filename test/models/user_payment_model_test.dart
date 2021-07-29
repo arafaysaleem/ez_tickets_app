@@ -7,8 +7,8 @@ void main() {
   group("UserPaymentMovieModel", () {
     group("fromJson", () {
       test(
-        "GIVEN a json serialization is needed "
-        "WHEN a valid user payment movie json is input "
+        "GIVEN a valid user payment movie json "
+        "WHEN a json deserialization is performed "
         "THEN a user payment movie model is output",
         () {
           //given
@@ -32,8 +32,8 @@ void main() {
 
     group("toJson", () {
       test(
-        "GIVEN a json deserialization is needed "
-        "WHEN a user payment movie model is converted "
+        "GIVEN a user payment movie model "
+        "WHEN a json serialization is performed "
         "THEN a user payment movie json is output",
         () {
           //given

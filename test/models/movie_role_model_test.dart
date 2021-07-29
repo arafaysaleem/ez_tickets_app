@@ -18,8 +18,8 @@ void main() {
 
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed "
-      "WHEN a valid movie role json is input "
+      "GIVEN a valid movie role json "
+      "WHEN json deserialization is performed "
       "THEN a movie role model is output",
       () {
         //given
@@ -51,8 +51,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a movie role model is converted "
+      "GIVEN a movie role model "
+      "WHEN json serialization is performed "
       "THEN a movie role json is output",
       () {
         //given

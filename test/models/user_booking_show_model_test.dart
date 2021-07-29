@@ -6,8 +6,8 @@ import 'package:ez_ticketz_app/models/user_booking_show_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed "
-      "WHEN a valid user booking show json is input "
+      "GIVEN a valid user booking show json "
+      "WHEN a json deserialization is performed "
       "THEN a user booking show model is output",
       () {
         //given
@@ -33,8 +33,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a user booking show model is converted "
+      "GIVEN a user booking show model "
+      "WHEN a json serialization is performed "
       "THEN a user booking show json is output",
       () {
         //given

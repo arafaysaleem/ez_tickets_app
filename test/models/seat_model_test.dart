@@ -5,8 +5,8 @@ import 'package:ez_ticketz_app/models/seat_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed "
-      "WHEN a valid seat json is input "
+      "GIVEN a valid seat json "
+      "WHEN json deserialization is performed "
       "THEN a seat model is output",
       () {
         //given
@@ -30,8 +30,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a seat model is converted "
+      "GIVEN a seat model "
+      "WHEN json serialization is performed "
       "THEN a seat json is output",
       () {
         //given

@@ -1,13 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
-
 import 'package:ez_ticketz_app/enums/user_role_enum.dart';
 import 'package:ez_ticketz_app/models/user_model.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed"
-      "WHEN a valid user json is input"
+      "GIVEN a valid user json "
+      "WHEN a json deserialization is performed"
       "THEN a user model is output",
       () {
         //given
@@ -39,8 +38,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a user model with user id is converted "
+      "GIVEN a user model with user id "
+      "WHEN a json serialization is performed "
       "THEN a user json with user id is output",
       () {
         //given
@@ -70,9 +69,11 @@ void main() {
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a user model with null user id is converted "
-      "THEN a user json without user id is output",
+      "GIVEN a user model with user id "
+      "AND it's user id is null "
+      "WHEN a json serialization is performed "
+      "THEN a user json is output "
+      "AND it doesn't contain a user_id key",
       () {
         //given
         const user = UserModel(

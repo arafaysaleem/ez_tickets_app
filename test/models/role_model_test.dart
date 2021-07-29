@@ -5,8 +5,8 @@ import 'package:ez_ticketz_app/models/role_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed "
-      "WHEN a valid role json is input "
+      "GIVEN a valid role json "
+      "WHEN json deserialization is performed "
       "THEN a role model is output",
       () {
         //given
@@ -34,8 +34,8 @@ void main() {
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a role model is converted "
+      "GIVEN a role model "
+      "WHEN json serialization is performed "
       "THEN a role json is output",
       () {
         //given

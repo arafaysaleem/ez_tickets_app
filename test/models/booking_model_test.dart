@@ -6,8 +6,8 @@ import 'package:ez_ticketz_app/models/booking_model.dart';
 void main() {
   group("fromJson", () {
     test(
-      "GIVEN a json serialization is needed"
-      "WHEN a valid booking json is input"
+      "GIVEN a valid booking json "
+      "WHEN json deserialization is performed"
       "THEN a booking model is output",
       () {
         //given
@@ -41,9 +41,11 @@ void main() {
     );
 
     test(
-      "GIVEN a json serialization is needed"
-      "WHEN a valid booking json with 'seat' key is input"
-      "THEN 'seat' is ignored and a booking model is output",
+      "GIVEN a valid booking json "
+      "AND seat is non-null "
+      "WHEN a json deserialization is performed "
+      "THEN a booking model is output"
+      "AND it's seat is null",
       () {
         //given
         final json = {
@@ -59,32 +61,25 @@ void main() {
         };
 
         //when
-        final actual = BookingModel.fromJson(json);
-        final matcher = BookingModel(
-          bookingId: 1,
-          userId: 1,
-          showId: 1,
-          seatRow: "A",
-          seatNumber: 10,
-          price: 700.2,
-          bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
-          bookingStatus: BookingStatus.CONFIRMED,
-        );
+        final model = BookingModel.fromJson(json);
 
         //then
-        expect(actual, matcher);
+        expect(model.seat, null);
       },
     );
   });
 
   group("toJson", () {
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model is converted "
-      "AND it has a booking id "
-      "AND/OR it has a seat row "
-      "AND/OR it has a seat number "
-      "THEN a booking json without booking id, seat row and seat number is output",
+      "GIVEN a booking model "
+      "AND it's booking id is non-null "
+      "AND it's seat row is null or non-null "
+      "AND it's seat number is null or non-null"
+      "WHEN json serialization is performed "
+      "THEN a booking json is output"
+      "AND it doesn't contain a key booking_id "
+      "AND it doesn't contain a key seat_row "
+      "AND it doesn't contain a key seat_number",
       () {
         //given
         final booking = BookingModel(
@@ -114,12 +109,15 @@ void main() {
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model is converted "
-      "AND it has null booking id "
-      "AND/OR it has a seat row "
-      "AND/OR it has a seat number "
-      "THEN a booking json without booking id, seat row and seat number is output",
+      "GIVEN a booking model "
+      "AND it's booking id is null "
+      "AND it's seat row is null or non-null "
+      "AND it's seat number is null or non-null"
+      "WHEN json serialization is performed "
+      "THEN a booking json is output"
+      "AND it doesn't contain a key booking_id "
+      "AND it doesn't contain a key seat_row "
+      "AND it doesn't contain a key seat_number",
       () {
         //given
         final booking = BookingModel(
@@ -149,11 +147,13 @@ void main() {
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model is converted "
-      "AND/OR it doesn't have a seat row "
-      "AND/OR it doesn't have a seat number "
-      "THEN a booking json without seat row and seat number is output",
+      "GIVEN a booking model "
+      "AND it's seat row is null or non-null "
+      "AND it's seat number is null or non-null"
+      "WHEN json serialization is performed "
+      "THEN a booking json is output"
+      "AND it doesn't contain a key seat_row "
+      "AND it doesn't contain a key seat_number",
       () {
         //given
         final booking = BookingModel(
@@ -181,9 +181,11 @@ void main() {
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model with seat is converted "
-      "THEN a booking json with seat is output",
+      "GIVEN a booking model "
+      "AND it's seat is non-null "
+      "WHEN json serialization is performed "
+      "THEN a booking json is output "
+      "AND it contains a seat key",
       () {
         //given
         final booking = BookingModel(
@@ -198,25 +200,19 @@ void main() {
 
         //when
         final actual = booking.toJson();
-        final matcher = {
-          "user_id": 1,
-          "show_id": 1,
-          "seat": "A-10",
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
-        };
 
         //then
-        expect(actual, matcher);
+        expect(actual.containsKey("seat"), true);
+        expect(actual["seat"], "A-10");
       },
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model is converted "
-      "AND user id null "
-      "THEN a booking json is output without user id",
+      "GIVEN a booking model "
+      "AND it's user id is null "
+      "WHEN json serialization is performed "
+      "THEN a booking json is output "
+      "AND it doesn't contain a key user_id",
       () {
         //given
         final booking = BookingModel(
@@ -229,24 +225,19 @@ void main() {
         );
 
         //when
-        final actual = booking.toJson();
-        final matcher = {
-          "show_id": 1,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
-        };
+        final model = booking.toJson();
 
         //then
-        expect(actual, matcher);
+        expect(model.containsKey("user_id"), false);
       },
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model is converted "
-      "AND show id null "
-      "THEN a booking json is output without show id",
+      "GIVEN a booking model "
+      "AND it's show id is null "
+      "WHEN json serialization is performed "
+      "THEN a booking json is output "
+      "AND it doesn't contain a key show_id",
       () {
         //given
         final booking = BookingModel(
@@ -259,25 +250,21 @@ void main() {
         );
 
         //when
-        final actual = booking.toJson();
-        final matcher = {
-          "user_id": 1,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
-        };
+        final model = booking.toJson();
 
         //then
-        expect(actual, matcher);
+        expect(model.containsKey("show_id"), false);
       },
     );
 
     test(
-      "GIVEN a json deserialization is needed "
-      "WHEN a booking model is converted "
-      "AND user id null "
-      "AND show id null "
-      "THEN a booking json is output without user id and show id",
+      "GIVEN a booking model "
+      "AND it's show id is null "
+      "AND it's user id is null "
+      "WHEN json serialization is performed "
+      "THEN a booking json is output "
+      "AND it doesn't contain a key show_id "
+      "AND it doesn't contain a key user_id",
       () {
         //given
         final booking = BookingModel(
@@ -290,15 +277,11 @@ void main() {
         );
 
         //when
-        final actual = booking.toJson();
-        final matcher = {
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
-        };
+        final model = booking.toJson();;
 
         //then
-        expect(actual, matcher);
+        expect(model.containsKey("user_id"), false);
+        expect(model.containsKey("show_id"), false);
       },
     );
   });
