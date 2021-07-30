@@ -277,11 +277,80 @@ void main() {
         );
 
         //when
-        final model = booking.toJson();;
+        final model = booking.toJson();
+        ;
 
         //then
         expect(model.containsKey("user_id"), false);
         expect(model.containsKey("show_id"), false);
+      },
+    );
+  });
+
+  group("toUpdateJson", () {
+    test(
+      "GIVEN a booking model "
+      "WHEN json serialization is performed for updating"
+      "AND all arguments are null "
+      "THEN an empty json is output",
+      () {
+        //given
+        final model = BookingModel(
+          bookingId: 1,
+          seatRow: "A",
+          seatNumber: 10,
+          userId: 1,
+          showId: 1,
+          price: 700.2,
+          bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
+          bookingStatus: BookingStatus.CONFIRMED,
+        );
+
+        //when
+        final actual = model.toUpdateJson();
+
+        //then
+        expect(actual.isEmpty, true);
+      },
+    );
+
+    test(
+      "GIVEN a booking model "
+      "WHEN json serialization is performed for updating"
+      "AND some arguments with new values are given "
+      "THEN a booking json is output "
+      "AND it has new values for the provided arguments",
+      () {
+        //given
+        final model = BookingModel(
+          bookingId: 1,
+          seatRow: "A",
+          seatNumber: 10,
+          userId: null,
+          showId: 1,
+          price: 700.2,
+          bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
+          bookingStatus: BookingStatus.CONFIRMED,
+        );
+
+        //when
+        final newBookingStatus = BookingStatus.RESERVED;
+        final newShowId = 2;
+        final newPrice = 400.0;
+        final actual = model.toUpdateJson(
+          price: newPrice,
+          bookingStatus: newBookingStatus,
+          showId: newShowId,
+        );
+        final matcher = {
+          "show_id": newShowId,
+          "price": newPrice,
+          "booking_datetime": "2012-02-27T13:27:00.000",
+          "booking_status": newBookingStatus.toJson,
+        };
+
+        //then
+        expect(actual, matcher);
       },
     );
   });
@@ -312,7 +381,8 @@ void main() {
           userId: 1,
           showId: 1,
           price: 700.2,
-          bookingDatetime: DateTime(2012, 3, 27, 13, 27, 0), //different month
+          bookingDatetime: DateTime(2012, 3, 27, 13, 27, 0),
+          //different month
           bookingStatus: BookingStatus.CONFIRMED,
         );
 
