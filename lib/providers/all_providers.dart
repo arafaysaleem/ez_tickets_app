@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/networking/dio_service.dart';
 import '../services/local_storage/key_value_storage_service.dart';
 import '../services/networking/api_service.dart';
+import '../services/networking/api_endpoint.dart';
 
 //Interceptor imports
 import '../services/networking/interceptors/api_interceptor.dart';
@@ -38,7 +39,7 @@ final keyValueStorageServiceProvider = Provider<KeyValueStorageService>(
 
 final _dioProvider = Provider<Dio>((ref) {
   final baseOptions = BaseOptions(
-    baseUrl: "https://ez-tickets-backend.herokuapp.com/api/v1",
+    baseUrl: ApiEndpoint.baseUrl,
   );
   return Dio(baseOptions);
 });

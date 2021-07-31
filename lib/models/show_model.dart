@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'show_time_model.dart';
@@ -18,7 +19,7 @@ class ShowModel with _$ShowModel {
 
   factory ShowModel.initial(){
     return ShowModel(
-      date: DateTime.now(),
+      date: clock.now(),
       movieId: 0,
       showTimes: const []
     );

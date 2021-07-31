@@ -26,6 +26,7 @@ dependencies:
   better_player: ^0.0.72
   flutter_spinkit: 5.0.0
   flutter_secure_storage: ^4.2.0
+  clock: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

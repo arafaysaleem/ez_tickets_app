@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +25,7 @@ void main() async {
 }
 
 void setDebugPrint(String? message, {int? wrapWidth}) {
-  final date = DateTime.now();
+  final date = clock.now();
   var msg = "${date.year}/${date.month}/${date.day}";
   msg += " ${date.hour}:${date.minute}:${date.second}";
   msg += " $message";

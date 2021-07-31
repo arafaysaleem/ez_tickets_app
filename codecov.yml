@@ -1,0 +1,10 @@
+ignore:
+  - '**/*.gr.dart'
+  - '**/*.g.dart'
+  - '**/*.freezed.dart'
+  - '**/constants.dart'
+  - '**/custom_theme.dart'
+  - '**/assets_helper.dart'
+  - '/android/'
+  - '/ios/'
+  - '/build/'

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
@@ -87,7 +88,7 @@ class BookingsProvider {
         seatNumber: seat.seatNumber,
         price: Constants.ticketPrice,
         bookingStatus: BookingStatus.RESERVED,
-        bookingDatetime: DateTime.now(),
+        bookingDatetime: clock.now(),
       );
       bookingIds.add(newBooking.bookingId!);
     }
