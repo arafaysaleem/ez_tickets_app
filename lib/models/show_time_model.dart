@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../helper/utils/constants.dart';
@@ -23,7 +24,7 @@ class ShowTimeModel with _$ShowTimeModel {
   }) = _ShowTimeModel;
 
   factory ShowTimeModel.initial(){
-    final dummyTime = DateTime.now();
+    final dummyTime = clock.now();
     return ShowTimeModel(
         startTime: dummyTime,
         endTime: dummyTime,

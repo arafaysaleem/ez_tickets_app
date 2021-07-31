@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
@@ -107,7 +108,7 @@ class PaymentsProvider {
   //     userId: userId,
   //     showId: showId,
   //     amount: amount,
-  //     paymentDatetime: DateTime.now(),
+  //     paymentDatetime: clock.now(),
   //     bookingIds: bookingIds,
   //     paymentMethod: _reader(activePaymentModeProvider).state,
   //   );
@@ -124,7 +125,7 @@ class PaymentsProvider {
       userId: userId,
       showId: showId,
       amount: amount,
-      paymentDatetime: DateTime.now(),
+      paymentDatetime: clock.now(),
       bookingIds: bookingIds,
       paymentMethod: PaymentMethod.CARD,
     );
