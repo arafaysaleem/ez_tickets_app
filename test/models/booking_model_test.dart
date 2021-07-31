@@ -335,16 +335,12 @@ void main() {
 
         //when
         final newBookingStatus = BookingStatus.RESERVED;
-        final newShowId = 2;
-        final newPrice = 400.0;
         final actual = model.toUpdateJson(
-          price: newPrice,
           bookingStatus: newBookingStatus,
-          showId: newShowId,
         );
         final matcher = {
-          "show_id": newShowId,
-          "price": newPrice,
+          "show_id": 1,
+          "price": 700.2,
           "booking_datetime": "2012-02-27T13:27:00.000",
           "booking_status": newBookingStatus.toJson,
         };

@@ -291,12 +291,8 @@ void main() {
         );
 
         //when
-        final newYear = 2022;
-        final newRating = 6.5;
         final newMovieType = MovieType.COMING_SOON;
         final actual = model.toUpdateJson(
-          year: newYear,
-          rating: newRating,
           movieType: newMovieType,
         );
         final matcher = {
@@ -304,8 +300,8 @@ void main() {
           "summary": "Some summary",
           "trailer_url": "www.placeholders.com/test_video",
           "poster_url": "www.placeholders.com/test_image",
-          "year": 2022,
-          "rating": 6.5,
+          "year": 2021,
+          "rating": 4.5,
           "movie_type": "coming_soon",
           "genres": [1, 2, 3],
         };

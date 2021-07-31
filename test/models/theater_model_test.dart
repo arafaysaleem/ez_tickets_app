@@ -247,18 +247,14 @@ void main() {
         );
 
         //when
-        final newNumOfRows = 15;
-        final newSeatsPerRow = 15;
         final newTheaterType = TheaterType.ROYAL;
         final actual = model.toUpdateJson(
-          numOfRows: newNumOfRows,
-          seatsPerRow: newSeatsPerRow,
           theaterType: newTheaterType,
         );
         final matcher = {
           "theater_name": "A",
-          "num_of_rows": 15,
-          "seats_per_row": 15,
+          "num_of_rows": 10,
+          "seats_per_row": 10,
           "theater_type": "royal",
           "missing": _missingSeatsJson,
           "blocked": _blockedSeatsJson,

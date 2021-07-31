@@ -275,18 +275,14 @@ void main() {
         );
 
         //when
-        final newAmount = 700.0;
         final newPaymentMethod = PaymentMethod.CASH;
-        final newShowId = 2;
         final actual = model.toUpdateJson(
-          amount: newAmount,
           paymentMethod: newPaymentMethod,
-          showId: newShowId,
         );
         final matcher = {
-          "show_id": newShowId,
+          "show_id": 1,
           "user_id": 1,
-          "amount": newAmount,
+          "amount": 999.9,
           "payment_datetime": "2012-02-27T13:27:00.000",
           "payment_method": "cash",
           "bookings": [0, 1, 2],
