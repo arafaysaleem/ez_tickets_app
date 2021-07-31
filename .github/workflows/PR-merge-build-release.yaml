@@ -28,6 +28,8 @@ jobs:
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       - name: Run Dart Analyzer
         run: flutter analyze .
+      - name: Run tests
+        run: flutter test
 
   assemble-release:
     name: Setup signing keys
