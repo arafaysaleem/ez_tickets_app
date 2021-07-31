@@ -11,8 +11,8 @@ enum ShowType {
 /// A utility with extensions for enum name and serialized value.
 extension ExtShowType on ShowType{
   String get name => describeEnum(this);
-  String get toJson => name.substring(1).toLowerCase();
   String get inString => name.substring(1);  //removes i prefix
+  String get toJson => inString;
 }
 
 
