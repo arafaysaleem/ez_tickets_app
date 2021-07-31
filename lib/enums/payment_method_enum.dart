@@ -12,7 +12,7 @@ enum PaymentMethod {
 }
 
 /// A utility with extensions for enum name and serialized value.
-extension ExtRoleType on PaymentMethod {
+extension ExtPaymentMethod on PaymentMethod {
   String get name => describeEnum(this);
   String get toJson => name.toLowerCase();
   String get inString => name.capitalize;

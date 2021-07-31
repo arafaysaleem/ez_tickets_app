@@ -9,7 +9,7 @@ enum TheaterType {
 }
 
 /// A utility with extensions for enum name and serialized value.
-extension ExtMovieType on TheaterType{
+extension ExtTheaterType on TheaterType{
   String get name => describeEnum(this);
 
   String get toJson => name.toLowerCase();
