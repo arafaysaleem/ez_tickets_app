@@ -316,6 +316,36 @@ void main() {
     );
   });
 
+  group("initial", () {
+    test(
+      "GIVEN a set of default values for different properties"
+      "WHEN factory constructor `initial` is called"
+      "THEN an movie model is output "
+      "AND it's properties match those set of properties",
+      () {
+        //given
+        const defaultString = "";
+        const defaultInt = 0;
+        const int? defaultMovieId = null;
+        const defaultList = [];
+        const defaultMovieType = MovieType.COMING_SOON;
+
+        //when
+        final model = MovieModel.initial();
+
+        //then
+        expect(model.title, defaultString);
+        expect(model.summary, defaultString);
+        expect(model.posterUrl, defaultString);
+        expect(model.trailerUrl, defaultString);
+        expect(model.year, defaultInt);
+        expect(model.movieId, defaultMovieId);
+        expect(model.genres, defaultList);
+        expect(model.movieType, defaultMovieType);
+      },
+    );
+  });
+
   group("getGenreName", () {
     test(
       "GIVEN a movie model "
@@ -339,7 +369,7 @@ void main() {
         final genreNames = model.genreNames;
 
         //then
-        expect(genreNames, ["Horror","Comedy","Sci-Fi"]);
+        expect(genreNames, ["Horror", "Comedy", "Sci-Fi"]);
       },
     );
   });

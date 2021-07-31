@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:ez_ticketz_app/enums/show_status_enum.dart';
@@ -113,6 +114,31 @@ void main() {
     );
   });
 
+  group("initial", () {
+    test(
+      "GIVEN a set of default values for different properties"
+      "WHEN factory constructor `initial` is called"
+      "THEN an show model is output "
+      "AND it's properties match those set of properties",
+      () {
+        //given
+        const defaultInt = 0;
+        final defaultDatetime = DateTime.now();
+        const defaultList = [];
+
+        //when
+        final model = withClock(Clock.fixed(defaultDatetime), () {
+          return ShowModel.initial();
+        });
+
+        //then
+        expect(model.date, defaultDatetime);
+        expect(model.movieId, defaultInt);
+        expect(model.showTimes, defaultList);
+      },
+    );
+  });
+
   group("equality", () {
     test(
       "GIVEN two show models "
@@ -123,14 +149,14 @@ void main() {
         final model1 = ShowModel(
           date: DateTime(2012, 2, 27, 13, 27, 0),
           movieId: 1,
-          showTimes: [ _showTimeModel1, _showTimeModel2 ],
+          showTimes: [_showTimeModel1, _showTimeModel2],
         );
 
         //when
         final model2 = ShowModel(
           date: DateTime(2012, 2, 27, 15, 27, 0), //different hour
           movieId: 1,
-          showTimes: [ _showTimeModel1, _showTimeModel2 ],
+          showTimes: [_showTimeModel1, _showTimeModel2],
         );
 
         //then

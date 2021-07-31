@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:ez_ticketz_app/enums/show_status_enum.dart';
@@ -115,6 +116,34 @@ void main() {
 
         //then
         expect(actual.containsKey("show_id"), false);
+      },
+    );
+  });
+
+  group("initial", () {
+    test(
+      "GIVEN a set of default values for different properties"
+      "WHEN factory constructor `initial` is called"
+      "THEN an show time model is output "
+      "AND it's properties match those set of properties",
+      () {
+        //given
+        const defaultInt = 0;
+        final defaultDatetime = DateTime.now();
+        const defaultShowStatus = ShowStatus.FREE;
+        const defaultShowType = ShowType.i2D;
+
+        //when
+        final model = withClock(Clock.fixed(defaultDatetime), (){
+          return ShowTimeModel.initial();
+        });
+
+        //then
+        expect(model.startTime, defaultDatetime);
+        expect(model.endTime, defaultDatetime);
+        expect(model.theaterId, defaultInt);
+        expect(model.showType, defaultShowType);
+        expect(model.showStatus, defaultShowStatus);
       },
     );
   });
