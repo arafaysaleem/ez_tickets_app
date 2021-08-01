@@ -39,7 +39,7 @@ class BookingModel with _$BookingModel {
         seatNumber == null &&
         price == null &&
         bookingStatus == null &&
-        bookingDatetime == null) return const {};
+        bookingDatetime == null) return const <String, dynamic>{};
     return copyWith(
       userId: userId,
       showId: showId ?? this.showId,

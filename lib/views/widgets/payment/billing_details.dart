@@ -19,7 +19,7 @@ class BillingDetails extends StatelessWidget {
         children: [
           //Billing Details Label
           const Text(
-            "Billing Details",
+            'Billing Details',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
           ),
 
@@ -31,7 +31,7 @@ class BillingDetails extends StatelessWidget {
               SizedBox(
                 width: 40,
                 child: Text(
-                  "Qty",
+                  'Qty',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -41,12 +41,12 @@ class BillingDetails extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Text(
-                "Ticket Type",
+                'Ticket Type',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               Spacer(),
               Text(
-                "Price",
+                'Price',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class BillingDetails extends StatelessWidget {
                   builder: (ctx,watch,_) {
                     final numSeats = watch(theatersProvider).selectedSeats.length;
                     return Text(
-                      "$numSeats",
+                      '$numSeats',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 16,
@@ -82,7 +82,7 @@ class BillingDetails extends StatelessWidget {
 
               //Seat type
               const Text(
-                "Normal Seat",
+                'Normal Seat',
                 style: TextStyle(
                   fontSize: 16,
                   color: Constants.textGreyColor,
@@ -92,7 +92,7 @@ class BillingDetails extends StatelessWidget {
 
               //Price
               const Text(
-                "${Constants.ticketPrice}",
+                '${Constants.ticketPrice}',
                 style: TextStyle(
                   fontSize: 16,
                   color: Constants.textGreyColor,
@@ -111,7 +111,7 @@ class BillingDetails extends StatelessWidget {
                 builder: (ctx,watch,_) {
                   final numSeats = watch(theatersProvider).selectedSeats.length;
                   return Text(
-                    "Total - Rs. ${numSeats * Constants.ticketPrice}",
+                    'Total - Rs. ${numSeats * Constants.ticketPrice}',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

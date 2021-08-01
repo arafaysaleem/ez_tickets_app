@@ -23,7 +23,7 @@ class UserProfileDetails extends HookWidget {
       children: [
         //Full Name Label
         Text(
-          "Full Name",
+          'Full Name',
           style: context.bodyText1.copyWith(
               color: Constants.primaryColor,
               fontSize: 26,
@@ -33,7 +33,7 @@ class UserProfileDetails extends HookWidget {
 
         //Full Name
         Text(
-          "${authProv.currentUserFullName}",
+          authProv.currentUserFullName,
           style: context.bodyText1.copyWith(
             color: Constants.textWhite80Color,
             fontSize: 18,
@@ -44,7 +44,7 @@ class UserProfileDetails extends HookWidget {
 
         //Email Label
         Text(
-          "Email",
+          'Email',
           style: context.bodyText1.copyWith(
               color: Constants.primaryColor,
               fontSize: 26,
@@ -54,7 +54,7 @@ class UserProfileDetails extends HookWidget {
 
         //Email Data
         Text(
-          "${authProv.currentUserEmail}",
+          authProv.currentUserEmail,
           style: context.bodyText1.copyWith(
             color: Constants.textWhite80Color,
             fontSize: 18,
@@ -65,7 +65,7 @@ class UserProfileDetails extends HookWidget {
 
         //Address Label
         Text(
-          "Address",
+          'Address',
           style: context.bodyText1.copyWith(
               color: Constants.primaryColor,
               fontSize: 26,
@@ -75,7 +75,7 @@ class UserProfileDetails extends HookWidget {
 
         //Address Data
         Text(
-          "${authProv.currentUserAddress}",
+          authProv.currentUserAddress,
           style: context.bodyText1.copyWith(
             color: Constants.textWhite80Color,
             fontSize: 18,
@@ -86,7 +86,7 @@ class UserProfileDetails extends HookWidget {
 
         //Contact Label
         Text(
-          "Contact",
+          'Contact',
           style: context.bodyText1.copyWith(
               color: Constants.primaryColor,
               fontSize: 26,
@@ -96,7 +96,7 @@ class UserProfileDetails extends HookWidget {
 
         //Contact Data
         Text(
-          "${authProv.currentUserContact}",
+          authProv.currentUserContact,
           style: context.bodyText1.copyWith(
             color: Constants.textWhite80Color,
             fontSize: 18,

@@ -10,15 +10,8 @@ class ApiService implements ApiInterface{
   late final DioService _dioService;
 
   /// A public constructor that is used to initialize the API service
-  /// with [BaseOptions] and setup the underlying [_dioService].
-  ApiService() {
-    final options = BaseOptions(
-      baseUrl: "https://ez-tickets-backend.herokuapp.com/api/v1",
-    );
-    _dioService = DioService(
-      baseOptions: options,
-    );
-  }
+  /// and setup the underlying [_dioService].
+  ApiService(DioService dioService) : _dioService = dioService;
 
   /// An implementation of the base method for requesting collection of data
   /// from the [endpoint].
@@ -48,16 +41,16 @@ class ApiService implements ApiInterface{
     //Entire map of response
     final data = await _dioService.get(
       endpoint: endpoint,
-      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
       queryParams: queryParams,
       cancelToken: cancelToken,
     );
 
     //Items of table as json
-    final List<dynamic> body = data['body'];
+    final List<dynamic> body = data['body'] as List<dynamic>;
 
     //Returning the deserialized objects
-    return body.map((dataMap) => converter(dataMap)).toList();
+    return body.map((dynamic dataMap) => converter(dataMap as Map<String, dynamic>)).toList();
   }
 
   /// An implementation of the base method for requesting a document of data
@@ -89,12 +82,12 @@ class ApiService implements ApiInterface{
     final data = await _dioService.get(
       endpoint: endpoint,
       queryParams: queryParams,
-      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 
     //Returning the deserialized object
-    return converter(data['body']);
+    return converter(data['body'] as Map<String, dynamic>);
   }
 
   /// An implementation of the base method for inserting [data] at
@@ -125,7 +118,7 @@ class ApiService implements ApiInterface{
     final dataMap = await _dioService.post(
       endpoint: endpoint,
       data: data,
-      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 
@@ -160,7 +153,7 @@ class ApiService implements ApiInterface{
     final dataMap = await _dioService.patch(
       endpoint: endpoint,
       data: data,
-      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 
@@ -195,7 +188,7 @@ class ApiService implements ApiInterface{
     final dataMap = await _dioService.delete(
       endpoint: endpoint,
       data: data,
-      options: Options(headers: {"requiresAuthToken": requiresAuthToken}),
+      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 

@@ -28,14 +28,14 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
   late final PanelController panelController = PanelController();
   final snapPoint = 0.2;
 
-  double _playBtnPos(minHeight, maxHeight, panelPosition) {
+  double _playBtnPos(double minHeight,double maxHeight,double panelPosition) {
     return minHeight - 28.5 + panelPosition * (maxHeight - minHeight);
   }
 
   double getPlayBtnScaleRatio(double slide) {
     // vanish the button at extent of 0.65
     // appear the button at extent of 0.50
-    final range = 0.65 - 0.50;
+    const range = 0.65 - 0.50;
     // goes from 1.0 -> 0.0
     return ((0.65 - slide) / range).clamp(0.0, 1.0);
   }
@@ -46,7 +46,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
     var endExtent = 0.0;
     final extentRange = startExtent - endExtent;
     // scaleRatio goes from 1.0 -> 2.2
-    final scaleRange = 1 - 2.2;
+    const scaleRange = 1 - 2.2;
     final extentRatio = (slide - endExtent) / extentRange;
     return extentRatio * scaleRange + 2.2;
   }
@@ -92,7 +92,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
         );
       });
     }, const []);
-    var child;
+    Widget? child;
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
@@ -108,8 +108,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
           ),
           onPanelSlide: (slide) => _onPanelSlide(slide, _animationController),
           panelBuilder: (controller) {
-            if (child == null) {
-              child = Padding(
+            child ??= Padding(
                 padding: const EdgeInsets.only(
                   bottom: Constants.bottomInsetsLow + 54,
                 ),
@@ -133,8 +132,7 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
                   ],
                 ),
               );
-            }
-            return child;
+            return child!;
           },
         ),
 

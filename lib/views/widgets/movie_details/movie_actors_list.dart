@@ -65,7 +65,7 @@ class MovieActorsList extends HookWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Cast And Crew",
+              'Cast And Crew',
               style: context.headline2.copyWith(
                 color: Colors.black,
                 fontSize: 17,

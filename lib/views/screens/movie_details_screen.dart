@@ -35,7 +35,7 @@ class MovieDetailsScreen extends StatelessWidget{
               color: Constants.scaffoldColor,
               child: Center(
                 child: Text(
-                  "VIEW SHOWS",
+                  'VIEW SHOWS',
                   style: context.headline1.copyWith(
                         color: Colors.white,
                         fontSize: 15,

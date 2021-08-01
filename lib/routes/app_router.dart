@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter/material.dart';
 
 import '../views/screens/app_startup_screen.dart';
 import '../views/screens/login_screen.dart';
@@ -16,19 +17,19 @@ import '../views/screens/change_password_screen.dart';
 
 @MaterialAutoRouter(
     routes: <AutoRoute>[
-      AutoRoute(page: AppStartupScreen, initial: true),
-      AutoRoute(page: RegisterScreen),
-      AutoRoute(page: LoginScreen),
-      AutoRoute(page: MoviesScreen),
-      AutoRoute(page: MovieDetailsScreen),
-      AutoRoute(page: TrailerScreen),
-      AutoRoute(page: ShowsScreen),
-      AutoRoute(page: TheaterScreen),
-      AutoRoute(page: TicketSummaryScreen),
-      AutoRoute(page: PaymentScreen),
-      AutoRoute(page: ConfirmationScreen),
-      AutoRoute(page: UserBookingsScreen),
-      AutoRoute(page: ChangePasswordScreen),
+      AutoRoute<Widget>(page: AppStartupScreen, initial: true),
+      AutoRoute<Widget>(page: RegisterScreen),
+      AutoRoute<Widget>(page: LoginScreen),
+      AutoRoute<Widget>(page: MoviesScreen),
+      AutoRoute<Widget>(page: MovieDetailsScreen),
+      AutoRoute<Widget>(page: TrailerScreen),
+      AutoRoute<Widget>(page: ShowsScreen),
+      AutoRoute<Widget>(page: TheaterScreen),
+      AutoRoute<Widget>(page: TicketSummaryScreen),
+      AutoRoute<Widget>(page: PaymentScreen),
+      AutoRoute<Widget>(page: ConfirmationScreen),
+      AutoRoute<Widget>(page: UserBookingsScreen),
+      AutoRoute<Widget>(page: ChangePasswordScreen),
     ],
 )
 class $AppRouter{}

@@ -6,9 +6,9 @@ import '../helper/extensions/string_extension.dart';
 
 /// A collection of roles that movie actors can have.
 enum RoleType {
-  @JsonValue("director") DIRECTOR,
-  @JsonValue("producer") PRODUCER,
-  @JsonValue("cast") CAST,
+  @JsonValue('director') DIRECTOR,
+  @JsonValue('producer') PRODUCER,
+  @JsonValue('cast') CAST,
 }
 
 /// A utility with extensions for enum name and serialized value.

@@ -41,9 +41,9 @@ class ChangePasswordScreen extends HookWidget {
                 context: context,
                 barrierColor: Constants.barrierColor.withOpacity(0.75),
                 builder: (ctx) => CustomDialog.alert(
-                  title: "Change Password Success",
+                  title: 'Change Password Success',
                   body: message,
-                  buttonText: "Okay",
+                  buttonText: 'Okay',
                 ),
               );
             },
@@ -51,9 +51,9 @@ class ChangePasswordScreen extends HookWidget {
               context: context,
               barrierColor: Constants.barrierColor.withOpacity(0.75),
               builder: (ctx) => CustomDialog.alert(
-                title: "Change Password Failed",
+                title: 'Change Password Failed',
                 body: reason,
-                buttonText: "Retry",
+                buttonText: 'Retry',
               ),
             ),
             orElse: () {},
@@ -70,7 +70,7 @@ class ChangePasswordScreen extends HookWidget {
                   children: [
                     //Page name
                     Text(
-                      "Your profile",
+                      'Your profile',
                       textAlign: TextAlign.center,
                       style: context.headline3.copyWith(fontSize: 22),
                     ),

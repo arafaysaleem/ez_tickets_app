@@ -18,7 +18,7 @@ class ShowsSkeletonLoader extends StatelessWidget {
       children: [
         //Date Title
         Text(
-          "Select a date",
+          'Select a date',
           style: textTheme.headline5!.copyWith(
             height: 1,
             color: Constants.textGreyColor,
@@ -78,7 +78,7 @@ class ShowsSkeletonLoader extends StatelessWidget {
 
         //Time Title
         Text(
-          "Select a time",
+          'Select a time',
           style: textTheme.headline5!.copyWith(
             height: 1,
             color: Constants.textGreyColor,
@@ -138,7 +138,7 @@ class ShowsSkeletonLoader extends StatelessWidget {
 
         //Seats details title
         Text(
-          "Show details",
+          'Show details',
           style: textTheme.headline5!.copyWith(
             height: 1,
             color: Constants.textGreyColor,

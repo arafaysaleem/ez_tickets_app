@@ -48,7 +48,7 @@ class MoviesProvider {
     MovieType? movieType,
   }) async {
     final Map<String, String>? queryParams = {
-      if (movieType != null) "movie_type": movieType.toJson,
+      if (movieType != null) 'movie_type': movieType.toJson,
     };
     return await _moviesRepository.fetchAll(queryParameters: queryParams);
   }
@@ -91,7 +91,7 @@ class MoviesProvider {
         movieRoles.map((movieRole) => movieRole.toCustomJson()).toList();
     final data = <String, dynamic>{
       ...movie.toJson(),
-      "roles": roles,
+      'roles': roles,
     };
     final movieId = await _moviesRepository.create(data: data);
     return movie.copyWith(movieId: movieId);
@@ -116,7 +116,7 @@ class MoviesProvider {
       rating: rating,
       movieType: movieType,
     );
-    if (data.isEmpty) return "Nothing to update!";
+    if (data.isEmpty) return 'Nothing to update!';
     return await _moviesRepository.update(movieId: movie.movieId!, data: data);
   }
 

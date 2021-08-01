@@ -3,7 +3,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="EZ Ticketz"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

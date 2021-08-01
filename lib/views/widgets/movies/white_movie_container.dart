@@ -71,7 +71,7 @@ class WhiteMovieContainer extends HookWidget {
                 color: Constants.scaffoldColor,
                 child: const Center(
                   child: Text(
-                    "VIEW DETAILS",
+                    'VIEW DETAILS',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

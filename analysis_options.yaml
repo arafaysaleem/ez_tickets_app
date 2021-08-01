@@ -1,4 +1,4 @@
-include: package:effective_dart/analysis_options.yaml
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
@@ -8,13 +8,23 @@ analyzer:
   errors:
     missing_required_param: error
     missing_return: error
+    prefer_const_constructors: error
+    prefer_const_constructors_in_immutables: error
+    todo: ignore
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
 
 linter:
   rules:
+    prefer_single_quotes: true
     directives_ordering: false
-    public_member_api_docs: false #Enable at the end
+    prefer_double_quotes: false
+    use_key_in_widget_constructors: false
+    always_specify_types: false
+    unnecessary_final: false
+    public_member_api_docs: false
+    prefer_expression_function_bodies: false
     avoid_classes_with_only_static_members: false
-    prefer_const_constructors: true
-    prefer_const_constructors_in_immutables: true
     prefer_const_literals_to_create_immutables: true
     lines_longer_than_80_chars: false

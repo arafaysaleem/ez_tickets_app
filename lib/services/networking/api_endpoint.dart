@@ -9,17 +9,31 @@ import 'package:flutter/material.dart';
 class ApiEndpoint {
   const ApiEndpoint._();
 
+  /// The base url of our REST API, to which all the requests will be sent.
+  /// It is supplied at the time of building the apk or running the app:
+  /// ```
+  /// flutter build apk --debug --dart-define=BASE_URL=www.some_url.com
+  /// ```
+  /// OR
+  /// ```
+  /// flutter run --dart-define=BASE_URL=www.some_url.com
+  /// ```
+  static const baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'localhost:3000/api/v1',
+  );
+
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
-    var path = "/auth";
+    var path = '/auth';
     switch (endpoint) {
-      case AuthEndpoint.REGISTER: return "$path/register";
-      case AuthEndpoint.LOGIN: return "$path/login";
-      case AuthEndpoint.REFRESH_TOKEN: return "$path/token";
-      case AuthEndpoint.FORGOT_PASSWORD: return "$path/password/forgot";
-      case AuthEndpoint.RESET_PASSWORD: return "$path/password/reset";
-      case AuthEndpoint.CHANGE_PASSWORD: return "$path/password/change";
-      case AuthEndpoint.VERIFY_OTP: return "$path/password/otp";
+      case AuthEndpoint.REGISTER: return '$path/register';
+      case AuthEndpoint.LOGIN: return '$path/login';
+      case AuthEndpoint.REFRESH_TOKEN: return '$path/token';
+      case AuthEndpoint.FORGOT_PASSWORD: return '$path/password/forgot';
+      case AuthEndpoint.RESET_PASSWORD: return '$path/password/reset';
+      case AuthEndpoint.CHANGE_PASSWORD: return '$path/password/change';
+      case AuthEndpoint.VERIFY_OTP: return '$path/password/otp';
     }
   }
 
@@ -27,12 +41,12 @@ class ApiEndpoint {
   ///
   /// Specify user [id] to get the path for a specific user.
   static String users(UserEndpoint endpoint, {int? id}) {
-    var path = "/users";
+    var path = '/users';
     switch(endpoint){
       case UserEndpoint.BASE: return path;
       case UserEndpoint.BY_ID: {
-        assert(id != null, "userId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'userId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
     }
   }
@@ -41,16 +55,16 @@ class ApiEndpoint {
   ///
   /// Specify movie [id] for any endpoints involving a specific movie.
   static String movies(MovieEndpoint endpoint, {int? id}) {
-    var path = "/movies";
+    var path = '/movies';
     switch (endpoint) {
       case MovieEndpoint.BASE: return path;
       case MovieEndpoint.BY_ID: {
-        assert(id != null, "movieId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'movieId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
       case MovieEndpoint.ROLES: {
-        assert(id != null, "movieId is required for ROLES endpoint");
-        return "$path/id/$id/roles";
+        assert(id != null, 'movieId is required for ROLES endpoint');
+        return '$path/id/$id/roles';
       }
     }
   }
@@ -59,16 +73,16 @@ class ApiEndpoint {
   ///
   /// Specify role [id] for any endpoints involving a specific role.
   static String roles(RoleEndpoint endpoint, {int? id}) {
-    var path = "/roles";
+    var path = '/roles';
     switch (endpoint) {
       case RoleEndpoint.BASE: return path;
       case RoleEndpoint.BY_ID: {
-        assert(id != null, "roleId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'roleId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
       case RoleEndpoint.MOVIES: {
-        assert(id != null, "roleId is required for MOVIES endpoint");
-        return "$path/id/$id/movies";
+        assert(id != null, 'roleId is required for MOVIES endpoint');
+        return '$path/id/$id/movies';
       }
     }
   }
@@ -77,13 +91,13 @@ class ApiEndpoint {
   ///
   /// Specify show [id] for any endpoints involving an individual show.
   static String shows(ShowEndpoint endpoint, {int? id}) {
-    var path = "/shows";
+    var path = '/shows';
     switch(endpoint){
       case ShowEndpoint.BASE: return path;
-      case ShowEndpoint.FILTERS: return "$path/filters";
+      case ShowEndpoint.FILTERS: return '$path/filters';
       case ShowEndpoint.BY_ID: {
-        assert(id != null, "showId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'showId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
     }
   }
@@ -92,12 +106,12 @@ class ApiEndpoint {
   ///
   /// Specify theater [id] for any endpoints involving an individual theater.
   static String theaters(TheaterEndpoint endpoint, {int? id}) {
-    var path = "/theaters";
+    var path = '/theaters';
     switch(endpoint){
       case TheaterEndpoint.BASE: return path;
       case TheaterEndpoint.BY_ID: {
-        assert(id != null, "theaterId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'theaterId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
     }
   }
@@ -106,21 +120,21 @@ class ApiEndpoint {
   ///
   /// Specify booking [id] for any endpoints involving an individual booking.
   static String bookings(BookingEndpoint endpoint, {int? id}) {
-    var path = "/bookings";
+    var path = '/bookings';
     switch(endpoint){
       case BookingEndpoint.BASE: return path;
-      case BookingEndpoint.FILTERS: return "$path/filters";
+      case BookingEndpoint.FILTERS: return '$path/filters';
       case BookingEndpoint.USERS: {
-        assert(id != null, "bookingId is required for USERS endpoint");
-        return "$path/users/$id";
+        assert(id != null, 'bookingId is required for USERS endpoint');
+        return '$path/users/$id';
       }
       case BookingEndpoint.SHOWS: {
-        assert(id != null, "bookingId is required for SHOWS endpoint");
-        return "$path/shows/$id";
+        assert(id != null, 'bookingId is required for SHOWS endpoint');
+        return '$path/shows/$id';
       }
       case BookingEndpoint.BY_ID: {
-        assert(id != null, "bookingId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'bookingId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
     }
   }
@@ -129,16 +143,16 @@ class ApiEndpoint {
   ///
   /// Specify payment [id] for any endpoints involving an individual payment.
   static String payments(PaymentEndpoint endpoint, {int? id}) {
-    var path = "/payments";
+    var path = '/payments';
     switch(endpoint){
       case PaymentEndpoint.BASE: return path;
       case PaymentEndpoint.USERS: {
-        assert(id != null, "paymentId is required for USERS endpoint");
-        return "$path/users/$id";
+        assert(id != null, 'paymentId is required for USERS endpoint');
+        return '$path/users/$id';
       }
       case PaymentEndpoint.BY_ID: {
-        assert(id != null, "paymentId is required for BY_ID endpoint");
-        return "$path/id/$id";
+        assert(id != null, 'paymentId is required for BY_ID endpoint');
+        return '$path/id/$id';
       }
     }
   }

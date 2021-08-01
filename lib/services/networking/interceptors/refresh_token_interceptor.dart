@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Providers
 import '../../../providers/all_providers.dart';
@@ -8,18 +8,21 @@ import '../../../providers/all_providers.dart';
 //Endpoints
 import '../api_endpoint.dart';
 
-/// A class that holds intercepting logic for refreshing tokens. This is
-/// the last interceptor in the queue.
+/// A class that holds intercepting logic for refreshing expired tokens. This
+/// is the last interceptor in the queue.
 class RefreshTokenInterceptor extends Interceptor {
-
   /// An instance of [Dio] for network requests
   final Dio _dio;
+  final ProviderReference _ref;
 
-  RefreshTokenInterceptor(this._dio);
+  RefreshTokenInterceptor({
+    required Dio dioClient,
+    required ProviderReference ref,
+  }) : _dio = dioClient, _ref = ref;
 
   /// The name of the exception on which this interceptor is triggered.
   // ignore: non_constant_identifier_names
-  String get TokenExpiredException => "TokenExpiredException";
+  String get TokenExpiredException => 'TokenExpiredException';
 
   /// This method is used to send a refresh token request if the error
   /// indicates an expired token.
@@ -42,10 +45,10 @@ class RefreshTokenInterceptor extends Interceptor {
   ) async {
     if (dioError.response != null) {
       if (dioError.response!.data != null) {
-        final Map<String, dynamic> headers = dioError.response!.data["headers"];
+        final headers = dioError.response!.data['headers'] as Map<String, dynamic>;
 
         //Check error type to be token expired error
-        String error = headers["error"];
+        var error = headers['error'] as String;
         if (error == TokenExpiredException) {
           //Make new dio and lock old one
           final tokenDio = Dio();
@@ -54,11 +57,11 @@ class RefreshTokenInterceptor extends Interceptor {
           _dio.lock();
 
           //Get auth details for refresh token request
-          final authProv = ProviderContainer().read(authProvider.notifier);
+          final kVStorageService = _ref.read(keyValueStorageServiceProvider);
           final data = {
-            "email": authProv.currentUserEmail,
-            "password": authProv.currentUserPassword,
-            "oldToken": authProv.token
+            'email': kVStorageService.getAuthUser()!.email,
+            'password': await kVStorageService.getAuthPassword(),
+            'oldToken': await kVStorageService.getAuthToken(),
           };
 
           //Make refresh request and get new token
@@ -69,20 +72,20 @@ class RefreshTokenInterceptor extends Interceptor {
             data: data,
           );
 
-          if(newToken == null) return super.onError(dioError, handler);
+          if (newToken == null) return super.onError(dioError, handler);
 
           //Update auth and unlock old dio
-          authProv.updateToken(newToken);
+          kVStorageService.setAuthToken(newToken);
           _dio.unlock();
           _dio.clear();
 
           //Make original req with new token
-          final response = await _dio.request(
+          final response = await _dio.request<Map<String, dynamic>>(
             dioError.requestOptions.path,
             data: dioError.requestOptions.data,
             cancelToken: dioError.requestOptions.cancelToken,
             options: Options(
-              headers: {"Authorization": "Bearer $newToken"},
+              headers: <String, dynamic>{'Authorization': 'Bearer $newToken'},
             ),
           );
           return handler.resolve(response);
@@ -105,46 +108,46 @@ class RefreshTokenInterceptor extends Interceptor {
     required Dio tokenDio,
     required Map<String, dynamic> data,
   }) async {
-    debugPrint("--> REFRESHING TOKEN");
+    debugPrint('--> REFRESHING TOKEN');
     try {
-      debugPrint("\tBody: $data");
+      debugPrint('\tBody: $data');
 
-      final response = await tokenDio.post(
+      final response = await tokenDio.post<Map<String, dynamic>>(
         ApiEndpoint.auth(AuthEndpoint.REFRESH_TOKEN),
         data: data,
       );
 
-      debugPrint("\tStatus code:${response.statusCode}");
-      debugPrint("\tResponse: ${response.data}");
+      debugPrint('\tStatus code:${response.statusCode}');
+      debugPrint('\tResponse: ${response.data}');
 
       //Check new token success
-      final success = response.data["headers"]["success"] == 1;
+      final success = response.data?['headers']['success'] == 1;
 
       if (success) {
-        debugPrint("<-- END REFRESH");
-        return response.data["body"]["token"];
+        debugPrint('<-- END REFRESH');
+        return response.data?['body']['token'] as String;
       } else {
         throw Exception;
       }
     } on DioError catch (de) {
       //only caught here for logging
       //forward to try-catch in dio_service for handling
-      debugPrint("\t--> ERROR");
-      debugPrint("\t\t--> Exception: ${de.error}");
-      debugPrint("\t\t--> Message: ${de.message}");
-      debugPrint("\t\t--> Response: ${de.response}");
-      debugPrint("\t<-- END ERROR");
-      debugPrint("<-- END REFRESH");
+      debugPrint('\t--> ERROR');
+      debugPrint('\t\t--> Exception: ${de.error}');
+      debugPrint('\t\t--> Message: ${de.message}');
+      debugPrint('\t\t--> Response: ${de.response}');
+      debugPrint('\t<-- END ERROR');
+      debugPrint('<-- END REFRESH');
       _dio.unlock();
       _dio.clear();
       return null;
     } on Exception catch (ex) {
       //only caught here for logging
       //forward to try-catch in dio_service for handling
-      debugPrint("\t--> ERROR");
-      debugPrint("\t\t--> Exception: $ex");
-      debugPrint("\t<-- END ERROR");
-      debugPrint("<-- END REFRESH");
+      debugPrint('\t--> ERROR');
+      debugPrint('\t\t--> Exception: $ex');
+      debugPrint('\t<-- END ERROR');
+      debugPrint('<-- END REFRESH');
       _dio.unlock();
       _dio.clear();
       return null;

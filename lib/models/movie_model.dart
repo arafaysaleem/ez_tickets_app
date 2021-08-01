@@ -33,10 +33,10 @@ class MovieModel with _$MovieModel {
     return MovieModel(
       movieId: null,
       year: 0,
-      title: "",
-      summary: "",
-      trailerUrl: "",
-      posterUrl: "",
+      title: '',
+      summary: '',
+      trailerUrl: '',
+      posterUrl: '',
       genres: [],
       movieType: MovieType.COMING_SOON,
     );
@@ -58,7 +58,7 @@ class MovieModel with _$MovieModel {
         posterUrl == null &&
         rating == null &&
         movieType == null
-    ) return const {};
+    ) return const <String, dynamic>{};
     return copyWith(
       movieId: movieId,
       year: year ?? this.year,

@@ -4,15 +4,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// A collection of types that a show can be.
 enum ShowType {
-  @JsonValue("2D") i2D,
-  @JsonValue("3D") i3D,
+  @JsonValue('2D') i2D,
+  @JsonValue('3D') i3D,
 }
 
 /// A utility with extensions for enum name and serialized value.
 extension ExtShowType on ShowType{
   String get name => describeEnum(this);
-  String get toJson => name.substring(1).toLowerCase();
   String get inString => name.substring(1);  //removes i prefix
+  String get toJson => inString;
 }
 
 

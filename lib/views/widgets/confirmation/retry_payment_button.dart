@@ -23,7 +23,7 @@ class RetryPaymentButton extends StatelessWidget {
         border: Border.all(color: Constants.textWhite80Color,width: 4),
         child: const Center(
           child: Text(
-            "RETRY PAYMENT",
+            'RETRY PAYMENT',
             style: TextStyle(
               color: Constants.textWhite80Color,
               fontSize: 15,

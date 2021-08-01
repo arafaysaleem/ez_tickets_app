@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
@@ -45,7 +46,7 @@ class PaymentsProvider {
     PaymentMethod? paymentMethod,
   }) async {
     final Map<String, String>? queryParams = {
-      if (paymentMethod != null) "payment_method": paymentMethod.toJson,
+      if (paymentMethod != null) 'payment_method': paymentMethod.toJson,
     };
     return await _paymentsRepository.fetchAll(queryParameters: queryParams);
   }
@@ -65,7 +66,7 @@ class PaymentsProvider {
   Future<void> makePayment() async {
     final _paymentStateProv = _reader(paymentStateProvider);
     _paymentStateProv.state = const PaymentState.unprocessed();
-    await Future.delayed(const Duration(seconds: 3)).then((_) {
+    await Future<void>.delayed(const Duration(seconds: 3)).then((_) {
       _paymentStateProv.state = const PaymentState.processing();
     });
     final _activePaymentMethod = _reader(activePaymentModeProvider).state;
@@ -107,7 +108,7 @@ class PaymentsProvider {
   //     userId: userId,
   //     showId: showId,
   //     amount: amount,
-  //     paymentDatetime: DateTime.now(),
+  //     paymentDatetime: clock.now(),
   //     bookingIds: bookingIds,
   //     paymentMethod: _reader(activePaymentModeProvider).state,
   //   );
@@ -124,7 +125,7 @@ class PaymentsProvider {
       userId: userId,
       showId: showId,
       amount: amount,
-      paymentDatetime: DateTime.now(),
+      paymentDatetime: clock.now(),
       bookingIds: bookingIds,
       paymentMethod: PaymentMethod.CARD,
     );

@@ -47,7 +47,7 @@ class TicketDetailsList extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Seat",
+                  'Seat',
                   style: TextStyle(
                     fontSize: 13,
                     color: Constants.textGreyColor,
@@ -68,14 +68,14 @@ class TicketDetailsList extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
-                  "Price",
+                  'Price',
                   style: TextStyle(
                     fontSize: 13,
                     color: Constants.textGreyColor,
                   ),
                 ),
                 Text(
-                  "Rs. ${Constants.ticketPrice}",
+                  'Rs. ${Constants.ticketPrice}',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
