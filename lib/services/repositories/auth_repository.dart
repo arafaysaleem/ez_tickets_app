@@ -19,8 +19,8 @@ class AuthRepository {
       data: data,
       requiresAuthToken: false,
       converter: (response) {
-        updateTokenCallback(response["body"]["token"]);
-        return UserModel.fromJson(response["body"]);
+        updateTokenCallback(response['body']['token'] as String);
+        return UserModel.fromJson(response['body'] as Map<String, dynamic>);
       },
     );
   }
@@ -34,8 +34,8 @@ class AuthRepository {
       data: data,
       requiresAuthToken: false,
       converter: (response) {
-        updateTokenCallback(response["body"]["token"]);
-        data["user_id"] = response["body"]["user_id"];
+        updateTokenCallback(response['body']['token'] as String);
+        data['user_id'] = response['body']['user_id'];
         return UserModel.fromJson(data);
       },
     );
@@ -48,7 +48,7 @@ class AuthRepository {
       endpoint: ApiEndpoint.auth(AuthEndpoint.FORGOT_PASSWORD),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -59,7 +59,7 @@ class AuthRepository {
       endpoint: ApiEndpoint.auth(AuthEndpoint.RESET_PASSWORD),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response["headers"]["success"] == 1,
+      converter: (response) => response['headers']['success'] == 1,
     );
   }
 
@@ -70,7 +70,7 @@ class AuthRepository {
       endpoint: ApiEndpoint.auth(AuthEndpoint.CHANGE_PASSWORD),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -79,7 +79,7 @@ class AuthRepository {
       endpoint: ApiEndpoint.auth(AuthEndpoint.VERIFY_OTP),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response["headers"]["success"] == 1,
+      converter: (response) => response['headers']['success'] == 1,
     );
   }
 }

@@ -32,14 +32,14 @@ class ShowDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Date",
+                    'Date',
                     style: TextStyle(
                       fontSize: 13,
                       color: Constants.textGreyColor,
                     ),
                   ),
                   Text(
-                    "${DateFormat("E, d MMMM y").format(_selectedShow.date)}",
+                    DateFormat('E, d MMMM y').format(_selectedShow.date),
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -53,14 +53,14 @@ class ShowDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Time",
+                    'Time',
                     style: TextStyle(
                       fontSize: 13,
                       color: Constants.textGreyColor,
                     ),
                   ),
                   Text(
-                    "${DateFormat.Hm().format(_selectedShowTime.startTime)}",
+                    DateFormat.Hm().format(_selectedShowTime.startTime),
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -74,14 +74,14 @@ class ShowDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Theater",
+                    'Theater',
                     style: TextStyle(
                       fontSize: 13,
                       color: Constants.textGreyColor,
                     ),
                   ),
                   Text(
-                    "$_theaterName",
+                    _theaterName,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

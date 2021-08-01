@@ -7,102 +7,102 @@ import 'package:ez_ticketz_app/models/theater_model.dart';
 void main() {
   const _missingSeatsJson = [
     {
-      "seat_row": "A",
-      "seat_number": 3,
+      'seat_row': 'A',
+      'seat_number': 3,
     },
     {
-      "seat_row": "B",
-      "seat_number": 3,
+      'seat_row': 'B',
+      'seat_number': 3,
     },
     {
-      "seat_row": "C",
-      "seat_number": 3,
+      'seat_row': 'C',
+      'seat_number': 3,
     },
     {
-      "seat_row": "D",
-      "seat_number": 3,
+      'seat_row': 'D',
+      'seat_number': 3,
     },
   ];
 
   const _blockedSeatsJson = [
     {
-      "seat_row": "E",
-      "seat_number": 1,
+      'seat_row': 'E',
+      'seat_number': 1,
     },
     {
-      "seat_row": "E",
-      "seat_number": 2,
+      'seat_row': 'E',
+      'seat_number': 2,
     },
     {
-      "seat_row": "E",
-      "seat_number": 3,
+      'seat_row': 'E',
+      'seat_number': 3,
     },
     {
-      "seat_row": "E",
-      "seat_number": 4,
+      'seat_row': 'E',
+      'seat_number': 4,
     },
   ];
 
   const _missingSeatModels = [
     SeatModel(
-      seatRow: "A",
+      seatRow: 'A',
       seatNumber: 3,
     ),
     SeatModel(
-      seatRow: "B",
+      seatRow: 'B',
       seatNumber: 3,
     ),
     SeatModel(
-      seatRow: "C",
+      seatRow: 'C',
       seatNumber: 3,
     ),
     SeatModel(
-      seatRow: "D",
+      seatRow: 'D',
       seatNumber: 3,
     ),
   ];
 
   const _blockedSeatModels = [
     SeatModel(
-      seatRow: "E",
+      seatRow: 'E',
       seatNumber: 1,
     ),
     SeatModel(
-      seatRow: "E",
+      seatRow: 'E',
       seatNumber: 2,
     ),
     SeatModel(
-      seatRow: "E",
+      seatRow: 'E',
       seatNumber: 3,
     ),
     SeatModel(
-      seatRow: "E",
+      seatRow: 'E',
       seatNumber: 4,
     ),
   ];
 
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid theater json "
-      "WHEN json deserialization is performed "
-      "THEN a theater model is output",
+      'GIVEN a valid theater json '
+      'WHEN json deserialization is performed '
+      'THEN a theater model is output',
       () {
         //given
         const json = {
-          "theater_id": 1,
-          "theater_name": "A",
-          "num_of_rows": 10,
-          "seats_per_row": 10,
-          "theater_type": "normal",
-          "missing": _missingSeatsJson,
-          "blocked": _blockedSeatsJson,
+          'theater_id': 1,
+          'theater_name': 'A',
+          'num_of_rows': 10,
+          'seats_per_row': 10,
+          'theater_type': 'normal',
+          'missing': _missingSeatsJson,
+          'blocked': _blockedSeatsJson,
         };
 
         //when
         final actual = TheaterModel.fromJson(json);
         const matcher = TheaterModel(
           theaterId: 1,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -116,16 +116,16 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     test(
-      "GIVEN a theater model "
-      "WHEN json serialization is performed "
-      "THEN a theater json is output",
+      'GIVEN a theater model '
+      'WHEN json serialization is performed '
+      'THEN a theater json is output',
       () {
         //given
         const model = TheaterModel(
           theaterId: 1,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -136,12 +136,12 @@ void main() {
         //when
         final actual = model.toJson();
         const matcher = {
-          "theater_name": "A",
-          "num_of_rows": 10,
-          "seats_per_row": 10,
-          "theater_type": "normal",
-          "missing": _missingSeatsJson,
-          "blocked": _blockedSeatsJson,
+          'theater_name': 'A',
+          'num_of_rows': 10,
+          'seats_per_row': 10,
+          'theater_type': 'normal',
+          'missing': _missingSeatsJson,
+          'blocked': _blockedSeatsJson,
         };
 
         //then
@@ -150,16 +150,16 @@ void main() {
     );
 
     test(
-      "GIVEN a theater model "
+      'GIVEN a theater model '
       "AND it's theater id is null"
-      "WHEN json serialization is performed "
-      "THEN a theater json is output "
+      'WHEN json serialization is performed '
+      'THEN a theater json is output '
       "AND it doesn't have a theater_id key",
       () {
         //given
         const model = TheaterModel(
           theaterId: null,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -171,21 +171,21 @@ void main() {
         final actual = model.toJson();
 
         //then
-        expect(actual.containsKey("theater_id"), false);
+        expect(actual.containsKey('theater_id'), false);
       },
     );
 
     test(
-      "GIVEN a theater model "
+      'GIVEN a theater model '
       "AND it's theater id is non-null"
-      "WHEN json serialization is performed "
-      "THEN a theater json is output "
+      'WHEN json serialization is performed '
+      'THEN a theater json is output '
       "AND it doesn't have a theater_id key",
       () {
         //given
         const model = TheaterModel(
           theaterId: 1,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -197,22 +197,22 @@ void main() {
         final actual = model.toJson();
 
         //then
-        expect(actual.containsKey("theater_id"), false);
+        expect(actual.containsKey('theater_id'), false);
       },
     );
   });
 
-  group("toUpdateJson", () {
+  group('toUpdateJson', () {
     test(
-      "GIVEN a theater model "
-      "WHEN json serialization is performed for updating"
-      "AND all arguments are null "
-      "THEN an empty json is output",
+      'GIVEN a theater model '
+      'WHEN json serialization is performed for updating'
+      'AND all arguments are null '
+      'THEN an empty json is output',
       () {
         //given
         const model = TheaterModel(
           theaterId: null,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -229,16 +229,16 @@ void main() {
     );
 
     test(
-      "GIVEN a theater model "
-      "WHEN json serialization is performed for updating"
-      "AND some arguments with new values are given "
-      "THEN a theater json is output "
-      "AND it has new values for the provided arguments",
+      'GIVEN a theater model '
+      'WHEN json serialization is performed for updating'
+      'AND some arguments with new values are given '
+      'THEN a theater json is output '
+      'AND it has new values for the provided arguments',
       () {
         //given
         const model = TheaterModel(
           theaterId: null,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -247,17 +247,17 @@ void main() {
         );
 
         //when
-        final newTheaterType = TheaterType.ROYAL;
+        const newTheaterType = TheaterType.ROYAL;
         final actual = model.toUpdateJson(
           theaterType: newTheaterType,
         );
         final matcher = {
-          "theater_name": "A",
-          "num_of_rows": 10,
-          "seats_per_row": 10,
-          "theater_type": "royal",
-          "missing": _missingSeatsJson,
-          "blocked": _blockedSeatsJson,
+          'theater_name': 'A',
+          'num_of_rows': 10,
+          'seats_per_row': 10,
+          'theater_type': 'royal',
+          'missing': _missingSeatsJson,
+          'blocked': _blockedSeatsJson,
         };
 
         //then
@@ -266,16 +266,16 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two theater models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two theater models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         const model1 = TheaterModel(
           theaterId: null,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -286,7 +286,7 @@ void main() {
         //when
         const model2 = TheaterModel(
           theaterId: 1,
-          theaterName: "B",
+          theaterName: 'B',
           numOfRows: 12,
           seatsPerRow: 8,
           theaterType: TheaterType.ROYAL,
@@ -300,14 +300,14 @@ void main() {
     );
 
     test(
-      "GIVEN two theater models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two theater models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         const model1 = TheaterModel(
           theaterId: null,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
@@ -318,43 +318,43 @@ void main() {
         //when
         const missingSeatModels2 = [
           SeatModel(
-            seatRow: "A",
+            seatRow: 'A',
             seatNumber: 3,
           ),
           SeatModel(
-            seatRow: "B",
+            seatRow: 'B',
             seatNumber: 3,
           ),
           SeatModel(
-            seatRow: "C",
+            seatRow: 'C',
             seatNumber: 3,
           ),
           SeatModel(
-            seatRow: "D",
+            seatRow: 'D',
             seatNumber: 3,
           ),
         ];
         const blockedSeatModels2 = [
           SeatModel(
-            seatRow: "E",
+            seatRow: 'E',
             seatNumber: 1,
           ),
           SeatModel(
-            seatRow: "E",
+            seatRow: 'E',
             seatNumber: 2,
           ),
           SeatModel(
-            seatRow: "E",
+            seatRow: 'E',
             seatNumber: 3,
           ),
           SeatModel(
-            seatRow: "E",
+            seatRow: 'E',
             seatNumber: 4,
           ),
         ];
         const model2 = TheaterModel(
           theaterId: null,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,

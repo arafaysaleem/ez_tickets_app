@@ -174,11 +174,11 @@ class _TrailerScreenState extends State<TrailerScreen> {
     );
   }
 
-  Widget _buildErrorWidget(context, errorMessage) {
+  Widget _buildErrorWidget(BuildContext context, String? errorMessage) {
     debugPrint(errorMessage);
     return const Center(
       child: Text(
-        "Playback Error",
+        'Playback Error',
         style: TextStyle(color: Colors.white),
       ),
     );

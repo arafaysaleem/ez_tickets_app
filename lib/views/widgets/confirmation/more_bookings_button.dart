@@ -30,7 +30,7 @@ class MoreBookingsButton extends StatelessWidget {
         color: Constants.textWhite80Color,
         child: const Center(
           child: Text(
-            "MAKE MORE BOOKINGS",
+            'MAKE MORE BOOKINGS',
             style: TextStyle(
               color: Constants.primaryColor,
               fontSize: 15,

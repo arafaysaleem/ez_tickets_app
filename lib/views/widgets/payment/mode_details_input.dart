@@ -31,10 +31,10 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
         context: context,
         barrierColor: Constants.barrierColor,
         builder: (ctx) => const CustomDialog.confirm(
-          title: "Are you sure?",
-          body: "Do you want to go back without saving your form data?",
-          trueButtonText: "Yes",
-          falseButtonText: "No",
+          title: 'Are you sure?',
+          body: 'Do you want to go back without saving your form data?',
+          trueButtonText: 'Yes',
+          falseButtonText: 'No',
         ),
       );
       if (doPop == null || !doPop) return Future<bool>.value(false);
@@ -48,13 +48,13 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
 
   @override
   Widget build(BuildContext context) {
-    final deliveryAddressController = useTextEditingController(text: "");
-    final branchNameController = useTextEditingController(text: "");
-    final zipcodeController = useTextEditingController(text: "");
-    final promoCodeController = useTextEditingController(text: "");
-    final creditCardNumberController = useTextEditingController(text: "");
-    final creditCardCVVController = useTextEditingController(text: "");
-    final creditCardExpiryController = useTextEditingController(text: "");
+    final deliveryAddressController = useTextEditingController(text: '');
+    final branchNameController = useTextEditingController(text: '');
+    final zipcodeController = useTextEditingController(text: '');
+    final promoCodeController = useTextEditingController(text: '');
+    final creditCardNumberController = useTextEditingController(text: '');
+    final creditCardCVVController = useTextEditingController(text: '');
+    final creditCardExpiryController = useTextEditingController(text: '');
     final activeMode = useProvider(activePaymentModeProvider).state;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -111,8 +111,8 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
         //Delivery Address
         CustomTextField(
           controller: deliveryAddressController,
-          floatingText: "Delivery address",
-          hintText: "Enter delivery address",
+          floatingText: 'Delivery address',
+          hintText: 'Enter delivery address',
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
           validator: FormValidator.addressValidator,
@@ -123,8 +123,8 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
         //Zipcode
         CustomTextField(
           controller: zipcodeController,
-          floatingText: "Zip Code",
-          hintText: "Enter zip code",
+          floatingText: 'Zip Code',
+          hintText: 'Enter zip code',
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           validator: FormValidator.zipCodeValidator,
@@ -135,8 +135,8 @@ class _CashOnDeliveryDetailFields extends StatelessWidget {
         //Promo Code
         CustomTextField(
           controller: promoCodeController,
-          floatingText: "Promo code",
-          hintText: "Enter promo code",
+          floatingText: 'Promo code',
+          hintText: 'Enter promo code',
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           validator: FormValidator.promoCodeValidator,
@@ -171,8 +171,8 @@ class _CashOnHandDetailFields extends StatelessWidget {
         //Branch Name
         CustomTextField(
           controller: branchNameController,
-          floatingText: "Branch Name",
-          hintText: "Enter the branch name",
+          floatingText: 'Branch Name',
+          hintText: 'Enter the branch name',
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           validator: FormValidator.branchNameValidator,
@@ -183,8 +183,8 @@ class _CashOnHandDetailFields extends StatelessWidget {
         //Promo Code
         CustomTextField(
           controller: promoCodeController,
-          floatingText: "Promo code",
-          hintText: "Enter promo code",
+          floatingText: 'Promo code',
+          hintText: 'Enter promo code',
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           validator: FormValidator.promoCodeValidator,
@@ -221,8 +221,8 @@ class _CardDetailFields extends StatelessWidget {
         //Credit Card Number
         CustomTextField(
           controller: creditCardNumberController,
-          floatingText: "Credit Card Number",
-          hintText: "Enter credit card number",
+          floatingText: 'Credit Card Number',
+          hintText: 'Enter credit card number',
           maxLength: 16,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
@@ -234,8 +234,8 @@ class _CardDetailFields extends StatelessWidget {
         //Credit Card CVV
         CustomTextField(
           controller: creditCardCVVController,
-          floatingText: "CVV",
-          hintText: "Enter CVV",
+          floatingText: 'CVV',
+          hintText: 'Enter CVV',
           maxLength: 3,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
@@ -247,8 +247,8 @@ class _CardDetailFields extends StatelessWidget {
         //Credit Card Expiry Date
         CustomTextField(
           controller: creditCardExpiryController,
-          floatingText: "Expiry Date (MM/YYYY)",
-          hintText: "Enter expiry date",
+          floatingText: 'Expiry Date (MM/YYYY)',
+          hintText: 'Enter expiry date',
           keyboardType: TextInputType.datetime,
           textInputAction: TextInputAction.done,
           validator: FormValidator.creditCardExpiryValidator,

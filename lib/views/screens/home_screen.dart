@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             //Heading text
             Text(
-              "EZ Tickets",
+              'EZ Tickets',
               style: context.headline1.copyWith(color: Constants.primaryColor),
             ),
 
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
 
             //Welcome msg
             Text(
-              "Welcome to\nthe new\nNueplex cinemas",
+              'Welcome to\nthe new\nNueplex cinemas',
               style: context.headline3,
             ),
 
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
 
             //Experience msg
             Text(
-              "New level of features\nwith the new app",
+              'New level of features\nwith the new app',
               style: context.headline5.copyWith(
                 color: Constants.textGreyColor,
                 fontWeight: FontWeight.w400,
@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                     gradient: Constants.buttonGradientRed,
                     child: const Center(
                       child: Text(
-                        "LOGIN",
+                        'LOGIN',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -105,7 +105,7 @@ class HomeScreen extends StatelessWidget {
               border: Border.all(color: Constants.primaryColor, width: 4),
               child: const Center(
                 child: Text(
-                  "REGISTER",
+                  'REGISTER',
                   style: TextStyle(
                     color: Constants.primaryColor,
                     fontSize: 15,

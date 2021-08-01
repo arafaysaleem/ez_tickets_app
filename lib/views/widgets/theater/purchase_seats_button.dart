@@ -33,7 +33,7 @@ class PurchaseSeatsButton extends StatelessWidget {
             gradient: Constants.buttonGradientOrange,
             child: Center(
               child: Text(
-                "PURCHASE - $theaterSeats SEATS",
+                'PURCHASE - $theaterSeats SEATS',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,

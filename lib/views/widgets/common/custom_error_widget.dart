@@ -51,7 +51,7 @@ class CustomErrorWidget extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "Oops",
+                'Oops',
                 style: textTheme.headline1!.copyWith(
                   color: Constants.primaryColor,
                   fontSize: 45,
@@ -68,7 +68,7 @@ class CustomErrorWidget extends StatelessWidget {
                 width: double.infinity,
                 child: Center(
                   child: Text(
-                    "RETRY",
+                    'RETRY',
                     style: textTheme.bodyText2!.copyWith(
                       color: Colors.white,
                       fontSize: 16,

@@ -44,7 +44,7 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["body"]["booking_id"],
+      converter: (response) => response['body']['booking_id'] as int,
     );
   }
 
@@ -56,7 +56,7 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BY_ID, id: bookingId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -68,7 +68,7 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BY_ID, id: bookingId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -79,9 +79,9 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.SHOWS, id: showId),
       cancelToken: _cancelToken,
       converter: (responseBody) {
-        return responseBody["booked_seats"].map<SeatModel>((seat) {
+        return responseBody['booked_seats'].map<SeatModel>((Map<String, dynamic> seat) {
           return SeatModel.fromJson(seat);
-        }).toList();
+        }).toList() as List<SeatModel>;
       },
     );
   }

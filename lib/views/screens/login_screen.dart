@@ -28,8 +28,8 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = useMemoized(()=>GlobalKey<FormState>());
-    final emailController = useTextEditingController(text: "");
-    final passwordController = useTextEditingController(text: "");
+    final emailController = useTextEditingController(text: '');
+    final passwordController = useTextEditingController(text: '');
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
@@ -45,9 +45,9 @@ class LoginScreen extends HookWidget {
               context: context,
               barrierColor: Constants.barrierColor.withOpacity(0.75),
               builder: (ctx) => CustomDialog.alert(
-                title: "Login Failed",
+                title: 'Login Failed',
                 body: reason,
-                buttonText: "Retry",
+                buttonText: 'Retry',
               ),
             );
           },
@@ -64,7 +64,7 @@ class LoginScreen extends HookWidget {
                   children: [
                     //Page name
                     Text(
-                      "Login",
+                      'Login',
                       style: context.headline3.copyWith(
                         color: Colors.white,
                         fontSize: 32,
@@ -77,8 +77,8 @@ class LoginScreen extends HookWidget {
                     CustomTextField(
                       controller: emailController,
                       autofocus: true,
-                      floatingText: "Email",
-                      hintText: "Type your email address",
+                      floatingText: 'Email',
+                      hintText: 'Type your email address',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       validator: FormValidator.emailValidator,
@@ -89,8 +89,8 @@ class LoginScreen extends HookWidget {
                     //Password
                     CustomTextField(
                       controller: passwordController,
-                      floatingText: "Password",
-                      hintText: "Type your password",
+                      floatingText: 'Password',
+                      hintText: 'Type your password',
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                       validator: FormValidator.passwordValidator,
@@ -133,7 +133,7 @@ class LoginScreen extends HookWidget {
                     },
                     child: const Center(
                       child: Text(
-                        "LOGIN",
+                        'LOGIN',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,

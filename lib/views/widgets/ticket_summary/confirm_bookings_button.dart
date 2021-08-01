@@ -5,7 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import '../../../helper/utils/constants.dart';
 
 //Routes
-import "../../../routes/app_router.gr.dart";
+import '../../../routes/app_router.gr.dart';
 
 //Widgets
 import '../common/custom_text_button.dart';
@@ -25,7 +25,7 @@ class ConfirmBookingsButton extends StatelessWidget {
         gradient: Constants.buttonGradientOrange,
         child: const Center(
           child: Text(
-            "CONFIRM",
+            'CONFIRM',
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,

@@ -36,7 +36,7 @@ class UserBookingsScreen extends StatelessWidget {
                 //Page Title
                 Expanded(
                   child: Text(
-                    "Your bookings",
+                    'Your bookings',
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
