@@ -25,7 +25,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["body"]["movie_id"],
+      converter: (response) => response['body']['movie_id'] as int,
     );
   }
 
@@ -37,7 +37,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -49,7 +49,7 @@ class MoviesRepository {
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 

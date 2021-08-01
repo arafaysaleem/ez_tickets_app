@@ -37,7 +37,7 @@ class CustomNetworkImage extends StatelessWidget {
         padding: margin ?? EdgeInsets.zero,
         child: placeholder ?? const SizedBox.shrink(),
       ),
-      errorWidget: (_,__,___) => Padding(
+      errorWidget: (_,__,dynamic ___) => Padding(
         padding: margin ?? EdgeInsets.zero,
         child: errorWidget ?? const SizedBox.shrink(),
       ),

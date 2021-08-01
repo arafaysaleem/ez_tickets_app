@@ -34,7 +34,7 @@ class PaymentModel with _$PaymentModel {
         showId == null &&
         amount == null &&
         paymentMethod == null &&
-        paymentDatetime == null) return const {};
+        paymentDatetime == null) return const <String, dynamic>{};
     return copyWith(
       paymentId: paymentId,
       showId: showId ?? this.showId,

@@ -46,7 +46,7 @@ class PaymentsRepository {
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["body"]["payment_id"],
+      converter: (response) => response['body']['payment_id'] as int,
     );
   }
 
@@ -58,7 +58,7 @@ class PaymentsRepository {
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BY_ID, id: paymentId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -70,7 +70,7 @@ class PaymentsRepository {
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BY_ID, id: paymentId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 

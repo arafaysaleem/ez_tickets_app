@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +11,12 @@ import 'helper/utils/custom_theme.dart';
 import 'routes/app_router.gr.dart';
 
 //Services
-import 'services/local_storage/prefs_base.dart';
+import 'services/local_storage/key_value_storage_base.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   debugPrint = setDebugPrint;
-  await PrefsBase.init();
+  await KeyValueStorageBase.init();
   runApp(MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -24,10 +25,10 @@ void main() async {
 }
 
 void setDebugPrint(String? message, {int? wrapWidth}) {
-  final date = DateTime.now();
-  var msg = "${date.year}/${date.month}/${date.day}";
-  msg += " ${date.hour}:${date.minute}:${date.second}";
-  msg += " $message";
+  final date = clock.now();
+  var msg = '${date.year}/${date.month}/${date.day}';
+  msg += ' ${date.hour}:${date.minute}:${date.second}';
+  msg += ' $message';
   debugPrintSynchronously(
     msg,
     wrapWidth: wrapWidth,

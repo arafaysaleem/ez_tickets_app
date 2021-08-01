@@ -85,7 +85,7 @@ class ShowsScreen extends HookWidget {
                     children: [
                       //Date Title
                       Text(
-                        "Select a date",
+                        'Select a date',
                         style: context.headline5.copyWith(
                           height: 1,
                           color: Constants.textGreyColor,
@@ -114,7 +114,7 @@ class ShowsScreen extends HookWidget {
 
                       //Time Title
                       Text(
-                        "Select a time",
+                        'Select a time',
                         style: context.headline5.copyWith(
                           height: 1,
                           color: Constants.textGreyColor,
@@ -143,7 +143,7 @@ class ShowsScreen extends HookWidget {
 
                       //Seats details title
                       Text(
-                        "Show details",
+                        'Show details',
                         style: context.headline5.copyWith(
                           height: 1,
                           color: Constants.textGreyColor,
@@ -175,7 +175,7 @@ class ShowsScreen extends HookWidget {
                               gradient: Constants.buttonGradientOrange,
                               child: const Center(
                                 child: Text(
-                                  "CONTINUE",
+                                  'CONTINUE',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,

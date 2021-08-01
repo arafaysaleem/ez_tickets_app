@@ -4,13 +4,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// A collection of statuses that bookings can have.
 enum BookingStatus {
-@JsonValue("confirmed") CONFIRMED,
-@JsonValue("cancelled") CANCELLED,
-@JsonValue("reserved") RESERVED,
+@JsonValue('confirmed') CONFIRMED,
+@JsonValue('cancelled') CANCELLED,
+@JsonValue('reserved') RESERVED,
 }
 
 /// A utility with extensions for enum name and serialized value.
-extension ExtMovieType on BookingStatus{
+extension ExtBookingStatus on BookingStatus{
   String get name => describeEnum(this);
 
   String get toJson => name.toLowerCase();

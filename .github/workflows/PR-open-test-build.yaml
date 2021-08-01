@@ -1,7 +1,7 @@
 name: Test PR and Push
 on:
   pull_request:
-    branches: [release,dev,master]
+    branches: [release,dev,master, test/**]
 jobs:
   build:
     name: Test APK
@@ -21,5 +21,21 @@ jobs:
       run: flutter packages pub run build_runner build --delete-conflicting-outputs
     - name: Run Dart Analyzer
       run: flutter analyze .
+    - name: Generate coverage helper script
+      run: sh ./coverage_helper_script.bash
+    - name: Run tests
+      run: flutter test --coverage
+    - name: Check Very Good Coverage
+      uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+      with:
+        path: "./coverage/lcov.info"
+        min_coverage: 4.5
+        exclude: "**/*.freezed.dart **/*.g.dart **/*.gr.dart **/constants.dart **/custom_theme.dart **/assets_helper.dart"
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2.0.2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/lcov.info
+        verbose: true
     - name: Attempt Debug APK Build
-      run: flutter build apk --debug
+      run: flutter build apk --debug --dart-define=BASE_URL=${{ secrets.BASE_URL }}

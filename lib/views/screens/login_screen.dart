@@ -4,11 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../helper/extensions/context_extensions.dart';
-
 //Helpers
-import '../../helper/extensions/string_extension.dart';
+import '../../helper/extensions/context_extensions.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/utils/form_validator.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -29,8 +28,8 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = useMemoized(()=>GlobalKey<FormState>());
-    final emailController = useTextEditingController(text: "");
-    final passwordController = useTextEditingController(text: "");
+    final emailController = useTextEditingController(text: '');
+    final passwordController = useTextEditingController(text: '');
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
@@ -46,9 +45,9 @@ class LoginScreen extends HookWidget {
               context: context,
               barrierColor: Constants.barrierColor.withOpacity(0.75),
               builder: (ctx) => CustomDialog.alert(
-                title: "Login Failed",
+                title: 'Login Failed',
                 body: reason,
-                buttonText: "Retry",
+                buttonText: 'Retry',
               ),
             );
           },
@@ -65,7 +64,7 @@ class LoginScreen extends HookWidget {
                   children: [
                     //Page name
                     Text(
-                      "Login",
+                      'Login',
                       style: context.headline3.copyWith(
                         color: Colors.white,
                         fontSize: 32,
@@ -78,14 +77,11 @@ class LoginScreen extends HookWidget {
                     CustomTextField(
                       controller: emailController,
                       autofocus: true,
-                      floatingText: "Email",
-                      hintText: "Type your email address",
+                      floatingText: 'Email',
+                      hintText: 'Type your email address',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      validator: (email) {
-                        if (email != null && email.isValidEmail) return null;
-                        return "Please enter a valid email address";
-                      },
+                      validator: FormValidator.emailValidator,
                     ),
 
                     const SizedBox(height: 25),
@@ -93,14 +89,11 @@ class LoginScreen extends HookWidget {
                     //Password
                     CustomTextField(
                       controller: passwordController,
-                      floatingText: "Password",
-                      hintText: "Type your password",
+                      floatingText: 'Password',
+                      hintText: 'Type your password',
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
-                      validator: (password) {
-                        if (password!.isEmpty) return "Please enter a password";
-                        return null;
-                      },
+                      validator: FormValidator.passwordValidator,
                     ),
                   ],
                 ),
@@ -140,7 +133,7 @@ class LoginScreen extends HookWidget {
                     },
                     child: const Center(
                       child: Text(
-                        "LOGIN",
+                        'LOGIN',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,

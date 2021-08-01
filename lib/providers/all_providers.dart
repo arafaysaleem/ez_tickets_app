@@ -1,10 +1,19 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//services imports
-import '../services/local_storage/prefs_service.dart';
+//Service imports
+import '../services/networking/dio_service.dart';
+import '../services/local_storage/key_value_storage_service.dart';
 import '../services/networking/api_service.dart';
+import '../services/networking/api_endpoint.dart';
 
-//repository imports
+//Interceptor imports
+import '../services/networking/interceptors/api_interceptor.dart';
+import '../services/networking/interceptors/logging_interceptor.dart';
+import '../services/networking/interceptors/refresh_token_interceptor.dart';
+
+//Repository imports
 import '../services/repositories/auth_repository.dart';
 import '../services/repositories/bookings_repository.dart';
 import '../services/repositories/movies_repository.dart';
@@ -12,20 +21,46 @@ import '../services/repositories/payments_repository.dart';
 import '../services/repositories/shows_repository.dart';
 import '../services/repositories/theaters_repository.dart';
 
-//provider imports
+//Provider imports
 import 'auth_provider.dart';
 import 'bookings_provider.dart';
 import 'movies_provider.dart';
 import 'payments_provider.dart';
 import 'shows_provider.dart';
 
-//states
+//State imports
 import 'states/auth_state.dart';
 import 'theaters_provider.dart';
 
-//service providers
-final _apiServiceProvider = Provider<ApiService>((ref) => ApiService());
-final _prefsServiceProvider = Provider<PrefsService>((ref) => PrefsService());
+//Services
+final keyValueStorageServiceProvider = Provider<KeyValueStorageService>(
+  (ref) => KeyValueStorageService(),
+);
+
+final _dioProvider = Provider<Dio>((ref) {
+  final baseOptions = BaseOptions(
+    baseUrl: ApiEndpoint.baseUrl,
+  );
+  return Dio(baseOptions);
+});
+
+final _dioServiceProvider = Provider<DioService>((ref) {
+  final _dio = ref.watch(_dioProvider);
+  // Order of interceptors very important
+  return DioService(
+    dioClient: _dio,
+    interceptors: [
+      ApiInterceptor(ref),
+      if (kDebugMode) LoggingInterceptor(),
+      RefreshTokenInterceptor(dioClient: _dio, ref: ref)
+    ],
+  );
+});
+
+final _apiServiceProvider = Provider<ApiService>((ref) {
+  final _dioService = ref.watch(_dioServiceProvider);
+  return ApiService(_dioService);
+});
 
 //repositories providers
 final _authRepositoryProvider = Provider<AuthRepository>((ref) {
@@ -61,11 +96,11 @@ final _paymentsRepositoryProvider = Provider<PaymentsRepository>((ref) {
 //notifier providers
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final _authRepository = ref.watch(_authRepositoryProvider);
-  final _prefsService = ref.watch(_prefsServiceProvider);
+  final _keyValueStorageService = ref.watch(keyValueStorageServiceProvider);
   return AuthProvider(
     reader: ref.read,
     authRepository: _authRepository,
-    prefsService: _prefsService,
+    keyValueStorageService: _keyValueStorageService,
   );
 });
 
@@ -88,11 +123,15 @@ final theatersProvider = ChangeNotifierProvider<TheatersProvider>((ref) {
 final bookingsProvider = Provider<BookingsProvider>((ref) {
   final _bookingsRepository = ref.watch(_bookingsRepositoryProvider);
   return BookingsProvider(
-      read: ref.read, bookingsRepository: _bookingsRepository);
+    read: ref.read,
+    bookingsRepository: _bookingsRepository,
+  );
 });
 
 final paymentsProvider = Provider<PaymentsProvider>((ref) {
   final _paymentsRepository = ref.watch(_paymentsRepositoryProvider);
   return PaymentsProvider(
-      read: ref.read, paymentsRepository: _paymentsRepository);
+    read: ref.read,
+    paymentsRepository: _paymentsRepository,
+  );
 });

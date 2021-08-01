@@ -147,7 +147,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               contentPadding: const EdgeInsets.fromLTRB(17, 10, 1, 10),
               isDense: true,
               filled: true,
-              counterText: "",
+              counterText: '',
               border: _normalBorder(),
               focusedBorder: _focusedBorder(),
               focusedErrorBorder: _focusedBorder(),

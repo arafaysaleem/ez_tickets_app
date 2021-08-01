@@ -99,3 +99,6 @@ native/android:
 
 gradle:
   - any: ['android/**/*']
+
+tests:
+  - any: [ 'test/**/*' ]

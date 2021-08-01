@@ -28,5 +28,5 @@ extension StringExt on String {
   String get capitalize => this[0].toUpperCase() + this.substring(1).toLowerCase();
 
   /// An extension for replacing underscores in a String with spaces.
-  String get removeUnderScore => this.replaceAll("_", " ");
+  String get removeUnderScore => this.replaceAll('_', ' ');
 }

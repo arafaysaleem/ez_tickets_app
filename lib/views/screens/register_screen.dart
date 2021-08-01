@@ -6,9 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../helper/extensions/context_extensions.dart';
-import '../../helper/extensions/string_extension.dart';
 import '../../helper/utils/assets_helper.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/utils/form_validator.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
@@ -33,7 +33,6 @@ class RegisterScreen extends StatefulHookWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _formHasData = false;
   late final formKey = GlobalKey<FormState>();
-  late final ValueNotifier<bool> userDetailsState = ValueNotifier(true);
 
   Future<bool> _showConfirmDialog() async {
     if (_formHasData) {
@@ -41,10 +40,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context: context,
         barrierColor: Constants.barrierColor,
         builder: (ctx) => const CustomDialog.confirm(
-          title: "Are you sure?",
-          body: "Do you want to go back without saving your form data?",
-          trueButtonText: "Yes",
-          falseButtonText: "No",
+          title: 'Are you sure?',
+          body: 'Do you want to go back without saving your form data?',
+          trueButtonText: 'Yes',
+          falseButtonText: 'No',
         ),
       );
       if (doPop == null || !doPop) return Future<bool>.value(false);
@@ -52,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Future<bool>.value(true);
   }
 
-  CustomTextButton buildNextButton() {
+  CustomTextButton buildNextButton(ValueNotifier<bool> userDetailsState) {
     return CustomTextButton.outlined(
       width: double.infinity,
       onPressed: () {
@@ -67,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
           Text(
-            "Next",
+            'Next',
             style: TextStyle(
               color: Constants.primaryColor,
               fontSize: 15,
@@ -100,12 +99,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           context.read(authProvider.notifier).register(
-            email: email,
-            password: password,
-            fullName: fullName,
-            address: address,
-            contact: contact,
-          );
+                email: email,
+                password: password,
+                fullName: fullName,
+                address: address,
+                contact: contact,
+              );
         }
       },
       gradient: Constants.buttonGradientOrange,
@@ -126,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         child: const Center(
           child: Text(
-            "CONFIRM",
+            'CONFIRM',
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,
@@ -139,42 +138,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  VoidCallback? onBackTap(ValueNotifier<bool> userDetailsState){
+    if(!userDetailsState.value) return () => userDetailsState.value = true;
+  }
+
+  void onFormChanged() {
+    if (!_formHasData) _formHasData = true;
+  }
+
+  void onAuthStateFailed(String reason) async {
+    await showDialog<bool>(
+      context: context,
+      barrierColor: Constants.barrierColor.withOpacity(0.75),
+      builder: (ctx) {
+        return CustomDialog.alert(
+          title: 'Register Failed',
+          body: reason,
+          buttonText: 'Retry',
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final emailController = useTextEditingController(text: "");
-    final passwordController = useTextEditingController(text: "");
-    final cPasswordController = useTextEditingController(text: "");
-    final fullNameController = useTextEditingController(text: "");
-    final addressController = useTextEditingController(text: "");
-    final contactController = useTextEditingController(text: "");
+    final userDetailsState = useState<bool>(true);
+    final emailController = useTextEditingController(text: '');
+    final passwordController = useTextEditingController(text: '');
+    final cPasswordController = useTextEditingController(text: '');
+    final fullNameController = useTextEditingController(text: '');
+    final addressController = useTextEditingController(text: '');
+    final contactController = useTextEditingController(text: '');
+
+    void onAuthStateAuthenticated(String? currentUserFullName){
+      emailController.clear();
+      passwordController.clear();
+      fullNameController.clear();
+      addressController.clear();
+      cPasswordController.clear();
+      contactController.clear();
+      _formHasData = false;
+      context.router.popUntilRoot();
+    }
 
     return Scaffold(
       body: ProviderListener(
         provider: authProvider,
         onChange: (_, authState) async => (authState as AuthState).maybeWhen(
-          authenticated: (_) {
-            emailController.clear();
-            passwordController.clear();
-            fullNameController.clear();
-            addressController.clear();
-            cPasswordController.clear();
-            contactController.clear();
-            _formHasData = false;
-            context.router.popUntilRoot();
-          },
-          failed: (reason) async {
-            await showDialog<bool>(
-              context: context,
-              barrierColor: Constants.barrierColor.withOpacity(0.75),
-              builder: (ctx) {
-                return CustomDialog.alert(
-                  title: "Register Failed",
-                  body: reason,
-                  buttonText: "Retry",
-                );
-              },
-            );
-          },
+          authenticated: onAuthStateAuthenticated,
+          failed: onAuthStateFailed,
           orElse: () {},
         ),
         child: GestureDetector(
@@ -184,18 +196,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               //Input card
               Form(
                 key: formKey,
-                onChanged: () {
-                  if (!_formHasData) _formHasData = true;
-                },
+                onChanged: onFormChanged,
                 onWillPop: _showConfirmDialog,
                 child: RoundedBottomContainer(
-                  onBackTap: !userDetailsState.value
-                      ? () => userDetailsState.value = true
-                      : null,
+                  onBackTap: onBackTap(userDetailsState),
                   children: [
                     //Page name
                     Text(
-                      "Register",
+                      'Register',
                       style: context.headline3.copyWith(
                         color: Colors.white,
                         fontSize: 32,
@@ -224,12 +232,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               //Button
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
+                padding: const EdgeInsets.fromLTRB(
+                  20,
+                  40,
+                  20,
+                  Constants.bottomInsets,
+                ),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 550),
                   switchOutCurve: Curves.easeInBack,
                   child: userDetailsState.value
-                      ? buildNextButton()
+                      ? buildNextButton(userDetailsState)
                       : buildConfirmButton(
                           email: emailController.text,
                           password: passwordController.text,
@@ -268,14 +281,11 @@ class _UserDetailFields extends StatelessWidget {
         CustomTextField(
           controller: fullNameController,
           autofocus: true,
-          floatingText: "Full name",
-          hintText: "Type your full name",
+          floatingText: 'Full name',
+          hintText: 'Type your full name',
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
-          validator: (fullName) {
-            if (fullName != null && fullName.isValidFullName) return null;
-            return "Please enter a valid full name";
-          },
+          validator: FormValidator.fullNameValidator,
         ),
 
         const SizedBox(height: 25),
@@ -283,14 +293,11 @@ class _UserDetailFields extends StatelessWidget {
         //Email
         CustomTextField(
           controller: emailController,
-          floatingText: "Email",
-          hintText: "Type your email address",
+          floatingText: 'Email',
+          hintText: 'Type your email address',
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          validator: (email) {
-            if (email != null && email.isValidEmail) return null;
-            return "Please enter a valid email address";
-          },
+          validator: FormValidator.emailValidator,
         ),
 
         const SizedBox(height: 25),
@@ -298,14 +305,11 @@ class _UserDetailFields extends StatelessWidget {
         //Address
         CustomTextField(
           controller: addressController,
-          floatingText: "Address",
-          hintText: "Type your full address",
+          floatingText: 'Address',
+          hintText: 'Type your full address',
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
-          validator: (address) {
-            if (address!.isEmpty) return "Please enter a address";
-            return null;
-          },
+          validator: FormValidator.addressValidator,
         ),
 
         const SizedBox(height: 25),
@@ -313,22 +317,20 @@ class _UserDetailFields extends StatelessWidget {
         //Contact
         CustomTextField(
           controller: contactController,
-          floatingText: "Contact",
-          hintText: "Type your mobile #",
+          floatingText: 'Contact',
+          hintText: 'Type your mobile #',
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.done,
+          validator: FormValidator.contactValidator,
           prefix: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(17, 0, 5, 0),
-                child: Image.asset(
-                  AssetsHelper.pkFlag,
-                  width: 25,
-                ),
+                child: Image.asset(AssetsHelper.pkFlag, width: 25),
               ),
               const Text(
-                "+92",
+                '+92',
                 style: TextStyle(
                   fontSize: 18,
                   color: Constants.textWhite80Color,
@@ -336,17 +338,10 @@ class _UserDetailFields extends StatelessWidget {
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                child: VerticalDivider(
-                  thickness: 1.1,
-                  color: Colors.white,
-                ),
+                child: VerticalDivider(thickness: 1.1, color: Colors.white),
               )
             ],
           ),
-          validator: (contact) {
-            if (contact != null && contact.isValidContact) return null;
-            return "Please enter a valid contact";
-          },
         ),
       ],
     );
@@ -370,14 +365,11 @@ class _PasswordDetailFields extends StatelessWidget {
         CustomTextField(
           controller: passwordController,
           autofocus: true,
-          floatingText: "Password",
-          hintText: "Type your password",
+          floatingText: 'Password',
+          hintText: 'Type your password',
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.next,
-          validator: (password) {
-            if (password!.isEmpty) return "Please enter a password";
-            return null;
-          },
+          validator: FormValidator.passwordValidator,
         ),
 
         const SizedBox(height: 25),
@@ -385,14 +377,14 @@ class _PasswordDetailFields extends StatelessWidget {
         //Confirm Password
         CustomTextField(
           controller: cPasswordController,
-          floatingText: "Confirm Password",
-          hintText: "Retype your password",
+          floatingText: 'Confirm Password',
+          hintText: 'Retype your password',
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
-          validator: (cPassword) {
-            if (passwordController.text.trim() == cPassword) return null;
-            return "Passwords don't match";
-          },
+          validator: (confirmPw) => FormValidator.confirmPasswordValidator(
+            confirmPw,
+            passwordController.text,
+          ),
         ),
       ],
     );

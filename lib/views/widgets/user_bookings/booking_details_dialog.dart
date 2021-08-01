@@ -65,7 +65,7 @@ class BookingDetailsDialog extends StatelessWidget {
                           SizedBox(
                             width: 50,
                             child: Text(
-                              "Seat",
+                              'Seat',
                               style: TextStyle(
                                 color: Constants.textWhite80Color,
                               ),
@@ -75,7 +75,7 @@ class BookingDetailsDialog extends StatelessWidget {
                           //Price label
                           Expanded(
                             child: Text(
-                              "Price",
+                              'Price',
                               style: TextStyle(
                                 color: Constants.textWhite80Color,
                               ),
@@ -86,7 +86,7 @@ class BookingDetailsDialog extends StatelessWidget {
                           SizedBox(
                             width: 100,
                             child: Text(
-                              "Seat Status",
+                              'Seat Status',
                               style: TextStyle(
                                 color: Constants.textWhite80Color,
                               ),
@@ -152,7 +152,7 @@ class _BookingSeatsListItem extends StatelessWidget {
         SizedBox(
           width: 50,
           child: Text(
-            "${booking.seatRow}-${booking.seatNumber}",
+            '${booking.seatRow}-${booking.seatNumber}',
             style: const TextStyle(
               color: Constants.textGreyColor,
               fontSize: 13,
@@ -178,7 +178,7 @@ class _BookingSeatsListItem extends StatelessWidget {
             children: [
               //Booking Status value
               Text(
-                "${booking.bookingStatus.name}",
+                booking.bookingStatus.name,
                 style: const TextStyle(
                   color: Constants.textGreyColor,
                   fontSize: 13,

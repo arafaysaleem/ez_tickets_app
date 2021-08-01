@@ -1,14 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/all_providers.dart';
 
 /// A class that holds intercepting logic for API related requests. This is
 /// the first interceptor in case of both request and response.
 ///
+/// Primary purpose is to handle token injection and response success validation
+///
 /// Since this interceptor isn't responsible for error handling, if an exception
 /// occurs it is passed on the next [Interceptor] or to [Dio].
 class ApiInterceptor extends Interceptor {
+  late final ProviderReference _ref;
+
+  ApiInterceptor(this._ref) : super();
 
   /// This method intercepts an out-going request before it reaches the
   /// destination.
@@ -30,14 +35,14 @@ class ApiInterceptor extends Interceptor {
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
-  ) {
-    if (options.headers.containsKey("requiresAuthToken")) {
-      if(options.headers["requiresAuthToken"]){
-        final token = ProviderContainer().read(authProvider.notifier).token;
-        options.headers.addAll({'Authorization': 'Bearer $token'});
+  ) async {
+    if (options.headers.containsKey('requiresAuthToken')) {
+      if(options.headers['requiresAuthToken'] == true){
+        final token = await _ref.read(keyValueStorageServiceProvider).getAuthToken();
+        options.headers.addAll(<String, dynamic>{'Authorization': 'Bearer $token'});
       }
 
-      options.headers.remove("requiresAuthToken");
+      options.headers.remove('requiresAuthToken');
     }
     return handler.next(options);
   }
@@ -72,7 +77,7 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    final success = response.data["headers"]["success"] == 1;
+    final success = response.data['headers']['success'] == 1;
 
     if (success) return handler.next(response);
 

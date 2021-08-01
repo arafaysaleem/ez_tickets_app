@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// A collection of types that movies can be.
 enum MovieType {
-  @JsonValue("now_showing") NOW_SHOWING,
-  @JsonValue("coming_soon") COMING_SOON,
-  @JsonValue("removed") REMOVED,
+  @JsonValue('now_showing') NOW_SHOWING,
+  @JsonValue('coming_soon') COMING_SOON,
+  @JsonValue('removed') REMOVED,
   ALL_MOVIES,
 }
 

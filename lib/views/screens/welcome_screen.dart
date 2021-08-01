@@ -72,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
 
             //Welcome
             Text(
-              "Welcome",
+              'Welcome',
               style: context.headline1.copyWith(
                 color: Constants.primaryColor,
                 fontSize: 45,

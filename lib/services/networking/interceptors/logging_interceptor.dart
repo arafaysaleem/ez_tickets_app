@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-
 import 'package:dio/dio.dart';
 
 /// A class that intercepts network requests for logging purposes only. This is
 /// the second interceptor in case of both request and response.
 ///
-/// ** This interceptor doesn't modify the request or response in any way. **
+/// ** This interceptor doesn't modify the request or response in any way. And
+/// only works in `debug` mode **
 class LoggingInterceptor extends Interceptor {
 
   /// This method intercepts an out-going request before it reaches the
@@ -36,21 +36,21 @@ class LoggingInterceptor extends Interceptor {
     final httpMethod = options.method.toUpperCase();
     final url = options.baseUrl + options.path;
 
-    debugPrint("--> $httpMethod $url"); //GET www.example.com/mock_path/all
+    debugPrint('--> $httpMethod $url'); //GET www.example.com/mock_path/all
 
-    debugPrint("\tHeaders:");
-    options.headers.forEach((k, v) => debugPrint('\t\t$k: $v'));
+    debugPrint('\tHeaders:');
+    options.headers.forEach((k, dynamic v) => debugPrint('\t\t$k: $v'));
 
     if(options.queryParameters.isNotEmpty){
-      debugPrint("\tqueryParams:");
-      options.queryParameters.forEach((k, v) => debugPrint('\t\t$k: $v'));
+      debugPrint('\tqueryParams:');
+      options.queryParameters.forEach((k, dynamic v) => debugPrint('\t\t$k: $v'));
     }
 
     if (options.data != null) {
-      debugPrint("\tBody: ${options.data}");
+      debugPrint('\tBody: ${options.data}');
     }
 
-    debugPrint("--> END $httpMethod");
+    debugPrint('--> END $httpMethod');
 
     return super.onRequest(options, handler);
   }
@@ -78,13 +78,13 @@ class LoggingInterceptor extends Interceptor {
     ResponseInterceptorHandler handler,
   ) {
 
-    debugPrint("<-- RESPONSE");
+    debugPrint('<-- RESPONSE');
 
-    debugPrint("\tStatus code:${response.statusCode}");
+    debugPrint('\tStatus code:${response.statusCode}');
 
-    debugPrint("\tResponse: ${response.data}");
+    debugPrint('\tResponse: ${response.data}');
 
-    debugPrint("<-- END HTTP");
+    debugPrint('<-- END HTTP');
 
     return super.onResponse(response, handler);
   }
@@ -116,36 +116,36 @@ class LoggingInterceptor extends Interceptor {
     DioError dioError,
     ErrorInterceptorHandler handler,
   ) {
-    debugPrint("--> ERROR");
+    debugPrint('--> ERROR');
     if(dioError.response != null){
-      debugPrint("\tStatus code: ${dioError.response!.statusCode}");
+      debugPrint('\tStatus code: ${dioError.response!.statusCode}');
       if(dioError.response!.data != null){
-        final Map<String,dynamic> headers = dioError.response!.data["headers"]; //API Dependant
-        String message = headers["message"]; //API Dependant
-        String error = headers["error"]; //API Dependant
-        debugPrint("\tException: $error");
-        debugPrint("\tMessage: $message");
-        if(headers.containsKey("data")){ //API Dependant
-          List<dynamic> data = headers["data"];
+        final headers = dioError.response!.data['headers'] as Map<String, dynamic>; //API Dependant
+        var message = headers['message'] as String; //API Dependant
+        var error = headers['error'] as String; //API Dependant
+        debugPrint('\tException: $error');
+        debugPrint('\tMessage: $message');
+        if(headers.containsKey('data')){ //API Dependant
+          var data = headers['data'] as List<dynamic>;
           if(data.isNotEmpty) {
-            debugPrint("\tData: $data");
+            debugPrint('\tData: $data');
           }
         }
       }
       else {
-        debugPrint("${dioError.response!.data}");
+        debugPrint('${dioError.response!.data}');
       }
     }
     else if(dioError.error is SocketException){
-      final message = "No internet connectivity";
-      debugPrint("\tException: FetchDataException");
-      debugPrint("\tMessage: $message");
+      const message = 'No internet connectivity';
+      debugPrint('\tException: FetchDataException');
+      debugPrint('\tMessage: $message');
     }
     else {
-      debugPrint("\tUnknown Error");
+      debugPrint('\tUnknown Error');
     }
 
-    debugPrint("<-- END ERROR");
+    debugPrint('<-- END ERROR');
 
     return super.onError(dioError, handler);
   }

@@ -47,8 +47,8 @@ class ShowsProvider {
   Future<List<ShowModel>> getAllShows({
     required int movieId,
   }) async {
-    final Map<String, dynamic>? queryParams = {
-      "movie_id": movieId,
+    final Map<String, dynamic>? queryParams = <String, dynamic>{
+      'movie_id': movieId,
     };
     return await _showsRepository.fetchAll(queryParameters: queryParams);
   }
@@ -70,13 +70,13 @@ class ShowsProvider {
   }) async {
     //TODO: Improve API for Show times and Show
     final data = <String, dynamic>{
-      "movie_id": movieId,
-      "theater_id": theaterId,
-      "start_time": startTime,
-      "end_time": endTime,
-      "date": date,
-      "show_type": showType.toJson,
-      "show_status": showStatus.toJson,
+      'movie_id': movieId,
+      'theater_id': theaterId,
+      'start_time': startTime,
+      'end_time': endTime,
+      'date': date,
+      'show_type': showType.toJson,
+      'show_status': showStatus.toJson,
     };
     final showId = await _showsRepository.create(data: data);
     final showTime = ShowTimeModel(
@@ -103,15 +103,15 @@ class ShowsProvider {
     ShowStatus? showStatus,
   }) async {
     final data = <String, dynamic>{
-      if (movieId != null) "movie_id": movieId,
-      if (theaterId != null) "theater_id": theaterId,
-      if (startTime != null) "start_time": startTime,
-      if (endTime != null) "end_time": endTime,
-      if (date != null) "date": date,
-      if (showType != null) "show_type": showType.toJson,
-      if (showStatus != null) "show_status": showStatus.toJson,
+      if (movieId != null) 'movie_id': movieId,
+      if (theaterId != null) 'theater_id': theaterId,
+      if (startTime != null) 'start_time': startTime,
+      if (endTime != null) 'end_time': endTime,
+      if (date != null) 'date': date,
+      if (showType != null) 'show_type': showType.toJson,
+      if (showStatus != null) 'show_status': showStatus.toJson,
     };
-    if (data.isEmpty) return "Nothing to update!";
+    if (data.isEmpty) return 'Nothing to update!';
     return await _showsRepository.update(showId: showId, data: data);
   }
 

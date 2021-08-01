@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// A collection of roles that a user can be.
 enum UserRole {
-  @JsonValue("admin") ADMIN,
-  @JsonValue("api_user") API_USER,
-  @JsonValue("super_user") SUPER_USER,
+  @JsonValue('admin') ADMIN,
+  @JsonValue('api_user') API_USER,
+  @JsonValue('super_user') SUPER_USER,
 }
 
 /// A utility with extensions for enum name and serialized value.

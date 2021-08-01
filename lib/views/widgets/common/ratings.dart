@@ -13,8 +13,8 @@ class Ratings extends StatelessWidget {
   }) : super(key: key);
 
   int numStars(double rating) {
-    final currentRange = 10 - 1; //max - min of current range
-    final targetRange = 5 - 0; //max - min of target range
+    const currentRange = 10 - 1; //max - min of current range
+    const targetRange = 5 - 0; //max - min of target range
     final currentRatio = (rating - 1) / currentRange;
     return (currentRatio * targetRange + 0).toInt();
   }
@@ -27,7 +27,7 @@ class Ratings extends StatelessWidget {
       children: [
         //Rating number
         Text(
-          rating == 0 ? "N/A" : rating.toString(),
+          rating == 0 ? 'N/A' : rating.toString(),
           style: context.bodyText2.copyWith(
             color: Colors.black,
             fontWeight: FontWeight.bold,
