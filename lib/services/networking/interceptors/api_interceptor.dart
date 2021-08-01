@@ -36,13 +36,13 @@ class ApiInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (options.headers.containsKey("requiresAuthToken")) {
-      if(options.headers["requiresAuthToken"]){
+    if (options.headers.containsKey('requiresAuthToken')) {
+      if(options.headers['requiresAuthToken'] == true){
         final token = await _ref.read(keyValueStorageServiceProvider).getAuthToken();
-        options.headers.addAll({'Authorization': 'Bearer $token'});
+        options.headers.addAll(<String, dynamic>{'Authorization': 'Bearer $token'});
       }
 
-      options.headers.remove("requiresAuthToken");
+      options.headers.remove('requiresAuthToken');
     }
     return handler.next(options);
   }
@@ -77,7 +77,7 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    final success = response.data["headers"]["success"] == 1;
+    final success = response.data['headers']['success'] == 1;
 
     if (success) return handler.next(response);
 

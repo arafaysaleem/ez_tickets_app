@@ -70,7 +70,7 @@ class BookingSummaryRow extends StatelessWidget {
 
                       //Show status
                       Text(
-                        "${showType.inString}",
+                        showType.inString,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Constants.textWhite80Color,
@@ -95,7 +95,7 @@ class BookingSummaryRow extends StatelessWidget {
 
                       //Show time data
                       Text(
-                        "${DateFormat("d MMMM,yy H:m").format(showDateTime)}",
+                        DateFormat('d MMMM,yy H:m').format(showDateTime),
                         style: const TextStyle(
                           fontSize: 14,
                           color: Constants.textWhite80Color,
@@ -120,7 +120,7 @@ class BookingSummaryRow extends StatelessWidget {
 
                       //Total data
                       Text(
-                        "Rs. $total",
+                        'Rs. $total',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Constants.textWhite80Color,
@@ -158,7 +158,7 @@ class BookingSummaryRow extends StatelessWidget {
 
                   //No. of seats
                   Text(
-                    "$noOfSeats",
+                    '$noOfSeats',
                     style: const TextStyle(
                       fontSize: 16,
                       color: Constants.textWhite80Color,

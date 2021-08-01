@@ -40,10 +40,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context: context,
         barrierColor: Constants.barrierColor,
         builder: (ctx) => const CustomDialog.confirm(
-          title: "Are you sure?",
-          body: "Do you want to go back without saving your form data?",
-          trueButtonText: "Yes",
-          falseButtonText: "No",
+          title: 'Are you sure?',
+          body: 'Do you want to go back without saving your form data?',
+          trueButtonText: 'Yes',
+          falseButtonText: 'No',
         ),
       );
       if (doPop == null || !doPop) return Future<bool>.value(false);
@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
           Text(
-            "Next",
+            'Next',
             style: TextStyle(
               color: Constants.primaryColor,
               fontSize: 15,
@@ -125,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         child: const Center(
           child: Text(
-            "CONFIRM",
+            'CONFIRM',
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,
@@ -152,9 +152,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       barrierColor: Constants.barrierColor.withOpacity(0.75),
       builder: (ctx) {
         return CustomDialog.alert(
-          title: "Register Failed",
+          title: 'Register Failed',
           body: reason,
-          buttonText: "Retry",
+          buttonText: 'Retry',
         );
       },
     );
@@ -163,12 +163,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final userDetailsState = useState<bool>(true);
-    final emailController = useTextEditingController(text: "");
-    final passwordController = useTextEditingController(text: "");
-    final cPasswordController = useTextEditingController(text: "");
-    final fullNameController = useTextEditingController(text: "");
-    final addressController = useTextEditingController(text: "");
-    final contactController = useTextEditingController(text: "");
+    final emailController = useTextEditingController(text: '');
+    final passwordController = useTextEditingController(text: '');
+    final cPasswordController = useTextEditingController(text: '');
+    final fullNameController = useTextEditingController(text: '');
+    final addressController = useTextEditingController(text: '');
+    final contactController = useTextEditingController(text: '');
 
     void onAuthStateAuthenticated(String? currentUserFullName){
       emailController.clear();
@@ -203,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     //Page name
                     Text(
-                      "Register",
+                      'Register',
                       style: context.headline3.copyWith(
                         color: Colors.white,
                         fontSize: 32,
@@ -281,8 +281,8 @@ class _UserDetailFields extends StatelessWidget {
         CustomTextField(
           controller: fullNameController,
           autofocus: true,
-          floatingText: "Full name",
-          hintText: "Type your full name",
+          floatingText: 'Full name',
+          hintText: 'Type your full name',
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
           validator: FormValidator.fullNameValidator,
@@ -293,8 +293,8 @@ class _UserDetailFields extends StatelessWidget {
         //Email
         CustomTextField(
           controller: emailController,
-          floatingText: "Email",
-          hintText: "Type your email address",
+          floatingText: 'Email',
+          hintText: 'Type your email address',
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           validator: FormValidator.emailValidator,
@@ -305,8 +305,8 @@ class _UserDetailFields extends StatelessWidget {
         //Address
         CustomTextField(
           controller: addressController,
-          floatingText: "Address",
-          hintText: "Type your full address",
+          floatingText: 'Address',
+          hintText: 'Type your full address',
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
           validator: FormValidator.addressValidator,
@@ -317,8 +317,8 @@ class _UserDetailFields extends StatelessWidget {
         //Contact
         CustomTextField(
           controller: contactController,
-          floatingText: "Contact",
-          hintText: "Type your mobile #",
+          floatingText: 'Contact',
+          hintText: 'Type your mobile #',
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.done,
           validator: FormValidator.contactValidator,
@@ -330,7 +330,7 @@ class _UserDetailFields extends StatelessWidget {
                 child: Image.asset(AssetsHelper.pkFlag, width: 25),
               ),
               const Text(
-                "+92",
+                '+92',
                 style: TextStyle(
                   fontSize: 18,
                   color: Constants.textWhite80Color,
@@ -365,8 +365,8 @@ class _PasswordDetailFields extends StatelessWidget {
         CustomTextField(
           controller: passwordController,
           autofocus: true,
-          floatingText: "Password",
-          hintText: "Type your password",
+          floatingText: 'Password',
+          hintText: 'Type your password',
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.next,
           validator: FormValidator.passwordValidator,
@@ -377,8 +377,8 @@ class _PasswordDetailFields extends StatelessWidget {
         //Confirm Password
         CustomTextField(
           controller: cPasswordController,
-          floatingText: "Confirm Password",
-          hintText: "Retype your password",
+          floatingText: 'Confirm Password',
+          hintText: 'Retype your password',
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
           validator: (confirmPw) => FormValidator.confirmPasswordValidator(

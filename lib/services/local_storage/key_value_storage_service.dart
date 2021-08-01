@@ -14,16 +14,16 @@ import '../../providers/states/auth_state.dart';
 class KeyValueStorageService {
 
   /// The name of auth token key
-  static const _authTokenKey = "authToken";
+  static const _authTokenKey = 'authToken';
 
   /// The name of auth state key
-  static const _authStateKey = "authStateKey";
+  static const _authStateKey = 'authStateKey';
 
   /// The name of user password key
-  static const _authPasswordKey = "authPasswordKey";
+  static const _authPasswordKey = 'authPasswordKey';
 
   /// The name of user model key
-  static const _authUserKey = "authUserKey";
+  static const _authUserKey = 'authUserKey';
 
   /// Instance of key-value storage base class
   final _keyValueStorage = KeyValueStorageBase.instance;
@@ -42,7 +42,7 @@ class KeyValueStorageService {
   UserModel? getAuthUser() {
     final user = _keyValueStorage.getCommon<String>(_authUserKey);
     if(user == null) return null;
-    return UserModel.fromJson(jsonDecode(user));
+    return UserModel.fromJson(jsonDecode(user) as Map<String, dynamic>);
   }
 
   /// Returns last authentication token

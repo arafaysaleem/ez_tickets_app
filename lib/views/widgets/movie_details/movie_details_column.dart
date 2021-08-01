@@ -49,7 +49,7 @@ class MovieDetailsColumn extends HookWidget {
 
         //Year
         Text(
-          "${movie.year}",
+          '${movie.year}',
           style: context.headline4.copyWith(
             color: Colors.black,
             fontSize: 14,

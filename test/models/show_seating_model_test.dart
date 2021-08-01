@@ -13,21 +13,21 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   const _theaterModel = TheaterModel(
     theaterId: 1,
-    theaterName: "A",
+    theaterName: 'A',
     numOfRows: 10,
     seatsPerRow: 10,
     theaterType: TheaterType.NORMAL,
     missing: [
-      SeatModel(seatRow: "A", seatNumber: 3),
-      SeatModel(seatRow: "B", seatNumber: 3),
-      SeatModel(seatRow: "C", seatNumber: 3),
-      SeatModel(seatRow: "D", seatNumber: 3),
+      SeatModel(seatRow: 'A', seatNumber: 3),
+      SeatModel(seatRow: 'B', seatNumber: 3),
+      SeatModel(seatRow: 'C', seatNumber: 3),
+      SeatModel(seatRow: 'D', seatNumber: 3),
     ],
     blocked: [
-      SeatModel(seatRow: "E", seatNumber: 1),
-      SeatModel(seatRow: "E", seatNumber: 2),
-      SeatModel(seatRow: "E", seatNumber: 3),
-      SeatModel(seatRow: "E", seatNumber: 4),
+      SeatModel(seatRow: 'E', seatNumber: 1),
+      SeatModel(seatRow: 'E', seatNumber: 2),
+      SeatModel(seatRow: 'E', seatNumber: 3),
+      SeatModel(seatRow: 'E', seatNumber: 4),
     ],
   );
 
@@ -41,17 +41,17 @@ void main() {
   );
 
   const _bookedSeatModels = [
-    SeatModel(seatRow: "A", seatNumber: 1),
-    SeatModel(seatRow: "A", seatNumber: 2),
-    SeatModel(seatRow: "A", seatNumber: 4),
-    SeatModel(seatRow: "A", seatNumber: 5),
+    SeatModel(seatRow: 'A', seatNumber: 1),
+    SeatModel(seatRow: 'A', seatNumber: 2),
+    SeatModel(seatRow: 'A', seatNumber: 4),
+    SeatModel(seatRow: 'A', seatNumber: 5),
   ];
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two show seating models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two show seating models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         final model1 = ShowSeatingModel(
@@ -65,10 +65,10 @@ void main() {
           showTime: _showTimeModel,
           theater: _theaterModel,
           bookedSeats: const [
-            SeatModel(seatRow: "B", seatNumber: 1),
-            SeatModel(seatRow: "B", seatNumber: 2),
-            SeatModel(seatRow: "B", seatNumber: 4),
-            SeatModel(seatRow: "B", seatNumber: 5),
+            SeatModel(seatRow: 'B', seatNumber: 1),
+            SeatModel(seatRow: 'B', seatNumber: 2),
+            SeatModel(seatRow: 'B', seatNumber: 4),
+            SeatModel(seatRow: 'B', seatNumber: 5),
           ],
         );
 
@@ -78,9 +78,9 @@ void main() {
     );
 
     test(
-      "GIVEN two show seating models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two show seating models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         final model1 = ShowSeatingModel(
@@ -92,21 +92,21 @@ void main() {
         //when
         const theaterModel2 = TheaterModel(
           theaterId: 1,
-          theaterName: "A",
+          theaterName: 'A',
           numOfRows: 10,
           seatsPerRow: 10,
           theaterType: TheaterType.NORMAL,
           missing: [
-            SeatModel(seatRow: "A", seatNumber: 3),
-            SeatModel(seatRow: "B", seatNumber: 3),
-            SeatModel(seatRow: "C", seatNumber: 3),
-            SeatModel(seatRow: "D", seatNumber: 3),
+            SeatModel(seatRow: 'A', seatNumber: 3),
+            SeatModel(seatRow: 'B', seatNumber: 3),
+            SeatModel(seatRow: 'C', seatNumber: 3),
+            SeatModel(seatRow: 'D', seatNumber: 3),
           ],
           blocked: [
-            SeatModel(seatRow: "E", seatNumber: 1),
-            SeatModel(seatRow: "E", seatNumber: 2),
-            SeatModel(seatRow: "E", seatNumber: 3),
-            SeatModel(seatRow: "E", seatNumber: 4),
+            SeatModel(seatRow: 'E', seatNumber: 1),
+            SeatModel(seatRow: 'E', seatNumber: 2),
+            SeatModel(seatRow: 'E', seatNumber: 3),
+            SeatModel(seatRow: 'E', seatNumber: 4),
           ],
         );
         final showTimeModel2 = ShowTimeModel(
@@ -118,10 +118,10 @@ void main() {
           endTime: DateTime(2012, 2, 27, 14, 27, 0),
         );
         const bookedSeatModels2 = [
-          SeatModel(seatRow: "A", seatNumber: 1),
-          SeatModel(seatRow: "A", seatNumber: 2),
-          SeatModel(seatRow: "A", seatNumber: 4),
-          SeatModel(seatRow: "A", seatNumber: 5),
+          SeatModel(seatRow: 'A', seatNumber: 1),
+          SeatModel(seatRow: 'A', seatNumber: 2),
+          SeatModel(seatRow: 'A', seatNumber: 4),
+          SeatModel(seatRow: 'A', seatNumber: 5),
         ];
         final model2 = ShowSeatingModel(
           showTime: showTimeModel2,

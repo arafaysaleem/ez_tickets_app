@@ -17,7 +17,7 @@ import 'all_providers.dart';
 //Providers
 import 'shows_provider.dart';
 
-final selectedTheaterNameProvider = StateProvider<String>((_) => "");
+final selectedTheaterNameProvider = StateProvider<String>((_) => '');
 
 /// Does not use `ref.maintainState = true` bcz we wanted to load theater seats
 /// everytime because it can receive frequent updates.
@@ -53,7 +53,7 @@ class TheatersProvider extends ChangeNotifier {
       UnmodifiableListView<SeatModel>(_selectedSeats);
 
   List<String> get selectedSeatNames => _selectedSeats
-      .map((seat) => "${seat.seatRow}-${seat.seatNumber}")
+      .map((seat) => '${seat.seatRow}-${seat.seatNumber}')
       .toList();
 
   TheatersProvider(this._theatersRepository);
@@ -73,7 +73,7 @@ class TheatersProvider extends ChangeNotifier {
     TheaterType? theaterType,
   }) async {
     final Map<String, String>? queryParams = {
-      if (theaterType != null) "theater_type": theaterType.toJson,
+      if (theaterType != null) 'theater_type': theaterType.toJson,
     };
     final theaters = await _theatersRepository.fetchAll(queryParameters: queryParams);
     for(var theater in theaters) {
@@ -133,7 +133,7 @@ class TheatersProvider extends ChangeNotifier {
       missing: missing,
       blocked: blocked,
     );
-    if (data.isEmpty) return "Nothing to update!";
+    if (data.isEmpty) return 'Nothing to update!';
     return await _theatersRepository.update(
         theaterId: theater.theaterId!, data: data);
   }

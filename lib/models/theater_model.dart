@@ -37,7 +37,7 @@ class TheaterModel with _$TheaterModel {
         theaterType == null &&
         missing == null &&
         blocked == null
-    ) return const {};
+    ) return const <String, dynamic>{};
     return copyWith(
       theaterId: theaterId,
       numOfRows: numOfRows ?? this.numOfRows,

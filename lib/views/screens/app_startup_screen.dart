@@ -12,6 +12,7 @@ import 'welcome_screen.dart';
 class AppStartupScreen extends HookWidget {
   const AppStartupScreen();
 
+  @override
   Widget build(BuildContext context) {
     final authState = useProvider(authProvider);
     return authState.maybeWhen(

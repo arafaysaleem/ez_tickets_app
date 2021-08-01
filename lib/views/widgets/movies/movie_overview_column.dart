@@ -49,7 +49,7 @@ class MovieOverviewColumn extends StatelessWidget {
 
         //Elipses
         const Text(
-          "...",
+          '...',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,

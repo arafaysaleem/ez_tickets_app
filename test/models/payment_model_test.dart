@@ -4,21 +4,21 @@ import 'package:ez_ticketz_app/enums/payment_method_enum.dart';
 import 'package:ez_ticketz_app/models/payment_model.dart';
 
 void main() {
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid payment json "
-      "WHEN json deserialization is performed "
-      "THEN a payment model is output",
+      'GIVEN a valid payment json '
+      'WHEN json deserialization is performed '
+      'THEN a payment model is output',
       () {
         //given
         const json = {
-          "payment_id": 1,
-          "show_id": 1,
-          "user_id": 1,
-          "amount": 999.9,
-          "payment_datetime": "2012-02-27T13:27:00.000",
-          "payment_method": "card",
-          "bookings": [0, 1, 2],
+          'payment_id': 1,
+          'show_id': 1,
+          'user_id': 1,
+          'amount': 999.9,
+          'payment_datetime': '2012-02-27T13:27:00.000',
+          'payment_method': 'card',
+          'bookings': [0, 1, 2],
         };
 
         //when
@@ -39,21 +39,21 @@ void main() {
     );
 
     test(
-      "GIVEN a valid payment json "
+      'GIVEN a valid payment json '
       "AND it's bookings key is non-null "
-      "WHEN json deserialization is performed "
-      "THEN a payment model is output "
+      'WHEN json deserialization is performed '
+      'THEN a payment model is output '
       "AND it's bookings are null",
       () {
         //given
         const json = {
-          "payment_id": 1,
-          "show_id": 1,
-          "user_id": 1,
-          "amount": 999.9,
-          "payment_datetime": "2012-02-27T13:27:00.000",
-          "payment_method": "card",
-          "bookings": [0, 1, 2],
+          'payment_id': 1,
+          'show_id': 1,
+          'user_id': 1,
+          'amount': 999.9,
+          'payment_datetime': '2012-02-27T13:27:00.000',
+          'payment_method': 'card',
+          'bookings': [0, 1, 2],
         };
 
         //when
@@ -65,21 +65,21 @@ void main() {
     );
 
     test(
-      "GIVEN a valid payment json "
+      'GIVEN a valid payment json '
       "AND it's bookings key is null "
-      "WHEN json deserialization is performed "
-      "THEN a payment model is output "
+      'WHEN json deserialization is performed '
+      'THEN a payment model is output '
       "AND it's bookings are null",
       () {
         //given
         const json = {
-          "payment_id": 1,
-          "show_id": 1,
-          "user_id": 1,
-          "amount": 999.9,
-          "payment_datetime": "2012-02-27T13:27:00.000",
-          "payment_method": "card",
-          "bookings": null,
+          'payment_id': 1,
+          'show_id': 1,
+          'user_id': 1,
+          'amount': 999.9,
+          'payment_datetime': '2012-02-27T13:27:00.000',
+          'payment_method': 'card',
+          'bookings': null,
         };
 
         final actual = PaymentModel.fromJson(json);
@@ -90,11 +90,11 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     test(
-      "GIVEN a payment model "
-      "WHEN json serialization is performed "
-      "THEN a payment json is output",
+      'GIVEN a payment model '
+      'WHEN json serialization is performed '
+      'THEN a payment json is output',
       () {
         //given
         final model = PaymentModel(
@@ -110,12 +110,12 @@ void main() {
         //when
         final actual = model.toJson();
         final matcher = {
-          "show_id": 1,
-          "user_id": 1,
-          "amount": 999.9,
-          "payment_datetime": "2012-02-27T13:27:00.000",
-          "payment_method": "card",
-          "bookings": [0, 1, 2],
+          'show_id': 1,
+          'user_id': 1,
+          'amount': 999.9,
+          'payment_datetime': '2012-02-27T13:27:00.000',
+          'payment_method': 'card',
+          'bookings': [0, 1, 2],
         };
 
         //then
@@ -124,10 +124,10 @@ void main() {
     );
 
     test(
-      "GIVEN a payment model "
+      'GIVEN a payment model '
       "AND it's payment id is null"
-      "WHEN json serialization is performed "
-      "THEN a payment json is output "
+      'WHEN json serialization is performed '
+      'THEN a payment json is output '
       "AND it doesn't have a payment_id key",
       () {
         //given
@@ -145,15 +145,15 @@ void main() {
         final actual = model.toJson();
 
         //then
-        expect(actual.containsKey("payment_id"), false);
+        expect(actual.containsKey('payment_id'), false);
       },
     );
 
     test(
-      "GIVEN a payment model "
+      'GIVEN a payment model '
       "AND it's payment id is non-null"
-      "WHEN json serialization is performed "
-      "THEN a payment json is output "
+      'WHEN json serialization is performed '
+      'THEN a payment json is output '
       "AND it doesn't have a payment_id key",
       () {
         //given
@@ -171,15 +171,15 @@ void main() {
         final actual = model.toJson();
 
         //then
-        expect(actual.containsKey("payment_id"), false);
+        expect(actual.containsKey('payment_id'), false);
       },
     );
 
     test(
-      "GIVEN a payment model "
+      'GIVEN a payment model '
       "AND it's bookings is null"
-      "WHEN json serialization is performed "
-      "THEN a payment json is output "
+      'WHEN json serialization is performed '
+      'THEN a payment json is output '
       "AND it doesn't have a bookings key",
       () {
         //given
@@ -197,16 +197,16 @@ void main() {
         final actual = model.toJson();
 
         //then
-        expect(actual.containsKey("bookings"), false);
+        expect(actual.containsKey('bookings'), false);
       },
     );
 
     test(
-      "GIVEN a payment model "
+      'GIVEN a payment model '
       "AND it's bookings is non-null"
-      "WHEN json serialization is performed "
-      "THEN a payment json is output "
-      "AND it has a bookings key",
+      'WHEN json serialization is performed '
+      'THEN a payment json is output '
+      'AND it has a bookings key',
       () {
         //given
         final bookings = [0, 1, 2];
@@ -224,18 +224,18 @@ void main() {
         final actual = model.toJson();
 
         //then
-        expect(actual.containsKey("bookings"),true);
-        expect(actual["bookings"], bookings);
+        expect(actual.containsKey('bookings'),true);
+        expect(actual['bookings'], bookings);
       },
     );
   });
 
-  group("toUpdateJson", () {
+  group('toUpdateJson', () {
     test(
-      "GIVEN a payment model "
-      "WHEN json serialization is performed for updating"
-      "AND all arguments are null "
-      "THEN an empty json is output",
+      'GIVEN a payment model '
+      'WHEN json serialization is performed for updating'
+      'AND all arguments are null '
+      'THEN an empty json is output',
       () {
         //given
         final model = PaymentModel(
@@ -257,11 +257,11 @@ void main() {
     );
 
     test(
-      "GIVEN a payment model "
-      "WHEN json serialization is performed for updating"
-      "AND some arguments with new values are given "
-      "THEN a payment json is output "
-      "AND it has new values for the provided arguments",
+      'GIVEN a payment model '
+      'WHEN json serialization is performed for updating'
+      'AND some arguments with new values are given '
+      'THEN a payment json is output '
+      'AND it has new values for the provided arguments',
       () {
         //given
         final model = PaymentModel(
@@ -275,17 +275,17 @@ void main() {
         );
 
         //when
-        final newPaymentMethod = PaymentMethod.CASH;
+        const newPaymentMethod = PaymentMethod.CASH;
         final actual = model.toUpdateJson(
           paymentMethod: newPaymentMethod,
         );
         final matcher = {
-          "show_id": 1,
-          "user_id": 1,
-          "amount": 999.9,
-          "payment_datetime": "2012-02-27T13:27:00.000",
-          "payment_method": "cash",
-          "bookings": [0, 1, 2],
+          'show_id': 1,
+          'user_id': 1,
+          'amount': 999.9,
+          'payment_datetime': '2012-02-27T13:27:00.000',
+          'payment_method': 'cash',
+          'bookings': [0, 1, 2],
         };
 
         //then
@@ -294,11 +294,11 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two payment models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two payment models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         final payment1 = PaymentModel(
@@ -328,9 +328,9 @@ void main() {
     );
 
     test(
-      "GIVEN two payment models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two payment models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         final payment1 = PaymentModel(

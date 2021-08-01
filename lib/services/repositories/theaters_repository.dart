@@ -45,7 +45,7 @@ class TheatersRepository {
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["body"]["theater_id"],
+      converter: (response) => response['body']['theater_id'] as int,
     );
   }
 
@@ -57,7 +57,7 @@ class TheatersRepository {
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BY_ID, id: theaterId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -69,7 +69,7 @@ class TheatersRepository {
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BY_ID, id: theaterId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 

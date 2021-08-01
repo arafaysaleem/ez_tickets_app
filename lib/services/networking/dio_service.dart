@@ -53,24 +53,17 @@ class DioService {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.get(
-      endpoint,
-      queryParameters: queryParams,
-      options: options,
-      cancelToken: cancelToken ?? _cancelToken,
-    );
-    return response.data;
-    // try {
-    //   final response = await _dio.get(
-    //     endpoint,
-    //     queryParameters: queryParams,
-    //     options: options,
-    //     cancelToken: cancelToken ?? _cancelToken,
-    //   );
-    //   return response.data;
-    // } on Exception catch (ex) {
-    //   throw NetworkException.getDioException(ex);
-    // }
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        endpoint,
+        queryParameters: queryParams,
+        options: options,
+        cancelToken: cancelToken ?? _cancelToken,
+      );
+      return response.data as Map<String, dynamic>;
+    } on Exception catch (ex) {
+      throw NetworkException.getDioException(ex);
+    }
   }
 
   /// This method sends a `POST` request to the [endpoint] and returns the
@@ -92,13 +85,13 @@ class DioService {
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<Map<String, dynamic>>(
         endpoint,
         data: data,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data;
+      return response.data as Map<String, dynamic>;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
@@ -123,13 +116,13 @@ class DioService {
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.put(
+      final response = await _dio.put<Map<String, dynamic>>(
         endpoint,
         data: data,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data;
+      return response.data as Map<String, dynamic>;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
@@ -154,13 +147,13 @@ class DioService {
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.delete(
+      final response = await _dio.delete<Map<String, dynamic>>(
         endpoint,
         data: data,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data;
+      return response.data as Map<String, dynamic>;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }

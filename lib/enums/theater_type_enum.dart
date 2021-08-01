@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// A collection of types that a theater can be.
 enum TheaterType {
-@JsonValue("normal") NORMAL,
-@JsonValue("royal") ROYAL,
+@JsonValue('normal') NORMAL,
+@JsonValue('royal') ROYAL,
 }
 
 /// A utility with extensions for enum name and serialized value.

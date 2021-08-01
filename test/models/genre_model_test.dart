@@ -3,23 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ez_ticketz_app/models/genre_model.dart';
 
 void main() {
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid genre json "
-      "WHEN json deserialization is performed "
-      "THEN a genre model is output",
+      'GIVEN a valid genre json '
+      'WHEN json deserialization is performed '
+      'THEN a genre model is output',
       () {
         //given
         final json = {
-          "genre_id": 1,
-          "genre": "Horror",
+          'genre_id': 1,
+          'genre': 'Horror',
         };
 
         //when
         final actual = GenreModel.fromJson(json);
         const matcher = GenreModel(
           genreId: 1,
-          genre: "Horror",
+          genre: 'Horror',
         );
 
         //then
@@ -28,23 +28,23 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     test(
-      "GIVEN a genre model "
-      "WHEN json serialization is performed "
-      "THEN a genre json is output",
+      'GIVEN a genre model '
+      'WHEN json serialization is performed '
+      'THEN a genre json is output',
       () {
         //given
         const genre = GenreModel(
           genreId: 1,
-          genre: "Horror",
+          genre: 'Horror',
         );
 
         //when
         final actual = genre.toJson();
         final matcher = {
-          "genre_id": 1,
-          "genre": "Horror",
+          'genre_id': 1,
+          'genre': 'Horror',
         };
 
         //then
@@ -53,22 +53,22 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two genre models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two genre models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         const genre1 = GenreModel(
           genreId: 1,
-          genre: "Horror",
+          genre: 'Horror',
         );
 
         //when
         const genre2 = GenreModel(
           genreId: 2,
-          genre: "Crime",
+          genre: 'Crime',
         );
 
         //then
@@ -77,20 +77,20 @@ void main() {
     );
 
     test(
-      "GIVEN two genre models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two genre models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         const genre1 = GenreModel(
           genreId: 1,
-          genre: "Horror",
+          genre: 'Horror',
         );
 
         //when
         const genre2 = GenreModel(
           genreId: 1,
-          genre: "Horror",
+          genre: 'Horror',
         );
 
         //then

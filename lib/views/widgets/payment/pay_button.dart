@@ -30,7 +30,7 @@ class PayButton extends StatelessWidget {
         gradient: Constants.buttonGradientOrange,
         child: const Center(
           child: Text(
-            "PAY",
+            'PAY',
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,

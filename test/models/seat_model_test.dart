@@ -3,22 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ez_ticketz_app/models/seat_model.dart';
 
 void main() {
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid seat json "
-      "WHEN json deserialization is performed "
-      "THEN a seat model is output",
+      'GIVEN a valid seat json '
+      'WHEN json deserialization is performed '
+      'THEN a seat model is output',
       () {
         //given
         final json = {
-          "seat_row": "A",
-          "seat_number": 1,
+          'seat_row': 'A',
+          'seat_number': 1,
         };
 
         //when
         final actual = SeatModel.fromJson(json);
         const matcher = SeatModel(
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 1,
         );
 
@@ -28,23 +28,23 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     test(
-      "GIVEN a seat model "
-      "WHEN json serialization is performed "
-      "THEN a seat json is output",
+      'GIVEN a seat model '
+      'WHEN json serialization is performed '
+      'THEN a seat json is output',
       () {
         //given
         const seat = SeatModel(
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 1,
         );
 
         //when
         final actual = seat.toJson();
         final matcher = {
-          "seat_row": "A",
-          "seat_number": 1,
+          'seat_row': 'A',
+          'seat_number': 1,
         };
 
         //then
@@ -53,21 +53,21 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two seat models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two seat models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         const seat1 = SeatModel(
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 1,
         );
 
         //when
         const seat2 = SeatModel(
-          seatRow: "B",
+          seatRow: 'B',
           seatNumber: 2,
         );
 
@@ -77,19 +77,19 @@ void main() {
     );
 
     test(
-      "GIVEN two seat models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two seat models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         const seat1 = SeatModel(
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 1,
         );
 
         //when
         const seat2 = SeatModel(
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 1,
         );
 

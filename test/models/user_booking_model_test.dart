@@ -12,30 +12,30 @@ void main() {
   late BookingModel _bookingModel1, _bookingModel2;
 
   const _userBookingShowJson = {
-    "show_id": 1,
-    "show_type": "2D",
-    "show_datetime": "2012-02-27T13:27:00.000",
+    'show_id': 1,
+    'show_type': '2D',
+    'show_datetime': '2012-02-27T13:27:00.000',
   };
   const _bookingsJson = [
     {
-      "booking_id": 1,
-      "user_id": 1,
-      "show_id": 1,
-      "seat_row": "A",
-      "seat_number": 10,
-      "price": 700.2,
-      "booking_datetime": "2012-02-27T13:27:00.000",
-      "booking_status": "confirmed",
+      'booking_id': 1,
+      'user_id': 1,
+      'show_id': 1,
+      'seat_row': 'A',
+      'seat_number': 10,
+      'price': 700.2,
+      'booking_datetime': '2012-02-27T13:27:00.000',
+      'booking_status': 'confirmed',
     },
     {
-      "booking_id": 2,
-      "user_id": 1,
-      "show_id": 1,
-      "seat_row": "A",
-      "seat_number": 11,
-      "price": 700.2,
-      "booking_datetime": "2012-02-27T13:30:00.000",
-      "booking_status": "confirmed",
+      'booking_id': 2,
+      'user_id': 1,
+      'show_id': 1,
+      'seat_row': 'A',
+      'seat_number': 11,
+      'price': 700.2,
+      'booking_datetime': '2012-02-27T13:30:00.000',
+      'booking_status': 'confirmed',
     },
   ];
 
@@ -51,7 +51,7 @@ void main() {
       bookingId: 1,
       userId: 1,
       showId: 1,
-      seatRow: "A",
+      seatRow: 'A',
       seatNumber: 10,
       price: 700.2,
       bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
@@ -61,7 +61,7 @@ void main() {
       bookingId: 2,
       userId: 1,
       showId: 1,
-      seatRow: "A",
+      seatRow: 'A',
       seatNumber: 11,
       price: 700.2,
       bookingDatetime: DateTime(2012, 2, 27, 13, 30, 0),
@@ -69,18 +69,18 @@ void main() {
     );
   });
 
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid user booking json "
-      "WHEN a json deserialization is performed "
-      "THEN a user booking model is output",
+      'GIVEN a valid user booking json '
+      'WHEN a json deserialization is performed '
+      'THEN a user booking model is output',
       () {
         //given
         const userBookingJson = {
-          "title": "Some Movie",
-          "poster_url": "www.placeholder.com/some-poster",
-          "show": _userBookingShowJson,
-          "bookings": _bookingsJson,
+          'title': 'Some Movie',
+          'poster_url': 'www.placeholder.com/some-poster',
+          'show': _userBookingShowJson,
+          'bookings': _bookingsJson,
         };
 
         //when
@@ -89,8 +89,8 @@ void main() {
         final bookingModels = [ _bookingModel1, _bookingModel2 ];
 
         final matcher = UserBookingModel(
-          title: "Some Movie",
-          posterUrl: "www.placeholder.com/some-poster",
+          title: 'Some Movie',
+          posterUrl: 'www.placeholder.com/some-poster',
           show: _userBookingShowModel,
           bookings: bookingModels,
         );
@@ -101,14 +101,14 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     /// Override booking models with new ones containing `seat` key
     setUp((){
       _bookingModel1 = BookingModel(
         bookingId: 1,
         userId: 1,
         showId: 1,
-        seat: "A-10",
+        seat: 'A-10',
         price: 700.2,
         bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
         bookingStatus: BookingStatus.CONFIRMED,
@@ -117,7 +117,7 @@ void main() {
         bookingId: 2,
         userId: 1,
         showId: 1,
-        seat: "A-11",
+        seat: 'A-11',
         price: 700.2,
         bookingDatetime: DateTime(2012, 2, 27, 13, 30, 0),
         bookingStatus: BookingStatus.CONFIRMED,
@@ -125,16 +125,16 @@ void main() {
     });
 
     test(
-      "GIVEN a user booking model "
-      "WHEN a json serialization is performed "
-      "THEN a user booking json is output",
+      'GIVEN a user booking model '
+      'WHEN a json serialization is performed '
+      'THEN a user booking json is output',
       () {
         //given
         final bookingModels = [ _bookingModel1, _bookingModel2 ];
 
         final userBookingModel = UserBookingModel(
-          title: "Some Movie",
-          posterUrl: "www.placeholder.com/some-poster",
+          title: 'Some Movie',
+          posterUrl: 'www.placeholder.com/some-poster',
           show: _userBookingShowModel,
           bookings: bookingModels,
         );
@@ -144,28 +144,28 @@ void main() {
 
         const bookingsJson = [
           {
-            "user_id": 1,
-            "show_id": 1,
-            "seat": "A-10",
-            "price": 700.2,
-            "booking_datetime": "2012-02-27T13:27:00.000",
-            "booking_status": "confirmed",
+            'user_id': 1,
+            'show_id': 1,
+            'seat': 'A-10',
+            'price': 700.2,
+            'booking_datetime': '2012-02-27T13:27:00.000',
+            'booking_status': 'confirmed',
           },
           {
-            "user_id": 1,
-            "show_id": 1,
-            "seat": "A-11",
-            "price": 700.2,
-            "booking_datetime": "2012-02-27T13:30:00.000",
-            "booking_status": "confirmed",
+            'user_id': 1,
+            'show_id': 1,
+            'seat': 'A-11',
+            'price': 700.2,
+            'booking_datetime': '2012-02-27T13:30:00.000',
+            'booking_status': 'confirmed',
           },
         ];
 
         const matcher = {
-          "title": "Some Movie",
-          "poster_url": "www.placeholder.com/some-poster",
-          "show": _userBookingShowJson,
-          "bookings": bookingsJson,
+          'title': 'Some Movie',
+          'poster_url': 'www.placeholder.com/some-poster',
+          'show': _userBookingShowJson,
+          'bookings': bookingsJson,
         };
 
         //then
@@ -174,28 +174,28 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     late List<BookingModel> _bookingModels;
 
     setUp(() => _bookingModels = [ _bookingModel1, _bookingModel2 ]);
 
     test(
-      "GIVEN two user booking models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two user booking models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         final userBookingModel1 = UserBookingModel(
-          title: "Some Movie",
-          posterUrl: "www.placeholder.com/some-poster",
+          title: 'Some Movie',
+          posterUrl: 'www.placeholder.com/some-poster',
           show: _userBookingShowModel,
           bookings: _bookingModels,
         );
 
         //when
         final userBookingModel2 = UserBookingModel(
-          title: "Some Different Movie", //different name
-          posterUrl: "www.placeholder.com/some-poster",
+          title: 'Some Different Movie', //different name
+          posterUrl: 'www.placeholder.com/some-poster',
           show: _userBookingShowModel,
           bookings: _bookingModels,
         );
@@ -206,14 +206,14 @@ void main() {
     );
 
     test(
-      "GIVEN two user booking models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two user booking models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         final userBookingModel1 = UserBookingModel(
-          title: "Some Movie",
-          posterUrl: "www.placeholder.com/some-poster",
+          title: 'Some Movie',
+          posterUrl: 'www.placeholder.com/some-poster',
           show: _userBookingShowModel,
           bookings: _bookingModels,
         );
@@ -230,7 +230,7 @@ void main() {
             bookingId: 1,
             userId: 1,
             showId: 1,
-            seatRow: "A",
+            seatRow: 'A',
             seatNumber: 10,
             price: 700.2,
             bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
@@ -240,7 +240,7 @@ void main() {
             bookingId: 2,
             userId: 1,
             showId: 1,
-            seatRow: "A",
+            seatRow: 'A',
             seatNumber: 11,
             price: 700.2,
             bookingDatetime: DateTime(2012, 2, 27, 13, 30, 0),
@@ -249,8 +249,8 @@ void main() {
         ];
 
         final userBookingModel2 = UserBookingModel(
-          title: "Some Movie",
-          posterUrl: "www.placeholder.com/some-poster",
+          title: 'Some Movie',
+          posterUrl: 'www.placeholder.com/some-poster',
           show: userBookingShowModel2,
           bookings: bookingModels2,
         );

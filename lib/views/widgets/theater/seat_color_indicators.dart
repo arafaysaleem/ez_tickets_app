@@ -14,9 +14,9 @@ class SeatColorIndicators extends StatelessWidget {
   const SeatColorIndicators();
 
   static const _indicators = [
-    _Indicator("Available", Colors.white),
-    _Indicator("Taken", Color(0xFF5A5A5A)),
-    _Indicator("Selected", Constants.redColor),
+    _Indicator('Available', Colors.white),
+    _Indicator('Taken', Color(0xFF5A5A5A)),
+    _Indicator('Selected', Constants.redColor),
   ];
 
   @override

@@ -23,7 +23,7 @@ class PaymentOptions extends HookWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            "Payment Mode",
+            'Payment Mode',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 23,
@@ -55,7 +55,7 @@ class PaymentOptions extends HookWidget {
 
               //On Hand Cash Label
               Text(
-                "On Hand Cash",
+                'On Hand Cash',
                 style: context.bodyText1.copyWith(
                   color: Constants.textGreyColor,
                   fontSize: 17,
@@ -79,7 +79,7 @@ class PaymentOptions extends HookWidget {
 
               //Card Label
               Text(
-                "Card",
+                'Card',
                 style: context.bodyText1.copyWith(
                   color: Constants.textGreyColor,
                   fontSize: 17,
@@ -109,7 +109,7 @@ class PaymentOptions extends HookWidget {
 
               //COD Label
               Text(
-                "Cash On Delivery",
+                'Cash On Delivery',
                 style: context.bodyText1.copyWith(
                   color: Constants.textGreyColor,
                   fontSize: 17,

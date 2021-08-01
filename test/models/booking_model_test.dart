@@ -4,22 +4,22 @@ import 'package:ez_ticketz_app/enums/booking_status_enum.dart';
 import 'package:ez_ticketz_app/models/booking_model.dart';
 
 void main() {
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid booking json "
-      "WHEN json deserialization is performed"
-      "THEN a booking model is output",
+      'GIVEN a valid booking json '
+      'WHEN json deserialization is performed'
+      'THEN a booking model is output',
       () {
         //given
         final json = {
-          "booking_id": 1,
-          "user_id": 1,
-          "show_id": 1,
-          "seat_row": "A",
-          "seat_number": 10,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
+          'booking_id': 1,
+          'user_id': 1,
+          'show_id': 1,
+          'seat_row': 'A',
+          'seat_number': 10,
+          'price': 700.2,
+          'booking_datetime': '2012-02-27T13:27:00.000',
+          'booking_status': 'confirmed',
         };
 
         //when
@@ -28,7 +28,7 @@ void main() {
           bookingId: 1,
           userId: 1,
           showId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           price: 700.2,
           bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
@@ -41,23 +41,23 @@ void main() {
     );
 
     test(
-      "GIVEN a valid booking json "
-      "AND seat is non-null "
-      "WHEN a json deserialization is performed "
-      "THEN a booking model is output"
+      'GIVEN a valid booking json '
+      'AND seat is non-null '
+      'WHEN a json deserialization is performed '
+      'THEN a booking model is output'
       "AND it's seat is null",
       () {
         //given
         final json = {
-          "booking_id": 1,
-          "user_id": 1,
-          "show_id": 1,
-          "seat_row": "A",
-          "seat": "A-10",
-          "seat_number": 10,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
+          'booking_id': 1,
+          'user_id': 1,
+          'show_id': 1,
+          'seat_row': 'A',
+          'seat': 'A-10',
+          'seat_number': 10,
+          'price': 700.2,
+          'booking_datetime': '2012-02-27T13:27:00.000',
+          'booking_status': 'confirmed',
         };
 
         //when
@@ -69,14 +69,14 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's booking id is non-null "
       "AND it's seat row is null or non-null "
       "AND it's seat number is null or non-null"
-      "WHEN json serialization is performed "
-      "THEN a booking json is output"
+      'WHEN json serialization is performed '
+      'THEN a booking json is output'
       "AND it doesn't contain a key booking_id "
       "AND it doesn't contain a key seat_row "
       "AND it doesn't contain a key seat_number",
@@ -84,7 +84,7 @@ void main() {
         //given
         final booking = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,
@@ -96,11 +96,11 @@ void main() {
         //when
         final actual = booking.toJson();
         final matcher = {
-          "user_id": 1,
-          "show_id": 1,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
+          'user_id': 1,
+          'show_id': 1,
+          'price': 700.2,
+          'booking_datetime': '2012-02-27T13:27:00.000',
+          'booking_status': 'confirmed',
         };
 
         //then
@@ -109,12 +109,12 @@ void main() {
     );
 
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's booking id is null "
       "AND it's seat row is null or non-null "
       "AND it's seat number is null or non-null"
-      "WHEN json serialization is performed "
-      "THEN a booking json is output"
+      'WHEN json serialization is performed '
+      'THEN a booking json is output'
       "AND it doesn't contain a key booking_id "
       "AND it doesn't contain a key seat_row "
       "AND it doesn't contain a key seat_number",
@@ -122,7 +122,7 @@ void main() {
         //given
         final booking = BookingModel(
           bookingId: null,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,
@@ -134,11 +134,11 @@ void main() {
         //when
         final actual = booking.toJson();
         final matcher = {
-          "user_id": 1,
-          "show_id": 1,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
+          'user_id': 1,
+          'show_id': 1,
+          'price': 700.2,
+          'booking_datetime': '2012-02-27T13:27:00.000',
+          'booking_status': 'confirmed',
         };
 
         //then
@@ -147,11 +147,11 @@ void main() {
     );
 
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's seat row is null or non-null "
       "AND it's seat number is null or non-null"
-      "WHEN json serialization is performed "
-      "THEN a booking json is output"
+      'WHEN json serialization is performed '
+      'THEN a booking json is output'
       "AND it doesn't contain a key seat_row "
       "AND it doesn't contain a key seat_number",
       () {
@@ -168,11 +168,11 @@ void main() {
         //when
         final actual = booking.toJson();
         final matcher = {
-          "user_id": 1,
-          "show_id": 1,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": "confirmed",
+          'user_id': 1,
+          'show_id': 1,
+          'price': 700.2,
+          'booking_datetime': '2012-02-27T13:27:00.000',
+          'booking_status': 'confirmed',
         };
 
         //then
@@ -181,18 +181,18 @@ void main() {
     );
 
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's seat is non-null "
-      "WHEN json serialization is performed "
-      "THEN a booking json is output "
-      "AND it contains a seat key",
+      'WHEN json serialization is performed '
+      'THEN a booking json is output '
+      'AND it contains a seat key',
       () {
         //given
         final booking = BookingModel(
           bookingId: null,
           userId: 1,
           showId: 1,
-          seat: "A-10",
+          seat: 'A-10',
           price: 700.2,
           bookingDatetime: DateTime(2012, 2, 27, 13, 27, 0),
           bookingStatus: BookingStatus.CONFIRMED,
@@ -202,16 +202,16 @@ void main() {
         final actual = booking.toJson();
 
         //then
-        expect(actual.containsKey("seat"), true);
-        expect(actual["seat"], "A-10");
+        expect(actual.containsKey('seat'), true);
+        expect(actual['seat'], 'A-10');
       },
     );
 
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's user id is null "
-      "WHEN json serialization is performed "
-      "THEN a booking json is output "
+      'WHEN json serialization is performed '
+      'THEN a booking json is output '
       "AND it doesn't contain a key user_id",
       () {
         //given
@@ -228,15 +228,15 @@ void main() {
         final model = booking.toJson();
 
         //then
-        expect(model.containsKey("user_id"), false);
+        expect(model.containsKey('user_id'), false);
       },
     );
 
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's show id is null "
-      "WHEN json serialization is performed "
-      "THEN a booking json is output "
+      'WHEN json serialization is performed '
+      'THEN a booking json is output '
       "AND it doesn't contain a key show_id",
       () {
         //given
@@ -253,16 +253,16 @@ void main() {
         final model = booking.toJson();
 
         //then
-        expect(model.containsKey("show_id"), false);
+        expect(model.containsKey('show_id'), false);
       },
     );
 
     test(
-      "GIVEN a booking model "
+      'GIVEN a booking model '
       "AND it's show id is null "
       "AND it's user id is null "
-      "WHEN json serialization is performed "
-      "THEN a booking json is output "
+      'WHEN json serialization is performed '
+      'THEN a booking json is output '
       "AND it doesn't contain a key show_id "
       "AND it doesn't contain a key user_id",
       () {
@@ -278,26 +278,25 @@ void main() {
 
         //when
         final model = booking.toJson();
-        ;
 
         //then
-        expect(model.containsKey("user_id"), false);
-        expect(model.containsKey("show_id"), false);
+        expect(model.containsKey('user_id'), false);
+        expect(model.containsKey('show_id'), false);
       },
     );
   });
 
-  group("toUpdateJson", () {
+  group('toUpdateJson', () {
     test(
-      "GIVEN a booking model "
-      "WHEN json serialization is performed for updating"
-      "AND all arguments are null "
-      "THEN an empty json is output",
+      'GIVEN a booking model '
+      'WHEN json serialization is performed for updating'
+      'AND all arguments are null '
+      'THEN an empty json is output',
       () {
         //given
         final model = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,
@@ -315,16 +314,16 @@ void main() {
     );
 
     test(
-      "GIVEN a booking model "
-      "WHEN json serialization is performed for updating"
-      "AND some arguments with new values are given "
-      "THEN a booking json is output "
-      "AND it has new values for the provided arguments",
+      'GIVEN a booking model '
+      'WHEN json serialization is performed for updating'
+      'AND some arguments with new values are given '
+      'THEN a booking json is output '
+      'AND it has new values for the provided arguments',
       () {
         //given
         final model = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: null,
           showId: 1,
@@ -334,15 +333,15 @@ void main() {
         );
 
         //when
-        final newBookingStatus = BookingStatus.RESERVED;
+        const newBookingStatus = BookingStatus.RESERVED;
         final actual = model.toUpdateJson(
           bookingStatus: newBookingStatus,
         );
         final matcher = {
-          "show_id": 1,
-          "price": 700.2,
-          "booking_datetime": "2012-02-27T13:27:00.000",
-          "booking_status": newBookingStatus.toJson,
+          'show_id': 1,
+          'price': 700.2,
+          'booking_datetime': '2012-02-27T13:27:00.000',
+          'booking_status': newBookingStatus.toJson,
         };
 
         //then
@@ -351,16 +350,16 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two booking models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two booking models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         final booking1 = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,
@@ -372,7 +371,7 @@ void main() {
         //when
         final booking2 = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,
@@ -388,14 +387,14 @@ void main() {
     );
 
     test(
-      "GIVEN two booking models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two booking models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         final booking1 = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,
@@ -407,7 +406,7 @@ void main() {
         //when
         final booking2 = BookingModel(
           bookingId: 1,
-          seatRow: "A",
+          seatRow: 'A',
           seatNumber: 10,
           userId: 1,
           showId: 1,

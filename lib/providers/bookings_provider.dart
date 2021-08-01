@@ -46,12 +46,12 @@ class BookingsProvider {
     int? userId,
     int? showId,
   }) async {
-    final Map<String, dynamic>? queryParams = {
-      if (bookingStatus != null) "booking_status": bookingStatus.toJson,
+    final Map<String, dynamic>? queryParams = <String, dynamic>{
+      if (bookingStatus != null) 'booking_status': bookingStatus.toJson,
       if (bookingDatetime != null)
-        "booking_datetime": bookingDatetime.toString(),
-      if (userId != null) "user_id": userId,
-      if (showId != null) "show_id": showId,
+        'booking_datetime': bookingDatetime.toString(),
+      if (userId != null) 'user_id': userId,
+      if (showId != null) 'show_id': showId,
     };
     return await _bookingsRepository.fetchFilteredBookings(
         queryParameters: queryParams);
@@ -109,7 +109,7 @@ class BookingsProvider {
       bookingId: null,
       userId: userId,
       showId: showId,
-      seat: "$seatRow-$seatNumber",
+      seat: '$seatRow-$seatNumber',
       price: price,
       bookingStatus: bookingStatus,
       bookingDatetime: bookingDatetime,

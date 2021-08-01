@@ -4,17 +4,17 @@ import 'package:ez_ticketz_app/enums/show_type_enum.dart';
 import 'package:ez_ticketz_app/models/user_booking_show_model.dart';
 
 void main() {
-  group("fromJson", () {
+  group('fromJson', () {
     test(
-      "GIVEN a valid user booking show json "
-      "WHEN a json deserialization is performed "
-      "THEN a user booking show model is output",
+      'GIVEN a valid user booking show json '
+      'WHEN a json deserialization is performed '
+      'THEN a user booking show model is output',
       () {
         //given
         final json = {
-          "show_id": 1,
-          "show_type": "2D",
-          "show_datetime": "2012-02-27T13:27:00.000",
+          'show_id': 1,
+          'show_type': '2D',
+          'show_datetime': '2012-02-27T13:27:00.000',
         };
 
         //when
@@ -31,11 +31,11 @@ void main() {
     );
   });
 
-  group("toJson", () {
+  group('toJson', () {
     test(
-      "GIVEN a user booking show model "
-      "WHEN a json serialization is performed "
-      "THEN a user booking show json is output",
+      'GIVEN a user booking show model '
+      'WHEN a json serialization is performed '
+      'THEN a user booking show json is output',
       () {
         //given
         final userBookingShowModel = UserBookingShowModel(
@@ -47,9 +47,9 @@ void main() {
         //when
         final actual = userBookingShowModel.toJson();
         final matcher = {
-          "show_id": 1,
-          "show_type": "2D",
-          "show_datetime": "2012-02-27T13:27:00.000",
+          'show_id': 1,
+          'show_type': '2D',
+          'show_datetime': '2012-02-27T13:27:00.000',
         };
 
         //then
@@ -58,11 +58,11 @@ void main() {
     );
   });
 
-  group("equality", () {
+  group('equality', () {
     test(
-      "GIVEN two user booking show models "
-      "WHEN properties are different "
-      "THEN equality returns false",
+      'GIVEN two user booking show models '
+      'WHEN properties are different '
+      'THEN equality returns false',
       () {
         //given
         final userBookingShow1 = UserBookingShowModel(
@@ -84,9 +84,9 @@ void main() {
     );
 
     test(
-      "GIVEN two user booking show models "
-      "WHEN properties are same "
-      "THEN equality returns true",
+      'GIVEN two user booking show models '
+      'WHEN properties are same '
+      'THEN equality returns true',
       () {
         //given
         final userBookingShow1 = UserBookingShowModel(

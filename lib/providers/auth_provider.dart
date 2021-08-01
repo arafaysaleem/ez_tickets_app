@@ -24,7 +24,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   final AuthRepository _authRepository;
   final KeyValueStorageService _keyValueStorageService;
   final Reader _reader;
-  String _password = "";
+  String _password = '';
 
   AuthProvider({
     required AuthRepository authRepository,
@@ -73,7 +73,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     required String email,
     required String password,
   }) async {
-    final data = {"email": email, "password": password};
+    final data = {'email': email, 'password': password};
     state = const AuthState.authenticating();
     try {
       _currentUser = await _authRepository.sendLoginData(
@@ -96,8 +96,8 @@ class AuthProvider extends StateNotifier<AuthState> {
     required String address,
     UserRole role = UserRole.API_USER,
   }) async {
-    if (contact.startsWith("0")) contact = contact.substring(1);
-    contact = "+92$contact";
+    if (contact.startsWith('0')) contact = contact.substring(1);
+    contact = '+92$contact';
     final user = UserModel(
       userId: null,
       fullName: fullName,
@@ -121,7 +121,7 @@ class AuthProvider extends StateNotifier<AuthState> {
   }
 
   Future<String> forgotPassword(String email) async {
-    final data = {"email": email};
+    final data = {'email': email};
     return await _authRepository.sendForgotPasswordData(data: data);
   }
 
@@ -129,7 +129,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     required String email,
     required String password,
   }) async {
-    final data = {"email": email, "password": password};
+    final data = {'email': email, 'password': password};
     final result = await _authRepository.sendResetPasswordData(data: data);
     if (result) _updatePassword(password);
     return result;
@@ -137,9 +137,9 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<void> changePassword({required String newPassword}) async {
     final data = {
-      "email": currentUserEmail,
-      "password": currentUserPassword,
-      "new_password": newPassword,
+      'email': currentUserEmail,
+      'password': currentUserPassword,
+      'new_password': newPassword,
     };
     final _changePasswordState = _reader(changePasswordStateProvider);
     _changePasswordState.state = const FutureState.loading();
@@ -154,8 +154,8 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<bool> verifyOtp({required String email, required int otp}) async {
     final data = {
-      "email": email,
-      "OTP": otp,
+      'email': email,
+      'OTP': otp,
     };
     return await _authRepository.sendOtpData(data: data);
   }
@@ -167,7 +167,7 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   void logout() {
     _currentUser = null;
-    _password = "";
+    _password = '';
     state = const AuthState.unauthenticated();
     _keyValueStorageService.resetKeys();
   }

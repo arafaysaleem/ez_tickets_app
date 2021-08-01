@@ -29,8 +29,8 @@ class ChangePasswordFields extends StatelessWidget {
       children: [
         //Current Password Field
         CustomTextField(
-          hintText: "Enter current password",
-          floatingText: "Current Password",
+          hintText: 'Enter current password',
+          floatingText: 'Current Password',
           controller: currentPasswordController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.next,
@@ -44,8 +44,8 @@ class ChangePasswordFields extends StatelessWidget {
 
         //New Password Field
         CustomTextField(
-          hintText: "Type your password",
-          floatingText: "New Password",
+          hintText: 'Type your password',
+          floatingText: 'New Password',
           controller: newPasswordController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.next,
@@ -59,8 +59,8 @@ class ChangePasswordFields extends StatelessWidget {
 
         //Confirm New Password Field
         CustomTextField(
-          hintText: "Retype your password",
-          floatingText: "New Password",
+          hintText: 'Retype your password',
+          floatingText: 'New Password',
           controller: cNewPasswordController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,

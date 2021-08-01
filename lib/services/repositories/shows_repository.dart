@@ -47,7 +47,7 @@ class ShowsRepository {
       endpoint: ApiEndpoint.shows(ShowEndpoint.BASE),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["body"]["show_id"],
+      converter: (response) => response['body']['show_id'] as int,
     );
   }
 
@@ -59,7 +59,7 @@ class ShowsRepository {
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -71,7 +71,7 @@ class ShowsRepository {
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
       data: data,
       cancelToken: _cancelToken,
-      converter: (response) => response["headers"]["message"],
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 

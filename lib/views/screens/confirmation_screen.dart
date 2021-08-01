@@ -20,7 +20,7 @@ class ConfirmationScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: WillPopScope(
-        onWillPop: () async => await false,
+        onWillPop: () async => false,
         child: Container(
           decoration: const BoxDecoration(
             gradient: Constants.buttonGradientOrange,
@@ -50,7 +50,7 @@ class ConfirmationScreen extends StatelessWidget {
                       //Text
                       Expanded(
                         child: Text(
-                          "Initializing payment",
+                          'Initializing payment',
                           style: TextStyle(
                             fontSize: 22,
                             color: Colors.white,
@@ -76,7 +76,7 @@ class ConfirmationScreen extends StatelessWidget {
                       //Text
                       Expanded(
                         child: Text(
-                          "Processing payment",
+                          'Processing payment',
                           style: TextStyle(
                             fontSize: 22,
                             color: Colors.white,
@@ -102,7 +102,7 @@ class ConfirmationScreen extends StatelessWidget {
                       //Text
                       Expanded(
                         child: Text(
-                          "Your tickets have been booked!",
+                          'Your tickets have been booked!',
                           style: TextStyle(
                             fontSize: 22,
                             color: Colors.white,
@@ -132,7 +132,7 @@ class ConfirmationScreen extends StatelessWidget {
                         //Text
                         Expanded(
                           child: Text(
-                            "Payment Failed",
+                            'Payment Failed',
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.white,

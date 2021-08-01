@@ -65,36 +65,36 @@ class NetworkException with _$NetworkException {
         switch (error.type) {
           case DioErrorType.cancel:
             return const NetworkException.CancelException(
-              name: "CancelException",
-              message: "Request cancelled prematurely",
+              name: 'CancelException',
+              message: 'Request cancelled prematurely',
             );
           case DioErrorType.connectTimeout:
             return const NetworkException.ConnectTimeoutException(
-              name: "ConnectTimeoutException",
-              message: "Connection not established",
+              name: 'ConnectTimeoutException',
+              message: 'Connection not established',
             );
           case DioErrorType.receiveTimeout:
             return const NetworkException.SendTimeoutException(
-              name: "SendTimeoutException",
-              message: "Failed to send",
+              name: 'SendTimeoutException',
+              message: 'Failed to send',
             );
           case DioErrorType.sendTimeout:
             return const NetworkException.ReceiveTimeoutException(
-              name: "ReceiveTimeoutException",
-              message: "Failed to receive",
+              name: 'ReceiveTimeoutException',
+              message: 'Failed to receive',
             );
           case DioErrorType.response:
           case DioErrorType.other:
-            if(error.message.contains("SocketException")) {
+            if(error.message.contains('SocketException')) {
               return const NetworkException.FetchDataException(
-                name: "FetchDataException",
-                message: "No internet connectivity",
+                name: 'FetchDataException',
+                message: 'No internet connectivity',
               );
             }
-            final name = error.response?.data["headers"]["error"];
-            final message = error.response?.data["headers"]["message"];
+            final name = error.response?.data['headers']['error'] as String;
+            final message = error.response?.data['headers']['message'] as String;
             switch (name) {
-              case "TokenExpiredException":
+              case 'TokenExpiredException':
                 return NetworkException.TokenExpiredException(
                   name: name,
                   message: message,
@@ -108,19 +108,19 @@ class NetworkException with _$NetworkException {
         }
       } else {
         return const NetworkException.UnrecognizedException(
-          name: "UnrecognizedException",
-          message: "Error unrecognized",
+          name: 'UnrecognizedException',
+          message: 'Error unrecognized',
         );
       }
     } on FormatException catch (e) {
       return NetworkException.FormatException(
-        name: "FormatException",
+        name: 'FormatException',
         message: e.message,
       );
     } on Exception catch (_) {
       return const NetworkException.UnrecognizedException(
-        name: "UnrecognizedException",
-        message: "Error unrecognized",
+        name: 'UnrecognizedException',
+        message: 'Error unrecognized',
       );
     }
   }

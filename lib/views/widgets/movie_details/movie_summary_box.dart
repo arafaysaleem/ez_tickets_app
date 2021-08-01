@@ -23,7 +23,7 @@ class MovieSummaryBox extends HookWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Introduction",
+              'Introduction',
               style: context.headline2.copyWith(
                 color: Colors.black,
                 fontSize: 17,

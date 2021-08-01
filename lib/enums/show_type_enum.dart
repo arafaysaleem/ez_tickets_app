@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// A collection of types that a show can be.
 enum ShowType {
-  @JsonValue("2D") i2D,
-  @JsonValue("3D") i3D,
+  @JsonValue('2D') i2D,
+  @JsonValue('3D') i3D,
 }
 
 /// A utility with extensions for enum name and serialized value.
