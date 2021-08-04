@@ -34,7 +34,7 @@ class MovieBackdropView extends HookWidget {
           iconSize: 85,
           borderRadius: 0,
         ),
-        errorWidget: (_, __, dynamic ___) => const MoviePosterPlaceholder(
+        errorWidget: (_, __, Object? ___) => const MoviePosterPlaceholder(
           childXAlign: Alignment.topCenter,
           borderRadius: 0,
           iconSize: 85,

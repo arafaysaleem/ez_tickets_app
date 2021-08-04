@@ -45,16 +45,16 @@ class ApiService implements ApiInterface{
     //Entire map of response
     final data = await _dioService.get(
       endpoint: endpoint,
-      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
+      options: Options(headers: <String, Object?>{'requiresAuthToken': requiresAuthToken}),
       queryParams: queryParams,
       cancelToken: cancelToken,
     );
 
     //Items of table as json
-    final List<dynamic> body = data['body'] as List<dynamic>;
+    final body = data['body'] as List<Object?>;
 
     //Returning the deserialized objects
-    return body.map((dynamic dataMap) => converter(dataMap as JSON)).toList();
+    return body.map((dataMap) => converter(dataMap as JSON)).toList();
   }
 
   /// An implementation of the base method for requesting a document of data
@@ -86,7 +86,7 @@ class ApiService implements ApiInterface{
     final data = await _dioService.get(
       endpoint: endpoint,
       queryParams: queryParams,
-      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
+      options: Options(headers: <String, Object?>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 
@@ -122,7 +122,7 @@ class ApiService implements ApiInterface{
     final dataMap = await _dioService.post(
       endpoint: endpoint,
       data: data,
-      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
+      options: Options(headers: <String, Object?>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 
@@ -157,7 +157,7 @@ class ApiService implements ApiInterface{
     final dataMap = await _dioService.patch(
       endpoint: endpoint,
       data: data,
-      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
+      options: Options(headers: <String, Object?>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 
@@ -192,7 +192,7 @@ class ApiService implements ApiInterface{
     final dataMap = await _dioService.delete(
       endpoint: endpoint,
       data: data,
-      options: Options(headers: <String, dynamic>{'requiresAuthToken': requiresAuthToken}),
+      options: Options(headers: <String, Object?>{'requiresAuthToken': requiresAuthToken}),
       cancelToken: cancelToken,
     );
 

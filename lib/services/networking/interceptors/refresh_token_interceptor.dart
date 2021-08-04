@@ -88,7 +88,7 @@ class RefreshTokenInterceptor extends Interceptor {
             data: dioError.requestOptions.data,
             cancelToken: dioError.requestOptions.cancelToken,
             options: Options(
-              headers: <String, dynamic>{'Authorization': 'Bearer $newToken'},
+              headers: <String, Object?>{'Authorization': 'Bearer $newToken'},
             ),
           );
           return handler.resolve(response);

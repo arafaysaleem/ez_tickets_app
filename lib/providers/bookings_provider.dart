@@ -47,10 +47,9 @@ class BookingsProvider {
     int? userId,
     int? showId,
   }) async {
-    final JSON? queryParams = <String, dynamic>{
+    final JSON? queryParams = <String, Object?>{
       if (bookingStatus != null) 'booking_status': bookingStatus.toJson,
-      if (bookingDatetime != null)
-        'booking_datetime': bookingDatetime.toString(),
+      if (bookingDatetime != null) 'booking_datetime': bookingDatetime.toString(),
       if (userId != null) 'user_id': userId,
       if (showId != null) 'show_id': showId,
     };

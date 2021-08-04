@@ -42,11 +42,11 @@ class LoggingInterceptor extends Interceptor {
     debugPrint('--> $httpMethod $url'); //GET www.example.com/mock_path/all
 
     debugPrint('\tHeaders:');
-    options.headers.forEach((k, dynamic v) => debugPrint('\t\t$k: $v'));
+    options.headers.forEach((k, Object? v) => debugPrint('\t\t$k: $v'));
 
     if(options.queryParameters.isNotEmpty){
       debugPrint('\tqueryParams:');
-      options.queryParameters.forEach((k, dynamic v) => debugPrint('\t\t$k: $v'));
+      options.queryParameters.forEach((k, Object? v) => debugPrint('\t\t$k: $v'));
     }
 
     if (options.data != null) {
@@ -129,7 +129,7 @@ class LoggingInterceptor extends Interceptor {
         debugPrint('\tException: $error');
         debugPrint('\tMessage: $message');
         if(headers.containsKey('data')){ //API Dependant
-          var data = headers['data'] as List<dynamic>;
+          var data = headers['data'] as List<Object?>;
           if(data.isNotEmpty) {
             debugPrint('\tData: $data');
           }

@@ -89,7 +89,7 @@ class MoviesProvider {
     );
     final roles =
         movieRoles.map((movieRole) => movieRole.toCustomJson()).toList();
-    final data = <String, dynamic>{
+    final data = <String, Object?>{
       ...movie.toJson(),
       'roles': roles,
     };

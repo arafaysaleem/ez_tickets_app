@@ -39,7 +39,7 @@ class ApiInterceptor extends Interceptor {
     if (options.headers.containsKey('requiresAuthToken')) {
       if(options.headers['requiresAuthToken'] == true){
         final token = await _ref.read(keyValueStorageServiceProvider).getAuthToken();
-        options.headers.addAll(<String, dynamic>{'Authorization': 'Bearer $token'});
+        options.headers.addAll(<String, Object?>{'Authorization': 'Bearer $token'});
       }
 
       options.headers.remove('requiresAuthToken');
