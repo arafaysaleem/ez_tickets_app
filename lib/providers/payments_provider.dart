@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../enums/payment_method_enum.dart';
 
 //Helpers
+import '../helper/typedefs.dart';
 import '../helper/utils/constants.dart';
 
 //Models
@@ -45,7 +46,7 @@ class PaymentsProvider {
   Future<List<PaymentModel>> getAllPayments({
     PaymentMethod? paymentMethod,
   }) async {
-    final Map<String, String>? queryParams = {
+    final QueryParams? queryParams = {
       if (paymentMethod != null) 'payment_method': paymentMethod.toJson,
     };
     return await _paymentsRepository.fetchAll(queryParameters: queryParams);

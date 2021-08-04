@@ -1,5 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Helpers
+import '../helper/typedefs.dart';
+
 //Enums
 import '../enums/movie_type_enum.dart';
 
@@ -47,7 +50,7 @@ class MoviesProvider {
   Future<List<MovieModel>> getAllMovies({
     MovieType? movieType,
   }) async {
-    final Map<String, String>? queryParams = {
+    final QueryParams? queryParams = {
       if (movieType != null) 'movie_type': movieType.toJson,
     };
     return await _moviesRepository.fetchAll(queryParameters: queryParams);
