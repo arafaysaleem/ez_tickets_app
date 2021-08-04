@@ -8,6 +8,9 @@ import '../../../providers/all_providers.dart';
 //Endpoints
 import '../api_endpoint.dart';
 
+//Helpers
+import '../../../helper/typedefs.dart';
+
 /// A class that holds intercepting logic for refreshing expired tokens. This
 /// is the last interceptor in the queue.
 class RefreshTokenInterceptor extends Interceptor {
@@ -45,7 +48,7 @@ class RefreshTokenInterceptor extends Interceptor {
   ) async {
     if (dioError.response != null) {
       if (dioError.response!.data != null) {
-        final headers = dioError.response!.data['headers'] as Map<String, dynamic>;
+        final headers = dioError.response!.data['headers'] as JSON;
 
         //Check error type to be token expired error
         var error = headers['error'] as String;
@@ -80,7 +83,7 @@ class RefreshTokenInterceptor extends Interceptor {
           _dio.clear();
 
           //Make original req with new token
-          final response = await _dio.request<Map<String, dynamic>>(
+          final response = await _dio.request<JSON>(
             dioError.requestOptions.path,
             data: dioError.requestOptions.data,
             cancelToken: dioError.requestOptions.cancelToken,
@@ -106,13 +109,13 @@ class RefreshTokenInterceptor extends Interceptor {
     required DioError dioError,
     required ErrorInterceptorHandler handler,
     required Dio tokenDio,
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     debugPrint('--> REFRESHING TOKEN');
     try {
       debugPrint('\tBody: $data');
 
-      final response = await tokenDio.post<Map<String, dynamic>>(
+      final response = await tokenDio.post<JSON>(
         ApiEndpoint.auth(AuthEndpoint.REFRESH_TOKEN),
         data: data,
       );

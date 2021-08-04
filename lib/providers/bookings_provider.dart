@@ -6,6 +6,7 @@ import '../enums/booking_status_enum.dart';
 
 //Helpers
 import '../helper/utils/constants.dart';
+import '../helper/typedefs.dart';
 
 //Models
 import '../models/booking_model.dart';
@@ -46,7 +47,7 @@ class BookingsProvider {
     int? userId,
     int? showId,
   }) async {
-    final Map<String, dynamic>? queryParams = <String, dynamic>{
+    final JSON? queryParams = <String, dynamic>{
       if (bookingStatus != null) 'booking_status': bookingStatus.toJson,
       if (bookingDatetime != null)
         'booking_datetime': bookingDatetime.toString(),

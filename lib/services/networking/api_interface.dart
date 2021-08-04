@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 /// A base class containing methods for basic API functionality.
 ///
 /// Should be implemented by any service class that wishes to interact
@@ -24,10 +27,10 @@ abstract class ApiInterface {
   /// in the **headers** of the request using an [ApiInterceptor].
   Future<List<T>> getCollectionData<T>({
     required String endpoint,
-    Map<String, dynamic>? queryParams,
+    JSON? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> responseBody) converter,
+    required T Function(JSON responseBody) converter,
   });
 
   /// Base method for requesting a document of data from the [endpoint].
@@ -44,10 +47,10 @@ abstract class ApiInterface {
   /// in the **headers** of the request using an [ApiInterceptor]
   Future<T> getDocumentData<T>({
     required String endpoint,
-    Map<String, dynamic>? queryParams,
+    JSON? queryParams,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> responseBody) converter,
+    required T Function(JSON responseBody) converter,
   });
 
   /// Base method for inserting [data] at the [endpoint].
@@ -64,10 +67,10 @@ abstract class ApiInterface {
   /// in the **headers** of the request using an [ApiInterceptor]
   Future<T> setData<T>({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required JSON data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) converter,
+    required T Function(JSON response) converter,
   });
 
   /// Base method for updating [data] at the [endpoint].
@@ -84,10 +87,10 @@ abstract class ApiInterface {
   /// in the **headers** of the request using an [ApiInterceptor]
   Future<T> updateData<T>({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required JSON data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) converter,
+    required T Function(JSON response) converter,
   });
 
   /// Base method for deleting [data] at the [endpoint].
@@ -104,10 +107,10 @@ abstract class ApiInterface {
   /// in the **headers** of the request using an [ApiInterceptor]
   Future<T> deleteData<T>({
     required String endpoint,
-    Map<String, dynamic>? data,
+    JSON? data,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(Map<String, dynamic> response) converter,
+    required T Function(JSON response) converter,
   });
 
   /// Base method for cancelling requests pre-maturely

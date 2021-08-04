@@ -8,6 +8,9 @@ import '../../models/user_payment_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 class PaymentsRepository {
   final ApiService _apiService;
   final CancelToken? _cancelToken;
@@ -19,7 +22,7 @@ class PaymentsRepository {
         _cancelToken = cancelToken;
 
   Future<List<PaymentModel>> fetchAll({
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
   }) async {
     return await _apiService.getCollectionData<PaymentModel>(
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BASE),
@@ -40,7 +43,7 @@ class PaymentsRepository {
   }
 
   Future<int> create({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<int>(
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BASE),
@@ -52,7 +55,7 @@ class PaymentsRepository {
 
   Future<String> update({
     required int paymentId,
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.updateData<String>(
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BY_ID, id: paymentId),
@@ -64,7 +67,7 @@ class PaymentsRepository {
 
   Future<String> delete({
     required int paymentId,
-    Map<String, dynamic>? data,
+    JSON? data,
   }) async {
     return await _apiService.deleteData<String>(
       endpoint: ApiEndpoint.payments(PaymentEndpoint.BY_ID, id: paymentId),

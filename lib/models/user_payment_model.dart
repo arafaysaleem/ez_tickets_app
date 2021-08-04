@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/typedefs.dart';
 import '../enums/payment_method_enum.dart';
 
 part 'user_payment_model.freezed.dart';
@@ -16,7 +17,7 @@ class UserPaymentModel with _$UserPaymentModel {
       required UserPaymentMovieModel movie,
     }) = _UserPaymentModel;
 
-    factory UserPaymentModel.fromJson(Map<String, dynamic> json) => _$UserPaymentModelFromJson(json);
+    factory UserPaymentModel.fromJson(JSON json) => _$UserPaymentModelFromJson(json);
 }
 
 @freezed
@@ -28,7 +29,7 @@ class UserPaymentMovieModel with _$UserPaymentMovieModel {
     required String posterUrl,
   }) = _UserPaymentMovieModel;
 
-  factory UserPaymentMovieModel.fromJson(Map<String, dynamic> json) => _$UserPaymentMovieModelFromJson(json);
+  factory UserPaymentMovieModel.fromJson(JSON json) => _$UserPaymentMovieModelFromJson(json);
 }
 
 

@@ -1,5 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Helpers
+import '../helper/typedefs.dart';
+
 //Enums
 import '../enums/show_status_enum.dart';
 import '../enums/show_type_enum.dart';
@@ -47,7 +50,7 @@ class ShowsProvider {
   Future<List<ShowModel>> getAllShows({
     required int movieId,
   }) async {
-    final Map<String, dynamic>? queryParams = <String, dynamic>{
+    final JSON? queryParams = <String, dynamic>{
       'movie_id': movieId,
     };
     return await _showsRepository.fetchAll(queryParameters: queryParams);

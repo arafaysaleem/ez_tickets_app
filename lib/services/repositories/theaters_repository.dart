@@ -7,6 +7,9 @@ import '../../models/theater_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 class TheatersRepository {
   final ApiService _apiService;
   final CancelToken? _cancelToken;
@@ -18,7 +21,7 @@ class TheatersRepository {
         _cancelToken = cancelToken;
 
   Future<List<TheaterModel>> fetchAll({
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
   }) async {
     return await _apiService.getCollectionData<TheaterModel>(
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BASE),
@@ -39,7 +42,7 @@ class TheatersRepository {
   }
 
   Future<int> create({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<int>(
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BASE),
@@ -51,7 +54,7 @@ class TheatersRepository {
 
   Future<String> update({
     required int theaterId,
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.updateData<String>(
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BY_ID, id: theaterId),
@@ -63,7 +66,7 @@ class TheatersRepository {
 
   Future<String> delete({
     required int theaterId,
-    Map<String, dynamic>? data,
+    JSON? data,
   }) async {
     return await _apiService.deleteData<String>(
       endpoint: ApiEndpoint.theaters(TheaterEndpoint.BY_ID, id: theaterId),

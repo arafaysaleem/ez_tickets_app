@@ -30,7 +30,7 @@ class Hall {
     required this.name,
   });
 
-  factory Hall.fromJson(Map<String, dynamic> json) {
+  factory Hall.fromJson(JSON json) {
     return Hall(
       numRows: json["num_rows"] as int,
       numCols: json["num_cols"] as int,

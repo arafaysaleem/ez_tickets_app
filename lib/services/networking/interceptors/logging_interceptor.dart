@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
+//helpers
+import '../../../helper/typedefs.dart';
+
 /// A class that intercepts network requests for logging purposes only. This is
 /// the second interceptor in case of both request and response.
 ///
@@ -120,7 +123,7 @@ class LoggingInterceptor extends Interceptor {
     if(dioError.response != null){
       debugPrint('\tStatus code: ${dioError.response!.statusCode}');
       if(dioError.response!.data != null){
-        final headers = dioError.response!.data['headers'] as Map<String, dynamic>; //API Dependant
+        final headers = dioError.response!.data['headers'] as JSON; //API Dependant
         var message = headers['message'] as String; //API Dependant
         var error = headers['error'] as String; //API Dependant
         debugPrint('\tException: $error');

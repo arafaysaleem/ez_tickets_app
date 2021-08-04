@@ -5,13 +5,16 @@ import '../../models/user_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 class AuthRepository {
   final ApiService _apiService;
 
   AuthRepository({required ApiService apiService}) : _apiService = apiService;
 
   Future<UserModel> sendLoginData({
-    required Map<String, dynamic> data,
+    required JSON data,
     required void Function(String newToken) updateTokenCallback,
   }) async {
     return await _apiService.setData<UserModel>(
@@ -20,13 +23,13 @@ class AuthRepository {
       requiresAuthToken: false,
       converter: (response) {
         updateTokenCallback(response['body']['token'] as String);
-        return UserModel.fromJson(response['body'] as Map<String, dynamic>);
+        return UserModel.fromJson(response['body'] as JSON);
       },
     );
   }
 
   Future<UserModel> sendRegisterData({
-    required Map<String, dynamic> data,
+    required JSON data,
     required void Function(String newToken) updateTokenCallback,
   }) async {
     return await _apiService.setData<UserModel>(
@@ -42,7 +45,7 @@ class AuthRepository {
   }
 
   Future<String> sendForgotPasswordData({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.FORGOT_PASSWORD),
@@ -53,7 +56,7 @@ class AuthRepository {
   }
 
   Future<bool> sendResetPasswordData({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<bool>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.RESET_PASSWORD),
@@ -64,7 +67,7 @@ class AuthRepository {
   }
 
   Future<String> sendChangePasswordData({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.CHANGE_PASSWORD),
@@ -74,7 +77,7 @@ class AuthRepository {
     );
   }
 
-  Future<bool> sendOtpData({required Map<String, dynamic> data}) async {
+  Future<bool> sendOtpData({required JSON data}) async {
     return await _apiService.setData<bool>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.VERIFY_OTP),
       data: data,
