@@ -1,5 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Helpers
+import '../helper/typedefs.dart';
+
 //Enums
 import '../enums/show_status_enum.dart';
 import '../enums/show_type_enum.dart';
@@ -47,7 +50,7 @@ class ShowsProvider {
   Future<List<ShowModel>> getAllShows({
     required int movieId,
   }) async {
-    final Map<String, dynamic>? queryParams = <String, dynamic>{
+    final JSON? queryParams = <String, Object?>{
       'movie_id': movieId,
     };
     return await _showsRepository.fetchAll(queryParameters: queryParams);
@@ -69,7 +72,7 @@ class ShowsProvider {
     required ShowStatus showStatus,
   }) async {
     //TODO: Improve API for Show times and Show
-    final data = <String, dynamic>{
+    final data = <String, Object?>{
       'movie_id': movieId,
       'theater_id': theaterId,
       'start_time': startTime,
@@ -102,7 +105,7 @@ class ShowsProvider {
     ShowType? showType,
     ShowStatus? showStatus,
   }) async {
-    final data = <String, dynamic>{
+    final data = <String, Object?>{
       if (movieId != null) 'movie_id': movieId,
       if (theaterId != null) 'theater_id': theaterId,
       if (startTime != null) 'start_time': startTime,

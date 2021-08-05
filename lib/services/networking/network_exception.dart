@@ -1,59 +1,52 @@
+// ignore_for_file: non_constant_identifier_names
 import 'package:dio/dio.dart';
+import 'package:ez_ticketz_app/helper/utils/exception_constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'network_exception.freezed.dart';
 
 @freezed
 class NetworkException with _$NetworkException {
-  // ignore: non_constant_identifier_names
   const factory NetworkException.FormatException({
     required String name,
     required String message,
   }) = _FormatException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.FetchDataException({
     required String name,
     required String message,
   }) = _FetchDataException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.ApiException({
     required String name,
     required String message,
   }) = _ApiException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.TokenExpiredException({
     required String name,
     required String message,
   }) = _TokenExpiredException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.UnrecognizedException({
     required String name,
     required String message,
   }) = _UnrecognizedException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.CancelException({
     required String name,
     required String message,
   }) = _CancelException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.ConnectTimeoutException({
     required String name,
     required String message,
   }) = _ConnectTimeoutException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.ReceiveTimeoutException({
     required String name,
     required String message,
   }) = _ReceiveTimeoutException;
 
-  // ignore: non_constant_identifier_names
   const factory NetworkException.SendTimeoutException({
     required String name,
     required String message,
@@ -65,36 +58,36 @@ class NetworkException with _$NetworkException {
         switch (error.type) {
           case DioErrorType.cancel:
             return const NetworkException.CancelException(
-              name: 'CancelException',
+              name: ExceptionConstants.CancelException,
               message: 'Request cancelled prematurely',
             );
           case DioErrorType.connectTimeout:
             return const NetworkException.ConnectTimeoutException(
-              name: 'ConnectTimeoutException',
+              name: ExceptionConstants.ConnectTimeoutException,
               message: 'Connection not established',
             );
-          case DioErrorType.receiveTimeout:
+          case DioErrorType.sendTimeout:
             return const NetworkException.SendTimeoutException(
-              name: 'SendTimeoutException',
+              name: ExceptionConstants.SendTimeoutException,
               message: 'Failed to send',
             );
-          case DioErrorType.sendTimeout:
+          case DioErrorType.receiveTimeout:
             return const NetworkException.ReceiveTimeoutException(
-              name: 'ReceiveTimeoutException',
+              name: ExceptionConstants.ReceiveTimeoutException,
               message: 'Failed to receive',
             );
           case DioErrorType.response:
           case DioErrorType.other:
-            if(error.message.contains('SocketException')) {
+            if(error.message.contains(ExceptionConstants.SocketException)) {
               return const NetworkException.FetchDataException(
-                name: 'FetchDataException',
+                name: ExceptionConstants.FetchDataException,
                 message: 'No internet connectivity',
               );
             }
             final name = error.response?.data['headers']['error'] as String;
             final message = error.response?.data['headers']['message'] as String;
             switch (name) {
-              case 'TokenExpiredException':
+              case ExceptionConstants.TokenExpiredException:
                 return NetworkException.TokenExpiredException(
                   name: name,
                   message: message,
@@ -108,18 +101,18 @@ class NetworkException with _$NetworkException {
         }
       } else {
         return const NetworkException.UnrecognizedException(
-          name: 'UnrecognizedException',
+          name: ExceptionConstants.UnrecognizedException,
           message: 'Error unrecognized',
         );
       }
     } on FormatException catch (e) {
       return NetworkException.FormatException(
-        name: 'FormatException',
+        name: ExceptionConstants.FormatException,
         message: e.message,
       );
     } on Exception catch (_) {
       return const NetworkException.UnrecognizedException(
-        name: 'UnrecognizedException',
+        name: ExceptionConstants.UnrecognizedException,
         message: 'Error unrecognized',
       );
     }

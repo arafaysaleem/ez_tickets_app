@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../helper/utils/constants.dart';
+import '../helper/typedefs.dart';
 import '../enums/theater_type_enum.dart';
 import 'seat_model.dart';
 
@@ -23,7 +24,7 @@ class TheaterModel with _$TheaterModel {
     required List<SeatModel> blocked,
   }) = _TheaterModel;
 
-  Map<String, dynamic> toUpdateJson({
+  JSON toUpdateJson({
     String? theaterName,
     int? numOfRows,
     int? seatsPerRow,
@@ -37,7 +38,7 @@ class TheaterModel with _$TheaterModel {
         theaterType == null &&
         missing == null &&
         blocked == null
-    ) return const <String, dynamic>{};
+    ) return const <String, Object>{};
     return copyWith(
       theaterId: theaterId,
       numOfRows: numOfRows ?? this.numOfRows,
@@ -48,6 +49,6 @@ class TheaterModel with _$TheaterModel {
     ).toJson();
   }
 
-  factory TheaterModel.fromJson(Map<String, dynamic> json) =>
+  factory TheaterModel.fromJson(JSON json) =>
       _$TheaterModelFromJson(json);
 }
