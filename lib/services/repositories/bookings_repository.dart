@@ -82,8 +82,8 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.SHOWS, id: showId),
       cancelToken: _cancelToken,
       converter: (responseBody) {
-        return responseBody['booked_seats'].map<SeatModel>((JSON seat) {
-          return SeatModel.fromJson(seat);
+        return responseBody['booked_seats'].map<SeatModel>((dynamic seat) {
+          return SeatModel.fromJson(seat as JSON);
         }).toList() as List<SeatModel>;
       },
     );
