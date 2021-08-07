@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 //Enums
 import '../enums/role_type_enum.dart';
+import '../helper/typedefs.dart';
 
 //Models
 import 'role_model.dart';
@@ -20,11 +21,11 @@ class MovieRoleModel with _$MovieRoleModel {
     required RoleType roleType,
   }) = _MovieRoleModel;
 
-  factory MovieRoleModel.fromJson(Map<String, dynamic> json) =>
+  factory MovieRoleModel.fromJson(JSON json) =>
       _$MovieRoleModelFromJson(json);
 
-  Map<String, dynamic> toCustomJson() {
-    return <String, dynamic>{
+  JSON toCustomJson() {
+    return <String, Object>{
       'role_id': role.roleId,
       'role_type': roleType.toJson,
     };

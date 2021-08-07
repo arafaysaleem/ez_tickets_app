@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../helper/utils/constants.dart';
+import '../helper/typedefs.dart';
 import '../enums/show_status_enum.dart';
 import '../enums/show_type_enum.dart';
 
@@ -34,6 +35,6 @@ class ShowTimeModel with _$ShowTimeModel {
     );
   }
 
-  factory ShowTimeModel.fromJson(Map<String, dynamic> json) =>
+  factory ShowTimeModel.fromJson(JSON json) =>
       _$ShowTimeModelFromJson(json);
 }

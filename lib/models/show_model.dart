@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'show_time_model.dart';
+import '../helper/typedefs.dart';
 
 part 'show_model.freezed.dart';
 part 'show_model.g.dart';
@@ -25,6 +26,6 @@ class ShowModel with _$ShowModel {
     );
   }
 
-  factory ShowModel.fromJson(Map<String, dynamic> json) =>
+  factory ShowModel.fromJson(JSON json) =>
       _$ShowModelFromJson(json);
 }

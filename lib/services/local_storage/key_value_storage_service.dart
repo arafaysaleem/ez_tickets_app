@@ -6,6 +6,9 @@ import 'key_value_storage_base.dart';
 //models
 import '../../models/user_model.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 //states
 import '../../providers/states/auth_state.dart';
 
@@ -42,7 +45,7 @@ class KeyValueStorageService {
   UserModel? getAuthUser() {
     final user = _keyValueStorage.getCommon<String>(_authUserKey);
     if(user == null) return null;
-    return UserModel.fromJson(jsonDecode(user) as Map<String, dynamic>);
+    return UserModel.fromJson(jsonDecode(user) as JSON);
   }
 
   /// Returns last authentication token

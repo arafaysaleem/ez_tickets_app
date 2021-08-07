@@ -5,6 +5,9 @@ import 'package:dio/dio.dart';
 //Exceptions
 import 'network_exception.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 /// A service class that wraps the [Dio] instance and provides methods for
 /// basic network requests.
 class DioService {
@@ -47,20 +50,20 @@ class DioService {
   /// the **default** [cancelToken] inside [DioService] is used.
   ///
   /// [options] are special instructions that can be merged with the request.
-  Future<Map<String, dynamic>> get({
+  Future<JSON> get({
     required String endpoint,
-    Map<String, dynamic>? queryParams,
+    JSON? queryParams,
     Options? options,
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.get<Map<String, dynamic>>(
+      final response = await _dio.get<JSON>(
         endpoint,
         queryParameters: queryParams,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data as Map<String, dynamic>;
+      return response.data as JSON;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
@@ -78,20 +81,20 @@ class DioService {
   /// the **default** [cancelToken] inside [DioService] is used.
   ///
   /// [options] are special instructions that can be merged with the request.
-  Future<Map<String, dynamic>> post({
+  Future<JSON> post({
     required String endpoint,
-    Map<String, dynamic>? data,
+    JSON? data,
     Options? options,
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.post<Map<String, dynamic>>(
+      final response = await _dio.post<JSON>(
         endpoint,
         data: data,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data as Map<String, dynamic>;
+      return response.data as JSON;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
@@ -109,20 +112,20 @@ class DioService {
   /// the **default** [cancelToken] inside [DioService] is used.
   ///
   /// [options] are special instructions that can be merged with the request.
-  Future<Map<String, dynamic>> patch({
+  Future<JSON> patch({
     required String endpoint,
-    Map<String, dynamic>? data,
+    JSON? data,
     Options? options,
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.put<Map<String, dynamic>>(
+      final response = await _dio.put<JSON>(
         endpoint,
         data: data,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data as Map<String, dynamic>;
+      return response.data as JSON;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }
@@ -140,20 +143,20 @@ class DioService {
   /// the **default** [cancelToken] inside [DioService] is used.
   ///
   /// [options] are special instructions that can be merged with the request.
-  Future<Map<String, dynamic>> delete({
+  Future<JSON> delete({
     required String endpoint,
-    Map<String, dynamic>? data,
+    JSON? data,
     Options? options,
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.delete<Map<String, dynamic>>(
+      final response = await _dio.delete<JSON>(
         endpoint,
         data: data,
         options: options,
         cancelToken: cancelToken ?? _cancelToken,
       );
-      return response.data as Map<String, dynamic>;
+      return response.data as JSON;
     } on Exception catch (ex) {
       throw NetworkException.getDioException(ex);
     }

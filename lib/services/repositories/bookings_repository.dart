@@ -9,6 +9,9 @@ import '../../models/seat_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 class BookingsRepository {
   final ApiService _apiService;
   final CancelToken? _cancelToken;
@@ -38,7 +41,7 @@ class BookingsRepository {
   }
 
   Future<int> create({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<int>(
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BASE),
@@ -50,7 +53,7 @@ class BookingsRepository {
 
   Future<String> update({
     required int bookingId,
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.updateData<String>(
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BY_ID, id: bookingId),
@@ -62,7 +65,7 @@ class BookingsRepository {
 
   Future<String> delete({
     required int bookingId,
-    Map<String, dynamic>? data,
+    JSON? data,
   }) async {
     return await _apiService.deleteData<String>(
       endpoint: ApiEndpoint.bookings(BookingEndpoint.BY_ID, id: bookingId),
@@ -79,8 +82,8 @@ class BookingsRepository {
       endpoint: ApiEndpoint.bookings(BookingEndpoint.SHOWS, id: showId),
       cancelToken: _cancelToken,
       converter: (responseBody) {
-        return responseBody['booked_seats'].map<SeatModel>((Map<String, dynamic> seat) {
-          return SeatModel.fromJson(seat);
+        return responseBody['booked_seats'].map<SeatModel>((dynamic seat) {
+          return SeatModel.fromJson(seat as JSON);
         }).toList() as List<SeatModel>;
       },
     );
@@ -97,7 +100,7 @@ class BookingsRepository {
   }
 
   Future<List<BookingModel>> fetchFilteredBookings({
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
   }) async {
     return await _apiService.getCollectionData<BookingModel>(
       endpoint: ApiEndpoint.bookings(BookingEndpoint.FILTERS),

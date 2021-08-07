@@ -7,6 +7,9 @@ import '../../models/show_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 class ShowsRepository {
   final ApiService _apiService;
   final CancelToken? _cancelToken;
@@ -18,7 +21,7 @@ class ShowsRepository {
         _cancelToken = cancelToken;
 
   Future<List<ShowModel>> fetchAll({
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
   }) async {
     return await _apiService.getCollectionData<ShowModel>(
       endpoint: ApiEndpoint.shows(
@@ -41,7 +44,7 @@ class ShowsRepository {
   }
 
   Future<int> create({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<int>(
       endpoint: ApiEndpoint.shows(ShowEndpoint.BASE),
@@ -53,7 +56,7 @@ class ShowsRepository {
 
   Future<String> update({
     required int showId,
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.updateData<String>(
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),
@@ -65,7 +68,7 @@ class ShowsRepository {
 
   Future<String> delete({
     required int showId,
-    Map<String, dynamic>? data,
+    JSON? data,
   }) async {
     return await _apiService.deleteData<String>(
       endpoint: ApiEndpoint.shows(ShowEndpoint.BY_ID, id: showId),

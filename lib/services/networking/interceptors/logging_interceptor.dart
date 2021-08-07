@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
+//helpers
+import '../../../helper/typedefs.dart';
+
 /// A class that intercepts network requests for logging purposes only. This is
 /// the second interceptor in case of both request and response.
 ///
@@ -39,11 +42,11 @@ class LoggingInterceptor extends Interceptor {
     debugPrint('--> $httpMethod $url'); //GET www.example.com/mock_path/all
 
     debugPrint('\tHeaders:');
-    options.headers.forEach((k, dynamic v) => debugPrint('\t\t$k: $v'));
+    options.headers.forEach((k, Object? v) => debugPrint('\t\t$k: $v'));
 
     if(options.queryParameters.isNotEmpty){
       debugPrint('\tqueryParams:');
-      options.queryParameters.forEach((k, dynamic v) => debugPrint('\t\t$k: $v'));
+      options.queryParameters.forEach((k, Object? v) => debugPrint('\t\t$k: $v'));
     }
 
     if (options.data != null) {
@@ -120,13 +123,13 @@ class LoggingInterceptor extends Interceptor {
     if(dioError.response != null){
       debugPrint('\tStatus code: ${dioError.response!.statusCode}');
       if(dioError.response!.data != null){
-        final headers = dioError.response!.data['headers'] as Map<String, dynamic>; //API Dependant
+        final headers = dioError.response!.data['headers'] as JSON; //API Dependant
         var message = headers['message'] as String; //API Dependant
         var error = headers['error'] as String; //API Dependant
         debugPrint('\tException: $error');
         debugPrint('\tMessage: $message');
         if(headers.containsKey('data')){ //API Dependant
-          var data = headers['data'] as List<dynamic>;
+          var data = headers['data'] as List<Object?>;
           if(data.isNotEmpty) {
             debugPrint('\tData: $data');
           }
