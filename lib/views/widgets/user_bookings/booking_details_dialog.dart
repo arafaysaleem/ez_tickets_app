@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 //Helpers
@@ -48,12 +50,6 @@ class BookingDetailsDialog extends StatelessWidget {
             Expanded(
               child: Material(
                 color: Constants.scaffoldColor,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  ),
-                ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(15, 12, 15, 0),
                   child: Column(
@@ -120,8 +116,8 @@ class BookingDetailsDialog extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Constants.primaryColor,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 ),
               ),
               child: const Icon(
