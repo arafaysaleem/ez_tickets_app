@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/typedefs.dart';
+
 part 'role_model.freezed.dart';
 part 'role_model.g.dart';
 
@@ -14,6 +16,6 @@ class RoleModel with _$RoleModel {
     required String pictureUrl,
   }) = _RoleModel;
 
-  factory RoleModel.fromJson(Map<String, dynamic> json) =>
+  factory RoleModel.fromJson(JSON json) =>
       _$RoleModelFromJson(json);
 }

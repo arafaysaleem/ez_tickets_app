@@ -8,6 +8,9 @@ import '../../models/movie_role_model.dart';
 import '../networking/api_endpoint.dart';
 import '../networking/api_service.dart';
 
+//helpers
+import '../../helper/typedefs.dart';
+
 class MoviesRepository {
   final ApiService _apiService;
   final CancelToken? _cancelToken;
@@ -19,7 +22,7 @@ class MoviesRepository {
         _cancelToken = cancelToken;
 
   Future<int> create({
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.setData<int>(
       endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),
@@ -31,7 +34,7 @@ class MoviesRepository {
 
   Future<String> update({
     required int movieId,
-    required Map<String, dynamic> data,
+    required JSON data,
   }) async {
     return await _apiService.updateData<String>(
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
@@ -43,7 +46,7 @@ class MoviesRepository {
 
   Future<String> delete({
     required int movieId,
-    Map<String, dynamic>? data,
+    JSON? data,
   }) async {
     return await _apiService.deleteData<String>(
       endpoint: ApiEndpoint.movies(MovieEndpoint.BY_ID, id: movieId),
@@ -54,7 +57,7 @@ class MoviesRepository {
   }
 
   Future<List<MovieModel>> fetchAll({
-    Map<String, dynamic>? queryParameters,
+    JSON? queryParameters,
   }) async {
     return await _apiService.getCollectionData<MovieModel>(
       endpoint: ApiEndpoint.movies(MovieEndpoint.BASE),

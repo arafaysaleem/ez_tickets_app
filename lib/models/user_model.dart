@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/typedefs.dart';
 import '../enums/user_role_enum.dart';
 
 part 'user_model.freezed.dart';
@@ -18,6 +19,6 @@ class UserModel with _$UserModel {
     required UserRole role,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
+  factory UserModel.fromJson(JSON json) =>
       _$UserModelFromJson(json);
 }

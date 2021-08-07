@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/payment_method_enum.dart';
 import '../helper/utils/constants.dart';
+import '../helper/typedefs.dart';
 
 part 'payment_model.freezed.dart';
 
@@ -23,7 +24,7 @@ class PaymentModel with _$PaymentModel {
         required List<int>? bookings,
   }) = _PaymentModel;
 
-  Map<String, dynamic> toUpdateJson({
+  JSON toUpdateJson({
     int? userId,
     int? showId,
     double? amount,
@@ -34,7 +35,7 @@ class PaymentModel with _$PaymentModel {
         showId == null &&
         amount == null &&
         paymentMethod == null &&
-        paymentDatetime == null) return const <String, dynamic>{};
+        paymentDatetime == null) return const <String, Object>{};
     return copyWith(
       paymentId: paymentId,
       showId: showId ?? this.showId,
@@ -44,6 +45,6 @@ class PaymentModel with _$PaymentModel {
     ).toJson();
   }
 
-  factory PaymentModel.fromJson(Map<String, dynamic> json) =>
+  factory PaymentModel.fromJson(JSON json) =>
       _$PaymentModelFromJson(json);
 }

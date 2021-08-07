@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//Helpers
+import '../helper/typedefs.dart';
+
 //Enums
 import '../enums/theater_type_enum.dart';
 
@@ -72,7 +75,7 @@ class TheatersProvider extends ChangeNotifier {
   Future<List<TheaterModel>> getAllTheaters({
     TheaterType? theaterType,
   }) async {
-    final Map<String, String>? queryParams = {
+    final QueryParams? queryParams = {
       if (theaterType != null) 'theater_type': theaterType.toJson,
     };
     final theaters = await _theatersRepository.fetchAll(queryParameters: queryParams);

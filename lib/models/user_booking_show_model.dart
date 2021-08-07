@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../helper/typedefs.dart';
 import '../enums/show_type_enum.dart';
 
 part 'user_booking_show_model.freezed.dart';
@@ -13,5 +15,5 @@ class UserBookingShowModel with _$UserBookingShowModel {
       required DateTime showDatetime,
     }) = _UserBookingShowModel;
 
-    factory UserBookingShowModel.fromJson(Map<String, dynamic> json) => _$UserBookingShowModelFromJson(json);
+    factory UserBookingShowModel.fromJson(JSON json) => _$UserBookingShowModelFromJson(json);
 }

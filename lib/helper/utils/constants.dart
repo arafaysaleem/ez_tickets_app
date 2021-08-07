@@ -187,5 +187,5 @@ class Constants {
   /// The error message for invalid credit card expiry input.
   static const invalidCreditCardExpiryError = 'Please enter a valid expiry date';
 
-  static T? toNull<T>(dynamic _) => null;
+  static T? toNull<T>(Object? _) => null;
 }

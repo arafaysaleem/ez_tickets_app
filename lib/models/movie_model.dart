@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/movie_type_enum.dart';
 import '../helper/utils/constants.dart';
+import '../helper/typedefs.dart';
 import 'genre_model.dart';
 
 part 'movie_model.freezed.dart';
@@ -42,7 +43,7 @@ class MovieModel with _$MovieModel {
     );
   }
 
-  Map<String, dynamic> toUpdateJson({
+  JSON toUpdateJson({
     int? year,
     String? title,
     String? summary,
@@ -58,7 +59,7 @@ class MovieModel with _$MovieModel {
         posterUrl == null &&
         rating == null &&
         movieType == null
-    ) return const <String, dynamic>{};
+    ) return const <String, Object>{};
     return copyWith(
       movieId: movieId,
       year: year ?? this.year,
@@ -71,7 +72,7 @@ class MovieModel with _$MovieModel {
     ).toJson();
   }
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) =>
+  factory MovieModel.fromJson(JSON json) =>
       _$MovieModelFromJson(json);
 
   late final List<String> genreNames =

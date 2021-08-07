@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/booking_status_enum.dart';
 import '../helper/utils/constants.dart';
+import '../helper/typedefs.dart';
 
 part 'booking_model.freezed.dart';
 
@@ -24,7 +25,7 @@ class BookingModel with _$BookingModel {
     required DateTime bookingDatetime,
   }) = _BookingModel;
 
-  Map<String, dynamic> toUpdateJson({
+  JSON toUpdateJson({
     int? userId,
     int? showId,
     String? seatRow,
@@ -39,7 +40,7 @@ class BookingModel with _$BookingModel {
         seatNumber == null &&
         price == null &&
         bookingStatus == null &&
-        bookingDatetime == null) return const <String, dynamic>{};
+        bookingDatetime == null) return const <String, Object>{};
     return copyWith(
       userId: userId,
       showId: showId ?? this.showId,
@@ -51,6 +52,6 @@ class BookingModel with _$BookingModel {
     ).toJson();
   }
 
-  factory BookingModel.fromJson(Map<String, dynamic> json) =>
+  factory BookingModel.fromJson(JSON json) =>
       _$BookingModelFromJson(json);
 }

@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../helper/typedefs.dart';
+
 part 'seat_model.freezed.dart';
 part 'seat_model.g.dart';
 
@@ -11,5 +13,5 @@ class SeatModel with _$SeatModel {
     required int seatNumber,
   }) = _SeatModel;
 
-  factory SeatModel.fromJson(Map<String, dynamic> json) => _$SeatModelFromJson(json);
+  factory SeatModel.fromJson(JSON json) => _$SeatModelFromJson(json);
 }

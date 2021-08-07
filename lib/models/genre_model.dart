@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../helper/typedefs.dart';
 
 part 'genre_model.freezed.dart';
 
@@ -12,6 +13,6 @@ class GenreModel with _$GenreModel {
     required String genre,
   }) = _GenreModel;
 
-  factory GenreModel.fromJson(Map<String, dynamic> json) =>
+  factory GenreModel.fromJson(JSON json) =>
       _$GenreModelFromJson(json);
 }
