@@ -280,7 +280,6 @@ class _UserDetailFields extends StatelessWidget {
         //Full name
         CustomTextField(
           controller: fullNameController,
-          autofocus: true,
           floatingText: 'Full name',
           hintText: 'Type your full name',
           keyboardType: TextInputType.name,
