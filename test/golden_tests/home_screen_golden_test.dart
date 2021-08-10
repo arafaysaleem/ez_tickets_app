@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
-//Theme
-import 'package:ez_ticketz_app/helper/utils/custom_theme.dart';
-
 //Screens
 import 'package:ez_ticketz_app/views/screens/home_screen.dart';
+
+//Config
+import '../flutter_test_config.dart';
 
 void main() {
   group('HomeScreen', () {
@@ -16,11 +16,10 @@ void main() {
       (tester) async {
         await tester.pumpWidgetBuilder(
           const HomeScreen(),
-          wrapper: materialAppWrapper(
-            theme: CustomTheme.mainTheme,
-          ),
+          surfaceSize: GoldensGlobalConfig.defaultSurfaceSize,
+          wrapper: GoldensGlobalConfig.globalAppWrapper,
         );
-        await multiScreenGolden(tester, 'home_screen_golden');
+        await screenMatchesGolden(tester, 'home_screen_golden');
       },
     );
   });
