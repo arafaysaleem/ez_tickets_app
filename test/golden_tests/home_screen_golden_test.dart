@@ -8,19 +8,17 @@ import 'package:ez_ticketz_app/helper/utils/custom_theme.dart';
 import 'package:ez_ticketz_app/views/screens/home_screen.dart';
 
 void main() {
-  final _materialAppWrapper = materialAppWrapper(
-    theme: CustomTheme.mainTheme,
-  );
-
   group('HomeScreen', () {
     testGoldens(
-      'GIVEN the app is started'
-      'WHEN the home screen is shown'
+      'GIVEN the app is started '
+      'WHEN the home screen is shown '
       'THEN it looks like home_screen_golden.png',
       (tester) async {
         await tester.pumpWidgetBuilder(
           const HomeScreen(),
-          wrapper: _materialAppWrapper,
+          wrapper: materialAppWrapper(
+            theme: CustomTheme.mainTheme,
+          ),
         );
         await multiScreenGolden(tester, 'home_screen_golden');
       },
