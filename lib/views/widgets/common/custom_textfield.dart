@@ -7,28 +7,41 @@ import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String? floatingText, hintText;
-  final TextInputType keyboardType;
-  final TextInputAction textInputAction;
-  final TextEditingController controller;
-  final String? Function(String? value) validator;
-  final void Function(String? value)? onSaved;
-  final AlignmentGeometry errorTextAlign;
-  final Widget? prefix;
-  final bool autofocus;
+  final TextEditingController? controller;
   final int? maxLength;
+  final String? floatingText, hintText;
   final TextStyle hintStyle, errorStyle, inputStyle;
   final TextStyle? floatingStyle;
+  final void Function(String? value)? onSaved, onChanged;
+  final Widget? prefix;
+  final bool showCursor;
+  final bool autofocus;
+  final TextAlign textAlign;
+  final AlignmentGeometry errorTextAlign;
   final Color fillColor;
+  final TextInputType keyboardType;
+  final TextInputAction textInputAction;
+  final String? Function(String? value) validator;
+  final double height;
+  final double? width;
 
   const CustomTextField({
     Key? key,
-    this.onSaved,
-    this.prefix,
+    this.controller,
+    this.height = 47,
+    this.width,
     this.maxLength,
+    this.floatingText,
     this.floatingStyle,
-    this.errorTextAlign = Alignment.centerRight,
+    this.onSaved,
+    this.onChanged,
+    this.prefix,
+    this.showCursor = true,
     this.autofocus = false,
+    this.textAlign = TextAlign.start,
+    this.errorTextAlign = Alignment.centerRight,
+    this.fillColor = Constants.scaffoldColor,
+    this.hintText,
     this.hintStyle = const TextStyle(
       fontSize: 17,
       color: Constants.textWhite80Color,
@@ -41,10 +54,6 @@ class CustomTextField extends StatefulWidget {
       fontSize: 17,
       color: Constants.textWhite80Color,
     ),
-    this.fillColor = Constants.scaffoldColor,
-    this.floatingText,
-    this.hintText,
-    required this.controller,
     required this.keyboardType,
     required this.textInputAction,
     required this.validator,
@@ -60,12 +69,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   bool get hasErrorText => errorText != null;
 
+  bool get hasFloatingText => widget.floatingText != null;
+
   bool get isPasswordField =>
       widget.keyboardType == TextInputType.visiblePassword;
 
   void _onSaved(String? value) {
     value = value!.trim();
-    widget.controller.text = value;
+    widget.controller?.text = value;
     if (widget.onSaved != null) widget.onSaved!(value);
   }
 
@@ -82,6 +93,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
       errorText = error;
     });
     return error;
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      hidePassword = !hidePassword;
+    });
   }
 
   OutlineInputBorder _focusedBorder() {
@@ -107,7 +124,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Floating text
-        if (widget.floatingText != null)
+        if (hasFloatingText) ...[
           Text(
             widget.floatingText!,
             style: widget.floatingStyle ??
@@ -116,25 +133,28 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   fontSize: 17,
                 ),
           ),
-
-        if (widget.floatingText != null) const SizedBox(height: 2),
+          const SizedBox(height: 2),
+        ],
 
         //TextField
         SizedBox(
-          height: 47,
+          height: widget.height,
+          width: widget.width,
           child: TextFormField(
             controller: widget.controller,
+            textAlign: widget.textAlign,
             autofocus: widget.autofocus,
             maxLength: widget.maxLength,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
             style: widget.inputStyle,
+            showCursor: widget.showCursor,
+            onChanged: widget.onChanged,
             maxLengthEnforcement: MaxLengthEnforcement.enforced,
             textAlignVertical: TextAlignVertical.center,
             autovalidateMode: AutovalidateMode.disabled,
             cursorColor: Colors.white,
             obscureText: isPasswordField && hidePassword,
-            showCursor: true,
             validator: _onValidate,
             onSaved: _onSaved,
             onFieldSubmitted: _onFieldSubmitted,
@@ -153,11 +173,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               focusedErrorBorder: _focusedBorder(),
               suffixIcon: isPasswordField
                   ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          hidePassword = !hidePassword;
-                        });
-                      },
+                      onTap: _togglePasswordVisibility,
                       child: const Icon(
                         Icons.remove_red_eye_sharp,
                         color: Constants.textGreyColor,
@@ -169,10 +185,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
         ),
 
+        //Error text
         if (hasErrorText) ...[
           const SizedBox(height: 2),
-
-          //Error text
           Align(
             alignment: widget.errorTextAlign,
             child: Text(

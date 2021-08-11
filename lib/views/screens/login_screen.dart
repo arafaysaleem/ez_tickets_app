@@ -99,6 +99,19 @@ class LoginScreen extends HookWidget {
                 ),
               ),
 
+              const SizedBox(height: 15),
+
+              GestureDetector(
+                onTap: (){},
+                child: const Text(
+                  'Forgot password?',
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Constants.primaryColor,
+                  ),
+                ),
+              ),
+
               const Spacer(),
 
               //Login button

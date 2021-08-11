@@ -14,6 +14,7 @@ import '../views/screens/payment_screen.dart';
 import '../views/screens/confirmation_screen.dart';
 import '../views/screens/user_bookings_screen.dart';
 import '../views/screens/change_password_screen.dart';
+import '../views/screens/forgot_password_screen.dart';
 
 @MaterialAutoRouter(
     routes: <AutoRoute>[
@@ -30,6 +31,7 @@ import '../views/screens/change_password_screen.dart';
       AutoRoute<Widget>(page: ConfirmationScreen),
       AutoRoute<Widget>(page: UserBookingsScreen),
       AutoRoute<Widget>(page: ChangePasswordScreen),
+      AutoRoute<Widget>(page: ForgotPasswordScreen),
     ],
 )
 class $AppRouter{}

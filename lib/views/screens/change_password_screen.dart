@@ -70,7 +70,7 @@ class ChangePasswordScreen extends HookWidget {
                   children: [
                     //Page name
                     Text(
-                      'Your profile',
+                      'Change password',
                       textAlign: TextAlign.center,
                       style: context.headline3.copyWith(fontSize: 22),
                     ),

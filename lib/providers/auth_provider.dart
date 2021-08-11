@@ -10,13 +10,18 @@ import '../models/user_model.dart';
 import '../services/local_storage/key_value_storage_service.dart';
 import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
-import 'states/auth_state.dart';
 
 //States
+import 'states/auth_state.dart';
 import 'states/future_state.dart';
+import 'states/forgot_password_state.dart';
 
 final changePasswordStateProvider = StateProvider(
   (ref) => const FutureState<String>.idle(),
+);
+
+final forgotPasswordStateProvider = StateProvider(
+  (ref) => const ForgotPasswordState.email(),
 );
 
 class AuthProvider extends StateNotifier<AuthState> {
@@ -152,10 +157,10 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
-  Future<bool> verifyOtp({required String email, required int otp}) async {
+  Future<bool> verifyOtp({required String email, required String otp}) async {
     final data = {
       'email': email,
-      'OTP': otp,
+      'OTP': int.tryParse(otp)!,
     };
     return await _authRepository.sendOtpData(data: data);
   }

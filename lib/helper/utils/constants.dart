@@ -142,6 +142,9 @@ class Constants {
   /// The regular expression for validating credit card expiry in the app.
   static RegExp creditCardExpiryRegex = RegExp(r'(0[1-9]|10|11|12)/20[0-9]{2}$');
 
+  /// The regular expression for validating credit card expiry in the app.
+  static final RegExp otpDigitRegex = RegExp('[0-9]{1}');
+
   /// The error message for invalid email input.
   static const invalidEmailError = 'Please enter a valid email address';
 
@@ -186,6 +189,9 @@ class Constants {
 
   /// The error message for invalid credit card expiry input.
   static const invalidCreditCardExpiryError = 'Please enter a valid expiry date';
+
+  /// The error message for invalid otp digit input.
+  static const invalidOtpDigitError = 'Please enter a digit between 0-9';
 
   static T? toNull<T>(Object? _) => null;
 }
