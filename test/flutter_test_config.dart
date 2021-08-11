@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:golden_toolkit/golden_toolkit.dart';
 
@@ -13,9 +14,13 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
     },
     config: GoldenToolkitConfiguration(
       defaultDevices: const [GoldensGlobalConfig.defaultDevice],
-      deviceFileNameFactory: (name, device) {
-        // return 'goldens/$name.${device.name}.png';
-        return 'goldens/$name.png';
+      fileNameFactory: (name) {
+        if(Platform.isWindows) {
+            return 'goldens_local/$name.png';
+        }
+        else {
+          return 'goldens/$name.png';
+        }
       }
     ),
   );

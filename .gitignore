@@ -58,4 +58,4 @@ app.*.map.json
 **/failures/*.png
 
 # don't check in goldens since we are using Windows and CI uses Ubuntu
-**/goldens/*.png
+**/goldens_local/*.png
