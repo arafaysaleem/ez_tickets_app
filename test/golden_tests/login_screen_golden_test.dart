@@ -19,6 +19,7 @@ void main() {
       'WHEN the login screen is shown '
       'THEN it looks like login_screen_golden.png',
       (tester) async {
+        //when
         await tester.pumpWidgetBuilder(
           ProviderScope(
             overrides: [
@@ -29,6 +30,8 @@ void main() {
           surfaceSize: GoldensGlobalConfig.defaultSurfaceSize,
           wrapper: GoldensGlobalConfig.globalAppWrapper,
         );
+
+        //then
         await screenMatchesGolden(tester, 'login_screen_golden');
       },
     );

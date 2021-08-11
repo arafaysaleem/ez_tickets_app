@@ -33,11 +33,14 @@ void main() {
       'WHEN the register screen is shown '
       'THEN it looks like register_screen_golden.png',
       (tester) async {
+        //when
         await tester.pumpWidgetBuilder(
           registerScreen,
           surfaceSize: GoldensGlobalConfig.defaultSurfaceSize,
           wrapper: GoldensGlobalConfig.globalAppWrapper,
         );
+
+        //then
         await screenMatchesGolden(tester, 'register_screen_golden');
       },
     );
@@ -49,36 +52,36 @@ void main() {
       'AND the screen is rebuilt '
       'THEN it looks like register_screen_2_golden.png',
       (tester) async {
-        // given
+        //given
         await tester.pumpWidgetBuilder(
           registerScreen,
           surfaceSize: GoldensGlobalConfig.defaultSurfaceSize,
           wrapper: GoldensGlobalConfig.globalAppWrapper,
         );
 
-        // and fill the fullName field
+        //and fill the fullName field
         final fullNameField = find.widgetWithText(CustomTextField, 'Full name');
         await tester.pumpAndSettle();
         await tester.enterText(fullNameField, 'Test User');
 
-        // and fill the email field
+        //and fill the email field
         final emailField = find.widgetWithText(CustomTextField, 'Email');
         await tester.enterText(emailField, 'test.user@gmail.com');
 
-        // and fill the address field
+        //and fill the address field
         final addressField = find.widgetWithText(CustomTextField, 'Address');
         await tester.enterText(addressField, '123-E Street');
 
-        // and fill the contact field
+        //and fill the contact field
         final contactField = find.widgetWithText(CustomTextField, 'Contact');
         await tester.enterText(contactField, '3001234567');
 
-        // dismiss keyboard
+        //dismiss keyboard
         await tester.testTextInput.receiveAction(TextInputAction.done);
         await tester.pump();
 
-        // when
-        // find a CustomTextButton having descendant Text('Next')
+        //when
+        //find a CustomTextButton having descendant Text('Next')
         final nextButton = find.ancestor(
           of: find.text('Next'),
           matching: find.byWidgetPredicate(
@@ -86,13 +89,13 @@ void main() {
           ),
         );
 
-        // tap button next
+        //tap button next
         await tester.tap(nextButton);
 
-        // rebuild screen
+        //rebuild screen
         await tester.pump();
 
-        // then
+        //then
         await screenMatchesGolden(tester, 'register_screen_2_golden');
       },
     );

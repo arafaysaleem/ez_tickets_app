@@ -14,11 +14,14 @@ void main() {
       'WHEN the home screen is shown '
       'THEN it looks like home_screen_golden.png',
       (tester) async {
+        //when
         await tester.pumpWidgetBuilder(
           const HomeScreen(),
           surfaceSize: GoldensGlobalConfig.defaultSurfaceSize,
           wrapper: GoldensGlobalConfig.globalAppWrapper,
         );
+
+        //then
         await screenMatchesGolden(tester, 'home_screen_golden');
       },
     );
