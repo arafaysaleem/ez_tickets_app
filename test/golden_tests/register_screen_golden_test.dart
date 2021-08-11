@@ -76,7 +76,7 @@ void main() {
         final contactField = find.widgetWithText(CustomTextField, 'Contact');
         await tester.enterText(contactField, '3001234567');
 
-        //dismiss keyboard
+        //and dismiss keyboard
         await tester.testTextInput.receiveAction(TextInputAction.done);
         await tester.pump();
 
