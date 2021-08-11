@@ -3,7 +3,7 @@ on:
   push:
     branches-ignore: [master, release, dev] # only run on feature branches
     paths:
-      - '**/golden_tests/**'
+      - '**/golden_tests/**.dart'
 
     workflow_dispatch:
 
