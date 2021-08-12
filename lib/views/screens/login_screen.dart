@@ -12,6 +12,9 @@ import '../../helper/utils/form_validator.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //States
 import '../../providers/states/auth_state.dart';
 
@@ -101,7 +104,9 @@ class LoginScreen extends HookWidget {
               const SizedBox(height: 15),
 
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  context.router.push(const ForgotPasswordScreenRoute());
+                },
                 child: const Text(
                   'Forgot password?',
                   style: TextStyle(
