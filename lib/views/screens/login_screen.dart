@@ -27,14 +27,13 @@ class LoginScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = useMemoized(()=>GlobalKey<FormState>());
+    final formKey = useMemoized(() => GlobalKey<FormState>());
     final emailController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     return Scaffold(
-      body: ProviderListener(
+      body: ProviderListener<AuthState>(
         provider: authProvider,
-        onChange: (context, authState) async =>
-            (authState as AuthState).maybeWhen(
+        onChange: (context, authState) async => authState.maybeWhen(
           authenticated: (_) {
             emailController.clear();
             passwordController.clear();
@@ -102,7 +101,7 @@ class LoginScreen extends HookWidget {
               const SizedBox(height: 15),
 
               GestureDetector(
-                onTap: (){},
+                onTap: () {},
                 child: const Text(
                   'Forgot password?',
                   style: TextStyle(
