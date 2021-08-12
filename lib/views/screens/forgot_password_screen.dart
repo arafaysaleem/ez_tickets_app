@@ -17,11 +17,11 @@ import '../../providers/states/forgot_password_state.dart';
 import '../widgets/common/custom_dialog.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
-import '../widgets/forgot_password/page_button_widget.dart';
-import '../widgets/forgot_password/page_message_widget.dart';
-import '../widgets/forgot_password/page_name_widget.dart';
-import '../widgets/forgot_password/page_resend_widget.dart';
-import '../widgets/forgot_password/page_text_fields.dart';
+import '../widgets/forgot_password/forgot_button_widget.dart';
+import '../widgets/forgot_password/forgot_message_widget.dart';
+import '../widgets/forgot_password/forgot_name_widget.dart';
+import '../widgets/forgot_password/forgot_resend_widget.dart';
+import '../widgets/forgot_password/forgot_text_fields.dart';
 
 class ForgotPasswordScreen extends HookWidget {
   const ForgotPasswordScreen();
@@ -74,12 +74,12 @@ class ForgotPasswordScreen extends HookWidget {
                 child: RoundedBottomContainer(
                   children: [
                     //Relevant Page Name
-                    const PageNameWidget(),
+                    const ForgotNameWidget(),
 
                     const SizedBox(height: 20),
 
                     //Relevant Input Fields
-                    PageTextFields(
+                    ForgotTextFields(
                       emailController: emailController,
                       newPasswordController: newPasswordController,
                       cNewPasswordController: cNewPasswordController,
@@ -88,7 +88,7 @@ class ForgotPasswordScreen extends HookWidget {
                     const SizedBox(height: 10),
 
                     //Relevant Response Message
-                    const PageMessageWidget(),
+                    const ForgotMessageWidget(),
                   ],
                 ),
               ),
@@ -96,12 +96,12 @@ class ForgotPasswordScreen extends HookWidget {
               const SizedBox(height: 15),
 
               //Resend message
-              const PageResendWidget(),
+              const ForgotResendWidget(),
 
               const Spacer(),
 
               //Reset Password Button
-              PageButtonWidget(
+              ForgotButtonWidget(
                 email: emailController.text,
                 newPassword: newPasswordController.text,
                 formKey: _formKey,

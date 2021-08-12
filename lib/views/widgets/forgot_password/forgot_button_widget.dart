@@ -9,17 +9,17 @@ import '../../../helper/utils/constants.dart';
 //Providers
 import '../../../providers/all_providers.dart';
 import '../../../providers/auth_provider.dart';
+import 'otp_code_fields.dart' show otpCodeProvider;
 
 //Widgets
 import '../common/custom_text_button.dart';
-import 'otp_code_fields.dart' show otpCodeProvider;
 
-class PageButtonWidget extends StatefulHookWidget {
+class ForgotButtonWidget extends StatefulHookWidget {
   final String email;
   final String newPassword;
   final GlobalKey<FormState> formKey;
 
-  const PageButtonWidget({
+  const ForgotButtonWidget({
     Key? key,
     required this.email,
     required this.newPassword,
@@ -30,8 +30,33 @@ class PageButtonWidget extends StatefulHookWidget {
   _PageButtonWidgetState createState() => _PageButtonWidgetState();
 }
 
-class _PageButtonWidgetState extends State<PageButtonWidget> {
-  late Widget currentPageButton;
+class _PageButtonWidgetState extends State<ForgotButtonWidget> {
+  late Widget _currentPageButton;
+
+  void _onPressed({
+    bool isEmail = false,
+    bool isOtp = false,
+    bool isReset = false,
+  }) {
+    if (widget.formKey.currentState!.validate()) {
+      widget.formKey.currentState!.save();
+      final _authProv = context.read(authProvider.notifier);
+      if (isEmail) {
+        _authProv.forgotPassword(widget.email);
+      } else if (isOtp) {
+        final String otpCode = context.read(otpCodeProvider).state.fold(
+          '',
+          (otp, digit) => '$otp$digit',
+        );
+        _authProv.verifyOtp(email: widget.email, otp: otpCode);
+      } else if (isReset) {
+        _authProv.resetPassword(
+          email: widget.email,
+          password: widget.newPassword,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +65,9 @@ class _PageButtonWidgetState extends State<PageButtonWidget> {
       padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
       child: _forgotPasswordState.when(
         email: () {
-          currentPageButton = CustomTextButton.gradient(
+          _currentPageButton = CustomTextButton.gradient(
             width: double.infinity,
-            onPressed: () {
-              if (widget.formKey.currentState!.validate()) {
-                widget.formKey.currentState!.save();
-                final _authProv = context.read(authProvider.notifier);
-                _authProv.forgotPassword(widget.email);
-              }
-            },
+            onPressed: () => _onPressed(isEmail: true),
             gradient: Constants.buttonGradientOrange,
             child: const Center(
               child: Text(
@@ -62,22 +81,12 @@ class _PageButtonWidgetState extends State<PageButtonWidget> {
               ),
             ),
           );
-          return currentPageButton;
+          return _currentPageButton;
         },
         otp: (_) {
-          currentPageButton = CustomTextButton.gradient(
+          _currentPageButton = CustomTextButton.gradient(
             width: double.infinity,
-            onPressed: () {
-              if (widget.formKey.currentState!.validate()) {
-                widget.formKey.currentState!.save();
-                final String otpCode = context
-                    .read(otpCodeProvider)
-                    .state
-                    .fold('', (otp, digit) => '$otp$digit');
-                final _authProv = context.read(authProvider.notifier);
-                _authProv.verifyOtp(email: widget.email, otp: otpCode);
-              }
-            },
+            onPressed: () => _onPressed(isOtp: true),
             gradient: Constants.buttonGradientOrange,
             child: const Center(
               child: Text('VERIFY OTP',
@@ -89,21 +98,12 @@ class _PageButtonWidgetState extends State<PageButtonWidget> {
                   )),
             ),
           );
-          return currentPageButton;
+          return _currentPageButton;
         },
         resetPassword: (_) {
-          currentPageButton = CustomTextButton.gradient(
+          _currentPageButton = CustomTextButton.gradient(
             width: double.infinity,
-            onPressed: () {
-              if (widget.formKey.currentState!.validate()) {
-                widget.formKey.currentState!.save();
-                final _authProv = context.read(authProvider.notifier);
-                _authProv.resetPassword(
-                  email: widget.email,
-                  password: widget.newPassword,
-                );
-              }
-            },
+            onPressed: () => _onPressed(isReset: true),
             gradient: Constants.buttonGradientOrange,
             child: const Center(
               child: Text(
@@ -117,7 +117,7 @@ class _PageButtonWidgetState extends State<PageButtonWidget> {
               ),
             ),
           );
-          return currentPageButton;
+          return _currentPageButton;
         },
         loading: (_) => CustomTextButton.gradient(
           width: double.infinity,
@@ -132,7 +132,7 @@ class _PageButtonWidgetState extends State<PageButtonWidget> {
             ),
           ),
         ),
-        failed: (_) => currentPageButton,
+        failed: (_) => _currentPageButton,
         success: (_) => const SizedBox.shrink(),
       ),
     );

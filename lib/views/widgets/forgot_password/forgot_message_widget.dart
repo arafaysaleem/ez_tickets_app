@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,8 +10,8 @@ import '../../../helper/utils/constants.dart';
 import '../../../../providers/auth_provider.dart';
 
 
-class PageMessageWidget extends HookWidget {
-  const PageMessageWidget({
+class ForgotMessageWidget extends HookWidget {
+  const ForgotMessageWidget({
     Key? key,
   }) : super(key: key);
 

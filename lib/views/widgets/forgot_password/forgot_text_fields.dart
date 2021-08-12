@@ -13,8 +13,8 @@ import '../common/custom_textfield.dart';
 import 'reset_password_fields.dart';
 import 'otp_code_fields.dart';
 
-class PageTextFields extends StatefulHookWidget {
-  const PageTextFields({
+class ForgotTextFields extends StatefulHookWidget {
+  const ForgotTextFields({
     Key? key,
     required this.emailController,
     required this.newPasswordController,
@@ -29,7 +29,7 @@ class PageTextFields extends StatefulHookWidget {
   _ForgotPasswordFieldsState createState() => _ForgotPasswordFieldsState();
 }
 
-class _ForgotPasswordFieldsState extends State<PageTextFields> {
+class _ForgotPasswordFieldsState extends State<ForgotTextFields> {
   late Widget currentTextFields;
 
   @override

@@ -8,8 +8,8 @@ import '../../../providers/auth_provider.dart';
 //Helpers
 import '../../../helper/utils/constants.dart';
 
-class PageResendWidget extends HookWidget {
-  const PageResendWidget({
+class ForgotResendWidget extends HookWidget {
+  const ForgotResendWidget({
     Key? key,
   }) : super(key: key);
 

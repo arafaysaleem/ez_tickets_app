@@ -8,8 +8,8 @@ import '../../../helper/extensions/context_extensions.dart';
 //Providers
 import '../../../providers/auth_provider.dart';
 
-class PageNameWidget extends StatefulHookWidget {
-  const PageNameWidget({
+class ForgotNameWidget extends StatefulHookWidget {
+  const ForgotNameWidget({
     Key? key,
   }) : super(key: key);
 
@@ -17,7 +17,7 @@ class PageNameWidget extends StatefulHookWidget {
   _PageNameWidgetState createState() => _PageNameWidgetState();
 }
 
-class _PageNameWidgetState extends State<PageNameWidget> {
+class _PageNameWidgetState extends State<ForgotNameWidget> {
   late Text currentPageText;
 
   @override
