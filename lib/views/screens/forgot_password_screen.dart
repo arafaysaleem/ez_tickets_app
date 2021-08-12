@@ -1,60 +1,112 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../helper/typedefs.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
 
 //Providers
-import '../../../providers/auth_provider.dart';
+import '../../providers/auth_provider.dart';
+
+//States
 import '../../providers/states/forgot_password_state.dart';
 
 //Widgets
-import '../widgets/forgot_password/successful_reset_widget.dart';
-import '../widgets/forgot_password/reset_password_widget.dart';
-import '../widgets/forgot_password/verify_email_widget.dart';
-import '../widgets/forgot_password/verify_otp_widget.dart';
 import '../widgets/common/custom_dialog.dart';
+import '../widgets/common/rounded_bottom_container.dart';
+import '../widgets/common/scrollable_column.dart';
+import '../widgets/forgot_password/page_button_widget.dart';
+import '../widgets/forgot_password/page_message_widget.dart';
+import '../widgets/forgot_password/page_name_widget.dart';
+import '../widgets/forgot_password/page_resend_widget.dart';
+import '../widgets/forgot_password/page_text_fields.dart';
 
 class ForgotPasswordScreen extends HookWidget {
   const ForgotPasswordScreen();
 
   @override
   Widget build(BuildContext context) {
-    final forgotPasswordState = useProvider(forgotPasswordStateProvider).state;
-    final emailController = useTextEditingController();
-    final child = VerifyEmailWidget(emailController: emailController);
+    late final emailController = useTextEditingController();
+    final newPasswordController = useTextEditingController();
+    final cNewPasswordController = useTextEditingController();
+    late final _formKey = useMemoized(() => GlobalKey<FormState>());
     return Scaffold(
-      body: ProviderListener<StateController<ForgotPasswordState>>(
+      body: StateListener<ForgotPasswordState>(
         provider: forgotPasswordStateProvider,
-        onChange: (context, forgotPasswordStateController) async =>
-            forgotPasswordStateController.state.maybeWhen(
-              success: (_) => emailController.clear(),
-              failed: (reason) async => await showDialog<bool>(
-                  context: context,
-                  barrierColor: Constants.barrierColor.withOpacity(0.75),
-                  builder: (ctx) => CustomDialog.alert(
-                    title: 'Failure',
-                    body: reason,
-                    buttonText: 'Retry',
-                  ),
+        onChange: (context, controller) async => controller.state.maybeWhen(
+          success: (_) async {
+            emailController.clear();
+            newPasswordController.clear();
+            cNewPasswordController.clear();
+            context.router.pop().then<bool?>((_) async {
+              return await showDialog<bool>(
+                context: context,
+                barrierColor: Constants.barrierColor.withOpacity(0.75),
+                builder: (ctx) => const CustomDialog.alert(
+                  title: 'Password Reset Successful',
+                  body: "In order to proceed, you'll have to login again with "
+                      'your new password',
+                  buttonText: 'Okay',
                 ),
-              orElse: () {},
+              );
+            });
+          },
+          failed: (reason) async => await showDialog<bool>(
+            context: context,
+            barrierColor: Constants.barrierColor.withOpacity(0.75),
+            builder: (ctx) => CustomDialog.alert(
+              title: 'Failure',
+              body: reason,
+              buttonText: 'Retry',
             ),
+          ),
+          orElse: () {},
+        ),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: forgotPasswordState.maybeWhen(
-            email: () => child,
-            otp: (otpSentMessage) => VerifyOtpWidget(
-              email: emailController.text,
-              otpSentMessage: otpSentMessage,
-            ),
-            resetPassword: (otpVerifiedMessage) => ResetPassWidget(
-              email: emailController.text,
-              otpVerifiedMessage: otpVerifiedMessage,
-            ),
-            success: (message) => SuccessfulResetWidget(successMessage: message),
-            orElse: () => child,
+          child: ScrollableColumn(
+            children: [
+              //Input card
+              Form(
+                key: _formKey,
+                child: RoundedBottomContainer(
+                  children: [
+                    //Relevant Page Name
+                    const PageNameWidget(),
+
+                    const SizedBox(height: 20),
+
+                    //Relevant Input Fields
+                    PageTextFields(
+                      emailController: emailController,
+                      newPasswordController: newPasswordController,
+                      cNewPasswordController: cNewPasswordController,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    //Relevant Response Message
+                    const PageMessageWidget(),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              //Resend message
+              const PageResendWidget(),
+
+              const Spacer(),
+
+              //Reset Password Button
+              PageButtonWidget(
+                email: emailController.text,
+                newPassword: newPasswordController.text,
+                formKey: _formKey,
+              ),
+            ],
           ),
         ),
       ),
