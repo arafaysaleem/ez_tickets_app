@@ -13,8 +13,8 @@ import '../services/repositories/auth_repository.dart';
 
 //States
 import 'states/auth_state.dart';
-import 'states/future_state.dart';
 import 'states/forgot_password_state.dart';
+import 'states/future_state.dart';
 
 final changePasswordStateProvider = StateProvider(
   (ref) => const FutureState<String>.idle(),
@@ -125,19 +125,58 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
-  Future<String> forgotPassword(String email) async {
+  Future<void> forgotPassword(String email) async {
     final data = {'email': email};
-    return await _authRepository.sendForgotPasswordData(data: data);
+    final _forgotPasswordState = _reader(forgotPasswordStateProvider);
+    _forgotPasswordState.state = const ForgotPasswordState.loading(
+      loading: 'Verifying user email',
+    );
+    try {
+      final result = await _authRepository.sendForgotPasswordData(data: data);
+      _forgotPasswordState.state = ForgotPasswordState.otp(
+        otpSentMessage: result,
+      );
+    } on NetworkException catch (e) {
+      _forgotPasswordState.state = ForgotPasswordState.failed(reason: e.message);
+    }
   }
 
-  Future<bool> resetPassword({
+  Future<void> verifyOtp({required String email, required String otp}) async {
+    final data = {
+      'email': email,
+      'OTP': int.tryParse(otp)!,
+    };
+    final _forgotPasswordState = _reader(forgotPasswordStateProvider);
+    _forgotPasswordState.state = const ForgotPasswordState.loading(
+      loading: 'Verifying otp code',
+    );
+    try {
+      final result = await _authRepository.sendOtpData(data: data);
+      _forgotPasswordState.state = ForgotPasswordState.resetPassword(
+        otpVerifiedMessage: result,
+      );
+    } on NetworkException catch (e) {
+      _forgotPasswordState.state = ForgotPasswordState.failed(reason: e.message);
+    }
+  }
+
+  Future<void> resetPassword({
     required String email,
     required String password,
   }) async {
     final data = {'email': email, 'password': password};
-    final result = await _authRepository.sendResetPasswordData(data: data);
-    if (result) _updatePassword(password);
-    return result;
+    final _forgotPasswordState = _reader(forgotPasswordStateProvider);
+    _forgotPasswordState.state = const ForgotPasswordState.loading(
+      loading: 'Verifying otp code',
+    );
+    try {
+      final result = await _authRepository.sendResetPasswordData(data: data);
+      _forgotPasswordState.state = ForgotPasswordState.success(
+        success: result,
+      );
+    } on NetworkException catch (e) {
+      _forgotPasswordState.state = ForgotPasswordState.failed(reason: e.message);
+    }
   }
 
   Future<void> changePassword({required String newPassword}) async {
@@ -155,14 +194,6 @@ class AuthProvider extends StateNotifier<AuthState> {
     } on NetworkException catch (e) {
       _changePasswordState.state = FutureState.failed(reason: e.message);
     }
-  }
-
-  Future<bool> verifyOtp({required String email, required String otp}) async {
-    final data = {
-      'email': email,
-      'OTP': int.tryParse(otp)!,
-    };
-    return await _authRepository.sendOtpData(data: data);
   }
 
   void _updateAuthProfile() {
