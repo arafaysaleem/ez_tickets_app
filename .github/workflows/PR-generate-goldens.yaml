@@ -1,0 +1,44 @@
+name: Generate Updated Goldens
+on:
+  push:
+    branches-ignore: [master, release, dev] # only run on feature branches
+    paths:
+      - '**/golden_tests/**.dart'
+
+    workflow_dispatch:
+
+jobs:
+  generate-goldens:
+    name: Test APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.2.0
+        with:
+          distribution: 'adopt'
+          java-version: '12.x'
+      - name: Checkout Flutter Stable Channel
+        uses: subosito/flutter-action@v1.5.3
+        with:
+          channel: 'stable'
+      - name: Get Pub Dependencies
+        run: flutter pub get
+      - name: Run Build Runner For Codegen Files
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      - name: Run tests
+        run: flutter test --update-goldens test/golden_tests
+      - name: Commit Updated Goldens
+        run: |
+          git config --global user.name 'arafaysaleem'
+          git config --global user.email 'arafaysaleem@users.noreply.github.com'
+          git add -A
+          git commit -m "test(Goldens): update generated goldens for new changes"
+      - name: GitHub Push To Repository
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.EZ_TICKETS_APP_TOKEN }}
+          branch: ${{ github.ref }}
