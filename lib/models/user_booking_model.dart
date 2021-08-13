@@ -9,7 +9,6 @@ part 'user_booking_model.g.dart';
 
 @freezed
 class UserBookingModel with _$UserBookingModel {
-    @JsonSerializable()
     const factory UserBookingModel({
       required String title,
       required String posterUrl,
