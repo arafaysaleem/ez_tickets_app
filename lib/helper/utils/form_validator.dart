@@ -107,7 +107,7 @@ class FormValidator{
   /// A method containing validation logic for single otp digit input.
   static String? otpDigitValidator(String? digit){
     if (digit != null && digit.isValidOtpDigit) return null;
-    return Constants.invalidOtpDigitError;
+    return '!';
   }
 
 }
