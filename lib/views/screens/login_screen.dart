@@ -76,7 +76,6 @@ class LoginScreen extends HookWidget {
                     //Email
                     CustomTextField(
                       controller: emailController,
-                      autofocus: true,
                       floatingText: 'Email',
                       hintText: 'Type your email address',
                       keyboardType: TextInputType.emailAddress,

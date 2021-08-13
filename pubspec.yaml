@@ -28,6 +28,7 @@ dependencies:
   flutter_secure_storage: ^4.2.1
   clock: ^1.1.0
   mockito: ^5.0.13
+  golden_toolkit: ^0.9.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -41,6 +42,7 @@ flutter:
   uses-material-design: true
   assets:
   - assets/
+  - google_fonts/
 flutter_icons:
   android: true
   ios: false
