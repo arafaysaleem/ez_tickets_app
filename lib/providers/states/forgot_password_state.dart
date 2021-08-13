@@ -14,9 +14,13 @@ class ForgotPasswordState with _$ForgotPasswordState {
     required String otpVerifiedMessage,
   }) = RESET_PASSWORD;
 
-  const factory ForgotPasswordState.loading({required String loading}) = LOADING;
+  const factory ForgotPasswordState.loading({required String loading}) =
+      LOADING;
 
-  const factory ForgotPasswordState.failed({required String reason}) = FAILED;
+  const factory ForgotPasswordState.failed({
+    required String reason,
+    required ForgotPasswordState lastState,
+  }) = FAILED;
 
   const factory ForgotPasswordState.success({String? success}) = SUCCESS;
 }
