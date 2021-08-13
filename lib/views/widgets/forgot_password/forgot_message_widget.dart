@@ -7,8 +7,7 @@ import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
 //Providers
-import '../../../../providers/auth_provider.dart';
-
+import '../../../providers/all_providers.dart';
 
 class ForgotMessageWidget extends HookWidget {
   const ForgotMessageWidget({
@@ -21,15 +20,15 @@ class ForgotMessageWidget extends HookWidget {
       textAlign: TextAlign.center,
       style: ctx.bodyText1.copyWith(
         color: Constants.textGreyColor,
-        fontSize: 17,
+        fontSize: 16,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordStateProvider).state;
-    return _forgotPasswordState.when(
+    final _forgotPasswordState = useProvider(forgotPasswordProvider);
+    return _forgotPasswordState.maybeWhen(
       email: () => _buildMessageText(
         context,
         'A 4 digit OTP will be sent to this email once verified',
@@ -37,8 +36,7 @@ class ForgotMessageWidget extends HookWidget {
       otp: (message) => _buildMessageText(context, message),
       resetPassword: (message) => _buildMessageText(context, message),
       loading: (message) => _buildMessageText(context, message),
-      failed: (message) => _buildMessageText(context, message),
-      success: (_) => const SizedBox.shrink(),
+      orElse: () => const SizedBox.shrink(),
     );
   }
 }

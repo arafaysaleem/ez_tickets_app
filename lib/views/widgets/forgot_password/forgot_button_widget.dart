@@ -8,21 +8,19 @@ import '../../../helper/utils/constants.dart';
 
 //Providers
 import '../../../providers/all_providers.dart';
-import '../../../providers/auth_provider.dart';
-import 'otp_code_fields.dart' show otpCodeProvider;
 
 //Widgets
 import '../common/custom_text_button.dart';
 
 class ForgotButtonWidget extends StatefulHookWidget {
-  final String email;
-  final String newPassword;
+  final TextEditingController emailController;
+  final TextEditingController newPasswordController;
   final GlobalKey<FormState> formKey;
 
   const ForgotButtonWidget({
     Key? key,
-    required this.email,
-    required this.newPassword,
+    required this.emailController,
+    required this.newPasswordController,
     required this.formKey,
   }) : super(key: key);
 
@@ -40,19 +38,15 @@ class _PageButtonWidgetState extends State<ForgotButtonWidget> {
   }) {
     if (widget.formKey.currentState!.validate()) {
       widget.formKey.currentState!.save();
-      final _authProv = context.read(authProvider.notifier);
+      final _forgotPasswordProv = context.read(forgotPasswordProvider.notifier);
       if (isEmail) {
-        _authProv.forgotPassword(widget.email);
+        _forgotPasswordProv.requestOtpCode(widget.emailController.text);
       } else if (isOtp) {
-        final String otpCode = context.read(otpCodeProvider).state.fold(
-          '',
-          (otp, digit) => '$otp$digit',
-        );
-        _authProv.verifyOtp(email: widget.email, otp: otpCode);
+        _forgotPasswordProv.verifyOtp(widget.emailController.text);
       } else if (isReset) {
-        _authProv.resetPassword(
-          email: widget.email,
-          password: widget.newPassword,
+        _forgotPasswordProv.resetPassword(
+          email: widget.emailController.text,
+          password: widget.newPasswordController.text,
         );
       }
     }
@@ -60,7 +54,7 @@ class _PageButtonWidgetState extends State<ForgotButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordStateProvider).state;
+    final _forgotPasswordState = useProvider(forgotPasswordProvider);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
       child: _forgotPasswordState.when(
@@ -132,7 +126,7 @@ class _PageButtonWidgetState extends State<ForgotButtonWidget> {
             ),
           ),
         ),
-        failed: (_) => _currentPageButton,
+        failed: (_, __) => _currentPageButton,
         success: (_) => const SizedBox.shrink(),
       ),
     );

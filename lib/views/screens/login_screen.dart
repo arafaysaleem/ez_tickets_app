@@ -63,6 +63,7 @@ class LoginScreen extends HookWidget {
               Form(
                 key: formKey,
                 child: RoundedBottomContainer(
+                  padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 20),
                   children: [
                     //Page name
                     Text(
@@ -100,19 +101,24 @@ class LoginScreen extends HookWidget {
                 ),
               ),
 
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
 
-              GestureDetector(
-                onTap: () {
-                  context.router.push(const ForgotPasswordScreenRoute());
-                },
-                child: const Text(
-                  'Forgot password?',
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Constants.primaryColor,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(const ForgotPasswordScreenRoute());
+                    },
+                    child: Text(
+                      'Forgot your password?',
+                      style: context.headline3.copyWith(
+                        fontSize: 17,
+                        color: Constants.primaryColor,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
 
               const Spacer(),

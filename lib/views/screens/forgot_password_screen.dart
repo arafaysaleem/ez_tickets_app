@@ -1,14 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
-import '../../helper/typedefs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Helpers
 import '../../helper/utils/constants.dart';
 
 //Providers
-import '../../providers/auth_provider.dart';
+import '../../providers/all_providers.dart';
 
 //States
 import '../../providers/states/forgot_password_state.dart';
@@ -29,13 +28,13 @@ class ForgotPasswordScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     late final emailController = useTextEditingController();
-    final newPasswordController = useTextEditingController();
-    final cNewPasswordController = useTextEditingController();
+    late final newPasswordController = useTextEditingController();
+    late final cNewPasswordController = useTextEditingController();
     late final _formKey = useMemoized(() => GlobalKey<FormState>());
     return Scaffold(
-      body: StateListener<ForgotPasswordState>(
-        provider: forgotPasswordStateProvider,
-        onChange: (context, controller) async => controller.state.maybeWhen(
+      body: ProviderListener<ForgotPasswordState>(
+        provider: forgotPasswordProvider,
+        onChange: (context, forgotPwState) async => forgotPwState.maybeWhen(
           success: (_) async {
             emailController.clear();
             newPasswordController.clear();
@@ -53,13 +52,17 @@ class ForgotPasswordScreen extends HookWidget {
               );
             });
           },
-          failed: (reason) async => await showDialog<bool>(
+          failed: (reason, lastState) async => await showDialog<bool>(
             context: context,
             barrierColor: Constants.barrierColor.withOpacity(0.75),
             builder: (ctx) => CustomDialog.alert(
               title: 'Failure',
               body: reason,
               buttonText: 'Retry',
+              onButtonPressed: (){
+                final forgotProv = context.read(forgotPasswordProvider.notifier);
+                forgotProv.retryForgotPassword(lastState);
+              },
             ),
           ),
           orElse: () {},
@@ -72,6 +75,7 @@ class ForgotPasswordScreen extends HookWidget {
               Form(
                 key: _formKey,
                 child: RoundedBottomContainer(
+                  padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 20),
                   children: [
                     //Relevant Page Name
                     const ForgotNameWidget(),
@@ -87,23 +91,26 @@ class ForgotPasswordScreen extends HookWidget {
 
                     const SizedBox(height: 10),
 
-                    //Relevant Response Message
-                    const ForgotMessageWidget(),
+                    //Resend message
+                    const ForgotResendWidget(),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
 
-              //Resend message
-              const ForgotResendWidget(),
+              //Relevant Response Message
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: ForgotMessageWidget(),
+              ),
 
               const Spacer(),
 
               //Reset Password Button
               ForgotButtonWidget(
-                email: emailController.text,
-                newPassword: newPasswordController.text,
+                emailController: emailController,
+                newPasswordController: newPasswordController,
                 formKey: _formKey,
               ),
             ],

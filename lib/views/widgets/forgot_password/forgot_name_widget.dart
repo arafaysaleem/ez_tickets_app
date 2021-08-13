@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../helper/extensions/context_extensions.dart';
 
 //Providers
-import '../../../providers/auth_provider.dart';
+import '../../../providers/all_providers.dart';
 
 class ForgotNameWidget extends StatefulHookWidget {
   const ForgotNameWidget({
@@ -20,32 +20,27 @@ class ForgotNameWidget extends StatefulHookWidget {
 class _PageNameWidgetState extends State<ForgotNameWidget> {
   late Text currentPageText;
 
+  Text _buildText(String pageName) {
+    return Text(
+      pageName,
+      style: context.headline3.copyWith(fontSize: 22),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordStateProvider).state;
+    final _forgotPasswordState = useProvider(forgotPasswordProvider);
     return _forgotPasswordState.maybeWhen(
       email: () {
-        currentPageText = Text(
-          'Forgot Password',
-          textAlign: TextAlign.center,
-          style: context.headline3.copyWith(fontSize: 22),
-        );
+        currentPageText = _buildText('Forgot Password');
         return currentPageText;
       },
       otp: (_) {
-        currentPageText = Text(
-          'Verify Otp',
-          textAlign: TextAlign.center,
-          style: context.headline3.copyWith(fontSize: 22),
-        );
+        currentPageText = _buildText('Verify Otp');
         return currentPageText;
       },
       resetPassword: (_) {
-        currentPageText = Text(
-          'Reset Password',
-          textAlign: TextAlign.center,
-          style: context.headline3.copyWith(fontSize: 22),
-        );
+        currentPageText = _buildText('Reset Password');
         return currentPageText;
       },
       success: (_) => const SizedBox.shrink(),

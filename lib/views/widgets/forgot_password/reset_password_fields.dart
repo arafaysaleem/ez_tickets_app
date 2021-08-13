@@ -35,7 +35,7 @@ class ResetPasswordFields extends StatelessWidget {
         //Confirm New Password Field
         CustomTextField(
           hintText: 'Retype your password',
-          floatingText: 'New Password',
+          floatingText: 'Confirm Password',
           controller: cNewPasswordController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,

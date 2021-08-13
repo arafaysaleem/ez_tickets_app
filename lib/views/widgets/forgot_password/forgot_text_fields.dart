@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../helper/utils/form_validator.dart';
 
 //Providers
-import '../../../providers/auth_provider.dart';
+import '../../../providers/all_providers.dart';
 
 //Widgets
 import '../common/custom_textfield.dart';
@@ -34,7 +34,7 @@ class _ForgotPasswordFieldsState extends State<ForgotTextFields> {
 
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordStateProvider).state;
+    final _forgotPasswordState = useProvider(forgotPasswordProvider);
     return _forgotPasswordState.maybeWhen(
       email: () {
         currentTextFields = CustomTextField(
