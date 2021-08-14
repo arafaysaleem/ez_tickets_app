@@ -57,7 +57,7 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
     required String password,
   }) async {
     final lastState = state;
-    state = const ForgotPasswordState.loading(loading: 'Verifying otp code');
+    state = const ForgotPasswordState.loading(loading: 'Resetting password');
     try {
       final data = {'email': email, 'password': password};
       final result = await _authRepository.sendResetPasswordData(data: data);
