@@ -78,7 +78,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
-              if(trueButtonPressed != null) trueButtonPressed!();
+              trueButtonPressed?.call();
               context.router.pop();
             },
           )
@@ -94,7 +94,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
-              if(trueButtonPressed != null) trueButtonPressed!();
+              trueButtonPressed?.call();
               context.router.pop(true);
             },
           ),
@@ -109,7 +109,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
-              if(falseButtonPressed != null) falseButtonPressed!();
+              falseButtonPressed?.call();
               context.router.pop(false);
             },
           ),
