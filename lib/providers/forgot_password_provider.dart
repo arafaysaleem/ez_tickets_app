@@ -14,8 +14,11 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
   final AuthRepository _authRepository;
   String? _email;
 
-  ForgotPasswordProvider(this._authRepository)
-      : super(const ForgotPasswordState.email());
+  ForgotPasswordProvider({
+    required AuthRepository authRepository,
+    required ForgotPasswordState initialState,
+  })
+      : _authRepository = authRepository, super(initialState);
 
   String get _otpCode => _otpDigits.fold('', (otp, digit) => '$otp$digit');
 
