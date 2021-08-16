@@ -22,7 +22,9 @@ class ForgotResendWidget extends HookWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context.read(forgotPasswordProvider.notifier).resendOtpCode();
+            },
             child: Text(
               'Resend OTP',
               style: context.headline3.copyWith(

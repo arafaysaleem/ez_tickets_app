@@ -12,7 +12,7 @@ import 'states/forgot_password_state.dart';
 class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
   final _otpDigits = ['0', '0', '0', '0'];
   final AuthRepository _authRepository;
-  late final String? _email;
+  String? _email;
 
   ForgotPasswordProvider(this._authRepository)
       : super(const ForgotPasswordState.email());
@@ -38,6 +38,8 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
       );
     }
   }
+
+  Future<void> resendOtpCode() async => requestOtpCode(_email!);
 
   Future<void> verifyOtp() async {
     final lastState = state;
