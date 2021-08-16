@@ -10,7 +10,6 @@ on:
 
 jobs:
   generate-goldens:
-    name: Test APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
