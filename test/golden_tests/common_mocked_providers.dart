@@ -32,13 +32,13 @@ class _MockKVStorageService extends Mock implements KeyValueStorageService {
 }
 
 //Fakes
-class _MockAuthRepository extends Fake implements AuthRepository {}
+class MockAuthRepository extends Fake implements AuthRepository {}
 
 //Providers
 final mockAuthProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider(
     reader: ref.read,
-    authRepository: _MockAuthRepository(),
+    authRepository: MockAuthRepository(),
     keyValueStorageService: _MockKVStorageService(),
   );
 });
