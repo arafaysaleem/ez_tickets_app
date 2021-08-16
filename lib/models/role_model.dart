@@ -8,7 +8,6 @@ part 'role_model.g.dart';
 @freezed
 class RoleModel with _$RoleModel {
 
-  @JsonSerializable()
   const factory RoleModel({
     required int roleId,
     required String fullName,

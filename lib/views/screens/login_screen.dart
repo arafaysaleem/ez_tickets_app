@@ -12,6 +12,9 @@ import '../../helper/utils/form_validator.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
+//Routes
+import '../../routes/app_router.gr.dart';
+
 //States
 import '../../providers/states/auth_state.dart';
 
@@ -27,14 +30,13 @@ class LoginScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = useMemoized(()=>GlobalKey<FormState>());
+    final formKey = useMemoized(() => GlobalKey<FormState>());
     final emailController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     return Scaffold(
-      body: ProviderListener(
+      body: ProviderListener<AuthState>(
         provider: authProvider,
-        onChange: (context, authState) async =>
-            (authState as AuthState).maybeWhen(
+        onChange: (context, authState) async => authState.maybeWhen(
           authenticated: (_) {
             emailController.clear();
             passwordController.clear();
@@ -61,6 +63,7 @@ class LoginScreen extends HookWidget {
               Form(
                 key: formKey,
                 child: RoundedBottomContainer(
+                  padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 20),
                   children: [
                     //Page name
                     Text(
@@ -96,6 +99,26 @@ class LoginScreen extends HookWidget {
                     ),
                   ],
                 ),
+              ),
+
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(const ForgotPasswordScreenRoute());
+                    },
+                    child: Text(
+                      'Forgot your password?',
+                      style: context.headline3.copyWith(
+                        fontSize: 17,
+                        color: Constants.primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               const Spacer(),

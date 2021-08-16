@@ -40,7 +40,7 @@ class ErrorResponseHandler extends StatelessWidget {
         height: context.screenHeight * 0.5,
       );
     }
-    if (onError != null) onError!();
+    onError?.call();
     debugPrint(error.toString());
     debugPrint(stackTrace?.toString());
     return const SizedBox.shrink();
@@ -67,7 +67,7 @@ class _ErrorResponseHandlerWithBuilder extends ErrorResponseHandler {
   @override
   Widget build(BuildContext context) {
     if (error is NetworkException) return builder(error as NetworkException);
-    if (onError != null) onError!();
+    onError?.call();
     debugPrint(error.toString());
     debugPrint(stackTrace?.toString());
     return const SizedBox.shrink();

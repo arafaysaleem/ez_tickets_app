@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../helper/extensions/context_extensions.dart';
 import '../../helper/utils/constants.dart';
+import '../../helper/typedefs.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/states/future_state.dart';
 
 //Widgets
 import '../widgets/common/custom_dialog.dart';
@@ -28,10 +29,10 @@ class ChangePasswordScreen extends HookWidget {
     final cNewPasswordController = useTextEditingController();
     late final _formKey = useMemoized(() => GlobalKey<FormState>());
     return Scaffold(
-      body: ProviderListener<StateController<FutureState<String>>>(
+      body: FutureStateListener<String>(
         provider: changePasswordStateProvider,
-        onChange: (_, changePasswordStateController) async {
-          final changePasswordState = changePasswordStateController.state;
+        onChange: (_, controller) async {
+          final changePasswordState = controller.state;
           changePasswordState.maybeWhen(
             data: (message) async {
               currentPasswordController.clear();
@@ -44,6 +45,7 @@ class ChangePasswordScreen extends HookWidget {
                   title: 'Change Password Success',
                   body: message,
                   buttonText: 'Okay',
+                  onButtonPressed: () => context.router.pop(),
                 ),
               );
             },
@@ -70,7 +72,7 @@ class ChangePasswordScreen extends HookWidget {
                   children: [
                     //Page name
                     Text(
-                      'Your profile',
+                      'Change password',
                       textAlign: TextAlign.center,
                       style: context.headline3.copyWith(fontSize: 22),
                     ),

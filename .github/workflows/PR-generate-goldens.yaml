@@ -4,12 +4,12 @@ on:
     branches-ignore: [master, release, dev] # only run on feature branches
     paths:
       - '**/golden_tests/**.dart'
+      - '**/views/**'
 
     workflow_dispatch:
 
 jobs:
   generate-goldens:
-    name: Test APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

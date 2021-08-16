@@ -10,9 +10,9 @@ import '../models/user_model.dart';
 import '../services/local_storage/key_value_storage_service.dart';
 import '../services/networking/network_exception.dart';
 import '../services/repositories/auth_repository.dart';
-import 'states/auth_state.dart';
 
 //States
+import 'states/auth_state.dart';
 import 'states/future_state.dart';
 
 final changePasswordStateProvider = StateProvider(
@@ -120,21 +120,6 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
-  Future<String> forgotPassword(String email) async {
-    final data = {'email': email};
-    return await _authRepository.sendForgotPasswordData(data: data);
-  }
-
-  Future<bool> resetPassword({
-    required String email,
-    required String password,
-  }) async {
-    final data = {'email': email, 'password': password};
-    final result = await _authRepository.sendResetPasswordData(data: data);
-    if (result) _updatePassword(password);
-    return result;
-  }
-
   Future<void> changePassword({required String newPassword}) async {
     final data = {
       'email': currentUserEmail,
@@ -150,14 +135,6 @@ class AuthProvider extends StateNotifier<AuthState> {
     } on NetworkException catch (e) {
       _changePasswordState.state = FutureState.failed(reason: e.message);
     }
-  }
-
-  Future<bool> verifyOtp({required String email, required int otp}) async {
-    final data = {
-      'email': email,
-      'OTP': otp,
-    };
-    return await _authRepository.sendOtpData(data: data);
   }
 
   void _updateAuthProfile() {

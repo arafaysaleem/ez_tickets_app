@@ -182,9 +182,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     return Scaffold(
-      body: ProviderListener(
+      body: ProviderListener<AuthState>(
         provider: authProvider,
-        onChange: (_, authState) async => (authState as AuthState).maybeWhen(
+        onChange: (_, authState) async => authState.maybeWhen(
           authenticated: onAuthStateAuthenticated,
           failed: onAuthStateFailed,
           orElse: () {},
