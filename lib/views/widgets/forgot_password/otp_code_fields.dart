@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
+import '../../../helper/utils/constants.dart';
 import '../../../helper/utils/form_validator.dart';
 
 //Providers
@@ -17,32 +18,42 @@ class OtpCodeFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
       children: [
-        //Digit 1-4
-        for (int i = 0; i < 4; i++)
-          CustomTextField(
-            maxLength: 1,
-            height: 55,
-            width: 50,
-            textAlign: TextAlign.center,
-            errorTextAlign: Alignment.center,
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.next,
-            validator: FormValidator.otpDigitValidator,
-            onSaved: (digit) {
-              final forgotProv = context.read(forgotPasswordProvider.notifier);
-              forgotProv.setOtpDigit(i, digit!);
-            },
-            onChanged: (digit) {
-              if (digit!.length == 1) {
-                FocusScope.of(context).nextFocus();
-              } else if (digit.isEmpty) {
-                FocusScope.of(context).previousFocus();
-              }
-            },
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            //Digit 1-4
+            for (int i = 0; i < 4; i++)
+              CustomTextField(
+                maxLength: 1,
+                width: 60,
+                height: 60,
+                contentPadding: const EdgeInsets.only(bottom: 10),
+                inputStyle: const TextStyle(
+                  fontSize: 35,
+                  color: Constants.textWhite80Color,
+                ),
+                showErrorBorder: true,
+                textAlign: TextAlign.center,
+                errorAlign: Alignment.topCenter,
+                keyboardType: TextInputType.phone,
+                textInputAction: TextInputAction.next,
+                validator: FormValidator.otpDigitValidator,
+                onSaved: (digit) {
+                  final forgotProv = context.read(forgotPasswordProvider.notifier);
+                  forgotProv.setOtpDigit(i, digit!);
+                },
+                onChanged: (digit) {
+                  if (digit!.length == 1) {
+                    FocusScope.of(context).nextFocus();
+                  } else if (digit.isEmpty) {
+                    FocusScope.of(context).previousFocus();
+                  }
+                },
+              ),
+          ],
+        ),
       ],
     );
   }
