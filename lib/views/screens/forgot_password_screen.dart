@@ -71,7 +71,7 @@ class ForgotPasswordScreen extends HookWidget {
             context: context,
             barrierColor: Constants.barrierColor.withOpacity(0.75),
             builder: (ctx) => CustomDialog.alert(
-              title: 'Failure',
+              title: 'Password Reset Failure',
               body: reason,
               buttonText: 'Retry',
               onButtonPressed: (){
