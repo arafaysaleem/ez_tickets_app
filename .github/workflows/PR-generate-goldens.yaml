@@ -4,7 +4,6 @@ on:
     branches-ignore: [master, release, dev] # only run on feature branches
     paths:
       - '**/golden_tests/**.dart'
-      - '**/views/**'
 
     workflow_dispatch:
 
