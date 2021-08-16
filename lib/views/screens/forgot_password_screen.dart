@@ -25,6 +25,21 @@ import '../widgets/forgot_password/forgot_text_fields.dart';
 class ForgotPasswordScreen extends HookWidget {
   const ForgotPasswordScreen();
 
+  Future<bool> _showConfirmDialog(BuildContext context) async {
+    final doPop = await showDialog<bool>(
+      context: context,
+      barrierColor: Constants.barrierColor,
+      builder: (ctx) => const CustomDialog.confirm(
+        title: 'Are you sure?',
+        body: 'Do you want to go back without resetting your password?',
+        trueButtonText: 'Yes',
+        falseButtonText: 'No',
+      ),
+    );
+    final popTheScreen = doPop != null && doPop;
+    return Future<bool>.value(popTheScreen);
+  }
+
   @override
   Widget build(BuildContext context) {
     late final emailController = useTextEditingController();
@@ -74,6 +89,7 @@ class ForgotPasswordScreen extends HookWidget {
               //Input card
               Form(
                 key: _formKey,
+                onWillPop: () => _showConfirmDialog(context),
                 child: RoundedBottomContainer(
                   padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 20),
                   children: [

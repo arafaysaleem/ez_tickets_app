@@ -12,6 +12,7 @@ import 'states/forgot_password_state.dart';
 class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
   final _otpDigits = ['0', '0', '0', '0'];
   final AuthRepository _authRepository;
+  late final String? _email;
 
   ForgotPasswordProvider(this._authRepository)
       : super(const ForgotPasswordState.email());
@@ -28,6 +29,7 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
     try {
       final data = {'email': email};
       final result = await _authRepository.sendForgotPasswordData(data: data);
+      _email = email;
       state = ForgotPasswordState.otp(otpSentMessage: result);
     } on NetworkException catch (e) {
       state = ForgotPasswordState.failed(
@@ -37,11 +39,11 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
     }
   }
 
-  Future<void> verifyOtp(String email) async {
+  Future<void> verifyOtp() async {
     final lastState = state;
     state = const ForgotPasswordState.loading(loading: 'Verifying otp code');
     try {
-      final data = {'email': email, 'OTP': int.tryParse(_otpCode)!};
+      final data = {'email': _email, 'OTP': int.tryParse(_otpCode)!};
       final result = await _authRepository.sendOtpData(data: data);
       state = ForgotPasswordState.resetPassword(otpVerifiedMessage: result);
     } on NetworkException catch (e) {
@@ -52,14 +54,11 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
     }
   }
 
-  Future<void> resetPassword({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> resetPassword({required String password}) async {
     final lastState = state;
     state = const ForgotPasswordState.loading(loading: 'Resetting password');
     try {
-      final data = {'email': email, 'password': password};
+      final data = {'email': _email, 'password': password};
       final result = await _authRepository.sendResetPasswordData(data: data);
       state = ForgotPasswordState.success(
         success: result,

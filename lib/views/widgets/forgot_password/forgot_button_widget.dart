@@ -42,10 +42,9 @@ class _PageButtonWidgetState extends State<ForgotButtonWidget> {
       if (isEmail) {
         _forgotPasswordProv.requestOtpCode(widget.emailController.text);
       } else if (isOtp) {
-        _forgotPasswordProv.verifyOtp(widget.emailController.text);
+        _forgotPasswordProv.verifyOtp();
       } else if (isReset) {
         _forgotPasswordProv.resetPassword(
-          email: widget.emailController.text,
           password: widget.newPasswordController.text,
         );
       }

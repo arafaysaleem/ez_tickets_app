@@ -106,11 +106,13 @@ final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   );
 });
 
-final forgotPasswordProvider =
-    StateNotifierProvider<ForgotPasswordProvider, ForgotPasswordState>((ref) {
-  final _authRepository = ref.watch(_authRepositoryProvider);
-  return ForgotPasswordProvider(_authRepository);
-});
+final forgotPasswordProvider = StateNotifierProvider.autoDispose<
+    ForgotPasswordProvider, ForgotPasswordState>(
+  (ref) {
+    final _authRepository = ref.watch(_authRepositoryProvider);
+    return ForgotPasswordProvider(_authRepository);
+  },
+);
 
 //data providers
 final moviesProvider = Provider<MoviesProvider>((ref) {
