@@ -12,7 +12,6 @@ part 'payment_model.g.dart';
 class PaymentModel with _$PaymentModel {
   const PaymentModel._();
 
-  @JsonSerializable()
   const factory PaymentModel({
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? paymentId,
     required double amount,

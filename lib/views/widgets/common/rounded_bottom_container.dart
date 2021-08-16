@@ -7,11 +7,13 @@ import '../../../helper/utils/constants.dart';
 class RoundedBottomContainer extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onBackTap;
+  final EdgeInsets? padding;
 
   const RoundedBottomContainer({
     Key? key,
     required this.children,
     this.onBackTap,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class RoundedBottomContainer extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 27),
+            padding: padding ?? const EdgeInsets.fromLTRB(25.0, 28, 25.0, 27),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: children,

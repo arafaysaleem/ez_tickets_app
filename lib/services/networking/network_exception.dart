@@ -1,7 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:dio/dio.dart';
-import 'package:ez_ticketz_app/helper/utils/exception_constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+//Helpers
+import '../../helper/utils/exception_constants.dart';
 
 part 'network_exception.freezed.dart';
 

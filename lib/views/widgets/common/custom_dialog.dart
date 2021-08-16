@@ -15,11 +15,14 @@ class CustomDialog extends StatelessWidget {
   final String title, body;
   final String? buttonText, falseButtonText, trueButtonText;
   final CustomDialogType _type;
+  final VoidCallback? falseButtonPressed, trueButtonPressed;
 
   const CustomDialog._({
     this.buttonText,
     this.falseButtonText,
     this.trueButtonText,
+    this.falseButtonPressed,
+    this.trueButtonPressed,
     required this.title,
     required this.body,
     required CustomDialogType type,
@@ -29,6 +32,7 @@ class CustomDialog extends StatelessWidget {
     required String title,
     required String body,
     required String buttonText,
+    VoidCallback? onButtonPressed,
   }) = _CustomDialogWithAlert;
 
   const factory CustomDialog.confirm({
@@ -36,6 +40,8 @@ class CustomDialog extends StatelessWidget {
     required String body,
     required String falseButtonText,
     required String trueButtonText,
+    VoidCallback? falseButtonPressed,
+    VoidCallback? trueButtonPressed,
   }) = _CustomDialogWithConfirm;
 
   @override
@@ -72,6 +78,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
+              trueButtonPressed?.call();
               context.router.pop();
             },
           )
@@ -87,6 +94,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
+              trueButtonPressed?.call();
               context.router.pop(true);
             },
           ),
@@ -101,6 +109,7 @@ class CustomDialog extends StatelessWidget {
             height: 40,
             width: 60,
             onPressed: () {
+              falseButtonPressed?.call();
               context.router.pop(false);
             },
           ),
@@ -115,10 +124,12 @@ class _CustomDialogWithAlert extends CustomDialog {
     required String title,
     required String body,
     required String buttonText,
+    VoidCallback? onButtonPressed,
   }) : super._(
           title: title,
           body: body,
           buttonText: buttonText,
+          trueButtonPressed: onButtonPressed,
           type: CustomDialogType.ALERT,
         );
 }
@@ -129,11 +140,15 @@ class _CustomDialogWithConfirm extends CustomDialog {
     required String body,
     required String falseButtonText,
     required String trueButtonText,
+    VoidCallback? falseButtonPressed,
+    VoidCallback? trueButtonPressed,
   }) : super._(
           title: title,
           body: body,
           falseButtonText: falseButtonText,
           trueButtonText: trueButtonText,
+          falseButtonPressed: falseButtonPressed,
+          trueButtonPressed: trueButtonPressed,
           type: CustomDialogType.CONFIRM,
         );
 }
