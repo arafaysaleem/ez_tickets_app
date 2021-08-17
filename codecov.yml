@@ -4,6 +4,7 @@ ignore:
   - '**/*.freezed.dart'
   - "**/*.mocks.dart"
   - '**/constants.dart'
+  - '**/routes.dart'
   - '**/custom_theme.dart'
   - '**/assets_helper.dart'
   - '/android/'
