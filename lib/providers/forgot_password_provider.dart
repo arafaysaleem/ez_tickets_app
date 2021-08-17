@@ -48,7 +48,7 @@ class ForgotPasswordProvider extends StateNotifier<ForgotPasswordState> {
     final lastState = state;
     state = const ForgotPasswordState.loading(loading: 'Verifying otp code');
     try {
-      final data = {'email': _email, 'OTP': int.tryParse(_otpCode)!};
+      final data = {'email': _email, 'OTP': _otpCode};
       final result = await _authRepository.sendOtpData(data: data);
       state = ForgotPasswordState.resetPassword(otpVerifiedMessage: result);
     } on NetworkException catch (e) {
