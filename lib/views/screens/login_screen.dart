@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -12,8 +11,9 @@ import '../../helper/utils/form_validator.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
+//Routing
+import '../../routes/routes.dart';
+import '../../routes/app_router.dart';
 
 //States
 import '../../providers/states/auth_state.dart';
@@ -40,7 +40,7 @@ class LoginScreen extends HookWidget {
           authenticated: (_) {
             emailController.clear();
             passwordController.clear();
-            context.router.popUntilRoot();
+            AppRouter.popUntilRoot();
           },
           failed: (reason) async {
             await showDialog<bool>(
@@ -108,7 +108,7 @@ class LoginScreen extends HookWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.router.push(const ForgotPasswordScreenRoute());
+                      AppRouter.pushNamed(Routes.ForgotPasswordScreenRoute);
                     },
                     child: Text(
                       'Forgot your password?',

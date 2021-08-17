@@ -38,7 +38,7 @@ jobs:
       with:
         path: "./coverage/lcov.info"
         min_coverage: 4.5
-        exclude: "**/*.freezed.dart **/*.g.dart **/*.gr.dart **/*.mocks.dart **/constants.dart **/custom_theme.dart **/assets_helper.dart"
+        exclude: "**/*.freezed.dart **/*.g.dart **/*.gr.dart **/*.mocks.dart **/constants.dart **/custom_theme.dart **/assets_helper.dart **/routes.dart"
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2.0.2
       with:
