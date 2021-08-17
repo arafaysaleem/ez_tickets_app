@@ -45,7 +45,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Generated model files
+# Generated files
 *.g.dart
 *.freezed.dart
 *.gr.dart
@@ -53,3 +53,9 @@ app.*.map.json
 
 #keystore
 *.jks
+
+# don't check in golden failure output
+**/failures/*.png
+
+# don't check in goldens since we are using Windows and CI uses Ubuntu
+**/goldens_local/*.png

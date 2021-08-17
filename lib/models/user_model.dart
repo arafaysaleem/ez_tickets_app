@@ -9,7 +9,6 @@ part 'user_model.g.dart';
 @freezed
 class UserModel with _$UserModel {
 
-  @JsonSerializable()
   const factory UserModel({
     @JsonKey(includeIfNull: false) required int? userId,
     required String fullName,

@@ -9,9 +9,8 @@ analyzer:
   errors:
     missing_required_param: error
     missing_return: error
-    prefer_const_constructors: error
-    prefer_const_constructors_in_immutables: error
     todo: ignore
+    invalid_annotation_target: ignore
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
@@ -22,6 +21,8 @@ linter:
     directives_ordering: false
     prefer_double_quotes: false
     use_key_in_widget_constructors: false
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
     always_specify_types: false
     unnecessary_final: false
     public_member_api_docs: false
@@ -29,3 +30,4 @@ linter:
     avoid_classes_with_only_static_members: false
     prefer_const_literals_to_create_immutables: true
     lines_longer_than_80_chars: false
+    prefer_relative_imports: true

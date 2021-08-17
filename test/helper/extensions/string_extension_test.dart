@@ -1,5 +1,5 @@
-import 'package:ez_ticketz_app/helper/extensions/string_extension.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ez_ticketz_app/helper/extensions/string_extension.dart';
 
 void main() {
   group('StringExt', () {
@@ -86,7 +86,7 @@ void main() {
         },
       );
     });
-    
+
     group('isValidContact', () {
       test(
         'GIVEN a valid contact '
@@ -112,6 +112,7 @@ void main() {
           expect(isValid, true);
         },
       );
+
       test(
         'GIVEN an invalid contact '
         'WHEN extension method `.isValidContact is called '
@@ -146,7 +147,7 @@ void main() {
         },
       );
     });
-    
+
     group('isValidZipCode', () {
       test(
         'GIVEN a valid zip code '
@@ -163,6 +164,7 @@ void main() {
           expect(isValid, true);
         },
       );
+
       test(
         'GIVEN an invalid zip code '
         'WHEN extension method `.isValidZipCode is called '
@@ -188,7 +190,7 @@ void main() {
         },
       );
     });
-    
+
     group('isValidCreditCardNumber', () {
       test(
         'GIVEN a valid credit card number '
@@ -214,6 +216,7 @@ void main() {
           expect(isValid, true);
         },
       );
+
       test(
         'GIVEN an invalid credit card number '
         'WHEN extension method `.isValidCreditCardNumber is called '
@@ -239,7 +242,7 @@ void main() {
         },
       );
     });
-    
+
     group('isValidCreditCardCVV', () {
       test(
         'GIVEN a valid credit card cvv '
@@ -281,7 +284,7 @@ void main() {
         },
       );
     });
-    
+
     group('isValidCreditCardExpiry', () {
       test(
         'GIVEN a valid credit card expiry '
@@ -326,6 +329,58 @@ void main() {
 
           //when
           isValid = creditCardExpiry.isValidCreditCardExpiry;
+
+          //then
+          expect(isValid, false);
+        },
+      );
+    });
+
+    group('isValidOtpDigit', () {
+      test(
+        'GIVEN a valid otp code '
+        'WHEN extension method `.isValidOtpDigit is called '
+        'THEN true is returned',
+        () {
+          //given
+          const otpDigit = '4';
+
+          //when
+          final isValid = otpDigit.isValidOtpDigit;
+
+          //then
+          expect(isValid, true);
+        },
+      );
+
+      test(
+        'GIVEN an invalid otp digit '
+        'WHEN extension method `.isValidOtpDigit is called '
+        'THEN false is returned',
+        () {
+          //given
+          var otpDigit = '14';
+
+          //when
+          var isValid = otpDigit.isValidOtpDigit;
+
+          //then
+          expect(isValid, false);
+
+          //given
+          otpDigit = '#';
+
+          //when
+          isValid = otpDigit.isValidOtpDigit;
+
+          //then
+          expect(isValid, false);
+
+          //given
+          otpDigit = 'abc';
+
+          //when
+          isValid = otpDigit.isValidOtpDigit;
 
           //then
           expect(isValid, false);

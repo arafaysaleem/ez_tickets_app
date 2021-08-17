@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
 
-//Routes
-import '../../../routes/app_router.gr.dart';
+//Routing
+import '../../../routes/routes.dart';
+import '../../../routes/app_router.dart';
 
 //Providers
 import '../../../providers/all_providers.dart';
@@ -25,7 +25,7 @@ class MoreBookingsButton extends StatelessWidget {
         width: double.infinity,
         onPressed: () {
           context.read(theatersProvider).clearSelectedSeats();
-          context.router.popUntilRouteWithName(MoviesScreenRoute.name);
+          AppRouter.popUntil(Routes.MoviesScreenRoute);
         },
         color: Constants.textWhite80Color,
         child: const Center(

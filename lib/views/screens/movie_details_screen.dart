@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 
 //Helper
 import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
+//Routing
+import '../../routes/routes.dart';
+import '../../routes/app_router.dart';
 
 //Widgets
 import '../widgets/movie_details/floating_movie_posters.dart';
@@ -14,6 +14,8 @@ import '../widgets/common/custom_text_button.dart';
 import '../widgets/movie_details/movie_details_sheet.dart';
 
 class MovieDetailsScreen extends StatelessWidget{
+  const MovieDetailsScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,7 @@ class MovieDetailsScreen extends StatelessWidget{
                 ),
               ),
               onPressed: () {
-                context.router.push(const ShowsScreenRoute());
+                AppRouter.pushNamed(Routes.ShowsScreenRoute);
               },
             ),
           ),
@@ -61,7 +63,7 @@ class MovieDetailsScreen extends StatelessWidget{
                 icon: const Icon(Icons.close_rounded, size: 25),
                 padding: const EdgeInsets.all(0),
                 onPressed: () {
-                  context.router.pop();
+                  AppRouter.pop();
                 },
               ),
             ),

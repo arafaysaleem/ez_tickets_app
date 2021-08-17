@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,8 +7,9 @@ import '../../../helper/utils/constants.dart';
 //Providers
 import '../../../providers/all_providers.dart';
 
-//Routes
-import '../../../routes/app_router.gr.dart';
+//Routing
+import '../../../routes/routes.dart';
+import '../../../routes/app_router.dart';
 
 //Widgets
 import '../common/custom_text_button.dart';
@@ -27,7 +27,7 @@ class PurchaseSeatsButton extends StatelessWidget {
           return CustomTextButton.gradient(
             width: double.infinity,
             onPressed: () {
-              context.router.push(const TicketSummaryScreenRoute());
+              AppRouter.pushNamed(Routes.TicketSummaryScreenRoute);
             },
             disabled: theaterSeats == 0,
             gradient: Constants.buttonGradientOrange,

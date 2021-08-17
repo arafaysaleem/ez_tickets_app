@@ -8,7 +8,6 @@ part 'user_payment_model.g.dart';
 
 @freezed
 class UserPaymentModel with _$UserPaymentModel {
-    @JsonSerializable()
     const factory UserPaymentModel({
       required int paymentId,
       required double amount,
@@ -23,7 +22,6 @@ class UserPaymentModel with _$UserPaymentModel {
 @freezed
 @visibleForTesting
 class UserPaymentMovieModel with _$UserPaymentMovieModel {
-  @JsonSerializable()
   const factory UserPaymentMovieModel({
     required String title,
     required String posterUrl,

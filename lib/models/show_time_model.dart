@@ -13,7 +13,6 @@ part 'show_time_model.g.dart';
 class ShowTimeModel with _$ShowTimeModel {
   const ShowTimeModel._();
 
-  @JsonSerializable()
   const factory ShowTimeModel({
     @JsonKey(toJson: Constants.toNull, includeIfNull: false)
     @Default(0) int showId,

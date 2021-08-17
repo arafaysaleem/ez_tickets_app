@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../helper/utils/assets_helper.dart';
@@ -7,8 +6,9 @@ import '../../helper/utils/assets_helper.dart';
 import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
+//Routing
+import '../../routes/routes.dart';
+import '../../routes/app_router.dart';
 
 //Widgets
 import '../widgets/common/custom_text_button.dart';
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                   child: CustomTextButton.gradient(
                     width: double.infinity,
                     onPressed: () {
-                      context.router.push(const LoginScreenRoute());
+                      AppRouter.pushNamed(Routes.LoginScreenRoute);
                     },
                     gradient: Constants.buttonGradientRed,
                     child: const Center(
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
             CustomTextButton.outlined(
               width: double.infinity,
               onPressed: () {
-                context.router.push(const RegisterScreenRoute());
+                AppRouter.pushNamed(Routes.RegisterScreenRoute);
               },
               border: Border.all(color: Constants.primaryColor, width: 4),
               child: const Center(
