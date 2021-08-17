@@ -39,86 +39,86 @@ class AppRouter {
   /// It maps each route name to a specific screen route.
   ///
   /// In case of unknown route name, it returns a route indicating error.
-  static Route<Object?> generateRoute(RouteSettings settings) {
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
     // final args = settings.arguments;
     switch (settings.name) {
       case Routes.AppStartupScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const AppStartupScreen(),
           settings: const RouteSettings(name: Routes.AppStartupScreenRoute),
         );
       case Routes.HomeScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const HomeScreen(),
           settings: const RouteSettings(name: Routes.HomeScreenRoute),
         );
       case Routes.LoginScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const LoginScreen(),
           settings: const RouteSettings(name: Routes.LoginScreenRoute),
         );
       case Routes.RegisterScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const RegisterScreen(),
           settings: const RouteSettings(name: Routes.RegisterScreenRoute),
         );
       case Routes.ForgotPasswordScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const ForgotPasswordScreen(),
           settings: const RouteSettings(name: Routes.ForgotPasswordScreenRoute),
         );
       case Routes.WelcomeScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const WelcomeScreen(),
           settings: const RouteSettings(name: Routes.WelcomeScreenRoute),
         );
       case Routes.ChangePasswordScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const ChangePasswordScreen(),
           settings: const RouteSettings(name: Routes.ChangePasswordScreenRoute),
         );
       case Routes.UserBookingsScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const UserBookingsScreen(),
           settings: const RouteSettings(name: Routes.UserBookingsScreenRoute),
         );
       case Routes.MoviesScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const MoviesScreen(),
           settings: const RouteSettings(name: Routes.MoviesScreenRoute),
         );
       case Routes.MovieDetailsScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const MovieDetailsScreen(),
           settings: const RouteSettings(name: Routes.MovieDetailsScreenRoute),
         );
       case Routes.TrailerScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const TrailerScreen(),
           settings: const RouteSettings(name: Routes.TrailerScreenRoute),
         );
       case Routes.ShowsScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const ShowsScreen(),
           settings: const RouteSettings(name: Routes.ShowsScreenRoute),
         );
       case Routes.TheaterScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const TheaterScreen(),
           settings: const RouteSettings(name: Routes.TheaterScreenRoute),
         );
       case Routes.TicketSummaryScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const TicketSummaryScreen(),
           settings: const RouteSettings(name: Routes.TicketSummaryScreenRoute),
         );
       case Routes.PaymentScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const PaymentScreen(),
           settings: const RouteSettings(name: Routes.PaymentScreenRoute),
         );
       case Routes.ConfirmationScreenRoute:
-        return MaterialPageRoute<Object?>(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const ConfirmationScreen(),
           settings: const RouteSettings(name: Routes.ConfirmationScreenRoute),
         );
@@ -129,8 +129,8 @@ class AppRouter {
 
   /// This method returns an error page to indicate redirection to an
   /// unknown route.
-  static Route<Object?> _errorRoute() {
-    return MaterialPageRoute<Object?>(
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute<dynamic>(
       builder: (_) => Scaffold(
         appBar: AppBar(
           title: const Text('Unknown Route'),
@@ -143,7 +143,7 @@ class AppRouter {
   }
 
   /// This method is used to navigate to a screen using it's name
-  static Future<Object?> pushNamed(String routeName, {Object? args}) {
+  static Future<dynamic> pushNamed(String routeName, {dynamic args}) {
     return navigatorKey.currentState!.pushNamed(routeName, arguments: args);
   }
 
@@ -151,7 +151,7 @@ class AppRouter {
   ///
   /// The [result] can contain any value that we want to return to the previous
   /// screen.
-  static Future<void> pop([Object? result]) async {
+  static Future<void> pop([dynamic result]) async {
     navigatorKey.currentState!.pop(result);
   }
 
