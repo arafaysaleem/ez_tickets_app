@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +9,9 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 import '../../providers/movies_provider.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //Skeletons
 import '../skeletons/movies_skeleton_loader.dart';
@@ -100,7 +102,7 @@ class MoviesScreen extends HookWidget {
             retryCallback: () => context.refresh(moviesFuture),
             onError: () {
               context.read(authProvider.notifier).logout();
-              context.router.popUntilRoot();
+              AppRouter.popUntilRoot();
             },
           ),
         ),

@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 //Helper
 import 'helper/utils/custom_theme.dart';
 
-//Router
-import 'routes/app_router.gr.dart';
+//Routers
+import 'routes/app_router.dart';
 
 //Services
 import 'services/local_storage/key_value_storage_base.dart';
@@ -36,17 +36,17 @@ void setDebugPrint(String? message, {int? wrapWidth}) {
 }
 
 class MyApp extends StatelessWidget {
-  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-      child: MaterialApp.router(
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(),
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'EZ Tickets',
         theme: CustomTheme.mainTheme,
+        initialRoute: AppRouter.initialRoute,
+        onGenerateRoute: AppRouter.generateRoute,
+        navigatorKey: AppRouter.navigatorKey,
       ),
     );
   }

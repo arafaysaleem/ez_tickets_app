@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
 
-//Routes
-import '../../../routes/app_router.gr.dart';
+//Routing
+import '../../../routes/routes.dart';
+import '../../../routes/app_router.dart';
 
 //Providers
 import '../../../providers/all_providers.dart';
@@ -25,7 +25,7 @@ class PayButton extends StatelessWidget {
         width: double.infinity,
         onPressed: () {
           context.read(paymentsProvider).makePayment();
-          context.router.push(const ConfirmationScreenRoute());
+          AppRouter.pushNamed(Routes.ConfirmationScreenRoute);
         },
         gradient: Constants.buttonGradientOrange,
         child: const Center(

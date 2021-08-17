@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,8 +12,9 @@ import '../../../models/movie_model.dart';
 //Providers
 import '../../../providers/movies_provider.dart';
 
-//Router
-import '../../../routes/app_router.gr.dart';
+//Routing
+import '../../../routes/routes.dart';
+import '../../../routes/app_router.dart';
 
 //Widgets
 import 'white_movie_container.dart';
@@ -55,7 +55,7 @@ class __MoviesCarouselState extends State<MoviesCarousel> {
           context.read(selectedMovieProvider).state = movies[i];
           context.read(leftMovieProvider).state = movies[leftIndex];
           context.read(rightMovieProvider).state = movies[rightIndex];
-          context.router.push(const MovieDetailsScreenRoute());
+          AppRouter.pushNamed(Routes.MovieDetailsScreenRoute);
         },
       ),
     );

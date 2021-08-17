@@ -1,5 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
+//Routing
+import '../../../routes/app_router.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
@@ -41,7 +43,7 @@ class RoundedBottomContainer extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            onTap: onBackTap ?? () => context.router.pop(),
+            onTap: onBackTap ?? () => AppRouter.pop(),
           ),
 
           Padding(

@@ -1,6 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
+//Routing
+import '../../../routes/app_router.dart';
 
 //Widgets
 import 'movie_type_popup_menu.dart';
@@ -21,7 +23,7 @@ class MoviesIconsRow extends HookWidget {
           IconButton(
             icon: const Icon(Icons.arrow_back_rounded),
             padding: const EdgeInsets.all(0),
-            onPressed: () => context.router.pop(),
+            onPressed: () => AppRouter.pop(),
           ),
 
           //Filter

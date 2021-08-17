@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +7,9 @@ import '../../helper/utils/constants.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //States
 import '../../providers/states/forgot_password_state.dart';
@@ -54,7 +56,7 @@ class ForgotPasswordScreen extends HookWidget {
             emailController.clear();
             newPasswordController.clear();
             cNewPasswordController.clear();
-            context.router.pop().then<bool?>((_) async {
+            AppRouter.pop().then<bool?>((_) async {
               return await showDialog<bool>(
                 context: context,
                 barrierColor: Constants.barrierColor.withOpacity(0.75),

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Helpers
 import '../../helper/utils/constants.dart';
 import '../../helper/extensions/context_extensions.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //Providers
 import '../../providers/movies_provider.dart';
@@ -79,7 +81,7 @@ class _TrailerScreenState extends State<TrailerScreen> {
                 GestureDetector(
                   child: const Icon(Icons.arrow_back_sharp, size: 26),
                   onTap: () {
-                    context.router.pop();
+                    AppRouter.pop();
                   },
                 ),
 

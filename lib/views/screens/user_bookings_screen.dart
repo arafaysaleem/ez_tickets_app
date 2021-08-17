@@ -1,8 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 //Helpers
 import '../../helper/extensions/context_extensions.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //Widgets
 import '../widgets/user_bookings/user_bookings_history.dart';
@@ -27,7 +29,7 @@ class UserBookingsScreen extends StatelessWidget {
                   radius: 25,
                   child: const Icon(Icons.arrow_back_sharp, size: 26),
                   onTap: () {
-                    context.router.pop();
+                    AppRouter.pop();
                   },
                 ),
 

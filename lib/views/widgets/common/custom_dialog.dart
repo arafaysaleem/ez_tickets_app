@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
 import '../../../helper/extensions/context_extensions.dart';
+
+//Routing
+import '../../../routes/app_router.dart';
 
 //Widgets
 import 'custom_text_button.dart';
@@ -79,7 +81,7 @@ class CustomDialog extends StatelessWidget {
             width: 60,
             onPressed: () {
               trueButtonPressed?.call();
-              context.router.pop();
+              AppRouter.pop();
             },
           )
         else if (_type == CustomDialogType.CONFIRM) ...[
@@ -95,7 +97,7 @@ class CustomDialog extends StatelessWidget {
             width: 60,
             onPressed: () {
               trueButtonPressed?.call();
-              context.router.pop(true);
+              AppRouter.pop(true);
             },
           ),
           CustomTextButton.gradient(
@@ -110,7 +112,7 @@ class CustomDialog extends StatelessWidget {
             width: 60,
             onPressed: () {
               falseButtonPressed?.call();
-              context.router.pop(false);
+              AppRouter.pop(false);
             },
           ),
         ]
