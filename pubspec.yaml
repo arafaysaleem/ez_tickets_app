@@ -8,7 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  auto_route: ^2.3.0
   cupertino_icons: ^1.0.3
   time: ^2.0.0
   cached_network_image: ^3.1.0
@@ -32,7 +31,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^2.3.0
   freezed: ^0.14.4
   json_serializable: ^5.0.0
   build_runner: null
