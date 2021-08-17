@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
 
-//Routes
-import '../../../routes/app_router.gr.dart';
+//Routing
+import '../../../routes/routes.dart';
+import '../../../routes/app_router.dart';
 
 //Widgets
 import '../common/custom_text_button.dart';
@@ -17,7 +17,7 @@ class ViewBookingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTextButton.outlined(
       width: double.infinity,
-      onPressed: () => context.router.push(const UserBookingsScreenRoute()),
+      onPressed: () => AppRouter.pushNamed(Routes.UserBookingsScreenRoute),
       border: Border.all(color: Constants.primaryColor,width: 4),
       child: const Center(
         child: Text(

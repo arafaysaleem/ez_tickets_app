@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Service imports
-import '../services/networking/dio_service.dart';
 import '../services/local_storage/key_value_storage_service.dart';
-import '../services/networking/api_service.dart';
 import '../services/networking/api_endpoint.dart';
+import '../services/networking/api_service.dart';
+import '../services/networking/dio_service.dart';
 
 //Interceptor imports
 import '../services/networking/interceptors/api_interceptor.dart';
@@ -24,13 +24,15 @@ import '../services/repositories/theaters_repository.dart';
 //Provider imports
 import 'auth_provider.dart';
 import 'bookings_provider.dart';
+import 'forgot_password_provider.dart';
 import 'movies_provider.dart';
 import 'payments_provider.dart';
 import 'shows_provider.dart';
+import 'theaters_provider.dart';
 
 //State imports
 import 'states/auth_state.dart';
-import 'theaters_provider.dart';
+import 'states/forgot_password_state.dart';
 
 //Services
 final keyValueStorageServiceProvider = Provider<KeyValueStorageService>(
@@ -101,6 +103,15 @@ final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
     reader: ref.read,
     authRepository: _authRepository,
     keyValueStorageService: _keyValueStorageService,
+  );
+});
+
+final forgotPasswordProvider = StateNotifierProvider.autoDispose<
+    ForgotPasswordProvider, ForgotPasswordState>((ref) {
+  final _authRepository = ref.watch(_authRepositoryProvider);
+  return ForgotPasswordProvider(
+    authRepository: _authRepository,
+    initialState: const ForgotPasswordState.email(),
   );
 });
 

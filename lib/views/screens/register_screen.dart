@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -12,6 +11,9 @@ import '../../helper/utils/form_validator.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //States
 import '../../providers/states/auth_state.dart';
@@ -178,13 +180,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       cPasswordController.clear();
       contactController.clear();
       _formHasData = false;
-      context.router.popUntilRoot();
+      AppRouter.popUntilRoot();
     }
 
     return Scaffold(
-      body: ProviderListener(
+      body: ProviderListener<AuthState>(
         provider: authProvider,
-        onChange: (_, authState) async => (authState as AuthState).maybeWhen(
+        onChange: (_, authState) async => authState.maybeWhen(
           authenticated: onAuthStateAuthenticated,
           failed: onAuthStateFailed,
           orElse: () {},
@@ -280,7 +282,6 @@ class _UserDetailFields extends StatelessWidget {
         //Full name
         CustomTextField(
           controller: fullNameController,
-          autofocus: true,
           floatingText: 'Full name',
           hintText: 'Type your full name',
           keyboardType: TextInputType.name,

@@ -12,7 +12,6 @@ part 'booking_model.g.dart';
 class BookingModel with _$BookingModel {
   const BookingModel._();
 
-  @JsonSerializable()
   const factory BookingModel({
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? bookingId,
     @JsonKey(includeIfNull: false) required int? userId,

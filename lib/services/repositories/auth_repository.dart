@@ -55,14 +55,14 @@ class AuthRepository {
     );
   }
 
-  Future<bool> sendResetPasswordData({
+  Future<String> sendResetPasswordData({
     required JSON data,
   }) async {
-    return await _apiService.setData<bool>(
+    return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.RESET_PASSWORD),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response['headers']['success'] == 1,
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 
@@ -77,12 +77,12 @@ class AuthRepository {
     );
   }
 
-  Future<bool> sendOtpData({required JSON data}) async {
-    return await _apiService.setData<bool>(
+  Future<String> sendOtpData({required JSON data}) async {
+    return await _apiService.setData<String>(
       endpoint: ApiEndpoint.auth(AuthEndpoint.VERIFY_OTP),
       data: data,
       requiresAuthToken: false,
-      converter: (response) => response['headers']['success'] == 1,
+      converter: (response) => response['headers']['message'] as String,
     );
   }
 }

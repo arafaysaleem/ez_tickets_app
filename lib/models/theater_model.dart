@@ -13,7 +13,6 @@ part 'theater_model.g.dart';
 class TheaterModel with _$TheaterModel {
   const TheaterModel._();
 
-  @JsonSerializable()
   const factory TheaterModel({
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? theaterId,
     required String theaterName,

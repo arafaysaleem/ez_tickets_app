@@ -8,7 +8,6 @@ part 'user_booking_show_model.g.dart';
 
 @freezed
 class UserBookingShowModel with _$UserBookingShowModel {
-    @JsonSerializable(fieldRename: FieldRename.snake)
     const factory UserBookingShowModel({
       required int showId,
       required ShowType showType,

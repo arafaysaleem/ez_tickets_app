@@ -238,5 +238,17 @@ void main(){
         expect(result, Constants.invalidCreditCardExpiryError);
       });
     });
+
+    group("otp inputs' validations",(){
+      test('a valid otp digit returns null', (){
+        final result = FormValidator.otpDigitValidator('3');
+        expect(result, null);
+      });
+
+      test('invalid otp digit returns error string', (){
+        final result = FormValidator.otpDigitValidator('ab3');
+        expect(result, '!');
+      });
+    });
   });
 }

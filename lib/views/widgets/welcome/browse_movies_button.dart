@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
 
-//Routes
-import '../../../../routes/app_router.gr.dart';
+//Routing
+import '../../../routes/routes.dart';
+import '../../../routes/app_router.dart';
 
 //Widgets
 import '../common/custom_text_button.dart';
@@ -18,7 +18,7 @@ class BrowseMoviesButton extends StatelessWidget {
     return CustomTextButton.gradient(
       width: double.infinity,
       onPressed: () {
-        context.router.push(const MoviesScreenRoute());
+        AppRouter.pushNamed(Routes.MoviesScreenRoute);
       },
       gradient: Constants.buttonGradientOrange,
       child: const Center(

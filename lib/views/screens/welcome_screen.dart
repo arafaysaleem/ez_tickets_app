@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,8 +9,9 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
-//Routes
-import '../../routes/app_router.gr.dart';
+//Routing
+import '../../routes/routes.dart';
+import '../../routes/app_router.dart';
 
 //Widgets
 import '../widgets/welcome/user_profile_details.dart';
@@ -48,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     onTap: () {
                       context.read(authProvider.notifier).logout();
-                      context.router.popUntilRoot();
+                      AppRouter.popUntilRoot();
                     },
                   ),
                 ),
@@ -62,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                     size: 30,
                   ),
                   onTap: () {
-                    context.router.push(const ChangePasswordScreenRoute());
+                    AppRouter.pushNamed(Routes.ChangePasswordScreenRoute);
                   },
                 )
               ],

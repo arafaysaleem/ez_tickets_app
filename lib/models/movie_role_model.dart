@@ -14,7 +14,6 @@ part 'movie_role_model.g.dart';
 class MovieRoleModel with _$MovieRoleModel {
   const MovieRoleModel._();
 
-  @JsonSerializable()
   const factory MovieRoleModel({
     required int movieId,
     required RoleModel role,

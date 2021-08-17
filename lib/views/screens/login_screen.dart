@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -11,6 +10,10 @@ import '../../helper/utils/form_validator.dart';
 
 //Providers
 import '../../providers/all_providers.dart';
+
+//Routing
+import '../../routes/routes.dart';
+import '../../routes/app_router.dart';
 
 //States
 import '../../providers/states/auth_state.dart';
@@ -27,18 +30,17 @@ class LoginScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = useMemoized(()=>GlobalKey<FormState>());
+    final formKey = useMemoized(() => GlobalKey<FormState>());
     final emailController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     return Scaffold(
-      body: ProviderListener(
+      body: ProviderListener<AuthState>(
         provider: authProvider,
-        onChange: (context, authState) async =>
-            (authState as AuthState).maybeWhen(
+        onChange: (context, authState) async => authState.maybeWhen(
           authenticated: (_) {
             emailController.clear();
             passwordController.clear();
-            context.router.popUntilRoot();
+            AppRouter.popUntilRoot();
           },
           failed: (reason) async {
             await showDialog<bool>(
@@ -61,6 +63,7 @@ class LoginScreen extends HookWidget {
               Form(
                 key: formKey,
                 child: RoundedBottomContainer(
+                  padding: const EdgeInsets.fromLTRB(25.0, 28, 25.0, 20),
                   children: [
                     //Page name
                     Text(
@@ -76,7 +79,6 @@ class LoginScreen extends HookWidget {
                     //Email
                     CustomTextField(
                       controller: emailController,
-                      autofocus: true,
                       floatingText: 'Email',
                       hintText: 'Type your email address',
                       keyboardType: TextInputType.emailAddress,
@@ -97,6 +99,26 @@ class LoginScreen extends HookWidget {
                     ),
                   ],
                 ),
+              ),
+
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      AppRouter.pushNamed(Routes.ForgotPasswordScreenRoute);
+                    },
+                    child: Text(
+                      'Forgot your password?',
+                      style: context.headline3.copyWith(
+                        fontSize: 17,
+                        color: Constants.primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               const Spacer(),

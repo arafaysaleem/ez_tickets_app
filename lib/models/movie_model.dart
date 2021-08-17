@@ -17,7 +17,6 @@ List<int> toJsonGenres(List<GenreModel> genres) {
 class MovieModel with _$MovieModel {
   MovieModel._();
 
-  @JsonSerializable()
   factory MovieModel({
     @JsonKey(toJson: Constants.toNull, includeIfNull: false) required int? movieId,
     required int year,

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,6 +11,9 @@ import '../../providers/all_providers.dart';
 
 //Providers
 import '../../providers/theaters_provider.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //Skeletons
 import '../skeletons/theater_skeleton_loader.dart';
@@ -160,7 +162,7 @@ class _BackIcon extends StatelessWidget {
         radius: 25,
         onTap: () {
           context.read(theatersProvider).clearSelectedSeats();
-          context.router.pop();
+          AppRouter.pop();
         },
         child: const DecoratedBox(
           decoration: BoxDecoration(

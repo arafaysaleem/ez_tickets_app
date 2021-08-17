@@ -11,7 +11,6 @@ part 'show_model.g.dart';
 class ShowModel with _$ShowModel {
   const ShowModel._();
 
-  @JsonSerializable()
   const factory ShowModel({
     required DateTime date,
     required int movieId,
