@@ -65,7 +65,7 @@ class ConfirmationScreen extends StatelessWidget {
                     children: const [
                       Spacer(),
 
-                      SpinKitPouringHourglass(
+                      SpinKitPouringHourGlass(
                         color: Colors.white,
                         duration: Duration(milliseconds: 1100),
                         size: 64,
