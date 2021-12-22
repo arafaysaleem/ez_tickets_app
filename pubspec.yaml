@@ -11,7 +11,7 @@ dependencies:
   cupertino_icons: ^1.0.4
   time: ^2.1.0
   cached_network_image: ^3.2.0
-  freezed_annotation: ^0.14.3
+  freezed_annotation: ^1.1.0
   json_annotation: ^4.4.0
   google_fonts: ^2.1.0
   flutter_hooks: ^0.18.1
@@ -32,7 +32,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  freezed: ^0.14.4
+  freezed: ^1.1.0
   json_serializable: ^6.1.3
   build_runner: null
   flutter_native_splash: ^1.3.2
