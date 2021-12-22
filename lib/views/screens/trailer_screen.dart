@@ -1,7 +1,7 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Helpers
 import '../../helper/utils/constants.dart';
@@ -13,14 +13,14 @@ import '../../routes/app_router.dart';
 //Providers
 import '../../providers/movies_provider.dart';
 
-class TrailerScreen extends StatefulWidget {
+class TrailerScreen extends StatefulHookConsumerWidget {
   const TrailerScreen();
 
   @override
   _TrailerScreenState createState() => _TrailerScreenState();
 }
 
-class _TrailerScreenState extends State<TrailerScreen> {
+class _TrailerScreenState extends ConsumerState<TrailerScreen> {
   late final BetterPlayerController _betterPlayerController;
 
   final _controlsConfiguration = const BetterPlayerControlsConfiguration(
@@ -55,7 +55,7 @@ class _TrailerScreenState extends State<TrailerScreen> {
       controlsConfiguration: _controlsConfiguration,
       errorBuilder: _buildErrorWidget,
     );
-    final trailerUrl = context.read(selectedMovieProvider).state.trailerUrl;
+    final trailerUrl = ref.watch(selectedMovieProvider.select((value) => value.trailerUrl));
     final betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       trailerUrl,
@@ -91,7 +91,7 @@ class _TrailerScreenState extends State<TrailerScreen> {
                 Expanded(
                   child: Consumer(
                     builder: (_, watch, __) {
-                      final title = watch(selectedMovieProvider).state.title;
+                      final title = ref.watch(selectedMovieProvider).title;
                       return Text(
                         title,
                         maxLines: 1,

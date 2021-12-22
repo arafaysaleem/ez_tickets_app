@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -13,7 +12,7 @@ import '../common/custom_textfield.dart';
 import 'reset_password_fields.dart';
 import 'otp_code_fields.dart';
 
-class ForgotTextFields extends StatefulHookWidget {
+class ForgotTextFields extends StatefulHookConsumerWidget {
   const ForgotTextFields({
     Key? key,
     required this.emailController,
@@ -29,12 +28,12 @@ class ForgotTextFields extends StatefulHookWidget {
   _ForgotPasswordFieldsState createState() => _ForgotPasswordFieldsState();
 }
 
-class _ForgotPasswordFieldsState extends State<ForgotTextFields> {
+class _ForgotPasswordFieldsState extends ConsumerState<ForgotTextFields> {
   late Widget currentTextFields;
 
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordProvider);
+    final _forgotPasswordState = ref.watch(forgotPasswordProvider);
     return _forgotPasswordState.maybeWhen(
       email: () {
         currentTextFields = CustomTextField(

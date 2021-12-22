@@ -20,7 +20,7 @@ import 'movies_provider.dart';
 
 final showsFutureProvider = FutureProvider.autoDispose<List<ShowModel>>(
   (ref) async {
-    final _movieId = ref.watch(selectedMovieProvider).state.movieId;
+    final _movieId = ref.watch(selectedMovieProvider).movieId;
     final _showsProvider = ref.watch(showsProvider);
     final _showDates = await _showsProvider.getAllShows(movieId: _movieId!);
     return _showDates;
@@ -36,7 +36,7 @@ final selectedShowProvider = StateProvider.autoDispose<ShowModel>((ref) {
 
 final selectedShowTimeProvider = StateProvider.autoDispose<ShowTimeModel>(
   (ref) {
-    final _selectedShow = ref.watch(selectedShowProvider).state;
+    final _selectedShow = ref.watch(selectedShowProvider);
     if (_selectedShow.showTimes.isEmpty) return ShowTimeModel.initial();
     return _selectedShow.showTimes[0];
   },

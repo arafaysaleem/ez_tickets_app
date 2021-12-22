@@ -64,8 +64,8 @@ class BillingDetails extends StatelessWidget {
               SizedBox(
                 width: 40,
                 child: Consumer(
-                  builder: (ctx,watch,_) {
-                    final numSeats = watch(theatersProvider).selectedSeats.length;
+                  builder: (ctx, ref, _) {
+                    final numSeats = ref.watch(theatersProvider).selectedSeats.length;
                     return Text(
                       '$numSeats',
                       textAlign: TextAlign.center,
@@ -108,8 +108,8 @@ class BillingDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Consumer(
-                builder: (ctx,watch,_) {
-                  final numSeats = watch(theatersProvider).selectedSeats.length;
+                builder: (ctx, ref, _) {
+                  final numSeats = ref.watch(theatersProvider).selectedSeats.length;
                   return Text(
                     'Total - Rs. ${numSeats * Constants.ticketPrice}',
                     style: const TextStyle(

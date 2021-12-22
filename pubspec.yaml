@@ -15,7 +15,7 @@ dependencies:
   json_annotation: ^4.4.0
   google_fonts: ^2.1.0
   flutter_hooks: ^0.18.1
-  hooks_riverpod: ^0.14.0+4
+  hooks_riverpod: ^1.0.3
   flutter_launcher_icons: ^0.9.2
   carousel_slider: ^4.0.0
   dio: ^4.0.4

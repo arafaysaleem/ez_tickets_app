@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
@@ -39,7 +38,7 @@ final movieRolesFuture = FutureProvider.family.autoDispose<List<MovieRoleModel>,
   },
 );
 
-class MovieActorsList extends HookWidget {
+class MovieActorsList extends HookConsumerWidget {
   const MovieActorsList();
 
   EdgeInsets getImagePadding({required bool isFirst, required bool isLast}) {
@@ -52,11 +51,11 @@ class MovieActorsList extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final movieId = useProvider(selectedMovieProvider.select((value) {
-      return value.state.movieId;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final movieId = ref.watch(selectedMovieProvider.select((value) {
+      return value.movieId;
     }));
-    final movieRoles = useProvider(movieRolesFuture(movieId!));
+    final movieRoles = ref.watch(movieRolesFuture(movieId!));
     return Column(
       children: [
         //Actors title

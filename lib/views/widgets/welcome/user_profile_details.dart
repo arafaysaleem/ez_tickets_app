@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -9,14 +8,14 @@ import '../../../helper/extensions/context_extensions.dart';
 //Providers
 import '../../../providers/all_providers.dart';
 
-class UserProfileDetails extends HookWidget {
+class UserProfileDetails extends HookConsumerWidget {
   const UserProfileDetails({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final authProv = useProvider(authProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authProv = ref.watch(authProvider.notifier);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

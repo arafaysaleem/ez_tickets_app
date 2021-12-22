@@ -14,14 +14,14 @@ import '../../../providers/payments_provider.dart';
 import '../common/custom_dialog.dart';
 import '../common/custom_textfield.dart';
 
-class ModeDetailsInput extends StatefulHookWidget {
+class ModeDetailsInput extends StatefulHookConsumerWidget {
   const ModeDetailsInput({Key? key}) : super(key: key);
 
   @override
   _ModeDetailsInputState createState() => _ModeDetailsInputState();
 }
 
-class _ModeDetailsInputState extends State<ModeDetailsInput> {
+class _ModeDetailsInputState extends ConsumerState<ModeDetailsInput> {
   bool _formHasData = false;
   late final formKey = GlobalKey<FormState>();
 
@@ -55,7 +55,7 @@ class _ModeDetailsInputState extends State<ModeDetailsInput> {
     final creditCardNumberController = useTextEditingController(text: '');
     final creditCardCVVController = useTextEditingController(text: '');
     final creditCardExpiryController = useTextEditingController(text: '');
-    final activeMode = useProvider(activePaymentModeProvider).state;
+    final activeMode = ref.watch(activePaymentModeProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(

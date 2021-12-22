@@ -19,7 +19,7 @@ import 'all_providers.dart';
 
 final moviesFuture = FutureProvider.autoDispose<List<MovieModel>>((ref) async {
   final _moviesProvider = ref.watch(moviesProvider);
-  final _movieType = ref.watch(selectedMovieTypeProvider).state;
+  final _movieType = ref.watch(selectedMovieTypeProvider);
 
   return await _moviesProvider.getAllMovies(
     movieType: _movieType == MovieType.ALL_MOVIES ? null : _movieType,

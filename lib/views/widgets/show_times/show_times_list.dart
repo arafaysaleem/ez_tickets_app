@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
+
+import '../../../helper/extensions/context_extensions.dart';
+
+//Helpers
+import '../../../helper/utils/constants.dart';
 
 //Providers
 import '../../../providers/shows_provider.dart';
 
-//Helpers
-import '../../../helper/utils/constants.dart';
-import '../../../helper/extensions/context_extensions.dart';
-
-class ShowTimesList extends HookWidget {
+class ShowTimesList extends HookConsumerWidget {
   const ShowTimesList();
 
   Shader getShader(Rect bounds) {
@@ -26,9 +26,11 @@ class ShowTimesList extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final showTimes = useProvider(selectedShowProvider).state.showTimes;
-    final selectedShowTime = useProvider(selectedShowTimeProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showTimes = ref.watch(selectedShowProvider.select(
+      (value) => value.showTimes,
+    ));
+    final selectedShowTime = ref.watch(selectedShowTimeProvider);
     return ShaderMask(
       shaderCallback: getShader,
       blendMode: BlendMode.dstOut,
@@ -45,7 +47,9 @@ class ShowTimesList extends HookWidget {
           child: _ShowTimeItem(
             isActive: showTimes[i] == selectedShowTime,
             onTap: () {
-              context.read(selectedShowTimeProvider).state = showTimes[i];
+              ref
+                  .read(selectedShowTimeProvider.state)
+                  .update((_) => showTimes[i]);
             },
             time: DateFormat.jm().format(showTimes[i].startTime),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,7 +11,7 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import '../common/custom_text_button.dart';
 
-class ForgotButtonWidget extends StatefulHookWidget {
+class ForgotButtonWidget extends StatefulHookConsumerWidget {
   final TextEditingController emailController;
   final TextEditingController newPasswordController;
   final GlobalKey<FormState> formKey;
@@ -28,7 +27,7 @@ class ForgotButtonWidget extends StatefulHookWidget {
   _PageButtonWidgetState createState() => _PageButtonWidgetState();
 }
 
-class _PageButtonWidgetState extends State<ForgotButtonWidget> {
+class _PageButtonWidgetState extends ConsumerState<ForgotButtonWidget> {
   late Widget _currentPageButton;
 
   void _onPressed({
@@ -38,7 +37,7 @@ class _PageButtonWidgetState extends State<ForgotButtonWidget> {
   }) {
     if (widget.formKey.currentState!.validate()) {
       widget.formKey.currentState!.save();
-      final _forgotPasswordProv = context.read(forgotPasswordProvider.notifier);
+      final _forgotPasswordProv = ref.read(forgotPasswordProvider.notifier);
       if (isEmail) {
         _forgotPasswordProv.requestOtpCode(widget.emailController.text);
       } else if (isOtp) {
@@ -53,7 +52,7 @@ class _PageButtonWidgetState extends State<ForgotButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordProvider);
+    final _forgotPasswordState = ref.watch(forgotPasswordProvider);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 40, 20, Constants.bottomInsets),
       child: _forgotPasswordState.when(

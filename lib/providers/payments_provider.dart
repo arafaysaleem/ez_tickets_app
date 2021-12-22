@@ -34,13 +34,13 @@ final activePaymentModeProvider = StateProvider<PaymentMethod>((ref){
 class PaymentsProvider {
 
   final PaymentsRepository _paymentsRepository;
-  final Reader _reader;
+  final Ref _ref;
 
   PaymentsProvider({
     required PaymentsRepository paymentsRepository,
-    required Reader read,
+    required Ref ref,
   })  : _paymentsRepository = paymentsRepository,
-        _reader = read,
+        _ref = ref,
         super();
 
   Future<List<PaymentModel>> getAllPayments({
@@ -65,12 +65,12 @@ class PaymentsProvider {
   }
 
   Future<void> makePayment() async {
-    final _paymentStateProv = _reader(paymentStateProvider);
+    final _paymentStateProv = _ref.read(paymentStateProvider.state);
     _paymentStateProv.state = const PaymentState.unprocessed();
     await Future<void>.delayed(const Duration(seconds: 3)).then((_) {
       _paymentStateProv.state = const PaymentState.processing();
     });
-    final _activePaymentMethod = _reader(activePaymentModeProvider).state;
+    final _activePaymentMethod = _ref.read(activePaymentModeProvider);
     try {
       switch(_activePaymentMethod){
         case PaymentMethod.CASH:
@@ -79,21 +79,21 @@ class PaymentsProvider {
         default: await _reserveTickets(); break;
       }
       _paymentStateProv.state = const PaymentState.successful();
-      _reader(theatersProvider).clearSelectedSeats();
+      _ref.read(theatersProvider).clearSelectedSeats();
     } on NetworkException catch (e) {
       _paymentStateProv.state = PaymentState.failed(reason: e.message);
     }
   }
 
   Future<void> _reserveTickets() async {
-    final _bookingsProvider = _reader(bookingsProvider);
+    final _bookingsProvider = _ref.read(bookingsProvider);
     await _bookingsProvider.bookSelectedSeats();
   }
 
   // Future<void> _confirmCashPayment() async {
-  //   final userId = _reader(authProvider.notifier).currentUserId;
-  //   final showId = _reader(selectedShowTimeProvider).state.showId;
-  //   final _bookingsProvider = _reader(bookingsProvider);
+  //   final userId = _ref.read(authProvider.notifier).currentUserId;
+  //   final showId = _ref.read(selectedShowTimeProvider).showId;
+  //   final _bookingsProvider = _ref.read(bookingsProvider);
   //   final bookings = await _bookingsProvider.getFilteredBookings(
   //     userId: userId,
   //     showId: showId,
@@ -111,16 +111,16 @@ class PaymentsProvider {
   //     amount: amount,
   //     paymentDatetime: clock.now(),
   //     bookingIds: bookingIds,
-  //     paymentMethod: _reader(activePaymentModeProvider).state,
+  //     paymentMethod: _ref.read(activePaymentModeProvider),
   //   );
   // }
 
   Future<void> _confirmCardPayment() async {
-    final userId = _reader(authProvider.notifier).currentUserId;
-    final showId = _reader(selectedShowTimeProvider).state.showId;
-    final _bookingsProvider = _reader(bookingsProvider);
+    final userId = _ref.read(authProvider.notifier).currentUserId;
+    final showId = _ref.read(selectedShowTimeProvider).showId;
+    final _bookingsProvider = _ref.read(bookingsProvider);
     final bookingIds = await _bookingsProvider.bookSelectedSeats();
-    final selectedSeats = _reader(theatersProvider).selectedSeats;
+    final selectedSeats = _ref.read(theatersProvider).selectedSeats;
     final amount = selectedSeats.length * Constants.ticketPrice;
     await _makeAPayment(
       userId: userId,

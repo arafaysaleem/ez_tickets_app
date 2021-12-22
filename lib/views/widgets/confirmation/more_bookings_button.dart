@@ -14,17 +14,17 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import '../common/custom_text_button.dart';
 
-class MoreBookingsButton extends StatelessWidget {
+class MoreBookingsButton extends ConsumerWidget {
   const MoreBookingsButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: CustomTextButton(
         width: double.infinity,
         onPressed: () {
-          context.read(theatersProvider).clearSelectedSeats();
+          ref.read(theatersProvider).clearSelectedSeats();
           AppRouter.popUntil(Routes.MoviesScreenRoute);
         },
         color: Constants.textWhite80Color,

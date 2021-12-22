@@ -14,17 +14,17 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import '../common/custom_text_button.dart';
 
-class PayButton extends StatelessWidget {
+class PayButton extends ConsumerWidget {
   const PayButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: CustomTextButton.gradient(
         width: double.infinity,
         onPressed: () {
-          context.read(paymentsProvider).makePayment();
+          ref.read(paymentsProvider).makePayment();
           AppRouter.pushNamed(Routes.ConfirmationScreenRoute);
         },
         gradient: Constants.buttonGradientOrange,
