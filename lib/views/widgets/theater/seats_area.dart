@@ -32,7 +32,7 @@ class SeatsArea extends StatelessWidget {
   bool isBooked(SeatModel seat) => booked.contains(seat);
 
   bool _onGlowNotification(OverscrollIndicatorNotification overScroll) {
-    overScroll.disallowGlow();
+    overScroll.disallowIndicator();
     return true;
   }
 
