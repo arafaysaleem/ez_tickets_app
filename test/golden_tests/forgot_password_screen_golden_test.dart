@@ -83,6 +83,7 @@ void main() {
         'GIVEN we are on forgot password screen '
         'AND the otp has been verified '
         'WHEN the screen is rebuilt '
+        'AND the reset password screen is opened '
         'THEN it looks like forgot_password_screen_resetPw_golden.png',
         (tester) async {
           //given
