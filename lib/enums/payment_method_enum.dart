@@ -6,9 +6,9 @@ import '../helper/extensions/string_extension.dart';
 /// A collection of payment methods that a user can choose.
 @JsonEnum()
 enum PaymentMethod {
-  CASH,
-  COD,
-  CARD,
+  @JsonValue('cash') CASH,
+  @JsonValue('cod') COD,
+  @JsonValue('card') CARD,
 }
 
 /// A utility with extensions for enum name and serialized value.
