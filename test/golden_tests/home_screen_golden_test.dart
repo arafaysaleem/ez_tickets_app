@@ -11,6 +11,7 @@ void main() {
   group('HomeScreen', () {
     testGoldens(
       'GIVEN the app is started '
+      'AND user is not logged in '
       'WHEN the home screen is shown '
       'THEN it looks like home_screen_golden.png',
       (tester) async {

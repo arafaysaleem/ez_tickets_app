@@ -12,11 +12,11 @@ import '../../helper/utils/form_validator.dart';
 //Providers
 import '../../providers/all_providers.dart';
 
-//Routing
-import '../../routes/app_router.dart';
-
 //States
 import '../../providers/states/auth_state.dart';
+
+//Routing
+import '../../routes/app_router.dart';
 
 //Widgets
 import '../widgets/common/custom_dialog.dart';
@@ -25,14 +25,14 @@ import '../widgets/common/custom_textfield.dart';
 import '../widgets/common/rounded_bottom_container.dart';
 import '../widgets/common/scrollable_column.dart';
 
-class RegisterScreen extends StatefulHookWidget {
+class RegisterScreen extends StatefulHookConsumerWidget {
   const RegisterScreen();
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _formHasData = false;
   late final formKey = GlobalKey<FormState>();
 
@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       onPressed: () {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
-          context.read(authProvider.notifier).register(
+          ref.read(authProvider.notifier).register(
                 email: email,
                 password: password,
                 fullName: fullName,
@@ -111,8 +111,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
       gradient: Constants.buttonGradientOrange,
       child: Consumer(
-        builder: (context, watch, child) {
-          final authState = watch(authProvider);
+        builder: (context, ref, child) {
+          final authState = ref.watch(authProvider);
           if (authState is AUTHENTICATING) {
             return const Center(
               child: SpinKitRing(
@@ -140,8 +140,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  VoidCallback? onBackTap(ValueNotifier<bool> userDetailsState){
-    if(!userDetailsState.value) return () => userDetailsState.value = true;
+  VoidCallback? onBackTap(ValueNotifier<bool> userDetailsState) {
+    if (!userDetailsState.value) return () => userDetailsState.value = true;
   }
 
   void onFormChanged() {
@@ -172,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final addressController = useTextEditingController(text: '');
     final contactController = useTextEditingController(text: '');
 
-    void onAuthStateAuthenticated(String? currentUserFullName){
+    void onAuthStateAuthenticated(String? currentUserFullName) {
       emailController.clear();
       passwordController.clear();
       fullNameController.clear();
@@ -183,79 +183,79 @@ class _RegisterScreenState extends State<RegisterScreen> {
       AppRouter.popUntilRoot();
     }
 
+    ref.listen<AuthState>(
+      authProvider,
+      (previous, authState) async => authState.maybeWhen(
+        authenticated: onAuthStateAuthenticated,
+        failed: onAuthStateFailed,
+        orElse: () {},
+      ),
+    );
     return Scaffold(
-      body: ProviderListener<AuthState>(
-        provider: authProvider,
-        onChange: (_, authState) async => authState.maybeWhen(
-          authenticated: onAuthStateAuthenticated,
-          failed: onAuthStateFailed,
-          orElse: () {},
-        ),
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: ScrollableColumn(
-            children: [
-              //Input card
-              Form(
-                key: formKey,
-                onChanged: onFormChanged,
-                onWillPop: _showConfirmDialog,
-                child: RoundedBottomContainer(
-                  onBackTap: onBackTap(userDetailsState),
-                  children: [
-                    //Page name
-                    Text(
-                      'Register',
-                      style: context.headline3.copyWith(
-                        color: Colors.white,
-                        fontSize: 32,
-                      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: ScrollableColumn(
+          children: [
+            //Input card
+            Form(
+              key: formKey,
+              onChanged: onFormChanged,
+              onWillPop: _showConfirmDialog,
+              child: RoundedBottomContainer(
+                onBackTap: onBackTap(userDetailsState),
+                children: [
+                  //Page name
+                  Text(
+                    'Register',
+                    style: context.headline3.copyWith(
+                      color: Colors.white,
+                      fontSize: 32,
                     ),
+                  ),
 
-                    const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                    if (userDetailsState.value)
-                      _UserDetailFields(
-                        fullNameController: fullNameController,
-                        emailController: emailController,
-                        addressController: addressController,
-                        contactController: contactController,
-                      )
-                    else
-                      _PasswordDetailFields(
-                        passwordController: passwordController,
-                        cPasswordController: cPasswordController,
-                      ),
-                  ],
-                ),
+                  if (userDetailsState.value)
+                    _UserDetailFields(
+                      fullNameController: fullNameController,
+                      emailController: emailController,
+                      addressController: addressController,
+                      contactController: contactController,
+                    )
+                  else
+                    _PasswordDetailFields(
+                      passwordController: passwordController,
+                      cPasswordController: cPasswordController,
+                    ),
+                ],
               ),
+            ),
 
-              const Spacer(),
+            const Spacer(),
 
-              //Button
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  20,
-                  40,
-                  20,
-                  Constants.bottomInsets,
-                ),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 550),
-                  switchOutCurve: Curves.easeInBack,
-                  child: userDetailsState.value
-                      ? buildNextButton(userDetailsState)
-                      : buildConfirmButton(
-                          email: emailController.text,
-                          password: passwordController.text,
-                          fullName: fullNameController.text,
-                          address: addressController.text,
-                          contact: contactController.text,
-                        ),
-                ),
-              )
-            ],
-          ),
+            //Button
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                20,
+                40,
+                20,
+                Constants.bottomInsets,
+              ),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 550),
+                switchOutCurve: Curves.easeInBack,
+                child: userDetailsState.value
+                    ? buildNextButton(userDetailsState)
+                    : buildConfirmButton(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        fullName: fullNameController.text,
+                        address: addressController.text,
+                        contact: contactController.text,
+                      ),
+              ),
+            )
+          ],
         ),
       ),
     );

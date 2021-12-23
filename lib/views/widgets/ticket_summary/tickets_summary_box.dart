@@ -34,8 +34,8 @@ class TicketsSummaryBox extends StatelessWidget {
           children: [
             //Movie Picture
             Consumer(
-              builder: (ctx, watch, _) {
-                final _selectedMovie = watch(selectedMovieProvider).state;
+              builder: (ctx, ref, _) {
+                final _selectedMovie = ref.watch(selectedMovieProvider);
                 return CustomNetworkImage(
                   imageUrl: _selectedMovie.posterUrl,
                   height: 255,

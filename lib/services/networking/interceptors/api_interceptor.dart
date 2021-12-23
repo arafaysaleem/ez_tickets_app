@@ -11,7 +11,7 @@ import '../../../providers/all_providers.dart';
 /// Since this interceptor isn't responsible for error handling, if an exception
 /// occurs it is passed on the next [Interceptor] or to [Dio].
 class ApiInterceptor extends Interceptor {
-  late final ProviderReference _ref;
+  late final Ref _ref;
 
   ApiInterceptor(this._ref) : super();
 

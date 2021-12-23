@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -9,7 +8,7 @@ import '../../../helper/utils/constants.dart';
 //Providers
 import '../../../providers/all_providers.dart';
 
-class ForgotMessageWidget extends HookWidget {
+class ForgotMessageWidget extends HookConsumerWidget {
   const ForgotMessageWidget({
     Key? key,
   }) : super(key: key);
@@ -26,8 +25,8 @@ class ForgotMessageWidget extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _forgotPasswordState = ref.watch(forgotPasswordProvider);
     return _forgotPasswordState.maybeWhen(
       email: () => _buildMessageText(
         context,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Providers
@@ -84,16 +83,16 @@ class _FloatingMoviePostersState extends State<FloatingMoviePosters> {
   }
 }
 
-class _LeftMoviePoster extends HookWidget {
+class _LeftMoviePoster extends HookConsumerWidget {
   const _LeftMoviePoster({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final leftMovie = useProvider(leftMovieProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final leftMoviePosterUrl = ref.watch(leftMovieProvider.select((value) => value.posterUrl));
     return CustomNetworkImage(
-      imageUrl: leftMovie.posterUrl,
+      imageUrl: leftMoviePosterUrl,
       fit: BoxFit.fill,
       placeholder: const MoviePosterPlaceholder(),
       errorWidget: const MoviePosterPlaceholder(),
@@ -101,16 +100,16 @@ class _LeftMoviePoster extends HookWidget {
   }
 }
 
-class _RightMoviePoster extends HookWidget {
+class _RightMoviePoster extends HookConsumerWidget {
   const _RightMoviePoster({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final rightMovie = useProvider(rightMovieProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rightMoviePosterUrl = ref.watch(rightMovieProvider.select((value) => value.posterUrl));
     return CustomNetworkImage(
-      imageUrl: rightMovie.posterUrl,
+      imageUrl: rightMoviePosterUrl,
       fit: BoxFit.fill,
       placeholder: const MoviePosterPlaceholder(),
       errorWidget: const MoviePosterPlaceholder(),
@@ -118,19 +117,19 @@ class _RightMoviePoster extends HookWidget {
   }
 }
 
-class _MainMoviePoster extends HookWidget {
+class _MainMoviePoster extends HookConsumerWidget {
   const _MainMoviePoster({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final posterUrl = useProvider(selectedMovieProvider.select((value) {
-      return value.state.posterUrl;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final posterUrl = ref.watch(selectedMovieProvider.select((value) {
+      return value.posterUrl;
     }));
     return Consumer(
-      builder: (ctx, watch, child) {
-        final scaleRatio = watch(mainPosterScaleRatioProvider).state;
+      builder: (ctx, ref, child) {
+        final scaleRatio = ref.watch(mainPosterScaleRatioProvider);
         if (scaleRatio == 1.0) return child!;
         return Transform.scale(
           scale: scaleRatio,

@@ -59,3 +59,6 @@ app.*.map.json
 
 # don't check in goldens since we are using Windows and CI uses Ubuntu
 **/goldens_local/*.png
+
+# ignore fvm
+.fvm/

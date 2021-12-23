@@ -12,11 +12,11 @@ import '../../../helper/utils/constants.dart';
 //Providers
 import '../../../providers/movies_provider.dart';
 
-class MovieTypePopupMenu extends StatelessWidget {
+class MovieTypePopupMenu extends ConsumerWidget {
   const MovieTypePopupMenu({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton<MovieType>(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 0,
@@ -56,7 +56,7 @@ class MovieTypePopupMenu extends StatelessWidget {
         )
       ],
       onSelected: (newValue) {
-        final _selectedMovieTypeProv = context.read(selectedMovieTypeProvider);
+        final _selectedMovieTypeProv = ref.read(selectedMovieTypeProvider.state);
         if(_selectedMovieTypeProv.state != newValue){
           _selectedMovieTypeProv.state = newValue;
         }

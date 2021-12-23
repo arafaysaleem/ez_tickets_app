@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -11,12 +10,12 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import 'dashed_ticket_separator.dart';
 
-class TicketDetailsList extends HookWidget {
+class TicketDetailsList extends HookConsumerWidget {
   const TicketDetailsList();
 
   @override
-  Widget build(BuildContext context) {
-    final _theaterProvider = useProvider(theatersProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _theaterProvider = ref.watch(theatersProvider);
     final selectedSeats = _theaterProvider.selectedSeats;
     final selectedSeatName = _theaterProvider.selectedSeatNames;
     return ListView.separated(

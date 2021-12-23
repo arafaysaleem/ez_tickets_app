@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -9,12 +8,12 @@ import '../../../helper/extensions/context_extensions.dart';
 //Providers
 import '../../../providers/movies_provider.dart';
 
-class MovieSummaryBox extends HookWidget {
+class MovieSummaryBox extends HookConsumerWidget {
   const MovieSummaryBox();
 
   @override
-  Widget build(BuildContext context) {
-    final movie = useProvider(selectedMovieProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final movie = ref.watch(selectedMovieProvider);
     return Column(
       children: [
         //Introduction title

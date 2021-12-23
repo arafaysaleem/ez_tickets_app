@@ -22,13 +22,13 @@ import '../widgets/movies/movie_carousel.dart';
 import '../widgets/movies/movie_icons_row.dart';
 import '../widgets/common/error_response_handler.dart';
 
-class MoviesScreen extends HookWidget {
+class MoviesScreen extends HookConsumerWidget {
   const MoviesScreen();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final screenHeight = context.screenHeight;
-    final movies = useProvider(moviesFuture);
+    final movies = ref.watch(moviesFuture);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AnimatedSwitcher(
@@ -99,9 +99,9 @@ class MoviesScreen extends HookWidget {
           error: (error, st) => ErrorResponseHandler(
             error: error,
             stackTrace: st,
-            retryCallback: () => context.refresh(moviesFuture),
+            retryCallback: () => ref.refresh(moviesFuture),
             onError: () {
-              context.read(authProvider.notifier).logout();
+              ref.read(authProvider.notifier).logout();
               AppRouter.popUntilRoot();
             },
           ),

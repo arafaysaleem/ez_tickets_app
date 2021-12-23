@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -10,12 +9,12 @@ import '../../../helper/utils/constants.dart';
 //Providers
 import '../../../providers/payments_provider.dart';
 
-class PaymentOptions extends HookWidget {
+class PaymentOptions extends HookConsumerWidget {
   const PaymentOptions();
 
   @override
-  Widget build(BuildContext context) {
-    final activePaymentMode = useProvider(activePaymentModeProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activePaymentMode = ref.watch(activePaymentModeProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -49,7 +48,7 @@ class PaymentOptions extends HookWidget {
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 groupValue: activePaymentMode,
                 onChanged:(mode) {
-                  context.read(activePaymentModeProvider).state = mode!;
+                  ref.read(activePaymentModeProvider.state).state = mode!;
                 },
               ),
 
@@ -73,7 +72,7 @@ class PaymentOptions extends HookWidget {
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 groupValue: activePaymentMode,
                 onChanged:(mode) {
-                  context.read(activePaymentModeProvider).state = mode!;
+                  ref.read(activePaymentModeProvider.state).state = mode!;
                 },
               ),
 
@@ -103,7 +102,7 @@ class PaymentOptions extends HookWidget {
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 groupValue: activePaymentMode,
                 onChanged:(mode) {
-                  context.read(activePaymentModeProvider).state = mode!;
+                  ref.read(activePaymentModeProvider.state).state = mode!;
                 },
               ),
 

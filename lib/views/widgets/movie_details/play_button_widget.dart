@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Providers
@@ -9,14 +8,14 @@ import 'movie_details_sheet.dart' show btnScaleRatioProvider;
 import '../../../routes/routes.dart';
 import '../../../routes/app_router.dart';
 
-class PlayButtonWidget extends HookWidget {
+class PlayButtonWidget extends HookConsumerWidget {
   const PlayButtonWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final btnScaleRatio = useProvider(btnScaleRatioProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final btnScaleRatio = ref.watch(btnScaleRatioProvider);
     return ElevatedButton(
       onPressed: () {
         AppRouter.pushNamed(Routes.TrailerScreenRoute);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Enums
@@ -13,12 +12,12 @@ import '../../../helper/extensions/context_extensions.dart';
 //Providers
 import '../../../providers/shows_provider.dart';
 
-class ShowDetailsBox extends HookWidget {
+class ShowDetailsBox extends HookConsumerWidget {
   const ShowDetailsBox({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final showTime = useProvider(selectedShowTimeProvider).state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showTime = ref.watch(selectedShowTimeProvider);
     return Container(
       decoration: BoxDecoration(
         color: Constants.scaffoldGreyColor,
