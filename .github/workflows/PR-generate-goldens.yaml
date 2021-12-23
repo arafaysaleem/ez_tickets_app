@@ -35,7 +35,7 @@ jobs:
           git config --global user.name 'arafaysaleem'
           git config --global user.email 'arafaysaleem@users.noreply.github.com'
           git add -A
-          git commit -m "test(Goldens): update generated goldens for new changes"
+          git diff-index --quiet HEAD || git commit -m "test(Goldens): update generated goldens for new changes"
       - name: GitHub Push To Repository
         uses: ad-m/github-push-action@v0.6.0
         with:
