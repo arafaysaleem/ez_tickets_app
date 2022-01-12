@@ -33,7 +33,7 @@ Movie Details Screen | Movies Screen | Movie Trailer Screen |
 Shows Screen | Theater Screen | Tickets Screen |
 ![](./readme_files/shows_screen.jpg) | ![](./readme_files/theater_screen.jpg) | ![](./readme_files/tickets_screen.jpg)
 Payment Screen | Confirmation Screen | Some Skeleton Loaders |
-![](./readme_files/payment_screen.jpg) | ![](./readme_files/booking_done_screen.jpg) | ![](./readme_files/bookings_history_skeleton.jpg)
+![](./readme_files/payment_screen.jpg) | ![](./readme_files/booking_done_Screen.jpg) | ![](./readme_files/bookings_history_skeleton.jpg)
 Some Skeleton Loaders | Bookings History Screen | Booking Details Screen |
 ![](./readme_files/bookings_history_skeleton.jpg) | ![](./readme_files/bookings_history_screen.jpg) | ![](./readme_files/booking_details_screen.jpg)
 Login Screen | Register Screen | Change Password Screen |
