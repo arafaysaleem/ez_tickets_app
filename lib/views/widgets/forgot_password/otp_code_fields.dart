@@ -11,13 +11,13 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import '../common/custom_textfield.dart';
 
-class OtpCodeFields extends StatelessWidget {
+class OtpCodeFields extends ConsumerWidget {
   const OtpCodeFields({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         Row(
@@ -41,7 +41,7 @@ class OtpCodeFields extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 validator: FormValidator.otpDigitValidator,
                 onSaved: (digit) {
-                  final forgotProv = context.read(forgotPasswordProvider.notifier);
+                  final forgotProv = ref.read(forgotPasswordProvider.notifier);
                   forgotProv.setOtpDigit(i, digit!);
                 },
                 onChanged: (digit) {

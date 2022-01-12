@@ -20,10 +20,10 @@ class ShowDetailsSection extends StatelessWidget {
         vertical: 15,
       ),
       child: Consumer(
-        builder: (ctx,watch,child) {
-          final _selectedShow = watch(selectedShowProvider).state;
-          final _selectedShowTime = watch(selectedShowTimeProvider).state;
-          final _theaterName = watch(selectedTheaterNameProvider).state;
+        builder: (ctx, ref, child) {
+          final _selectedShow = ref.watch(selectedShowProvider);
+          final _selectedShowTime = ref.watch(selectedShowTimeProvider);
+          final _theaterName = ref.watch(selectedTheaterNameProvider);
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

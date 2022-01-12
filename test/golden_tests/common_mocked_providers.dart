@@ -37,7 +37,7 @@ class MockAuthRepository extends Fake implements AuthRepository {}
 //Providers
 final mockAuthProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider(
-    reader: ref.read,
+    ref: ref,
     authRepository: MockAuthRepository(),
     keyValueStorageService: _MockKVStorageService(),
   );

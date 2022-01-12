@@ -20,6 +20,8 @@ void main() {
         when(context.findAncestorWidgetOfExactType()).thenReturn(mediaQuery);
         when(context.dependOnInheritedWidgetOfExactType<MediaQuery>())
             .thenReturn(mediaQuery);
+        when(context.getElementForInheritedWidgetOfExactType<MediaQuery>())
+            .thenReturn(mediaQuery.createElement());
         return context;
       }
 

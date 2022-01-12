@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Providers
@@ -12,12 +11,12 @@ import '../../skeletons/user_bookings_skeleton_loader.dart';
 import '../common/error_response_handler.dart';
 import 'user_bookings_list.dart';
 
-class UserBookingsHistory extends HookWidget {
+class UserBookingsHistory extends HookConsumerWidget {
   const UserBookingsHistory();
 
   @override
-  Widget build(BuildContext context) {
-    final userBookingsFuture = useProvider(userBookingsProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userBookingsFuture = ref.watch(userBookingsProvider);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 600),
       switchOutCurve: Curves.easeInBack,
@@ -26,7 +25,7 @@ class UserBookingsHistory extends HookWidget {
         loading: () => const UserBookingsSkeletonLoader(),
         error: (error, st) => ErrorResponseHandler(
           error: error,
-          retryCallback: () => context.refresh(userBookingsProvider),
+          retryCallback: () => ref.refresh(userBookingsProvider),
           stackTrace: st,
         ),
       ),

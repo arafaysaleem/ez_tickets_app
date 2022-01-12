@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
@@ -8,7 +7,7 @@ import '../../../helper/extensions/context_extensions.dart';
 //Providers
 import '../../../providers/all_providers.dart';
 
-class ForgotNameWidget extends StatefulHookWidget {
+class ForgotNameWidget extends StatefulHookConsumerWidget {
   const ForgotNameWidget({
     Key? key,
   }) : super(key: key);
@@ -17,7 +16,7 @@ class ForgotNameWidget extends StatefulHookWidget {
   _PageNameWidgetState createState() => _PageNameWidgetState();
 }
 
-class _PageNameWidgetState extends State<ForgotNameWidget> {
+class _PageNameWidgetState extends ConsumerState<ForgotNameWidget> {
   late Text currentPageText;
 
   Text _buildText(String pageName) {
@@ -29,7 +28,7 @@ class _PageNameWidgetState extends State<ForgotNameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordProvider);
+    final _forgotPasswordState = ref.watch(forgotPasswordProvider);
     return _forgotPasswordState.maybeWhen(
       email: () {
         currentPageText = _buildText('Forgot Password');

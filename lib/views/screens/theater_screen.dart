@@ -26,7 +26,7 @@ import '../widgets/theater/purchase_seats_button.dart';
 import '../widgets/theater/seat_color_indicators.dart';
 import '../widgets/theater/seats_area.dart';
 
-class TheaterScreen extends HookWidget {
+class TheaterScreen extends HookConsumerWidget {
   const TheaterScreen();
 
   static const _seatSize = 28.0;
@@ -41,8 +41,8 @@ class TheaterScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final showSeatingModelFuture = useProvider(showSeatingFuture);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showSeatingModelFuture = ref.watch(showSeatingFuture);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -105,9 +105,9 @@ class TheaterScreen extends HookWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 2, 0, 22),
                             child: Consumer(
-                              builder: (ctx, watch, child) {
+                              builder: (ctx, ref, child) {
                                 final _theatersProvider =
-                                    watch(theatersProvider);
+                                    ref.watch(theatersProvider);
                                 return CustomChipsList(
                                   chipContents:
                                       _theatersProvider.selectedSeatNames,
@@ -137,7 +137,7 @@ class TheaterScreen extends HookWidget {
                     loading: () => const TheaterSkeletonLoader(),
                     error: (error, st) => ErrorResponseHandler(
                       error: error,
-                      retryCallback: () => context.refresh(showSeatingFuture),
+                      retryCallback: () => ref.refresh(showSeatingFuture),
                       stackTrace: st,
                     ),
                   ),
@@ -151,17 +151,17 @@ class TheaterScreen extends HookWidget {
   }
 }
 
-class _BackIcon extends StatelessWidget {
+class _BackIcon extends ConsumerWidget {
   const _BackIcon({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: InkResponse(
         radius: 25,
         onTap: () {
-          context.read(theatersProvider).clearSelectedSeats();
+          ref.read(theatersProvider).clearSelectedSeats();
           AppRouter.pop();
         },
         child: const DecoratedBox(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Providers
@@ -9,21 +8,21 @@ import '../../../providers/all_providers.dart';
 import '../../../helper/extensions/context_extensions.dart';
 import '../../../helper/utils/constants.dart';
 
-class ForgotResendWidget extends HookWidget {
+class ForgotResendWidget extends HookConsumerWidget {
   const ForgotResendWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final _forgotPasswordState = useProvider(forgotPasswordProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _forgotPasswordState = ref.watch(forgotPasswordProvider);
     return _forgotPasswordState.maybeWhen(
       otp: (_) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () {
-              context.read(forgotPasswordProvider.notifier).resendOtpCode();
+              ref.read(forgotPasswordProvider.notifier).resendOtpCode();
             },
             child: Text(
               'Resend OTP',

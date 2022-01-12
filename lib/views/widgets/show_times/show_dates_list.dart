@@ -12,7 +12,7 @@ import '../../../models/show_model.dart';
 //Providers
 import '../../../providers/shows_provider.dart';
 
-class ShowDatesList extends StatefulWidget {
+class ShowDatesList extends ConsumerStatefulWidget {
   final List<ShowModel> shows;
 
   const ShowDatesList(this.shows);
@@ -21,7 +21,7 @@ class ShowDatesList extends StatefulWidget {
   _ShowDatesListState createState() => _ShowDatesListState();
 }
 
-class _ShowDatesListState extends State<ShowDatesList> {
+class _ShowDatesListState extends ConsumerState<ShowDatesList> {
   int selectedIndex = 0;
 
   Shader getShader(Rect bounds) {
@@ -52,7 +52,7 @@ class _ShowDatesListState extends State<ShowDatesList> {
           child: _ShowDateItem(
             isActive: i == selectedIndex,
             onTap: () {
-              context.read(selectedShowProvider).state = shows[i];
+              ref.read(selectedShowProvider.state).update((_) => shows[i]);
               setState(() {
                 selectedIndex = i;
               });

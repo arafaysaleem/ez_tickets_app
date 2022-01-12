@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -17,14 +16,14 @@ import 'play_button_widget.dart';
 final mainPosterScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 final btnScaleRatioProvider = StateProvider.autoDispose((_) => 1.0);
 
-class MovieDetailsSheet extends StatefulHookWidget {
+class MovieDetailsSheet extends StatefulHookConsumerWidget {
   const MovieDetailsSheet();
 
   @override
   _MovieDetailsSheetState createState() => _MovieDetailsSheetState();
 }
 
-class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
+class _MovieDetailsSheetState extends ConsumerState<MovieDetailsSheet> {
   late final PanelController panelController = PanelController();
   final snapPoint = 0.2;
 
@@ -57,11 +56,11 @@ class _MovieDetailsSheetState extends State<MovieDetailsSheet> {
 
     //Calculate and store main poster scale ratio
     final posterScaleRatio = getPosterScaleRatio(slide, snapPoint);
-    context.read(mainPosterScaleRatioProvider).state = posterScaleRatio;
+    ref.read(mainPosterScaleRatioProvider.state).update((_) => posterScaleRatio);
 
     //Animate playButton
     final btnScaleRatio = getPlayBtnScaleRatio(slide);
-    context.read(btnScaleRatioProvider).state = btnScaleRatio;
+    ref.read(btnScaleRatioProvider.state).update((_) => btnScaleRatio);
 
     //Bounce sheet if necessary
     if (slide < snapPoint && !panelController.isPanelAnimating) {

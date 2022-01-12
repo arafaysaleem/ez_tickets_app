@@ -10,7 +10,7 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import '../common/custom_textfield.dart';
 
-class ChangePasswordFields extends StatelessWidget {
+class ChangePasswordFields extends ConsumerWidget {
   final TextEditingController currentPasswordController;
   final TextEditingController newPasswordController;
   final TextEditingController cNewPasswordController;
@@ -22,8 +22,8 @@ class ChangePasswordFields extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final authProv = context.read(authProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authProv = ref.watch(authProvider.notifier);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

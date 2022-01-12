@@ -22,8 +22,8 @@ class PurchaseSeatsButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Consumer(
-        builder: (ctx, watch, _) {
-          final theaterSeats = watch(theatersProvider).selectedSeats.length;
+        builder: (ctx, ref, _) {
+          final theaterSeats = ref.watch(theatersProvider).selectedSeats.length;
           return CustomTextButton.gradient(
             width: double.infinity,
             onPressed: () {

@@ -15,7 +15,7 @@ import '../services/repositories/auth_repository.dart';
 import 'states/auth_state.dart';
 import 'states/future_state.dart';
 
-final changePasswordStateProvider = StateProvider(
+final changePasswordStateProvider = StateProvider<FutureState<String>>(
   (ref) => const FutureState<String>.idle(),
 );
 
@@ -23,16 +23,16 @@ class AuthProvider extends StateNotifier<AuthState> {
   late UserModel? _currentUser;
   final AuthRepository _authRepository;
   final KeyValueStorageService _keyValueStorageService;
-  final Reader _reader;
+  final Ref _ref;
   String _password = '';
 
   AuthProvider({
     required AuthRepository authRepository,
     required KeyValueStorageService keyValueStorageService,
-    required Reader reader,
+    required Ref ref,
   })  : _authRepository = authRepository,
         _keyValueStorageService = keyValueStorageService,
-        _reader = reader,
+        _ref = ref,
         super(const AuthState.unauthenticated()) {
     init();
   }
@@ -126,7 +126,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       'password': currentUserPassword,
       'new_password': newPassword,
     };
-    final _changePasswordState = _reader(changePasswordStateProvider);
+    final _changePasswordState = _ref.read(changePasswordStateProvider.state);
     _changePasswordState.state = const FutureState.loading();
     try {
       final result = await _authRepository.sendChangePasswordData(data: data);

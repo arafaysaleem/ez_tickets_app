@@ -28,13 +28,13 @@ final userBookingsProvider = FutureProvider.autoDispose((ref) async {
 
 class BookingsProvider {
   final BookingsRepository _bookingsRepository;
-  final Reader _reader;
+  final Ref _ref;
 
   BookingsProvider({
     required BookingsRepository bookingsRepository,
-    required Reader read,
+    required Ref ref,
   })  : _bookingsRepository = bookingsRepository,
-        _reader = read,
+        _ref = ref,
         super();
 
   Future<List<BookingModel>> getAllBookings() async {
@@ -76,9 +76,9 @@ class BookingsProvider {
   }
 
   Future<List<int>> bookSelectedSeats() async {
-    final userId = _reader(authProvider.notifier).currentUserId;
-    final showId = _reader(selectedShowTimeProvider).state.showId;
-    final selectedSeats = _reader(theatersProvider).selectedSeats;
+    final userId = _ref.read(authProvider.notifier).currentUserId;
+    final showId = _ref.read(selectedShowTimeProvider).showId;
+    final selectedSeats = _ref.read(theatersProvider).selectedSeats;
     final bookingIds = <int>[];
     for (var seat in selectedSeats) {
       final newBooking = await _makeABooking(
