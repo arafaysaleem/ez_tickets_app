@@ -30,7 +30,16 @@ Splash Screen | Home Screen | Welcome Screen |
 ![](./readme_files/splash_screen.jpg) | ![](./readme_files/home_screen.jpg) | ![](./readme_files/welcome_screen.jpg)
 Movie Details Screen | Movies Screen | Movie Trailer Screen |
 ![](./readme_files/movie_details_screen.jpg) | ![](./readme_files/movies_screen.jpg) | ![](./readme_files/trailer_screen.jpg)
-
+Shows Screen | Theater Screen | Tickets Screen |
+![](./readme_files/shows_screen.jpg) | ![](./readme_files/theater_screen.jpg) | ![](./readme_files/tickets_screen.jpg)
+Payment Screen | Confirmation Screen | Some Skeleton Loaders |
+![](./readme_files/payment_screen.jpg) | ![](./readme_files/booking_done_screen.jpg) | ![](./readme_files/bookings_history_skeleton.jpg)
+Some Skeleton Loaders | Bookings History Screen | Booking Details Screen |
+![](./readme_files/bookings_history_skeleton.jpg) | ![](./readme_files/bookings_history_screen.jpg) | ![](./readme_files/booking_details_screen.jpg)
+Login Screen | Register Screen | Change Password Screen |
+![](./readme_files/login_screen.jpg) | ![](./readme_files/register_screen.jpg) | ![](./readme_files/change_password_screen.jpg)
+Forgot Password Screen | OTP Screen | OTP Email |
+![](./readme_files/forgot_password_screen.jpg) | ![](./readme_files/otp_screen.jpg) | ![](./readme_files/otp_email.jpg)
 
 ## :wrench: Technical Features
 
