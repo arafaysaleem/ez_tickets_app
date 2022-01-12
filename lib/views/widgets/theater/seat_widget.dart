@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helpers
 import '../../../helper/utils/constants.dart';
@@ -11,7 +11,7 @@ import '../../../models/seat_model.dart';
 //Providers
 import '../../../providers/all_providers.dart';
 
-class SeatWidget extends StatefulHookWidget {
+class SeatWidget extends StatefulHookConsumerWidget {
   final SeatModel seat;
 
   const SeatWidget({
@@ -23,14 +23,14 @@ class SeatWidget extends StatefulHookWidget {
   _SeatWidgetState createState() => _SeatWidgetState();
 }
 
-class _SeatWidgetState extends State<SeatWidget> {
+class _SeatWidgetState extends ConsumerState<SeatWidget> {
   bool isSelected = false;
 
   void _onTap(){
     setState(() {
       isSelected = !isSelected;
     });
-    final _theatersProvider = context.read(theatersProvider);
+    final _theatersProvider = ref.read(theatersProvider);
     _theatersProvider.toggleSeat(seat: widget.seat, select: isSelected);
   }
 

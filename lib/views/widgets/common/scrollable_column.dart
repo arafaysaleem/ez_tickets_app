@@ -35,7 +35,7 @@ class ScrollableColumn extends StatelessWidget {
       builder: (context, constraint) {
         return NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (overScroll) {
-            overScroll.disallowGlow();
+            overScroll.disallowIndicator();
             return false;
           },
           child: SingleChildScrollView(

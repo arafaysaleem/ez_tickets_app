@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Helper
@@ -10,10 +9,10 @@ import '../../helper/utils/constants.dart';
 //Providers
 import '../../providers/movies_provider.dart';
 import '../../providers/shows_provider.dart';
+import '../../routes/app_router.dart';
 
 //Routing
 import '../../routes/routes.dart';
-import '../../routes/app_router.dart';
 
 //Skeletons
 import '../skeletons/shows_skeleton_loader.dart';
@@ -25,12 +24,12 @@ import '../widgets/show_times/show_dates_list.dart';
 import '../widgets/show_times/show_details_box.dart';
 import '../widgets/show_times/show_times_list.dart';
 
-class ShowsScreen extends HookWidget {
+class ShowsScreen extends HookConsumerWidget {
   const ShowsScreen();
 
   @override
-  Widget build(BuildContext context) {
-    final showList = useProvider(showsFutureProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showList = ref.watch(showsFutureProvider);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -56,7 +55,7 @@ class ShowsScreen extends HookWidget {
                 Expanded(
                   child: Consumer(
                     builder: (_, watch, __) {
-                      final title = watch(selectedMovieProvider).state.title;
+                      final title = ref.watch(selectedMovieProvider).title;
                       return Text(
                         title,
                         maxLines: 1,
@@ -162,10 +161,9 @@ class ShowsScreen extends HookWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Consumer(
-                          builder: (ctx, watch, child) {
-                            final showStatus = watch(selectedShowTimeProvider)
-                                .state
-                                .showStatus;
+                          builder: (ctx, ref, child) {
+                            final showStatus =
+                                ref.watch(selectedShowTimeProvider).showStatus;
                             return CustomTextButton.gradient(
                               width: double.infinity,
                               disabled: showStatus == ShowStatus.FULL,
@@ -194,7 +192,7 @@ class ShowsScreen extends HookWidget {
                   ),
                   loading: () => const ShowsSkeletonLoader(),
                   error: (error, st) => ErrorResponseHandler(
-                    retryCallback: () => context.refresh(showsFutureProvider),
+                    retryCallback: () => ref.refresh(showsFutureProvider),
                     error: error,
                     stackTrace: st,
                   ),

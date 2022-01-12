@@ -100,7 +100,7 @@ final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   final _authRepository = ref.watch(_authRepositoryProvider);
   final _keyValueStorageService = ref.watch(keyValueStorageServiceProvider);
   return AuthProvider(
-    reader: ref.read,
+    ref: ref,
     authRepository: _authRepository,
     keyValueStorageService: _keyValueStorageService,
   );
@@ -134,7 +134,7 @@ final theatersProvider = ChangeNotifierProvider<TheatersProvider>((ref) {
 final bookingsProvider = Provider<BookingsProvider>((ref) {
   final _bookingsRepository = ref.watch(_bookingsRepositoryProvider);
   return BookingsProvider(
-    read: ref.read,
+    ref: ref,
     bookingsRepository: _bookingsRepository,
   );
 });
@@ -142,7 +142,7 @@ final bookingsProvider = Provider<BookingsProvider>((ref) {
 final paymentsProvider = Provider<PaymentsProvider>((ref) {
   final _paymentsRepository = ref.watch(_paymentsRepositoryProvider);
   return PaymentsProvider(
-    read: ref.read,
+    ref: ref,
     paymentsRepository: _paymentsRepository,
   );
 });

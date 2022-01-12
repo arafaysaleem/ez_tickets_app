@@ -27,8 +27,8 @@ class ConfirmationScreen extends StatelessWidget {
           ),
           padding: const EdgeInsets.only(bottom: Constants.bottomInsetsLow+5),
           child: Consumer(
-            builder: (ctx, watch, child) {
-              final _paymentStatus = watch(paymentStateProvider).state;
+            builder: (ctx, ref, child) {
+              final _paymentStatus = ref.watch(paymentStateProvider);
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 550),
                 switchInCurve: Curves.easeInBack,
@@ -65,7 +65,7 @@ class ConfirmationScreen extends StatelessWidget {
                     children: const [
                       Spacer(),
 
-                      SpinKitPouringHourglass(
+                      SpinKitPouringHourGlass(
                         color: Colors.white,
                         duration: Duration(milliseconds: 1100),
                         size: 64,

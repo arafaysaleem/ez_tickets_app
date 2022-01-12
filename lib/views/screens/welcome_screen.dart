@@ -18,11 +18,11 @@ import '../widgets/welcome/user_profile_details.dart';
 import '../widgets/welcome/view_bookings_button.dart';
 import '../widgets/welcome/browse_movies_button.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -47,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
                       size: 30,
                     ),
                     onTap: () {
-                      context.read(authProvider.notifier).logout();
+                      ref.read(authProvider.notifier).logout();
                       AppRouter.popUntilRoot();
                     },
                   ),

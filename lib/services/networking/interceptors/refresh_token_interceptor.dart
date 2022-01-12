@@ -16,11 +16,11 @@ import '../../../helper/typedefs.dart';
 class RefreshTokenInterceptor extends Interceptor {
   /// An instance of [Dio] for network requests
   final Dio _dio;
-  final ProviderReference _ref;
+  final Ref _ref;
 
   RefreshTokenInterceptor({
     required Dio dioClient,
-    required ProviderReference ref,
+    required Ref ref,
   }) : _dio = dioClient, _ref = ref;
 
   /// The name of the exception on which this interceptor is triggered.

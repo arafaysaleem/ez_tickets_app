@@ -19,7 +19,7 @@ import '../../../routes/app_router.dart';
 //Widgets
 import 'white_movie_container.dart';
 
-class MoviesCarousel extends StatefulHookWidget {
+class MoviesCarousel extends StatefulHookConsumerWidget {
   final PageController backgroundImageController;
   final List<MovieModel> movies;
 
@@ -32,7 +32,7 @@ class MoviesCarousel extends StatefulHookWidget {
   __MoviesCarouselState createState() => __MoviesCarouselState();
 }
 
-class __MoviesCarouselState extends State<MoviesCarousel> {
+class __MoviesCarouselState extends ConsumerState<MoviesCarousel> {
   late int _currentIndex;
 
   List<MovieModel> get movies => widget.movies;
@@ -52,9 +52,9 @@ class __MoviesCarouselState extends State<MoviesCarousel> {
         onViewDetails: () {
           final leftIndex = (i-1) % movies.length;
           final rightIndex = (i+1) % movies.length;
-          context.read(selectedMovieProvider).state = movies[i];
-          context.read(leftMovieProvider).state = movies[leftIndex];
-          context.read(rightMovieProvider).state = movies[rightIndex];
+          ref.read(selectedMovieProvider.state).update((_) => movies[i]);
+          ref.read(leftMovieProvider.state).update((state) => movies[leftIndex]);
+          ref.read(rightMovieProvider.state).update((state) => movies[rightIndex]);
           AppRouter.pushNamed(Routes.MovieDetailsScreenRoute);
         },
       ),

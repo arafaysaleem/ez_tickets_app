@@ -10,16 +10,16 @@ import '../../../providers/all_providers.dart';
 //Widgets
 import '../common/custom_text_button.dart';
 
-class RetryPaymentButton extends StatelessWidget {
+class RetryPaymentButton extends ConsumerWidget {
   const RetryPaymentButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: CustomTextButton.outlined(
         width: double.infinity,
-        onPressed: () => context.read(paymentsProvider).makePayment(),
+        onPressed: () => ref.read(paymentsProvider).makePayment(),
         border: Border.all(color: Constants.textWhite80Color,width: 4),
         child: const Center(
           child: Text(
