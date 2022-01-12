@@ -25,9 +25,12 @@ For the backend it uses a REST API made using NodeJS and MySQL. Here is the link
 - Viewing ticket bookings history.
 
 ## :iphone: Screens
-| | |
-| :-- | :-- |
-| | |
+Splash Screen | Home Screen | Welcome Screen |
+:------------:|:-----------:|:--------------:|
+![](./readme_files/splash_screen.jpg) | ![](./readme_files/home_screen.jpg) | ![](./readme_files/welcome_screen.jpg)
+Movie Details Screen | Movies Screen | Movie Trailer Screen |
+![](./readme_files/movie_details_screen.jpg) | ![](./readme_files/movies_screen.jpg) | ![](./readme_files/trailer_screen.jpg)
+
 
 ## :wrench: Technical Features
 
