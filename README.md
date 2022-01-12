@@ -1,4 +1,3 @@
-
 # EZ Tickets Cinema App - Made With Flutter #
 A ticket booking app made for Nueplex cinemas.
 
