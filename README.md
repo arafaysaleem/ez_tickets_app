@@ -9,7 +9,22 @@ EZ Tickets is an app made with **Flutter** framework to provide online ticket bo
 ## Backend
 For the backend it uses a REST API made using NodeJS and MySQL. Here is the link to it's code [ez_tickets_backend]
 
-:art: The UI is inspired by this [dribbble shot]
+### Important
+Due to privacy and resource abuse concerns I have kept the url of the backend API private and you won't be able to see it. Therefore, if you want to work with this project and make your own edits, than you also need to deploy the backend on your own and pass the **URL** to the flutter app. 
+Don't be confused, you **CAN** use my backend code provided above, you just have to deploy it on a server of your own. There are plenty of free options including:
+ - Heroku
+ - AWS Free Tier
+ - Azure etc.
+
+For more instruction visit the backend [README](https://github.com/arafaysaleem/ez_tickets_backend/blob/master/README.md#rocket-deployement).
+
+
+Once deployed, pass the url while running the flutter app like this:
+
+```dart
+# Replace your-url-here with your own deployed URL like "https://example.com/api/v1"
+flutter run --dart-define=BASE_URL="your-url-here"
+```
 
 ## :sparkles: App Features
 
@@ -22,23 +37,6 @@ For the backend it uses a REST API made using NodeJS and MySQL. Here is the link
 - Online ticket booking.
 - Online booking payment.
 - Viewing ticket bookings history.
-
-## :iphone: Screens
-Splash Screen | Home Screen | Welcome Screen |
-:------------:|:-----------:|:--------------:|
-![](./readme_files/splash_screen.jpg) | ![](./readme_files/home_screen.jpg) | ![](./readme_files/welcome_screen.jpg)
-Movie Details Screen | Movies Screen | Movie Trailer Screen |
-![](./readme_files/movie_details_screen.jpg) | ![](./readme_files/movies_screen.jpg) | ![](./readme_files/trailer_screen.jpg)
-Shows Screen | Theater Screen | Tickets Screen |
-![](./readme_files/shows_screen.jpg) | ![](./readme_files/theater_screen.jpg) | ![](./readme_files/tickets_screen.jpg)
-Payment Screen | Confirmation Screen | Some Skeleton Loaders |
-![](./readme_files/payment_screen.jpg) | ![](./readme_files/booking_done_Screen.jpg) | ![](./readme_files/bookings_history_skeleton.jpg)
-Some Skeleton Loaders | Bookings History Screen | Booking Details Screen |
-![](./readme_files/bookings_history_skeleton.jpg) | ![](./readme_files/bookings_history_screen.jpg) | ![](./readme_files/booking_details_screen.jpg)
-Login Screen | Register Screen | Change Password Screen |
-![](./readme_files/login_screen.jpg) | ![](./readme_files/register_screen.jpg) | ![](./readme_files/change_password_screen.jpg)
-Forgot Password Screen | OTP Screen | OTP Email |
-![](./readme_files/forgot_password_screen.jpg) | ![](./readme_files/otp_screen.jpg) | ![](./readme_files/otp_email.jpg)
 
 ## :wrench: Technical Features
 
@@ -65,13 +63,32 @@ Forgot Password Screen | OTP Screen | OTP Email |
     </tr>
     <tr>
         <td>Full documentation</td>
-        <td>CI/CD Build, Test and Deploy pipelines</td>
+        <td>Complex CI/CD Build, Test and Deploy pipelines</td>
     </tr>
     <tr>
         <td>Github Branch Protection + Secrets</td>
         <td>Linting + Custom Analyzer Rules</td>
     </tr>
 </table>
+
+## :iphone: Screens
+:art: The UI is inspired by this [dribbble shot]
+
+Splash Screen | Home Screen | Welcome Screen |
+:------------:|:-----------:|:--------------:|
+![](./readme_files/splash_screen.jpg) | ![](./readme_files/home_screen.jpg) | ![](./readme_files/welcome_screen.jpg)
+Movie Details Screen | Movies Screen | Movie Trailer Screen |
+![](./readme_files/movie_details_screen.jpg) | ![](./readme_files/movies_screen.jpg) | ![](./readme_files/trailer_screen.jpg)
+Shows Screen | Theater Screen | Tickets Screen |
+![](./readme_files/shows_screen.jpg) | ![](./readme_files/theater_screen.jpg) | ![](./readme_files/tickets_screen.jpg)
+Payment Screen | Confirmation Screen | Some Skeleton Loaders |
+![](./readme_files/payment_screen.jpg) | ![](./readme_files/booking_done_Screen.jpg) | ![](./readme_files/bookings_history_skeleton.jpg)
+Some Skeleton Loaders | Bookings History Screen | Booking Details Screen |
+![](./readme_files/bookings_history_skeleton.jpg) | ![](./readme_files/bookings_history_screen.jpg) | ![](./readme_files/booking_details_screen.jpg)
+Login Screen | Register Screen | Change Password Screen |
+![](./readme_files/login_screen.jpg) | ![](./readme_files/register_screen.jpg) | ![](./readme_files/change_password_screen.jpg)
+Forgot Password Screen | OTP Screen | OTP Email |
+![](./readme_files/forgot_password_screen.jpg) | ![](./readme_files/otp_screen.jpg) | ![](./readme_files/otp_email.jpg)
 
 ## ⭐ Future Features
 
