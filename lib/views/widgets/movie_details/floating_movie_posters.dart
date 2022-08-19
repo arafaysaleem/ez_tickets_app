@@ -3,13 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Providers
 import '../../../providers/movies_provider.dart';
-import 'movie_details_sheet.dart' show mainPosterScaleRatioProvider;
-
 //Skeletons
 import '../../skeletons/movie_poster_placeholder.dart';
-
 //Widgets
 import '../common/custom_network_image.dart';
+import 'movie_details_sheet.dart' show mainPosterScaleRatioProvider;
 
 class FloatingMoviePosters extends StatefulWidget {
   const FloatingMoviePosters();
@@ -24,7 +22,7 @@ class _FloatingMoviePostersState extends State<FloatingMoviePosters> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         topGap = 120.0;
       });
@@ -90,7 +88,8 @@ class _LeftMoviePoster extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final leftMoviePosterUrl = ref.watch(leftMovieProvider.select((value) => value.posterUrl));
+    final leftMoviePosterUrl =
+        ref.watch(leftMovieProvider.select((value) => value.posterUrl));
     return CustomNetworkImage(
       imageUrl: leftMoviePosterUrl,
       fit: BoxFit.fill,
@@ -107,7 +106,8 @@ class _RightMoviePoster extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rightMoviePosterUrl = ref.watch(rightMovieProvider.select((value) => value.posterUrl));
+    final rightMoviePosterUrl =
+        ref.watch(rightMovieProvider.select((value) => value.posterUrl));
     return CustomNetworkImage(
       imageUrl: rightMoviePosterUrl,
       fit: BoxFit.fill,

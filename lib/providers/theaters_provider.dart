@@ -1,22 +1,18 @@
+import 'dart:collection';
 import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-//Helpers
-import '../helper/typedefs.dart';
 
 //Enums
 import '../enums/theater_type_enum.dart';
-
+//Helpers
+import '../helper/typedefs.dart';
 //Models
 import '../models/seat_model.dart';
 import '../models/show_seating_model.dart';
 import '../models/theater_model.dart';
-
 //Services
 import '../services/repositories/theaters_repository.dart';
 import 'all_providers.dart';
-
 //Providers
 import 'shows_provider.dart';
 
@@ -24,7 +20,8 @@ final selectedTheaterNameProvider = StateProvider<String>((_) => '');
 
 /// Does not use `ref.maintainState = true` bcz we wanted to load theater seats
 /// everytime because it can receive frequent updates.
-final showSeatingFuture = FutureProvider.autoDispose<ShowSeatingModel>((ref) async {
+final showSeatingFuture =
+    FutureProvider.autoDispose<ShowSeatingModel>((ref) async {
   final _selectedShowTime = ref.watch(selectedShowTimeProvider);
   final _theaterId = _selectedShowTime.theaterId;
   final _showId = _selectedShowTime.showId;
@@ -49,7 +46,7 @@ final showSeatingFuture = FutureProvider.autoDispose<ShowSeatingModel>((ref) asy
 
 class TheatersProvider extends ChangeNotifier {
   final TheatersRepository _theatersRepository;
-  final Map<int,TheaterModel> _theatersMap = {};
+  final Map<int, TheaterModel> _theatersMap = {};
   final List<SeatModel> _selectedSeats = [];
 
   UnmodifiableListView<SeatModel> get selectedSeats =>
@@ -78,8 +75,9 @@ class TheatersProvider extends ChangeNotifier {
     final QueryParams? queryParams = {
       if (theaterType != null) 'theater_type': theaterType.toJson,
     };
-    final theaters = await _theatersRepository.fetchAll(queryParameters: queryParams);
-    for(var theater in theaters) {
+    final theaters =
+        await _theatersRepository.fetchAll(queryParameters: queryParams);
+    for (var theater in theaters) {
       _theatersMap[theater.theaterId!] = theater;
     }
     return theaters;
@@ -89,7 +87,7 @@ class TheatersProvider extends ChangeNotifier {
     required int theaterId,
   }) async {
     //Check local list for preloaded theaters, return if found.
-    if(_theatersMap.containsKey(theaterId)) return _theatersMap[theaterId]!;
+    if (_theatersMap.containsKey(theaterId)) return _theatersMap[theaterId]!;
 
     //Else load it from network and cache it in the Map.
     final theater = await _theatersRepository.fetchOne(theaterId: theaterId);

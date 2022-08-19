@@ -7,17 +7,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../helper/extensions/context_extensions.dart';
 import '../../helper/utils/constants.dart';
 import '../../helper/utils/form_validator.dart';
-
 //Providers
 import '../../providers/all_providers.dart';
-
 //States
 import '../../providers/states/auth_state.dart';
 import '../../routes/app_router.dart';
-
 //Routing
 import '../../routes/routes.dart';
-
 //Widgets
 import '../widgets/common/custom_dialog.dart';
 import '../widgets/common/custom_text_button.dart';

@@ -3,10 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../../helper/extensions/context_extensions.dart';
 //Helper
 import '../../../helper/utils/constants.dart';
-import '../../../helper/extensions/context_extensions.dart';
-
 //Widgets
 import 'movie_actors_list.dart';
 import 'movie_details_column.dart';
@@ -27,7 +26,7 @@ class _MovieDetailsSheetState extends ConsumerState<MovieDetailsSheet> {
   late final PanelController panelController = PanelController();
   final snapPoint = 0.2;
 
-  double _playBtnPos(double minHeight,double maxHeight,double panelPosition) {
+  double _playBtnPos(double minHeight, double maxHeight, double panelPosition) {
     return minHeight - 28.5 + panelPosition * (maxHeight - minHeight);
   }
 
@@ -56,7 +55,9 @@ class _MovieDetailsSheetState extends ConsumerState<MovieDetailsSheet> {
 
     //Calculate and store main poster scale ratio
     final posterScaleRatio = getPosterScaleRatio(slide, snapPoint);
-    ref.read(mainPosterScaleRatioProvider.state).update((_) => posterScaleRatio);
+    ref
+        .read(mainPosterScaleRatioProvider.state)
+        .update((_) => posterScaleRatio);
 
     //Animate playButton
     final btnScaleRatio = getPlayBtnScaleRatio(slide);
@@ -83,7 +84,7 @@ class _MovieDetailsSheetState extends ConsumerState<MovieDetailsSheet> {
       duration: const Duration(milliseconds: 0),
     );
     useEffect(() {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         panelController.animatePanelToPosition(
           snapPoint,
           duration: const Duration(milliseconds: 1150),
@@ -108,29 +109,29 @@ class _MovieDetailsSheetState extends ConsumerState<MovieDetailsSheet> {
           onPanelSlide: (slide) => _onPanelSlide(slide, _animationController),
           panelBuilder: (controller) {
             child ??= Padding(
-                padding: const EdgeInsets.only(
-                  bottom: Constants.bottomInsetsLow + 54,
-                ),
-                child: ListView(
-                  controller: controller,
-                  children: const [
-                    SizedBox(height: 5),
+              padding: const EdgeInsets.only(
+                bottom: Constants.bottomInsetsLow + 54,
+              ),
+              child: ListView(
+                controller: controller,
+                children: const [
+                  SizedBox(height: 5),
 
-                    //Movie details
-                    MovieDetailsColumn(),
+                  //Movie details
+                  MovieDetailsColumn(),
 
-                    SizedBox(height: 20),
+                  SizedBox(height: 20),
 
-                    //Actors
-                    MovieActorsList(),
+                  //Actors
+                  MovieActorsList(),
 
-                    SizedBox(height: 25),
+                  SizedBox(height: 25),
 
-                    //Summary
-                    MovieSummaryBox(),
-                  ],
-                ),
-              );
+                  //Summary
+                  MovieSummaryBox(),
+                ],
+              ),
+            );
             return child!;
           },
         ),
