@@ -86,7 +86,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   void _onChanged(String value) {
-    if(widget.onChanged != null){
+    if (widget.onChanged != null) {
       _runValidator(value);
       widget.onChanged!(value);
     }
@@ -97,7 +97,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     setState(() {
       errorText = error;
     });
-    return error;
+    return '';
   }
 
   void _togglePasswordVisibility() {
@@ -180,6 +180,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             onSaved: _onSaved,
             onChanged: _onChanged,
             decoration: InputDecoration(
+              constraints: BoxConstraints.tightFor(height: widget.height),
               hintText: widget.hintText,
               hintStyle: widget.hintStyle,
               errorStyle: widget.errorStyle,
