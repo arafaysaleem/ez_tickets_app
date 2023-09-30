@@ -93,7 +93,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     required String password,
     required String fullName,
     required String address,
-    required String contact,
+    required String PhoneNumber,
   }) {
     return CustomTextButton.gradient(
       width: double.infinity,
@@ -105,7 +105,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 password: password,
                 fullName: fullName,
                 address: address,
-                contact: contact,
+                PhoneNumber: PhoneNumber,
               );
         }
       },
@@ -170,7 +170,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final cPasswordController = useTextEditingController(text: '');
     final fullNameController = useTextEditingController(text: '');
     final addressController = useTextEditingController(text: '');
-    final contactController = useTextEditingController(text: '');
+    final PhoneNumberController = useTextEditingController(text: '');
 
     void onAuthStateAuthenticated(String? currentUserFullName) {
       emailController.clear();
@@ -178,7 +178,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       fullNameController.clear();
       addressController.clear();
       cPasswordController.clear();
-      contactController.clear();
+      PhoneNumberController.clear();
       _formHasData = false;
       AppRouter.popUntilRoot();
     }
@@ -220,7 +220,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       fullNameController: fullNameController,
                       emailController: emailController,
                       addressController: addressController,
-                      contactController: contactController,
+                      PhoneNumberController: contactController,
                     )
                   else
                     _PasswordDetailFields(
@@ -251,7 +251,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         password: passwordController.text,
                         fullName: fullNameController.text,
                         address: addressController.text,
-                        contact: contactController.text,
+                        PhoneNumber: PhoneNumber.text,
                       ),
               ),
             )
@@ -264,7 +264,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
 class _UserDetailFields extends StatelessWidget {
   final TextEditingController fullNameController;
-  final TextEditingController contactController;
+  final TextEditingController PhoneNumberController;
   final TextEditingController addressController;
   final TextEditingController emailController;
 
@@ -272,7 +272,7 @@ class _UserDetailFields extends StatelessWidget {
     required this.fullNameController,
     required this.emailController,
     required this.addressController,
-    required this.contactController,
+    required this.PhoneNumberController,
   });
 
   @override
