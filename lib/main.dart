@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'EZ Tickets',
+        title: 'EZ Tickets APP',
         theme: CustomTheme.mainTheme,
         initialRoute: AppRouter.initialRoute,
         onGenerateRoute: AppRouter.generateRoute,
